@@ -129,7 +129,7 @@ shl() {
   fi
 }
 
-alias dots="git --work-tree=$HOME/test-workdir --git-dir=$HOME/test-barerepo"
+alias dots="cd ~/dotfiles"
 alias telecheck="luacheck --config ~/code/neovim/telescope.nvim/.luacheckrc ~/code/neovim/telescope.nvim/lua/telescope/*"
 
 # short command for dumping links quickly and easily

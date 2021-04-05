@@ -4,9 +4,9 @@
 	name = Ben Smith
 	email = bsmithdev@mailbox.org
 [alias]
-	aa = add *
+	aa = add -A
   cm = commit -m 
-  cma = commit -am 
+	cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
 	pushup = push -u origin HEAD
   s = status
 	i = init 

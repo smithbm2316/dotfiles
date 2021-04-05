@@ -1,0 +1,2 @@
+cd
+stow -v --ignore=".git|install" --target="$XDG_CONFIG_HOME" -D dotfiles
