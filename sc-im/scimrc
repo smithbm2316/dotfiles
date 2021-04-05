@@ -1,0 +1,4 @@
+set newline_action=l
+set default_copy_to_clipboard_cmd=xclip -i -selection clipboard <
+set default_paste_from_clipboard_cmd=xclip -o -selection clipboard
+nnoremap "gp" ":cpaste<cr>{"

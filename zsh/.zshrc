@@ -1,0 +1,291 @@
+#!/bin/zsh
+
+# zsh magic :)
+setopt AUTO_CD
+
+# Debian settings
+if [ -f "/etc/debian_version" ]; then
+  # setup keychain settings
+  eval $(keychain --eval --quiet id_ed25519_gh id_ed25519_gl)
+  # Set `bat` as default man pager
+  alias bat="batcat"
+  export MANPAGER="nvim -c 'set ft=man' -"
+  # Alias for fd package
+  alias fd="fdfind"
+  # Alias for ncal to use normal month formatting
+  alias cal="ncal -b"
+elif [ "$(uname)" = "Darwin" ]; then
+  eval $(keychain --eval --quiet id_rsa id_rsa_gl)
+fi
+
+# auto-complete, use unique date for zcompdump files
+autoload -Uz compinit; compinit -d $ZDOTDIR/zcompdump/zcompdump-"$(date +%FT%T%z)"
+zstyle ':completion:*' menu select
+_comp_options+=(globdots)  # include hidden files in autocomplete
+
+# VIM POWAHHH
+bindkey -v
+export KEYTIMEOUT=1
+# Use vim keys in tab complete menu
+zmodload zsh/complist
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -v '^?' backward-delete-char
+# Use C-p and C-n to go through shell history in insert mode
+bindkey '^P' up-history
+bindkey '^N' down-history
+# Backwards delete word in insert mode
+bindkey '^w' backward-kill-word
+# Edit current shell command in neovim
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
+# Source cursor.zsh file for loading beam/bar cursor settings in zsh
+source $ZDOTDIR/scripts/cursor.zsh
+
+##################
+# ALIASES
+##################
+
+# I HAVE THE POWER
+function IAMROOT() {
+  prevcmd=$(fc -ln -1)
+  su -c "$prevcmd"
+}
+
+# .. commands
+alias ...="../../"
+alias ....="../../../"
+alias .....="../../../../"
+alias ......="../../../../../"
+alias .......="../../../../../../"
+alias ........="../../../../../../../"
+alias .........="../../../../../../../../"
+
+# apt
+aptup() {
+  sudo apt update
+  apt list --upgradeable | rg --color=never -o '^[A-Za-z0-9-_.]*' | sed ':a;$!N;s/\n/, /;ta;P;D' -
+  [ ! -z $@ ] && sudo apt upgrade
+}
+
+# take command
+take() {
+  mkdir $1 && cd $1
+}
+
+# yeet something into nonexistence
+alias yeet="rm -rf"
+
+# pandoc shortcuts
+pandocHardBreak() {
+  pandoc $1 --from markdown+hard_line_breaks -o $2
+}
+
+# browser-sync shortcut
+alias bsync="browser-sync start --server --files '*.css, *.html, *.js' --no-open"
+
+# lsd aliases
+alias ls="lsd"
+alias lsa="lsd -A"
+alias l="lsd -lA"
+alias ll="lsd -l"
+alias tree="ls --tree -I 'node_modules'"
+
+# mv and cp and mkdir improvements
+alias mv="mv -iv"
+alias cp="cp -iv"
+alias mkdir="mkdir -pv"
+
+# Configuration Files
+alias i3c="nvim ~/.config/i3/config +'cd ~/.config/i3'"
+alias alac="nvim ~/.config/alacritty/alacritty.yml"
+alias awmc="nvim ~/.config/awesome/rc.lua +'cd ~/.config/awesome'"
+alias kitc="nvim ~/.config/kitty/kitty.conf  +'cd ~/.config/kitty'"
+alias tmc="nvim ~/.config/tmux/tmux.conf"
+alias vimc="nvim ~/.config/.vimrc"
+alias xinc="nvim ~/.config/x11/xinitrc"
+alias xmob="nvim ~/.config/xmonad/xmobar0.hs +'cd ~/.config/xmonad'"
+alias xmoc="nvim ~/.config/xmonad/xmonad.hs +'cd ~/.config/xmonad'"
+
+# shortcuts for shell configs
+shl() {
+  cmd="nvim ~/.config/zsh/file -c 'cd ~/.config/zsh'"
+  if [[ $# == 0 ]]; then
+    zsh
+  elif [[ $1 == "rc" ]]; then
+    eval ${cmd/file/.zshrc}
+  elif [[ $1 == "env" ]]; then
+    eval ${cmd/file/.zshenv}
+  elif [[ $1 == "hist" ]]; then
+    eval ${cmd/file/.zhistory}
+  elif [[ $1 == "scripts" ]]; then
+    eval ${cmd/file/scripts}
+  else
+    echo "Invalid usage of shl command"
+  fi
+}
+
+alias dots="git --work-tree=$HOME/test-workdir --git-dir=$HOME/test-barerepo"
+alias telecheck="luacheck --config ~/code/neovim/telescope.nvim/.luacheckrc ~/code/neovim/telescope.nvim/lua/telescope/*"
+
+# short command for dumping links quickly and easily
+dump() {
+  if [[ $# == 0 ]]; then
+    ls ~/code/braindump | sed -n "s/.md/ /p" - | paste -sd ' ' -
+    echo -n "Dump to file: "
+    read dumpfile
+    echo -n "Link: "
+    read link
+    echo -n "Title: "
+    read title
+    echo "- [$title]($link)" >> ~/code/braindump/$dumpfile.md
+    echo "Dumped successfully! Get back to work punk!"
+  elif [[ $1 == "r" ]]; then
+    files="$(ls ~/code/braindump | sed -n "s/.md/ /p" - | paste -sd ' ' -)"
+    i=1
+
+    echo -n "Dump all to same file? (y/n): "
+    read samefile
+    dumpfile=""
+
+    while [ $i -gt 0 ]; do
+      if [[ $samefile == "n" || $i == 1 ]]; then
+        echo $files
+        echo -n "Dump to file: "
+        read dumpfile
+        ((i++))
+      fi
+      echo -n "Link: "
+      read link
+      [[ $link == "done" ]] && break
+      echo -n "Title: "
+      read title
+      echo "- [$title]($link)" >> ~/code/braindump/$dumpfile.md
+      echo "Dumped successfully, onto the next link!"
+    done
+  elif [[ $1 == "o" ]]; then
+    ls ~/code/braindump | sed -n "s/.md/ /p" - | paste -sd ' ' -
+    echo -n "Which file to open: "
+    read dumpfile
+    nvim ~/code/braindump/$dumpfile.md -c "cd ~/code/braindump"
+  else
+    echo "Choose a valid option: no args, (o)pen, (r)epeat"
+  fi
+}
+
+# for running npm or yarn scripts without remembering which package manager i'm using
+js() {
+  if [ -f "package-lock.json" ]; then npm run $@
+  elif [ -f "yarn.lock" ]; then yarn run $@
+  else echo "No npm or yarn project found"
+  fi
+}
+
+# nvim aliases 
+nv() {
+  if [[ $# == 0 ]]; then
+    nvim
+  else
+    local nvim_config_path="nvim ~/.config/nvim/lua/my/filedir -c 'cd ~/.config/nvim'"
+
+    if [[ $1 == "plug" ]]; then
+      eval ${nvim_config_path/filedir/plugins.lua}
+    elif [[ $1 == "plugs" ]]; then
+      eval ${nvim_config_path/filedir/plugconfigs}
+    elif [[ $1 == "maps" ]]; then
+      eval ${nvim_config_path/filedir/maps.lua}
+    elif [[ $1 == "sets" ]]; then
+      eval ${nvim_config_path/filedir/settings.lua}
+    else
+      nvim $@
+    fi
+  fi
+}
+# shortcut to get to packer plugins directory
+alias nvpack="cd ~/.local/share/nvim/site/pack/packer/start"
+alias nvs="nvim -S"
+
+# OBS virtual cam using v4l2loopback 
+alias vcam="sudo modprobe v4l2loopback video_nr=7 card_label='OBS Virtual Cam'"
+
+# thefuck alias
+eval $(thefuck --alias)
+
+# Tmux
+alias tmls='tmux list-sessions'
+tma() {
+  if [ -z $@ ]; then
+    tmux attach
+  else
+    tmux attach -t $@
+  fi
+}
+tmks() {
+  if [ -z $@ ]; then
+    tmux kill-server
+  else
+    tmux kill-session -t $1
+  fi
+}
+# tmux new session command
+tmn() {
+  tmux new-session -s $@
+}
+# tmux new project command
+tmnp() {
+  tmux \
+    new -c $2 -n code -s $1 \; \
+    send 'nvim' C-m \; \
+    neww -c $2 -n serve \; \
+    splitw -h -c $2 -t serve \; \
+    send 'js dev' C-m
+}
+
+# Source zshrc
+alias sosh='source $ZDOTDIR/.zshrc'
+
+# Prompt
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:git:*' formats '%F{#74dfc4} %b %F{#ffe261}%u%F{#b381c5}%c %F{#40b4c4} %r/%S'
+# staged:   unstaged: ﯇  
+PROMPT="%F{#eb64b9}%1/ %B%F{#b381c5}$%f%b "
+RPROMPT=\$vcs_info_msg_0_
+
+##################
+# PLUGINS
+##################
+
+# Use bash completion script for unfog-cli
+if [ -f "/etc/bash_completion.d/unfog.bash" ]; then
+  autoload bashcompinit
+  bashcompinit
+  source /etc/bash_completion.d/unfog.bash
+fi
+
+# Completion for kitty
+kitty + complete setup zsh | source /dev/stdin
+
+# dfs tmux workspace script
+if [ -f "$ZDOTDIR/scripts/dfs.sh" ]; then
+  alias dfs="$ZDOTDIR/scripts/./dfs.sh"
+fi
+
+# load nvm
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Load zsh-autosuggestions plugin
+source $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Load zsh-syntax-highlighting plugin
+source $ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

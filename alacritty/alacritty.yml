@@ -1,0 +1,157 @@
+schemes:
+  laserwave: &laserwave
+    primary:
+      background: '#27212e'
+      foreground: '#e0dfe1'
+
+    cursor:
+      text: '#27212e'
+      cursor: '#40b4c4'
+
+    selection:
+      text: '#27212e'
+      background: '#74dfc4'
+
+    normal:
+      black: '#65606a'
+      red: '#b381c5'
+      green: '#b4dce7'
+      yellow: '#eb64b9'
+      blue: '#74dfc4'
+      magenta: '#b381c5'
+      cyan: '#716385'
+      white: '#e0dfe1'
+
+    bright:
+      black: '#848088'
+      red: '#C29AD1'
+      green: '#C3E3EC'
+      yellow: '#EF83C7'
+      blue: '#90E5D0'
+      magenta: '#C29AD1'
+      cyan: '#8D829D'
+      white: '#ffffff'
+
+    dim:
+      black: '#46414c'
+      red: '#976EA7'
+      green: '#98B7C2'
+      yellow: '#C4579D'
+      blue: '#65B9A6'
+      magenta: '#976EA7'
+      cyan: '#625674'
+      white: '#c1c0c3'
+
+  neonwave-dream: &neonwave
+    primary:
+      background: "#18132f"
+      foreground: "#bbc5ff"
+
+    normal:
+      black:   "#495396"
+      red:     "#f95e94"
+      green:   "#85eea7"
+      yellow:  "#d288f5"
+      blue:    "#e33df2"
+      magenta: "#fee153"
+      cyan:    "#ef2a8c"
+      white:   "#67bcf9"
+
+    bright:
+      black:   "#495396"
+      red:     "#f95e94"
+      green:   "#85eea7"
+      yellow:  "#d288f5"
+      blue:    "#e33df2"
+      magenta: "#fee153"
+      cyan:    "#ef2a8c"
+      white:   "#67bcf9"
+  
+  daycula: &daycula
+    primary:
+      background: '0x1a1d45'
+      foreground: '0xd7b7bb'
+
+    normal:
+      black:   '0x1a1d45'
+      red:     '0xff4ea5'
+      green:   '0x7eb564'
+      yellow:  '0xeaad64'
+      blue:    '0x7a89ec'
+      magenta: '0xb66cdc'
+      cyan:    '0x6cac99'
+      white:   '0xd7b7bb'
+
+    bright:
+      black:   '0x323884'
+      red:     '0xff4ea5'
+      green:   '0x7eb564'
+      yellow:  '0xeaad64'
+      blue:    '0x7a89ec'
+      magenta: '0xb66cdc'
+      cyan:    '0x6cac99'
+      white:   '0xd7b7bb'
+  synthwave-everything: &synthwave-everything
+    primary:
+      foreground: "#d4d2d7"
+      background: "#2a2139"
+
+    cursor:
+      cursor: "#f772e0"
+      text: "#2a2139"
+
+    normal:
+      black: "#635c6e"
+      red: "#f97e72"
+      green: "#f1d565"
+      yellow: "#f88414"
+      blue: "#c792ea"
+      magenta: "#f92aad"
+      cyan: "#6d77b3"
+      white: "#d4d2d7"
+
+    bright: 
+      black: "#7f7988"
+      red: "#F7958B"
+      green: "#F1DA81"
+      yellow: "#F69940"
+      blue: "#CFA5EB"
+      magenta: "#F751BB"
+      cyan: "#878FBF"
+      white: "#d4d2d7"
+
+colors: *laserwave
+draw_bold_text_with_bright_colors: true
+
+background_opacity: 0.95
+    
+font:
+  normal:
+    family: JetBrains Mono Nerd Font
+    style: Medium
+  bold:
+    style: Bold
+  italic:
+    style: Medium Italic
+  size: 14.0
+  glyph_offset:
+    x: 0
+    y: 4
+  offset:
+    x: 0
+    y: 8
+
+
+window:
+  dynamic_padding: true
+  padding:
+    x: 2
+    y: 2
+  decorations: full
+
+scrolling:
+  history: 5000
+
+# key_bindings:
+#   - { key: Space, mods: Control, action: ToggleViMode }
+#   - { key: Space, mods: Control, mode: Vi, action: ScrollToBottom }

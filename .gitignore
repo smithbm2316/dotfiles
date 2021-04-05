@@ -1,0 +1,33 @@
+# ignore widgets for awesomewm
+awesome/awesome-wm-widgets
+
+# ignore AppSupport/ dir for iTerm2
+iTerm2/AppSupport
+
+# neovim: ignore plugins & backups directories
+nvim/plugged
+nvim/plugin
+nvim/backups
+nvim/.netrwhist
+
+# ignore ranger plugins
+ranger/plugins
+
+# ignore various folders for spicetify
+spicetify/Backup
+spicetify/CustomApps
+spicetify/Extracted
+
+# ignore tmux plugins dir
+tmux/plugins
+
+# ignore compiled files for xmonad
+xmonad/*.hi
+xmonad/*.o
+
+# ignore unnecssary zsh folders and files
+zsh/plugins
+zsh/.zcompdump
+zsh/zcompdump
+zsh/.zhistory
+zsh/.zsh_history

@@ -1,0 +1,22 @@
+{
+  "coc.preferences.colorSupport": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "html",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "python",
+    "svelte",
+    "vue"
+  ],
+  "prettier.semi": true,
+  "prettier.singleQuote": false,
+  "prettier.tabWidth": 2,
+  "prettier.trailingComma": "es5",
+  "prettier.useTabs": false,
+  "signature.maxWindowWidth": 40,
+  "signature.maxWindowHeight": 40,
+  "suggest.maxPreviewWidth": 60
+}

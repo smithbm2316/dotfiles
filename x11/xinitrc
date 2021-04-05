@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# ~/.xinitrc
+
+# set caps lock to fire escape on quick press, super_r to fire return on quick press
+xcape -e 'Super_L=Escape;Super_R=Return' &
+# set mouse cursor to be a regular left-facing pointer
+xsetroot -cursor_name left_ptr &
+pactl exit &
+
+dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY &
+exec dbus-launch --autolaunch=$(cat /var/lib/dbus/machine-id) awesome

@@ -1,0 +1,30 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = Ben Smith
+	email = bsmithdev@mailbox.org
+[alias]
+	aa = add *
+  cm = commit -m 
+  cma = commit -am 
+	pushup = push -u origin HEAD
+  s = status
+	i = init 
+	l = log --oneline
+	cl = clone
+  sw = switch
+  bra = branch -a
+  stash = stash -u
+	cob = checkout -b
+[core]
+	excludesfile = /home/smithbm/.config/git/ignore
+[color]
+	ui = auto
+[init]
+	defaultBranch = main
+[fetch]
+	prune = true
+[pull]
+	rebase = true
+[advice]
+	addIgnoredFile = false
