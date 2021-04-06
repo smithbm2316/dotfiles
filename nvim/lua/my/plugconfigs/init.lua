@@ -1,5 +1,5 @@
 require('my.plugconfigs.nvim-compe')
--- require('my.plugconfigs.nvim-autopairs')
+require('my.plugconfigs.nvim-autopairs')
 require('my.plugconfigs.nvim-lightbulb')
 require('my.plugconfigs.nvim-lspconfig')
 require('my.plugconfigs.nvim-tree')

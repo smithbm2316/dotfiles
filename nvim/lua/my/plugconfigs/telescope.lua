@@ -59,7 +59,7 @@ end
 
 -- find files in dotfiles
 ts.dotfiles = function()
-  require('telescope.builtin').find_files{ cwd = '~/.config', prompt_title = '... dotfiles ...', hidden = true }
+  require('telescope.builtin').find_files{ cwd = '~/dotfiles', prompt_title = '... dotfiles ...', hidden = true }
 end
 map_tscustom('<leader>fd', 'dotfiles')
 

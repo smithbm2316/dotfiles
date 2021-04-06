@@ -21,7 +21,7 @@ return require('packer').startup(function()
   use { 'hrsh7th/nvim-compe' }
   -- use { 'nvim-lua/completion-nvim' }
   -- autopairs but better
-  -- use { 'windwp/nvim-autopairs' }
+  use { 'windwp/nvim-autopairs' }
   -- highlight and indent all the things
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -90,9 +90,6 @@ return require('packer').startup(function()
 
   -- MOAR TEXT OBJECTS!!
   use { 'wellle/targets.vim' }
-
-  -- autopairs vimscript
-  use { 'eluum/vim-autopair' }
 
   -- interactive window resizer
   use { 'romgrk/winteract.vim' }
@@ -181,7 +178,8 @@ return require('packer').startup(function()
   -- use a motion before pasting from my register
   use { 'vim-scripts/ReplaceWithRegister' }
 
-  -- Syntax highlighting plugins
+  -- Syntax highlighting plugin
+  use { 'linkinpark342/xonsh-vim', ft = 'xonsh' }
   -- use { 'cespare/vim-toml', ft = 'toml', }
   -- use { 'hail2u/vim-css3-syntax', ft = { 'css', 'scss' } }
   -- use { 'yuezk/vim-js', ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' } }
