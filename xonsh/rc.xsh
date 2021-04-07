@@ -14,11 +14,18 @@ $VI_MODE = 1
 $XONSH_DATETIME_FORMAT = "%m-%d-%Y %H:%M"
 
 # path variables
-$CARGOBIN = "$HOME/.cargo/bin"
-$GOEXEC = "/usr/local/go/bin"
-$GOBIN = "$HOME/code/go/bin"
-$GOPATH = "$HOME/code/go"
-$YARNBIN = "$HOME/.yarn/bin"
+extra_paths = {
+  "CARGOBIN": "$HOME/.cargo/bin",
+  "GOEXEC": "/usr/local/go/bin",
+  "GOBIN": "$HOME/code/go/bin",
+  "GOPATH": "$HOME/code/go",
+  "YARNBIN": "$HOME/.yarn/bin"
+}
+for k,v in extra_paths.items():
+  print($PATH)
+  if v not in $PATH:
+    print(k)
+    $PATH.append(v)
 
 # environment variables
 $COLORTERM = "truecolor"
@@ -34,7 +41,7 @@ $ZDOTDIR = "$HOME/.config/zsh"
 # os-specific settings
 if $(uname -s).strip() == "Linux":
   # setup keychain settings
-  keychain --eval --quiet id_ed25519_gh id_ed25519_gl
+  $(keychain --eval --quiet id_ed25519_gh id_ed25519_gl)
 
   # if on a debian-based system, write aliases for programs that
   # have debian package name conflicts
@@ -46,14 +53,14 @@ if $(uname -s).strip() == "Linux":
     # apt update/upgrade shortcut
     def _aptup(args):
       sudo apt update
-      $(apt list --upgradeable | sed -n "s/\(.*\)\/.*/\1,/p" | paste -sd " ")
+      apt list --upgradeable | sed -n "s/\(.*\)\/.*/\1,/p" | paste -sd " "
       if len(args) > 0:
         sudo apt upgrade
     aliases["aptup"] = _aptup
 
 elif $(uname -s).strip() == "Darwin":
   # setup keychain settings
-  keychain --eval --quiet id_rsa id_rsa_gl
+  $(keychain --eval --quiet id_rsa id_rsa_gl)
 
 # ALIASES
 # navigation/file movement shortcuts
