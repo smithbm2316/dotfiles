@@ -24,7 +24,8 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.api.nvim_command.execute 'packadd packer.nvim'
 end
 
-require('laserwave') -- load my colorscheme before it gets a chance to overwrite any highlights for other plugins 
+-- require('laserwave') -- load my colorscheme before it gets a chance to overwrite any highlights for other plugins 
+vim.cmd[[ colorscheme laserwave ]]
 require('my.plugins') -- my plugin loader (uses packer.nvim)
 require('my.settings') -- my vim settings
 require('my.plugconfigs') -- my plugin-specific settings

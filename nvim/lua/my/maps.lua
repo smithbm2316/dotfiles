@@ -34,6 +34,8 @@ map('i', '<c-l>', '<c-x><c-l>', options)
 -- remap : to be easier to use, less work for your poor left pinky
 map('n', 'go', ':', options)
 map('v', 'go', ':', options)
+map('n', ';', ':', options)
+map('v', ';', ':', options)
 -- remap q: to be easier to use, less work for your poor left pinky
 map('n', 'gl', 'q:', options)
 map('v', 'gl', 'q:', options)
