@@ -1,0 +1,88 @@
+default_keybindings = false
+use_nerdfont = true
+audio_cache = true
+volnorm = true
+bitrate = 320
+album_column = true
+gapless = false
+
+[saved_state]
+volume = 100
+shuffle = "playlist"
+notify = false
+repeat = true
+
+[keybindings]
+"." = "playnext"
+"?" = "help"
+"]" = "volup 5"
+"[" = "voldown 5"
+"+" = "volup 1"
+"-" = "voldown 1"
+
+"a" = "goto album"
+"b" = "seek -1000"
+"f" = "seek +1000"
+"g" = "move top"
+"h" = "move left 1"
+"j" = "move down 1"
+"k" = "move up 1"
+"l" = "move right 1"
+"n" = "jump next"
+"o" = "open selected"
+"p" = "playpause"
+"q" = "back"
+"r" = "repeat"
+"s" = "shuffle"
+"x" = "share current"
+"Space" = "play"
+
+"Shift+a" = "goto artist"
+"Shift+b" = "seek -10000"
+"Shift+c" = "clear"
+"Shift+d" = "delete"
+"Shift+f" = "seek +10000"
+"Shift+h" = "previous"
+"Shift+j" = "shift down 1"
+"Shift+k" = "shift up 1"
+"Shift+g" = "move bottom"
+"Shift+l" = "next"
+"Shift+n" = "jump previous"
+"Shift+o" = "open current"
+"Shift+p" = "move playing"
+"Shift+q" = "quit"
+"Shift+s" = "save"
+"Shift+u" = "update"
+"Shift+x" = "share selected"
+
+"Ctrl+a" = "focus cover"
+"Ctrl+b" = "move up 10"
+"Ctrl+d" = "move down 5"
+"Ctrl+f" = "move down 10"
+"Ctrl+j" = "shift down 5"
+"Ctrl+k" = "shift up 5"
+"Ctrl+q" = "focus queue"
+"Ctrl+l" = "focus library"
+"Ctrl+s" = "focus search"
+"Ctrl+u" = "move up 5"
+"Ctrl+v" = "insert"
+"Ctrl+Space" = "queue"
+
+[theme]
+background = "default"
+primary = "#e0dfe1"
+secondary = "#74dfc4"
+title = "#74dfc4"
+playing = "#222222"
+playing_selected = "#222222"
+playing_bg = "#40b4c4"
+highlight = "#222222"
+highlight_bg = "#eb64b9"
+error = "#222222"
+error_bg = "#ffe261"
+statusbar = "#222222"
+statusbar_progress = "#eb64b9"
+statusbar_bg = "#74dfc4"
+cmdline = "#222222"
+cmdline_bg = "#40b4c4"
+search_match = "#40b4c4"
