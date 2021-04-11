@@ -132,7 +132,7 @@ return require('packer').startup(function()
   use { 'mbbill/undotree' }
 
   -- quick snippets so i don't have to type out unnecessary react and html boilerplate
-  use { 'SirVer/ultisnips' }
+  -- use { 'SirVer/ultisnips' }
 
   -- tpope's blessings to vimmers everywhere
   use { 'tpope/vim-abolish' }
@@ -162,7 +162,7 @@ return require('packer').startup(function()
   use { 'romainl/vim-devdocs' }
 
   -- todos in vim
-  use { 'soywod/unfog.vim' }
+  -- use { 'soywod/unfog.vim' }
 
   -- format my html and javascript code for me please, i'm lazy
   use { 'prettier/vim-prettier', run = 'yarn install', ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' } }
@@ -180,7 +180,7 @@ return require('packer').startup(function()
 
   -- Syntax highlighting plugin
   use { 'linkinpark342/xonsh-vim', ft = 'xonsh' }
-  -- use { 'cespare/vim-toml', ft = 'toml', }
+  use { 'cespare/vim-toml' }
   -- use { 'hail2u/vim-css3-syntax', ft = { 'css', 'scss' } }
   -- use { 'yuezk/vim-js', ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' } }
   -- use { 'HerringtonDarkholme/yats.vim', ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' } }

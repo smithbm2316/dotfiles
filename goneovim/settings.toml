@@ -1,0 +1,12 @@
+[Editor]
+BorderlessWindow = true
+Gap = 4
+Transparent = 1.0
+StartFullscreen = false
+FontFamily = "JetBrainsMono Medium Nerd Font"
+FontSize = 14
+Linespace = 6
+Clipboard = false
+DisableLigatures = false
+SmoothScroll = true
+IndentGuide = true
