@@ -14,8 +14,8 @@ export SAVEHIST=10000
 # Programming languages and their dependenices
 export CARGOBIN="$HOME/.cargo/bin"
 export GOEXEC="/usr/local/go/bin"
-export GOBIN="$HOME/code/go/bin"
-export GOPATH="$HOME/code/go"
+export GOBIN="$HOME/go/bin"
+export GOPATH="$HOME/go"
 export LOCALBIN="$HOME/.local/bin"
 export YARNBIN="$HOME/.yarn/bin"
 

@@ -4,6 +4,9 @@ awesome/awesome-wm-widgets
 # ignore AppSupport/ dir for iTerm2
 iTerm2/AppSupport
 
+# ignore userstate.toml from ncspot
+ncspot/userstate.toml
+
 # neovim: ignore plugins & backups directories
 nvim/plugged
 nvim/plugin
@@ -19,14 +22,16 @@ spicetify/CustomApps
 spicetify/Extracted
 
 # ignore tmux plugins dir
-tmux/plugins
+tmux/plugins/*
+!tmux/plugins/.gitkeep
 
 # ignore compiled files for xmonad
 xmonad/*.hi
 xmonad/*.o
 
 # ignore unnecssary zsh folders and files
-zsh/plugins
+zsh/plugins/*
+!zsh/plugins/.gitkeep
 zsh/.zcompdump
 zsh/zcompdump
 zsh/.zhistory

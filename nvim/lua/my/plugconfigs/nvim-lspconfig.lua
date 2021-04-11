@@ -26,7 +26,7 @@ local on_attach = function(client, bufnr)
 end
 
 -- setup language servers
-local servers = { 'bashls', 'cssls', 'gopls', 'hls', 'html', 'jedi_language_server', 'tsserver', 'vimls' }
+local servers = { 'bashls', 'cssls', 'gopls', 'html', 'jedi_language_server', 'tsserver', 'vimls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
