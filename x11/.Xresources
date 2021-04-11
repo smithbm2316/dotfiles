@@ -36,21 +36,23 @@
 *.color7:       #e0dfe1
 *.color15:      #ffffff
 
+*.alpha:        0.95
 
+*.font: xft:JetBrainsMono Nerd Font:style=Medium:size=14
+*.boldFont: xft:JetBrainsMono Nerd Font:style=Bold:size=14
+*.italicFont: xft:JetBrainsMono Nerd Font:style=Medium Italic:size=14
+*.boldItalicfont: xft:JetBrainsMono Nerd Font:style=Bold Italic:size=14
+*.letterSpace: 0
 
 !! URxvt Appearance
-*.font: xft:JetBrainsMono Nerd Font Mono:style=Medium:size=14
-*.boldFont: xft:JetBrainsMono Nerd Font Mono:style=Bold:size=14
-*.italicFont: xft:JetBrainsMono Nerd Font Mono:style=Medium Italic:size=14
-*.boldItalicfont: xft:JetBrainsMono Nerd Font Mono:style=Bold Italic:size=14
-URxvt.letterSpace: 0
-URxvt.lineSpace: 4
-URxvt.internalBorder: 4
-URxvt.cursorBlink: false
-URxvt.cursorUnderline: false
-URxvt.saveline: 2048
-URxvt.scrollBar: false
-URxvt.scrollBar_right: false
-URxvt.urgentOnBell: true
-URxvt.depth: 24
-URxvt.iso14755: false
+! URxvt.letterSpace: 0
+! URxvt.lineSpace: 4
+! URxvt.internalBorder: 4
+! URxvt.cursorBlink: false
+! URxvt.cursorUnderline: false
+! URxvt.saveline: 2048
+! URxvt.scrollBar: false
+! URxvt.scrollBar_right: false
+! URxvt.urgentOnBell: true
+! URxvt.depth: 24
+! URxvt.iso14755: false

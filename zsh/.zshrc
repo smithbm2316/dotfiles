@@ -3,21 +3,6 @@
 # zsh magic :)
 setopt AUTO_CD
 
-# Debian settings
-if [ -f "/etc/debian_version" ]; then
-  # setup keychain settings
-  eval $(keychain --eval --quiet id_ed25519_gh id_ed25519_gl)
-  # Set `bat` as default man pager
-  alias bat="batcat"
-  export MANPAGER="nvim -c 'set ft=man' -"
-  # Alias for fd package
-  alias fd="fdfind"
-  # Alias for ncal to use normal month formatting
-  alias cal="ncal -b"
-elif [ "$(uname)" = "Darwin" ]; then
-  eval $(keychain --eval --quiet id_rsa id_rsa_gl)
-fi
-
 # auto-complete, use unique date for zcompdump files
 autoload -Uz compinit; compinit -d $ZDOTDIR/zcompdump/zcompdump-"$(date +%FT%T%z)"
 zstyle ':completion:*' menu select
@@ -212,9 +197,6 @@ alias nvs="nvim -S"
 # OBS virtual cam using v4l2loopback 
 alias vcam="sudo modprobe v4l2loopback video_nr=7 card_label='OBS Virtual Cam'"
 
-# thefuck alias
-eval $(thefuck --alias)
-
 # Tmux
 alias tmls='tmux list-sessions'
 tma() {
@@ -280,9 +262,8 @@ if [ -f "$ZDOTDIR/scripts/dfs.sh" ]; then
 fi
 
 # load nvm
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # Load zsh-autosuggestions plugin
 source $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh

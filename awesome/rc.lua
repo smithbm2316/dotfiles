@@ -27,7 +27,7 @@ local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
 local ram_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
 
 -- Load Debian menu entries
-local debian = require('debian.menu')
+-- local debian = require('debian.menu')
 local has_fdo, freedesktop = pcall(require, 'freedesktop')
 
 -- {{{ Error handling
@@ -100,8 +100,8 @@ myawesomemenu = {
   { 'hotkeys', function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
   { 'manual', terminal .. ' -e man awesome' },
   { 'edit config', editor_cmd .. ' ' .. awesome.conffile },
-  { 'lock', function() awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/Pictures/retrowave-landscape/retrowave1.png"') end },
-  { 'suspend', function() awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/Pictures/retrowave-landscape/retrowave1.png" && systemctl suspend') end },
+  { 'lock', function() awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/pictures/retrowave-landscape/retrowave1.png"') end },
+  { 'suspend', function() awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/pictures/retrowave-landscape/retrowave1.png" && systemctl suspend') end },
   { 'restart', awesome.restart },
   { 'quit', function() awesome.quit() end },
 }
@@ -118,7 +118,7 @@ else
   mymainmenu = awful.menu({
     items = {
       menu_awesome,
-      { 'Debian', debian.menu.Debian_menu.Debian },
+      -- { 'Debian', debian.menu.Debian_menu.Debian },
       menu_terminal,
     }
   })
@@ -304,7 +304,7 @@ awful.screen.connect_for_each_screen(function(s)
         wibox.widget.textbox(' |  '),
         ram_widget(),
         wibox.widget.textbox('| '),
-        awful.widget.watch( 'sh -c ~/.config/awesome/scripts/pamixer-status', 0.5), -- volume script]
+        awful.widget.watch("sh -c ~/.config/awesome/scripts/amixer-status", 0.1), -- volume script
         wibox.widget.textbox(' |'),
         mytextclock,
         wibox.widget.textbox('| '),
@@ -454,21 +454,26 @@ globalkeys = gears.table.join(
   -- Lock
   awful.key({ modkey }, 'q',
     function()
-      awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/Pictures/retrowave-landscape/retrowave1.png"')
+      awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/pictures/retrowave-landscape/retrowave1.png"')
     end,
     {description = 'lock', group = 'awesome'}),
 
   -- Suspend
   awful.key({ modkey, 'Control' }, 'q',
     function()
-      awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/Pictures/retrowave-landscape/retrowave1.png" && systemctl suspend')
+      awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/pictures/retrowave-landscape/retrowave1.png" && systemctl suspend')
     end,
     {description = 'lock', group = 'awesome'}),
 
-  -- Volume Keys
-  awful.key({}, 'XF86AudioRaiseVolume', function () awful.spawn('pactl set-sink-volume @DEFAULT_SINK@ +5%') end),
+  -- Volume Keys (using pulseaudioctl)
+  --[[ awful.key({}, 'XF86AudioRaiseVolume', function () awful.spawn('pactl set-sink-volume @DEFAULT_SINK@ +5%') end),
   awful.key({}, 'XF86AudioLowerVolume', function () awful.spawn('pactl set-sink-volume @DEFAULT_SINK@ -5%') end),
-  awful.key({}, 'XF86AudioMute', function () awful.spawn('pactl set-sink-mute @DEFAULT_SINK@ toggle') end),
+  awful.key({}, 'XF86AudioMute', function () awful.spawn('pactl set-sink-mute @DEFAULT_SINK@ toggle') end), ]]
+
+  -- Volume Keys (using amixer)
+  awful.key({}, 'XF86AudioRaiseVolume', function () awful.spawn('amixer set Master 5%+') end),
+  awful.key({}, 'XF86AudioLowerVolume', function () awful.spawn('amixer set Master 5%-') end),
+  awful.key({}, 'XF86AudioMute', function () awful.spawn('amixer set Master toggle') end),
 
   -- Play/Pause
   awful.key({}, 'XF86AudioPlay', function () awful.spawn('playerctl play-pause') end),
@@ -627,6 +632,7 @@ awful.rules.rules = {
     },
     class = {
       'Blueman-manager',
+      'Gnome-calculator',
       'Galculator',
       'Gpick',
       'zoom'
@@ -759,8 +765,16 @@ client.connect_signal('focus', function(c) c.border_color = beautiful.border_foc
 client.connect_signal('unfocus', function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.spawn('xsetroot -cursor_name left_ptr')
 awful.spawn('xrandr --output DisplayPort-0 --set TearFree on --mode 1920x1080 --rate 144.00 --output HDMI-A-0 --set TearFree on --mode 1920x1080 --rate 60.00')
+awful.spawn('xsetroot -cursor_name left_ptr')
 awful.spawn('picom -b')
 awful.spawn('flameshot')
-awful.spawn('nm-applet')
+
+awful.spawn.easy_async_with_shell(
+  "pgrep xcape",
+  function (stdout, stderr, exitreason, exitcode)
+    if stdout == nil or exitcode == 1 then    
+      awful.spawn.once('xcape -e "Super_L=Escape;Super_R=Return"')
+    end
+  end
+)
