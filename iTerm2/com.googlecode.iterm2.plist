@@ -3246,7 +3246,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>JetBrainsMonoNerdFontComplete-Regular 19</string>
+			<string>JetBrainsMonoNerdFontComplete-Medium 17</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<true/>
 			<key>Open Toolbelt</key>
@@ -3447,7 +3447,7 @@
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
-			<integer>15</integer>
+			<integer>12</integer>
 			<key>Working Directory</key>
 			<string>/Users/smithbm</string>
 		</dict>

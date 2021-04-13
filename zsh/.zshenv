@@ -53,5 +53,5 @@ if [ "$(uname)" = "Linux" ]; then
     alias cal="ncal -b"
   fi
 elif [ "$(uname)" = "Darwin" ]; then
-  eval $(keychain --eval --quiet id_rsa id_rsa_gl)
+  eval $(/usr/local/bin/keychain --eval --quiet id_rsa id_rsa_gl)
 fi
