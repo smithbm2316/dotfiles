@@ -24,7 +24,7 @@ require('telescope').setup{
     },
     color_devicons = true,
     prompt_position = 'bottom',
-    prompt_prefix = '🔍',
+    prompt_prefix = '🔍 ',
     sorting_strategy = 'ascending',
     layout_strategy = 'flex',
     file_ignore_patterns = { 'node_modules/.*', '.git/.*', '_site/.*' },
@@ -81,17 +81,17 @@ end
 map_tscustom('<leader>fib', 'find_files_in_directory_of_buffer')
 
 -- telescope builtins mappings
-local git_opts = { initial_mode = 'normal', selection_strategy = 'row' }
-map_tsbuiltin('<leader>lf', "file_browser", { selection_strategy = 'row' })
+local rowselect_opts = { selection_strategy = 'row', hidden = true }
+map_tsbuiltin('<leader>lf', "file_browser", rowselect_opts )
 map_tsbuiltin('<leader>of', "oldfiles")
 map_tsbuiltin('<leader>fc', "grep_string")
 map_tsbuiltin('<leader>fj', "find_files", { hidden = true })
 map_tsbuiltin('<leader>fw', "live_grep")
-map_tsbuiltin('<leader>gb', "git_branches", git_opts)
-map_tsbuiltin('<leader>gc', "git_commits", git_opts)
+map_tsbuiltin('<leader>gb', "git_branches", rowselect_opts)
+map_tsbuiltin('<leader>gc', "git_commits", rowselect_opts)
 map_tsbuiltin('<leader>gh', "help_tags")
 map_tsbuiltin('<leader>gm', "man_pages")
-map_tsbuiltin('<leader>gs', "git_status", git_opts)
+map_tsbuiltin('<leader>gs', "git_status", rowselect_opts)
 map_tsbuiltin('<leader>la', "lsp_code_actions")
 map_tsbuiltin('<leader>lb', "buffers")
 map_tsbuiltin('<leader>lk', "keymaps")
