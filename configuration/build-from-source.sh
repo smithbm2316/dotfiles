@@ -51,7 +51,9 @@ if [ $(command -v dnf) ]; then
   rm splatmoji*.rpm
 
   # neovim
+  [ -f "/usr/local/bin/nvim" ] && rm /usr/local/bin/nvim
   gh release download nightly -R neovim/neovim -p "nvim.appimage"
+  chmod u+x nvim.appimage
   mv nvim.appimage /usr/local/bin/nvim
 
   # NODE/NPM/YARN PACKAGES
@@ -66,6 +68,28 @@ if [ $(command -v dnf) ]; then
 
   # yarn & language servers for neovim
   npm -g install bash-language-server typescript typescript-language-server vim-language-server vscode-css-languageserver-bin vscode-html-languageserver-bin yarn
+
+  # yarn globals
+  yarn add global svgo
+
+  # LUA SETUP
+  # luaver and lua 5.1.5
+  git clone https://github.com/DhavalKapil/luaver.git ~/.luaver
+  luaver install 5.1.5
+  luaver use 5.1.5
+
+  # luarocks
+  cd ~/clones
+  wget https://luarocks.org/releases/luarocks-3.3.1.tar.gz
+  tar zxpf luarocks-3.3.1.tar.gz
+  cd luarocks-3.3.1
+  ./configure --lua-version=5.1 --with-lua-bin=/home/smithbm/.luaver/lua/5.1.5/bin
+  make
+  make install
+  cd ..
+
+  # luacheck
+  luarocks install luacheck
 
 elif [ $(command -v apt)  ]; then
   echo "Ubuntu/Debian-based system"

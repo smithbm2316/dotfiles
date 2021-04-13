@@ -39,11 +39,6 @@ export PATH="$YARNBIN:$PATH"
 
 # Debian settings
 if [ "$(uname)" = "Linux" ]; then
-  # setup keychain settings
-  eval $(keychain --eval --quiet id_ed25519_gh)
-  # if you ever use gitlab again:
-  # eval $(keychain --eval --quiet id_ed25519_gh id_ed25519_gl)
-
   if [ -f "/etc/debian_version" ]; then
     # Set `bat` as default man pager
     alias bat="batcat"
@@ -52,6 +47,4 @@ if [ "$(uname)" = "Linux" ]; then
     # Alias for ncal to use normal month formatting
     alias cal="ncal -b"
   fi
-elif [ "$(uname)" = "Darwin" ]; then
-  eval $(/usr/local/bin/keychain --eval --quiet id_rsa id_rsa_gl)
 fi

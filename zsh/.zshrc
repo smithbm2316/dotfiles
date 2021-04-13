@@ -3,6 +3,13 @@
 # zsh magic :)
 setopt AUTO_CD
 
+# setup keychain settings
+if [ "$(uname)" = "Linux" ]; then
+  eval $(keychain --eval --quiet id_ed25519_gh)
+elif [ "$(uname)" = "Darwin" ]; then
+  eval $(keychain --eval --quiet id_rsa id_rsa_gl)
+fi
+
 # auto-complete, use unique date for zcompdump files
 autoload -Uz compinit; compinit -d $ZDOTDIR/zcompdump/zcompdump-"$(date +%FT%T%z)"
 zstyle ':completion:*' menu select
@@ -75,9 +82,8 @@ alias bsync="browser-sync start --server --files '*.css, *.html, *.js' --no-open
 
 # lsd aliases
 alias ls="lsd"
-alias lsa="lsd -A"
-alias l="lsd -lA"
-alias ll="lsd -l"
+alias ll="lsd -lA"
+alias l="lsd -A"
 alias tree="ls --tree -I 'node_modules'"
 
 # mv and cp and mkdir improvements
@@ -253,9 +259,6 @@ if [ -f "/etc/bash_completion.d/unfog.bash" ]; then
   source /etc/bash_completion.d/unfog.bash
 fi
 
-# Completion for kitty
-kitty + complete setup zsh | source /dev/stdin
-
 # dfs tmux workspace script
 if [ -f "$ZDOTDIR/scripts/dfs.sh" ]; then
   alias dfs="$ZDOTDIR/scripts/./dfs.sh"
@@ -264,6 +267,9 @@ fi
 # load nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# load luaver
+[ -s ~/.luaver/luaver ] && . ~/.luaver/luaver
 
 # Load zsh-autosuggestions plugin
 source $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
