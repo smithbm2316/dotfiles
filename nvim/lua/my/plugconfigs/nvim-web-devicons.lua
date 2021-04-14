@@ -20,5 +20,11 @@ require('nvim-web-devicons').setup {
       color = "#5cb85c",
       name = "Nunjucks",
     };
+    -- eventually add icons for folders!
+    --[[ ["*/"] = {
+      icon = "",
+      color = "#0fbfcf",
+      name = "Folder",
+    }; ]]
   };
 }

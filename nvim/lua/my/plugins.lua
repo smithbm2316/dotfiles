@@ -7,10 +7,18 @@ return require('packer').startup(function()
   -- *i used the packer.nvim to manage the packer.nvim* - thanos
   use { 'wbthomason/packer.nvim', opt = true }
 
-  -- ***** my local plugins *****
+  -----------------------------------------------------
+  ---
+  --- my local plugins
+  ---
+  -----------------------------------------------------
   use { '~/code/neovim/restful.nvim' }
 
-  -- ***** lua plugins :D *****
+  -----------------------------------------------------
+  ---
+  --- lua plugins :D 
+  ---
+  -----------------------------------------------------
   -- easier configuration for built-in neovim lsp
   use { 'neovim/nvim-lspconfig' }
 
@@ -26,6 +34,15 @@ return require('packer').startup(function()
   -- autopairs but better
   use { 'windwp/nvim-autopairs' }
 
+  -- gitgutter lua replacement
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = 'nvim-lua/plenary.nvim'
+  }
+
+  -- minimal statusline plugin
+  use { 'famiu/feline.nvim' }
+
   -- highlight and indent all the things
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -33,29 +50,24 @@ return require('packer').startup(function()
   }
 
   -- the best fuzzy finder :0
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'nvim-lua/popup.nvim',
-    }
-  }
-  
-  -- integration with github cli for telescope.nvim
-  use {
-    'nvim-telescope/telescope-github.nvim',
-    requires = 'nvim-telescope/telescope.nvim'
-  }
-
-  -- the best fuzzy finder, but my local version of it
   --[[ use {
-    '~/code/neovim/telescope.nvim',
+    'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-lua/popup.nvim',
     }
   } ]]
 
+  -- the best fuzzy finder, but my local version of it
+  use {
+    '~/code/neovim/telescope.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-lua/popup.nvim',
+    }
+  }
+  
+  -- markdown previewer in firefox
   use {
     'iamcco/markdown-preview.nvim',
     run = 'cd app && yarn install'
@@ -63,10 +75,17 @@ return require('packer').startup(function()
 
   -- tpope/vim-commentary lua replacement
   use { 'b3nj5m1n/kommentary' }
-
   
+  -----------------------------------------------------
+  ---
+  --- vimscript plugins
+  ---
+  -----------------------------------------------------
+  -- integration with github cli for telescope.nvim
+  use {
+    'nvim-telescope/telescope-github.nvim',
+  }
 
-  -- ***** vim plugins *****
   -- netrw replacement
   use { 
     'lambdalisue/fern-git-status.vim',
@@ -95,9 +114,6 @@ return require('packer').startup(function()
 
   -- interactive window resizer
   use { 'romgrk/winteract.vim' }
-
-  -- statusline
-  use { 'itchyny/lightline.vim' }
 
   -- remove lots of the vim frills when I want to write text
   use { 'junegunn/goyo.vim' }
@@ -131,9 +147,6 @@ return require('packer').startup(function()
   use { 'tpope/vim-surround' }
   use { 'tpope/vim-unimpaired' }
   use { 'tpope/vim-fugitive' }
-
-  -- git stuff
-  use { 'airblade/vim-gitgutter' }
 
   -- language plugins
   use { 'xuhdev/vim-latex-live-preview', ft = 'tex' }
