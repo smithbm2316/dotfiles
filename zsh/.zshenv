@@ -48,3 +48,6 @@ if [ "$(uname)" = "Linux" ]; then
     alias cal="ncal -b"
   fi
 fi
+
+# load luaver
+[ -s ~/.luaver/luaver ] && source ~/.luaver/luaver

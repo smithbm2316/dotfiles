@@ -4,11 +4,13 @@
 setopt AUTO_CD
 
 # setup keychain settings
-if [ "$(uname)" = "Linux" ]; then
-  eval $(keychain --eval --quiet id_ed25519_gh)
-elif [ "$(uname)" = "Darwin" ]; then
-  eval $(keychain --eval --quiet id_rsa id_rsa_gl)
-fi
+gkeys() {
+  if [ "$(uname)" = "Linux" ]; then
+    eval $(keychain --eval --quiet id_ed25519_gh)
+  elif [ "$(uname)" = "Darwin" ]; then
+    eval $(keychain --eval --quiet id_rsa id_rsa_gl)
+  fi
+}
 
 # auto-complete, use unique date for zcompdump files
 autoload -Uz compinit; compinit -d $ZDOTDIR/zcompdump/zcompdump-"$(date +%FT%T%z)"
@@ -115,13 +117,15 @@ shl() {
     eval ${cmd/file/.zhistory}
   elif [[ $1 == "scripts" ]]; then
     eval ${cmd/file/scripts}
+  elif [[ $1 == "." ]]; then
+    source $ZDOTDIR/.zshrc
   else
     echo "Invalid usage of shl command"
   fi
 }
 
 alias dots="cd ~/dotfiles"
-alias telecheck="luacheck --config ~/code/neovim/telescope.nvim/.luacheckrc ~/code/neovim/telescope.nvim/lua/telescope/*"
+alias tscheck="luacheck --config ~/code/neovim/telescope.nvim/.luacheckrc ~/code/neovim/telescope.nvim/lua/telescope/*"
 
 # short command for dumping links quickly and easily
 dump() {
@@ -267,9 +271,6 @@ fi
 # load nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-# load luaver
-[ -s ~/.luaver/luaver ] && . ~/.luaver/luaver
 
 # Load zsh-autosuggestions plugin
 source $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh

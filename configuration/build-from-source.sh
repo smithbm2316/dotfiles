@@ -31,14 +31,18 @@ if [ $(command -v dnf) ]; then
   systemctl enable emptty.service
   cd ..
 
+  # ------------------------------------------------------------
   # TMUX
+  # ------------------------------------------------------------
   # tmux plugin manager
   git clone https://github.com/tmux-plugins/tpm ~/dotfiles/tmux/plugins/tpm
   # open tmux and press `prefix + I` to install following plugins
   # tmux-resurrect: https://github.com/tmux-plugins/tmux-resurrect
   # tmux-continuum: https://github.com/tmux-plugins/tmux-continuum
 
+  # ------------------------------------------------------------
   # MANUAL RPM PACKAGES
+  # ------------------------------------------------------------
   # glow
   cd ~/downloads
   gh release download -R charmbracelet/glow -p "glow_*_linux_amd64.rpm"
@@ -56,7 +60,9 @@ if [ $(command -v dnf) ]; then
   chmod u+x nvim.appimage
   mv nvim.appimage /usr/local/bin/nvim
 
+  # ------------------------------------------------------------
   # NODE/NPM/YARN PACKAGES
+  # ------------------------------------------------------------
   # node version manager (nvm)
   cd ~/
   export NVM_DIR="$HOME/.nvm" && (
@@ -72,7 +78,9 @@ if [ $(command -v dnf) ]; then
   # yarn globals
   yarn add global svgo
 
+  # ------------------------------------------------------------
   # LUA SETUP
+  # ------------------------------------------------------------
   # luaver and lua 5.1.5
   git clone https://github.com/DhavalKapil/luaver.git ~/.luaver
   luaver install 5.1.5
@@ -90,6 +98,23 @@ if [ $(command -v dnf) ]; then
 
   # luacheck
   luarocks install luacheck
+
+  # ------------------------------------------------------------
+  # FIREFOX DEV EDITION
+  # ------------------------------------------------------------
+  curl -L "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
+  tar xpvjf firefox-*.bz2
+  mv firefox /opt/firefox-dev
+  ln -s /opt/firefox-dev/firefox /usr/local/bin/firefox-dev
+
+  # ------------------------------------------------------------
+  # GO DEPENDENCIES
+  # ------------------------------------------------------------
+  # boilit - neovim lua plugin boilerplate generator
+  go get -u -v github.com/gennaro-tedesco/boilit
+
+  # gopls language server
+  GO111MODULE=on go get golang.org/x/tools/gopls@latest
 
 elif [ $(command -v apt)  ]; then
   echo "Ubuntu/Debian-based system"
