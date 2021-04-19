@@ -36,10 +36,19 @@ require('telescope').setup{
         mirror = true,
       }
     },
+  },
+  extensions = {
+    fzf = {
+      override_generic_sorter = false,
+      override_file_sorter = true,
+      case_mode = "smart_case"
+    }
   }
 }
 -- require gh cli telescope integration
 require('telescope').load_extension('gh')
+-- require fzf extension for fzf sorting algorithm
+require('telescope').load_extension('fzf')
 
 -- stolen from Thorsten Ball's neovim config: https://github.com/mrnugget/vimconfig
 -- used to map a keybinding to a telescope builtin
@@ -92,7 +101,7 @@ map_tscustom('<leader>gb', 'git_branches_custom')
 
 -- telescope builtins mappings
 local rowselect_opts = { selection_strategy = 'row', hidden = true }
-map_tsbuiltin('<leader>lf', "file_browser", rowselect_opts )
+map_tsbuiltin('<leader>ld', "file_browser", rowselect_opts )
 map_tsbuiltin('<leader>of', "oldfiles")
 map_tsbuiltin('<leader>fc', "grep_string")
 map_tsbuiltin('<leader>fj', "find_files", { hidden = true })

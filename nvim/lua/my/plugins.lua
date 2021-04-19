@@ -40,9 +40,6 @@ return require('packer').startup(function()
     requires = 'nvim-lua/plenary.nvim'
   }
 
-  -- minimal statusline plugin
-  use { 'famiu/feline.nvim' }
-
   -- highlight and indent all the things
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -66,11 +63,16 @@ return require('packer').startup(function()
       'nvim-lua/popup.nvim',
     }
   }
-  
-  -- markdown previewer in firefox
+
+  -- integration with github cli for telescope.nvim
   use {
-    'iamcco/markdown-preview.nvim',
-    run = 'cd app && yarn install'
+    'nvim-telescope/telescope-github.nvim',
+  }
+
+  -- fzf sorting algorithm for telescope
+  use {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'make'
   }
 
   -- tpope/vim-commentary lua replacement
@@ -81,9 +83,10 @@ return require('packer').startup(function()
   --- vimscript plugins
   ---
   -----------------------------------------------------
-  -- integration with github cli for telescope.nvim
+  -- markdown previewer in firefox
   use {
-    'nvim-telescope/telescope-github.nvim',
+    'iamcco/markdown-preview.nvim',
+    run = 'cd app && yarn install'
   }
 
   -- netrw replacement

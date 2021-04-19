@@ -30,5 +30,6 @@ require('my.plugins') -- my plugin loader (uses packer.nvim)
 require('my.settings') -- my vim settings
 require('my.plugconfigs') -- my plugin-specific settings
 require('my.maps') -- my key mappings
+require('my.statusline') -- my statusline
 
 vim.cmd [[ autocmd! BufRead,BufNewFile *.conf,config,.ini setf dosini ]]
