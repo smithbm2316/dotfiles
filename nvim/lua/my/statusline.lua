@@ -92,7 +92,7 @@ statusline_hl('BufCurrent', colorscheme.fg, colorscheme.buf_current)
 statusline_hl('GitInfo', colorscheme.fg, colorscheme.git_info)
 
 -- function for retrieving the current mode
-function M.vi_mode()
+function M.statusline_vi_mode()
   local m = vim.api.nvim_get_mode().mode
   if mode_map[m] == nil then
     vim.api.nvim_exec(string.format('highlight StatuslineViMode guibg=%s', mode_colors['normal']), false)
@@ -106,7 +106,7 @@ function M.vi_mode()
 end
 
 -- git info
-local function git_info()
+local function statusline_git_info()
   local branch = vim.trim(vim.fn.system('git branch --show-current'))
   if string.match(branch, 'fatal') == nil then
     return '  ' .. branch .. ' '
@@ -121,10 +121,11 @@ local function component(hlgroup, item)
 end
 
 -- all components for the statusline in a lua table
+-- TODO: figure out how to make git branch info refresh on branch change
 local lua_statusline = {
-  component('StatuslineViMode', [[ %{luaeval("require('my.statusline').vi_mode()")} ]]),
+  component('StatuslineViMode', [[ %{luaeval("require('my.statusline').statusline_vi_mode()")} ]]),
   component('StatuslineBufCurrent', ' %t%m%r '),
-  component('StatuslineGitInfo', git_info()),
+  component('StatuslineGitInfo', statusline_git_info()),
   component('StatuslineEmptySpace', '%='),
   component('StatuslineObsession', '%{ObsessionStatus()}'),
   component('StatuslineFiletype', ' %y '),

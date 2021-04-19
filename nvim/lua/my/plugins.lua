@@ -50,22 +50,22 @@ return require('packer').startup(function()
   }
 
   -- the best fuzzy finder :0
-  --[[ use {
+  use {
     'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-lua/popup.nvim',
     }
-  } ]]
+  }
 
   -- the best fuzzy finder, but my local version of it
-  use {
+  --[[ use {
     '~/code/neovim/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-lua/popup.nvim',
     }
-  }
+  } ]]
 
   -- integration with github cli for telescope.nvim
   use {
@@ -89,11 +89,35 @@ return require('packer').startup(function()
   -- markdown previewer in firefox
   use {
     'iamcco/markdown-preview.nvim',
-    run = 'cd app && yarn install'
+    run = 'cd app && yarn install',
+    config = function()
+      -- Set default browser to open in
+      vim.g.mkdp_browser = 'firefox'
+      -- Print the preview url in the command line output
+      vim.g.mkdp_echo_preview_url = 1
+      -- Start markdown preview server on port 5000
+      vim.g.mkdp_port = 5000
+      -- markdown preview toggle
+      vim.api.nvim_set_keymap('n', '<leader>mp', ':MarkdownPreviewToggle<cr>', { noremap = true })
+    end,
   }
 
   -- netrw replacement
-  use { 
+  -- use {
+    -- 'lambdalisue/fern.vim',
+    -- config = function()
+      -- vim.api.nvim_exec([[
+        -- let g:fern#renderer = "nerdfont"
+        -- augroup my-glyph-palette
+          -- autocmd! *
+          -- autocmd FileType fern call glyph_palette#apply()
+        -- augroup END
+        -- autocmd FileType fern set nonumber norelativenumber
+      -- ]], false)
+    -- end,
+  -- }
+  
+  --[[ use { 
     'lambdalisue/fern-git-status.vim',
     requires = 'lambdalisue/fern.vim'
   }
@@ -110,7 +134,10 @@ return require('packer').startup(function()
   use {
     'lambdalisue/fern-hijack.vim',
     requires = 'lambdalisue/fern.vim'
-  }
+  } ]]
+
+  -- lua 5.1 manual in vim docs
+  use { 'smithbm2316/luarefvim' }
 
   -- Makes f/F and t/T searching better!
   use { 'rhysd/clever-f.vim' }
@@ -119,7 +146,12 @@ return require('packer').startup(function()
   use { 'wellle/targets.vim' }
 
   -- interactive window resizer
-  use { 'romgrk/winteract.vim' }
+  use {
+    'romgrk/winteract.vim',
+    config = function()
+      vim.api.nvim_set_keymap('n', '<leader>wi', ':InteractiveWindow<cr>', { noremap = true })
+    end,
+  }
 
   -- remove lots of the vim frills when I want to write text
   use { 'junegunn/goyo.vim' }
@@ -131,13 +163,30 @@ return require('packer').startup(function()
   use { 'kyazdani42/nvim-web-devicons' }
 
   -- a reminder of what my leader remaps are
-  use { 'liuchengxu/vim-which-key' }
+  use {
+    'liuchengxu/vim-which-key',
+    config = function()
+      vim.api.nvim_set_keymap('n', '<leader>', ":WhichKey '<leader>'<cr>", { noremap = true, silent = true })
+    end,
+  }
 
   -- pretty css colors everywhere
-  use { 'RRethy/vim-hexokinase', run = 'make' }
+  use {
+    'RRethy/vim-hexokinase',
+    run = 'make',
+    config = function()
+      vim.g.Hexokinase_optInPatterns = 'full_hex,rgb,rgba,hsl,hsla'
+    end,
+  }
 
   -- make editing html a tolerable experience
-  use { 'alvan/vim-closetag', ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' } }
+  use {
+    'alvan/vim-closetag',
+    ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' },
+    config = function()
+      vim.g.closetag_filenames = '*.html, *.xml, *.jsx, *.js, *.ts, *.tsx, *.svelte, *.vue'
+    end,
+  }
   use { 'AndrewRadev/tagalong.vim', ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' } }
 
   -- for automatic list bulleting when writing markdown or plaintext
@@ -147,12 +196,17 @@ return require('packer').startup(function()
   use { 'mbbill/undotree' }
 
   -- tpope's blessings to vimmers everywhere
-  use { 'tpope/vim-endwise', ft = { 'lua', 'vim', 'bash', 'zsh', 'sh', 'rb' } }
   use { 'tpope/vim-obsession' }
   use { 'tpope/vim-repeat' }
   use { 'tpope/vim-surround' }
   use { 'tpope/vim-unimpaired' }
-  use { 'tpope/vim-fugitive' }
+  use {
+    'tpope/vim-fugitive',
+    config = function()
+      vim.api.nvim_set_keymap('n', '<leader>gd', ':Gdiffsplit<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>sg', ':Git<cr>', { noremap = true, silent = true })
+    end,
+  }
 
   -- language plugins
   use { 'xuhdev/vim-latex-live-preview', ft = 'tex' }
@@ -164,7 +218,16 @@ return require('packer').startup(function()
   use { 'romainl/vim-devdocs' }
 
   -- extra text object for copy/pasting to the system clipboard, its soo good
-  use { 'christoomey/vim-system-copy' }
+  use {
+    'christoomey/vim-system-copy',
+    config = function()
+      vim.api.nvim_exec([[
+        let g:system_copy#copy_command = 'xclip -sel clipboard'
+        let g:system_paste#paste_command = 'xclip -sel clipboard -o'
+        let g:system_copy_silent = 1
+      ]], false)
+    end,
+  }
 
   -- more useful text objects
   use { 'kana/vim-textobj-user' }
