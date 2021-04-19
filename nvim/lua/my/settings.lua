@@ -60,6 +60,7 @@ o.wildoptions = 'pum'
 wo.foldmethod = 'manual'
 wo.relativenumber = true
 wo.number = true
+wo.signcolumn = 'yes' -- make sure this is on for gitsigns.nvim, otherwise the signcolumn changes size constantly
 wo.wrap = false
 
 -- Autocmds

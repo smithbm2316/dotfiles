@@ -29,6 +29,6 @@ require('compe').setup {
 }
 
 vim.cmd [[
-inoremap <silent><expr><C-f> compe#scroll({ 'delta': +4 })
+inoremap <silent><expr><C-u> compe#scroll({ 'delta': +4 })
 inoremap <silent><expr><C-d> compe#scroll({ 'delta': -4 })
 ]]

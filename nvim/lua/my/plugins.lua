@@ -80,6 +80,9 @@ return require('packer').startup(function()
 
   -- tpope/vim-commentary lua replacement
   use { 'b3nj5m1n/kommentary' }
+
+  -- scratchpad/repl playground for lua
+  use { 'rafcamlet/nvim-luapad' }
   
   -----------------------------------------------------
   ---

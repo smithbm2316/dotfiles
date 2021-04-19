@@ -1,34 +1,32 @@
 require('nvim-autopairs').setup({
-	html_break_line_filetype = {
-		'html',
-		'javascript',
-		'javascriptreact',
-		'typescript',
-		'typescriptreact',
-		'svelte',
-		'vue',
-	},
-  break_line_filetype = nil,
+  disable_filetype = { "TelescopePrompt", "vim" },
+  ignored_next_char = "[%w%.]",
 })
 
--- skip it, if you use another global object
 local npairs = require('nvim-autopairs')
+npairs.setup()
+local endwise = require('nvim-autopairs.ts-rule').endwise
+
+-- replacement for tpope/vim-endwise for Lua
+--[[ npairs.add_rules({
+  endwise('then$', 'end', 'lua', 'if_statement'),
+  endwise('function.+%)$', 'end', 'lua', 'function_definition'),
+  endwise(' do$', 'end', 'lua', 'while_statement'),
+  endwise(' do$', 'end', 'lua', 'for_statement'),
+}) ]]
+
 _G.MUtils= {}
 
 vim.g.completion_confirm_key = ""
 MUtils.completion_confirm=function()
   if vim.fn.pumvisible() ~= 0  then
     if vim.fn.complete_info()["selected"] ~= -1 then
-      vim.fn["compe#confirm"]()
-      return npairs.esc("<c-y>")
+      return vim.fn["compe#confirm"](npairs.esc("<c-r>"))
     else
-      vim.defer_fn(function()
-        vim.fn["compe#confirm"]("<cr>")
-      end, 20)
-      return npairs.esc("<c-n>")
+      return npairs.esc("<cr>")
     end
   else
-    return npairs.check_break_line_char()
+    return npairs.autopairs_cr()
   end
 end
 
