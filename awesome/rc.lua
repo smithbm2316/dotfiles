@@ -101,9 +101,11 @@ myawesomemenu = {
   { 'manual', terminal .. ' -e man awesome' },
   { 'edit config', editor_cmd .. ' ' .. awesome.conffile },
   { 'lock', function() awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/pictures/retrowave-landscape/retrowave1.png"') end },
-  { 'suspend', function() awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/pictures/retrowave-landscape/retrowave1.png" && systemctl suspend') end },
+  { 'suspend', function() awful.spawn.with_shell('systemctl suspend') end },
   { 'restart', awesome.restart },
   { 'quit', function() awesome.quit() end },
+  { 'shutdown', function() awful.spawn.with_shell('shutdown now') end },
+  { 'restart', function() awful.spawn.with_shell('reboot') end },
 }
 
 local menu_awesome = { 'awesome', myawesomemenu, beautiful.awesome_icon }
@@ -461,7 +463,7 @@ globalkeys = gears.table.join(
   -- Suspend
   awful.key({ modkey, 'Control' }, 'q',
     function()
-      awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/pictures/retrowave-landscape/retrowave1.png" && systemctl suspend')
+      awful.spawn.with_shell('systemctl suspend')
     end,
     {description = 'lock', group = 'awesome'}),
 

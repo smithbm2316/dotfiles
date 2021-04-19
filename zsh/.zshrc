@@ -3,15 +3,6 @@
 # zsh magic :)
 setopt AUTO_CD
 
-# setup keychain settings
-gkeys() {
-  if [ "$(uname)" = "Linux" ]; then
-    eval $(keychain --eval --quiet id_ed25519_gh)
-  elif [ "$(uname)" = "Darwin" ]; then
-    eval $(keychain --eval --quiet id_rsa id_rsa_gl)
-  fi
-}
-
 # auto-complete, use unique date for zcompdump files
 autoload -Uz compinit; compinit -d $ZDOTDIR/zcompdump/zcompdump-"$(date +%FT%T%z)"
 zstyle ':completion:*' menu select

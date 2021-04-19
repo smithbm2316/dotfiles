@@ -37,8 +37,14 @@ export PATH="$GOEXEC:$PATH"
 export PATH="$LOCALBIN:$PATH"
 export PATH="$YARNBIN:$PATH"
 
-# Debian settings
+# Linux settings
 if [ "$(uname)" = "Linux" ]; then
+  # setup keychain settings if not in tmux
+  if [ -z "$TMUX" ]; then
+    eval $(keychain --eval --quiet id_ed25519_gh)
+  fi
+
+  # Debian settings
   if [ -f "/etc/debian_version" ]; then
     # Set `bat` as default man pager
     alias bat="batcat"
@@ -46,6 +52,12 @@ if [ "$(uname)" = "Linux" ]; then
     alias fd="fdfind"
     # Alias for ncal to use normal month formatting
     alias cal="ncal -b"
+  fi
+# Mac settings
+elif [ "$(uname)" = "Darwin" ]; then
+  # setup keychain settings if not in tmux
+  if [ -z "$TMUX" ]; then
+    eval $(keychain --eval --quiet id_rsa id_rsa_gl)
   fi
 fi
 
