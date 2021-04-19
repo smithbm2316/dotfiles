@@ -40,6 +40,9 @@ return require('packer').startup(function()
     requires = 'nvim-lua/plenary.nvim'
   }
 
+  -- format code with external tools
+  use { 'mhartington/formatter.nvim' }
+
   -- highlight and indent all the things
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -159,9 +162,6 @@ return require('packer').startup(function()
 
   -- easy access to devdocs.io while in vim
   use { 'romainl/vim-devdocs' }
-
-  -- format my html and javascript code for me please, i'm lazy
-  use { 'prettier/vim-prettier', run = 'yarn install', ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' } }
 
   -- extra text object for copy/pasting to the system clipboard, its soo good
   use { 'christoomey/vim-system-copy' }

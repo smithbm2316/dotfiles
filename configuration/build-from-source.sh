@@ -116,6 +116,9 @@ if [ $(command -v dnf) ]; then
   # gopls language server
   GO111MODULE=on go get golang.org/x/tools/gopls@latest
 
+  # efm-language server
+  go get github.com/mattn/efm-langserver
+
 elif [ $(command -v apt)  ]; then
   echo "Ubuntu/Debian-based system"
 
