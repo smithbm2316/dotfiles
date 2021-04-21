@@ -79,10 +79,17 @@ return require('packer').startup(function()
   }
 
   -- tpope/vim-commentary lua replacement
-  use { 'b3nj5m1n/kommentary' }
+  -- use { 'b3nj5m1n/kommentary' }
+  use { 'terrortylor/nvim-comment' }
 
   -- scratchpad/repl playground for lua
   use { 'rafcamlet/nvim-luapad' }
+
+  -- replacement for goyo.vim, allows for making UI elements disappear/centering file in window
+  use { 'kdav5758/TrueZen.nvim' }
+
+  -- replacement for alvan/vim-closetag and AndrewRadev/tagalong.vim
+  use { 'windwp/nvim-ts-autotag' }
   
   -----------------------------------------------------
   ---
@@ -157,7 +164,7 @@ return require('packer').startup(function()
   }
 
   -- remove lots of the vim frills when I want to write text
-  use { 'junegunn/goyo.vim' }
+  -- use { 'junegunn/goyo.vim' }
 
   -- runs :noh whenever the mouse cursor is moved 
   use { 'junegunn/vim-slash' }
@@ -183,14 +190,14 @@ return require('packer').startup(function()
   }
 
   -- make editing html a tolerable experience
-  use {
+  --[[ use {
     'alvan/vim-closetag',
     ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' },
     config = function()
       vim.g.closetag_filenames = '*.html, *.xml, *.jsx, *.js, *.ts, *.tsx, *.svelte, *.vue'
     end,
   }
-  use { 'AndrewRadev/tagalong.vim', ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' } }
+  use { 'AndrewRadev/tagalong.vim', ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' } } ]]
 
   -- for automatic list bulleting when writing markdown or plaintext
   use { 'dkarter/bullets.vim', ft = { 'markdown', 'text', 'latex' } }

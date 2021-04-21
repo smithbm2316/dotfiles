@@ -1,5 +1,3 @@
-local M = {}
-
 -- table of possible vi_modes
 local mode_map = {
   ['n'] = 'normal',
@@ -92,27 +90,40 @@ statusline_hl('BufCurrent', colorscheme.fg, colorscheme.buf_current)
 statusline_hl('GitInfo', colorscheme.fg, colorscheme.git_info)
 
 -- function for retrieving the current mode
-function M.statusline_vi_mode()
+local function vi_mode()
   local m = vim.api.nvim_get_mode().mode
   if mode_map[m] == nil then
     vim.api.nvim_exec(string.format('highlight StatuslineViMode guibg=%s', mode_colors['normal']), false)
-    return m
+    return string.format(' %s ', m)
   else
     vim.api.nvim_exec(string.format('highlight StatuslineViMode guibg=%s', mode_colors[mode_map[m]]), false)
-    --[[ local mode_highlight = vim.api.nvim_exec('highlight StatuslineMode', true)
-    print(vim.trim(mode_highlight))  ]]
-    return mode_map[m]
+    return string.format(' %s ', mode_map[m])
   end
 end
 
--- git info
-local function statusline_git_info()
-  local branch = vim.trim(vim.fn.system('git branch --show-current'))
-  if string.match(branch, 'fatal') == nil then
-    return '  ' .. branch .. ' '
+-- git info from gitsigns
+local function gitsigns_info()
+  local branch = vim.b.gitsigns_head
+  local diff = vim.b.gitsigns_status
+  if branch then
+    if diff ~= '' then
+      return string.format('  %s | %s ', branch, diff)
+    else
+      return string.format('  %s ', branch)
+    end
   else
     return ''
   end
+end
+
+-- filetype and filename info with icons
+local function file_icon()
+  local bufpath = vim.api.nvim_buf_get_name(0)
+  local bufname = string.match(bufpath, '/([^/]+)$') or ''
+  local ft = vim.api.nvim_buf_get_option(0, 'filetype') or ''
+  local icon = require('nvim-web-devicons').get_icon(bufname, ft, { default = true }) or ''
+
+  return icon
 end
 
 -- wrapper for formatting a component for the statusline
@@ -121,19 +132,40 @@ local function component(hlgroup, item)
 end
 
 -- all components for the statusline in a lua table
--- TODO: figure out how to make git branch info refresh on branch change
-local lua_statusline = {
-  component('StatuslineViMode', [[ %{luaeval("require('my.statusline').statusline_vi_mode()")} ]]),
-  component('StatuslineBufCurrent', ' %t%m%r '),
-  component('StatuslineGitInfo', statusline_git_info()),
-  component('StatuslineEmptySpace', '%='),
-  component('StatuslineObsession', '%{ObsessionStatus()}'),
-  component('StatuslineFiletype', ' %y '),
-  component('StatuslineLinesColumns', '[%l/%L] [%c] '),
-}
+-- TODO: figure out how to make icons and gitinfo work for separated windows
+function statusline_active()
+  local bufname = vim.api.nvim_exec("echo expand('%:t')", true)
+  local ft = vim.api.nvim_exec("echo &ft", true)
+  local icon = require('nvim-web-devicons').get_icon(bufname, ft, { default = true }) or ''
+
+  local statusline_tbl = {
+    component('StatuslineViMode', vi_mode()),
+    component('StatuslineBufCurrent', string.format(' %s %s ', icon, '%t%m')),
+    component('StatuslineGitInfo', gitsigns_info()),
+    component('StatuslineEmptySpace', '%='),
+    component('StatuslineObsession', '%{ObsessionStatus()}'),
+    component('StatuslineFiletype', string.format(' [%s %s] ', icon, '%Y')),
+    component('StatuslineLinesColumns', '[%l/%L] [%c] '),
+  }
+  return table.concat(statusline_tbl)
+end
+
+function statusline_inactive()
+  local statusline_tbl = {
+    string.format(' %s %s ', file_icon(), '%t%m'),
+    '%=',
+    '%{ObsessionStatus()}',
+    string.format(' [%s %s] ', file_icon(), '%Y'),
+    '[%l/%L] [%c] ',
+  }
+  return table.concat(statusline_tbl)
+end
 
 -- set statusline to concatenated table from above
-vim.o.statusline = table.concat(lua_statusline)
-
--- return the M table so that the vi_mode() function is available globally
-return M
+vim.api.nvim_exec([[
+  augroup Statusline
+    autocmd!
+    autocmd BufEnter * setlocal statusline=%!v:lua.statusline_active()
+    autocmd BufLeave * setlocal statusline=%!v:lua.statusline_inactive()
+  augroup END
+]], false)

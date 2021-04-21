@@ -44,9 +44,9 @@ map('n', 'gh', ':help ', options)
 map('v', 'gh', ':help ', options)
 
 -- Search Globally: same as %s/
-map('n', '<leader>sg', ':%s/', options)
+-- map('n', '<leader>sg', ':%s/', options)
 map('n', 'gs', ':%s/', options)
-map('v', '<leader>sg', ':%s/', options)
+-- map('v', '<leader>sg', ':%s/', options)
 map('v', 'gs', ':%s/', options)
 -- Search Line: same as s/
 map('n', '<leader>sl', ':s/', options)
@@ -63,8 +63,8 @@ map('v', '<leader>svg', ':%s/\\v', options)
 -- Turn off search highlighting after finishing a search (nohlsearch)
 map('n', '<leader>hl', ':noh<cr>', options)
 
--- Goyo: Toggle Goyo on/off
-map('n', '<leader>gy', ':Goyo<cr>', options)
+-- Toggle Zen Mode
+map('n', '<leader>z', ':TZAtaraxis<cr>', options)
 
 -- Fold Here: toggle a fold the cursor is currently in
 map('n', '<leader>fh', 'za', options)
