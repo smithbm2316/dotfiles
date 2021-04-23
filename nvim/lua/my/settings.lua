@@ -71,4 +71,3 @@ cmd 'autocmd TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- 
 o.termguicolors = true
 o.laststatus = 2
 o.background = 'dark'
--- cmd [[ colorscheme laserwave ]]

@@ -178,9 +178,6 @@ return require('packer').startup(function()
     end,
   }
 
-  -- remove lots of the vim frills when I want to write text
-  -- use { 'junegunn/goyo.vim' }
-
   -- runs :noh whenever the mouse cursor is moved 
   use { 'junegunn/vim-slash' }
 
@@ -203,16 +200,6 @@ return require('packer').startup(function()
       vim.g.Hexokinase_optInPatterns = 'full_hex,rgb,rgba,hsl,hsla'
     end,
   }
-
-  -- make editing html a tolerable experience
-  --[[ use {
-    'alvan/vim-closetag',
-    ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' },
-    config = function()
-      vim.g.closetag_filenames = '*.html, *.xml, *.jsx, *.js, *.ts, *.tsx, *.svelte, *.vue'
-    end,
-  }
-  use { 'AndrewRadev/tagalong.vim', ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' } } ]]
 
   -- for automatic list bulleting when writing markdown or plaintext
   use {
@@ -237,7 +224,6 @@ return require('packer').startup(function()
   }
 
   -- language plugins
-  -- 'xuhdev/vim-latex-live-preview',
   use {
     'conornewton/vim-latex-preview',
     ft = 'tex',
