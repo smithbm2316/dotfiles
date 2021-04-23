@@ -86,11 +86,26 @@ return require('packer').startup(function()
   use { 'rafcamlet/nvim-luapad' }
 
   -- replacement for goyo.vim, allows for making UI elements disappear/centering file in window
-  use { 'kdav5758/TrueZen.nvim' }
+  use {
+    'kdav5758/TrueZen.nvim',
+    config = function()
+      vim.api.nvim_set_keymap('n', '<leader>z', ':TZAtaraxis<cr>', { noremap = true })
+    end
+  }
 
   -- replacement for alvan/vim-closetag and AndrewRadev/tagalong.vim
   use { 'windwp/nvim-ts-autotag' }
+
+  -- tokyo night colorscheme for fun
+  use {
+    'folke/tokyonight.nvim',
+  }
   
+  -- nice and easy to use statusline
+  use {
+    'hoob3rt/lualine.nvim',
+  }
+
   -----------------------------------------------------
   ---
   --- vimscript plugins
@@ -108,7 +123,7 @@ return require('packer').startup(function()
       -- Start markdown preview server on port 5000
       vim.g.mkdp_port = 5000
       -- markdown preview toggle
-      vim.api.nvim_set_keymap('n', '<leader>mp', ':MarkdownPreviewToggle<cr>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<leader>pm', ':MarkdownPreviewToggle<cr>', { noremap = true })
     end,
   }
 
@@ -147,7 +162,7 @@ return require('packer').startup(function()
   } ]]
 
   -- lua 5.1 manual in vim docs
-  use { 'smithbm2316/luarefvim' }
+  use { 'bfredl/luarefvim' }
 
   -- Makes f/F and t/T searching better!
   use { 'rhysd/clever-f.vim' }
@@ -200,7 +215,10 @@ return require('packer').startup(function()
   use { 'AndrewRadev/tagalong.vim', ft = { 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'nunjucks' } } ]]
 
   -- for automatic list bulleting when writing markdown or plaintext
-  use { 'dkarter/bullets.vim', ft = { 'markdown', 'text', 'latex' } }
+  use {
+    'dkarter/bullets.vim',
+    ft = { 'markdown', 'text', 'latex' },
+  }
 
   -- useful for visualizing undos
   use { 'mbbill/undotree' }
@@ -219,7 +237,16 @@ return require('packer').startup(function()
   }
 
   -- language plugins
-  use { 'xuhdev/vim-latex-live-preview', ft = 'tex' }
+  -- 'xuhdev/vim-latex-live-preview',
+  use {
+    'conornewton/vim-latex-preview',
+    ft = 'tex',
+    config = function()
+      vim.api.nvim_set_keymap('n', '<leader>pl', ':StartLatexPreview<cr>', { noremap = true })
+      vim.g.latex_pdf_viewer = 'evince'
+      vim.g.latex_engine = 'pdflatex'
+    end,
+  }
 
   -- blur the lines between vim and tmux
   use { 'christoomey/vim-tmux-navigator' }
