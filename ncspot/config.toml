@@ -50,13 +50,14 @@ repeat = true
 "Shift+n" = "jump previous"
 "Shift+o" = "open current"
 "Shift+p" = "move playing"
-"Shift+q" = "quit"
+"Shift+q" = "queue"
 "Shift+s" = "save"
 "Shift+u" = "update"
 "Shift+x" = "share selected"
 
 "Ctrl+a" = "focus cover"
 "Ctrl+b" = "move up 10"
+"Ctrl+c" = "quit"
 "Ctrl+d" = "move down 5"
 "Ctrl+f" = "move down 10"
 "Ctrl+j" = "shift down 5"
@@ -66,7 +67,6 @@ repeat = true
 "Ctrl+s" = "focus search"
 "Ctrl+u" = "move up 5"
 "Ctrl+v" = "insert"
-"Ctrl+Space" = "queue"
 
 [theme]
 # theme using terminal's colors

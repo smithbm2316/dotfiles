@@ -76,7 +76,7 @@ altkey = 'Mod1'
 awful.layout.layouts = {
   awful.layout.suit.tile.left,
   awful.layout.suit.max,
-  awful.layout.suit.tile,
+  -- awful.layout.suit.tile,
   -- awful.layout.suit.tile,
   -- awful.layout.suit.floating,
   -- awful.layout.suit.fair,
@@ -102,10 +102,10 @@ myawesomemenu = {
   { 'edit config', editor_cmd .. ' ' .. awesome.conffile },
   { 'lock', function() awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/pictures/retrowave-landscape/retrowave1.png"') end },
   { 'suspend', function() awful.spawn.with_shell('systemctl suspend') end },
-  { 'restart', awesome.restart },
-  { 'quit', function() awesome.quit() end },
+  { 'reload', awesome.restart },
+  { 'logout', function() awesome.quit() end },
   { 'shutdown', function() awful.spawn.with_shell('shutdown now') end },
-  { 'restart', function() awful.spawn.with_shell('reboot') end },
+  { 'reboot', function() awful.spawn.with_shell('reboot') end },
 }
 
 local menu_awesome = { 'awesome', myawesomemenu, beautiful.awesome_icon }
