@@ -79,8 +79,7 @@ return require('packer').startup(function()
   }
 
   -- tpope/vim-commentary lua replacement
-  -- use { 'b3nj5m1n/kommentary' }
-  use { 'terrortylor/nvim-comment' }
+  use { 'b3nj5m1n/kommentary' }
 
   -- scratchpad/repl playground for lua
   use { 'rafcamlet/nvim-luapad' }
@@ -104,6 +103,25 @@ return require('packer').startup(function()
   -- nice and easy to use statusline
   use {
     'hoob3rt/lualine.nvim',
+  }
+
+  -- magit clone for neovim
+  use {
+    'TimUntersberger/neogit',
+    requires = 'nvim-lua/plenary.nvim',
+    config = function()
+      require('neogit').setup()
+    end,
+  }
+
+  -- vim-surround/vim-sandwich replacement
+  use {
+    "blackCauldron7/surround.nvim",
+    config = function()
+      require('surround').setup{}
+      vim.g.surround_mappings_style = 'sandwich'
+      vim.g.surround_load_keymaps = true
+    end
   }
 
   -----------------------------------------------------
@@ -213,15 +231,15 @@ return require('packer').startup(function()
   -- tpope's blessings to vimmers everywhere
   use { 'tpope/vim-obsession' }
   use { 'tpope/vim-repeat' }
-  use { 'tpope/vim-surround' }
-  use { 'tpope/vim-unimpaired' }
-  use {
-    'tpope/vim-fugitive',
-    config = function()
-      vim.api.nvim_set_keymap('n', '<leader>gd', ':Gdiffsplit<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<leader>sg', ':Git<cr>', { noremap = true, silent = true })
-    end,
-  }
+  -- use { 'tpope/vim-surround' }
+  -- use { 'tpope/vim-unimpaired' }
+  -- use {
+  --   'tpope/vim-fugitive',
+  --   config = function()
+  --     vim.api.nvim_set_keymap('n', '<leader>gd', ':Gdiffsplit<cr>', { noremap = true, silent = true })
+  --     vim.api.nvim_set_keymap('n', '<leader>sg', ':Git<cr>', { noremap = true, silent = true })
+  --   end,
+  -- }
 
   -- language plugins
   use {
