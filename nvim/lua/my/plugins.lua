@@ -114,16 +114,6 @@ return require('packer').startup(function()
     end,
   }
 
-  -- vim-surround/vim-sandwich replacement
-  use {
-    "blackCauldron7/surround.nvim",
-    config = function()
-      require('surround').setup{}
-      vim.g.surround_mappings_style = 'sandwich'
-      vim.g.surround_load_keymaps = true
-    end
-  }
-
   -----------------------------------------------------
   ---
   --- vimscript plugins
@@ -231,7 +221,7 @@ return require('packer').startup(function()
   -- tpope's blessings to vimmers everywhere
   use { 'tpope/vim-obsession' }
   use { 'tpope/vim-repeat' }
-  -- use { 'tpope/vim-surround' }
+  use { 'tpope/vim-surround' }
   -- use { 'tpope/vim-unimpaired' }
   -- use {
   --   'tpope/vim-fugitive',
