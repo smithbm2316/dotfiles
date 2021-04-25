@@ -46,7 +46,7 @@ return require('packer').startup(function()
   -- highlight and indent all the things
   use {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSInstall css html javascript typescript tsx bash go c cpp lua python json yaml haskell'
+    run = ':TSUpdate',
   }
 
   -- the best fuzzy finder :0
@@ -81,6 +81,9 @@ return require('packer').startup(function()
   -- tpope/vim-commentary lua replacement
   use { 'b3nj5m1n/kommentary' }
 
+  -- pretty icons for nerd fonts
+  use { 'kyazdani42/nvim-web-devicons' }
+
   -- scratchpad/repl playground for lua
   use { 'rafcamlet/nvim-luapad' }
 
@@ -105,13 +108,9 @@ return require('packer').startup(function()
     'hoob3rt/lualine.nvim',
   }
 
-  -- magit clone for neovim
+  -- better quickfix window
   use {
-    'TimUntersberger/neogit',
-    requires = 'nvim-lua/plenary.nvim',
-    config = function()
-      require('neogit').setup()
-    end,
+    'kevinhwang91/nvim-bqf',
   }
 
   -----------------------------------------------------
@@ -172,9 +171,6 @@ return require('packer').startup(function()
   -- lua 5.1 manual in vim docs
   use { 'bfredl/luarefvim' }
 
-  -- Makes f/F and t/T searching better!
-  use { 'rhysd/clever-f.vim' }
-
   -- MOAR TEXT OBJECTS!!
   use { 'wellle/targets.vim' }
 
@@ -187,10 +183,12 @@ return require('packer').startup(function()
   }
 
   -- runs :noh whenever the mouse cursor is moved 
-  use { 'junegunn/vim-slash' }
-
-  -- pretty icons for nerd fonts
-  use { 'kyazdani42/nvim-web-devicons' }
+  use {
+    'junegunn/vim-slash',
+    config = function()
+      vim.cmd 'noremap <plug>(slash-after) zz'
+    end,
+  }
 
   -- a reminder of what my leader remaps are
   use {
@@ -220,16 +218,15 @@ return require('packer').startup(function()
 
   -- tpope's blessings to vimmers everywhere
   use { 'tpope/vim-obsession' }
-  use { 'tpope/vim-repeat' }
   use { 'tpope/vim-surround' }
-  -- use { 'tpope/vim-unimpaired' }
-  -- use {
-  --   'tpope/vim-fugitive',
-  --   config = function()
-  --     vim.api.nvim_set_keymap('n', '<leader>gd', ':Gdiffsplit<cr>', { noremap = true, silent = true })
-  --     vim.api.nvim_set_keymap('n', '<leader>sg', ':Git<cr>', { noremap = true, silent = true })
-  --   end,
-  -- }
+  use { 'tpope/vim-repeat' }
+  use {
+    'tpope/vim-fugitive',
+    config = function()
+      vim.api.nvim_set_keymap('n', '<leader>gd', ':Gdiffsplit<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>sg', ':tabnew +vert\\ Git<cr>', { noremap = true, silent = true })
+    end,
+  }
 
   -- language plugins
   use {
@@ -265,11 +262,7 @@ return require('packer').startup(function()
   use { 'coachshea/vim-textobj-markdown' }
   use { 'Julian/vim-textobj-variable-segment' }
 
-  -- use a motion before pasting from my register
-  use { 'vim-scripts/ReplaceWithRegister' }
-
   -- Syntax highlighting plugin
   use { 'linkinpark342/xonsh-vim', ft = 'xonsh' }
-  use { 'cespare/vim-toml' }
 
 end)

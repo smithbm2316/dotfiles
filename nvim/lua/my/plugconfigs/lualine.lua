@@ -1,3 +1,5 @@
+local function vim_obsession() return vim.fn.ObsessionStatus(" session", "") end
+
 require('lualine').setup{
   options = {
     theme = 'tokyonight',
@@ -10,7 +12,7 @@ require('lualine').setup{
     lualine_a = {'mode'},
     lualine_b = {'filename'},
     lualine_c = {'branch'},
-    lualine_x = {'encoding'},
+    lualine_x = {vim_obsession},
     lualine_y = {'filetype'},
     lualine_z = {'location'},
   },

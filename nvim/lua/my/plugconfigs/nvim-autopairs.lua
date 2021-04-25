@@ -8,12 +8,12 @@ npairs.setup()
 local endwise = require('nvim-autopairs.ts-rule').endwise
 
 -- replacement for tpope/vim-endwise for Lua
---[[ npairs.add_rules({
-  endwise('then$', 'end', 'lua', 'if_statement'),
-  endwise('function.+%)$', 'end', 'lua', 'function_definition'),
-  endwise(' do$', 'end', 'lua', 'while_statement'),
-  endwise(' do$', 'end', 'lua', 'for_statement'),
-}) ]]
+-- npairs.add_rules({
+--   endwise('then$', 'end', 'lua', 'if_statement'),
+--   endwise('function.+%)$', 'end', 'lua', 'function_definition'),
+--   endwise(' do$', 'end', 'lua', 'while_statement'),
+--   endwise(' do$', 'end', 'lua', 'for_statement'),
+-- })
 
 _G.MUtils= {}
 

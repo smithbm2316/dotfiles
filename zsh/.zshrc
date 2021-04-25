@@ -116,7 +116,7 @@ shl() {
 }
 
 alias dots="cd ~/dotfiles"
-alias tscheck="luacheck --config ~/code/neovim/telescope.nvim/.luacheckrc ~/code/neovim/telescope.nvim/lua/telescope/*"
+alias tscheck="luacheck --config ~/code/neovim/telescope.nvim/.luacheckrc lua/telescope/*"
 
 # short command for dumping links quickly and easily
 dump() {
