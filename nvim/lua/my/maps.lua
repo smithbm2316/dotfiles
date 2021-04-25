@@ -1,12 +1,12 @@
 -- Aliases for Lua API functions
 local map = vim.api.nvim_set_keymap
-local cmd = vim.cmd
 -- Use the no recursive remapping for all remaps
 options = { noremap = true }
 
--- delete without yanking
+-- swap to alternate file
 map('n', 'gp', '<c-^>', options)
 map('v', 'gp', '<c-^>', options)
+
 -- delete without yanking
 map('n', '<leader>d', '"_d', options)
 map('v', '<leader>d', '"_d', options)
@@ -19,23 +19,24 @@ map('n', 'Y', 'y$', options)
 map('v', 'Y', 'y$', options)
 
 -- remap : to be easier to use, less work for your poor left pinky
-map('n', 'go', ':', options)
-map('v', 'go', ':', options)
 map('n', ';', ':', options)
 map('v', ';', ':', options)
--- remap q: to be easier to use, less work for your poor left pinky
-map('n', 'gl', 'q:', options)
-map('v', 'gl', 'q:', options)
--- remap :h to be easier to use, less work for your poor left pinky
-map('n', 'gh', ':help ', options)
-map('v', 'gh', ':help ', options)
 
--- Search Globally: same as %s/
+-- remap 'go' to replace the ';' functionality for searching for previous
+-- occurence with t/T/f/F
+map('n', 'go', ';', options)
+map('v', 'go', ';', options)
+
+-- remap q: to be easier to use, less work for your poor left pinky
+map('n', 'q;', 'q:', options)
+map('v', 'q;', 'q:', options)
+
+-- Global Substitute: same as %s/
 map('n', 'gs', ':%s/', options)
 map('v', 'gs', ':%s/', options)
--- Search Line: same as s/
-map('n', '<leader>sl', ':s/', options)
-map('v', '<leader>sl', ':s/', options)
+-- Linewise Substitute: same as s/
+map('n', 'gl', ':s/', options)
+map('v', 'gl', ':s/', options)
 
 -- Turn off search highlighting after finishing a search (nohlsearch)
 map('n', '<leader>hl', ':noh<cr>', options)
@@ -62,20 +63,14 @@ function source_filetype()
     print('Not a lua or vim file')
   end
 end
+
 -- File Init: Open Neovim init.lua config in new tab
-map('n', '<leader>oi', ':tabnew +tcd\\ ~/.config/nvim ~/.config/nvim/init.lua<cr>', options)
--- Source Init.lua: Source changes from init.lua
-map('n', '<leader>si', ':luafile ~/.config/nvim/init.lua<cr>', options)
+map('n', '<leader>oi', ':tabnew +tcd\\ ~/dotfiles/nvim ~/dotfiles/nvim/init.lua<cr>', options)
 -- Source Here: Reload current buffer if it is a vim or lua file
 map('n', '<leader>sh', ':lua source_filetype()<cr>', options)
 
 -- turn terminal to normal mode with escape
--- we have to use `\\` because `\` needs to be escaped when 
--- in a lua string for this mapping to work properly
 map('t', '<esc>', '<c-\\><c-n>', options)
-
--- new tab
-map('n', '<c-t>', ':tabnew<cr>', options)
 
 -- toggle relativenumber on/off for all windows
 function toggle_numbers(buf_win_or_tab)
