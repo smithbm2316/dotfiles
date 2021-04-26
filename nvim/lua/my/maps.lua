@@ -22,10 +22,10 @@ map('v', 'Y', 'y$', options)
 map('n', ';', ':', options)
 map('v', ';', ':', options)
 
--- remap 'go' to replace the ';' functionality for searching for previous
+-- remap '<C-m>' to replace the ';' functionality for searching for previous
 -- occurence with t/T/f/F
-map('n', 'go', ';', options)
-map('v', 'go', ';', options)
+map('n', '<C-m>', ';', options)
+map('v', '<C-m>', ';', options)
 
 -- remap q: to be easier to use, less work for your poor left pinky
 map('n', 'q;', 'q:', options)
