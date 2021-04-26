@@ -1,0 +1,106 @@
+keybinding:
+  universal:
+    quit: 'q'
+    quit-alt1: '<c-c>' # alternative/alias of quit
+    return: '<esc>' # return to previous menu, will quit if there's nowhere to return
+    quitWithoutChangingDirectory: 'Q'
+    togglePanel: '<tab>' # goto the next panel
+    prevItem: 'k' # go one line up
+    nextItem: 'j' # go one line down
+    prevPage: ',' # go to next page in list
+    nextPage: '.' # go to previous page in list
+    gotoTop: '<' # go to top of list
+    gotoBottom: '>' # go to bottom of list
+    prevBlock: 'h' # goto the previous block / panel
+    nextBlock: 'l' # goto the next block / panel
+    nextMatch: 'n'
+    prevMatch: 'N'
+    optionMenu: '?' # show help menu
+    select: '<space>'
+    goInto: '<enter>'
+    confirm: '<enter>'
+    remove: 'd'
+    new: 'n'
+    edit: 'e'
+    openFile: 'o'
+    scrollUpMain: '<c-u>' # main panel scroll up
+    scrollDownMain: '<c-d>' # main panel scroll down
+    executeCustomCommand: ';'
+    executeCustomCommand-alt: ':'
+    createRebaseOptionsMenu: 'm'
+    pushFiles: 'P'
+    pullFiles: 'p'
+    refresh: 'R'
+    createPatchOptionsMenu: '<c-p>'
+    nextTab: ']'
+    prevTab: '['
+    nextScreenMode: '+'
+    prevScreenMode: '_'
+    undo: 'u'
+    redo: '<c-r>'
+    filteringMenu: '<c-s>'
+    diffingMenu: 'W'
+    diffingMenu-alt: '<c-e>' # deprecated
+    copyToClipboard: 'y'
+    submitEditorText: '<enter>'
+    appendNewline: '<tab>'
+  status:
+    checkForUpdate: 'U'
+    recentRepos: '<enter>'
+  files:
+    commitChanges: 'c'
+    commitChangesWithoutHook: 'w' # commit changes without pre-commit hook
+    amendLastCommit: 'A'
+    commitChangesWithEditor: 'C'
+    ignoreFile: 'i'
+    refreshFiles: 'r'
+    stashAllChanges: 's'
+    viewStashOptions: 'S'
+    toggleStagedAll: 'a' # stage/unstage all
+    viewResetOptions: 'D'
+    fetch: 'f'
+    toggleTreeView: '`'
+  branches:
+    createPullRequest: 'o'
+    checkoutBranchByName: 'c'
+    forceCheckoutBranch: 'F'
+    rebaseBranch: 'r'
+    mergeIntoCurrentBranch: 'M'
+    viewGitFlowOptions: 'i'
+    fastForward: 'f' # fast-forward this branch from its upstream
+    pushTag: 'P'
+    setUpstream: 'U' # set as upstream of checked-out branch
+    fetchRemote: 'f'
+  commits:
+    squashDown: 's'
+    renameCommit: 'r'
+    renameCommitWithEditor: 'R'
+    viewResetOptions: 'g'
+    markCommitAsFixup: 'f'
+    createFixupCommit: 'F' # create fixup commit for this commit
+    squashAboveCommits: 'S'
+    moveDownCommit: '<c-j>' # move commit down one
+    moveUpCommit: '<c-k>' # move commit up one
+    amendToCommit: 'A'
+    pickCommit: 'p' # pick commit (when mid-rebase)
+    revertCommit: 't'
+    cherryPickCopy: 'c'
+    cherryPickCopyRange: 'C'
+    pasteCommits: 'v'
+    tagCommit: 'T'
+    checkoutCommit: '<space>'
+    resetCherryPick: '<c-R>'
+    copyCommitMessageToClipboard: '<c-y>'
+  stash:
+    popStash: 'g'
+  commitFiles:
+    checkoutCommitFile: 'c'
+  main:
+    toggleDragSelect: 'v'
+    toggleDragSelect-alt: 'V'
+    toggleSelectHunk: 'a'
+    pickBothHunks: 'b'
+  submodules:
+    init: 'i'
+    update: 'U'
+    bulkMenu: 'b'

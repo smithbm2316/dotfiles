@@ -4,6 +4,7 @@ audio_cache = true
 volnorm = true
 bitrate = 320
 album_column = true
+cover_max_scale = 2
 gapless = false
 
 [saved_state]

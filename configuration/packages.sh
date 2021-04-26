@@ -12,6 +12,10 @@ if [ $(command -v dnf) ]; then
   printf "[gitlab.com_paulcarroty_vscodium_repo]\nname=gitlab.com_paulcarroty_vscodium_repo\nbaseurl=https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/rpms/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg" | tee -a /etc/yum.repos.d/vscodium.repo
   dnf install codium
 
+  # ueberzug
+  dnf install libXres libX11 libXext python3-devel
+  pip install ueberzug
+
 elif [ $(command -v apt)  ]; then
   echo "Ubuntu/Debian-based system"
 

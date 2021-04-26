@@ -82,6 +82,7 @@ alias tree="ls --tree -I 'node_modules'"
 # mv and cp and mkdir improvements
 alias mv="mv -iv"
 alias cp="cp -iv"
+
 alias mkdir="mkdir -pv"
 
 # Configuration Files
@@ -94,6 +95,9 @@ alias vimc="nvim ~/.config/.vimrc"
 alias xinc="nvim ~/.config/x11/xinitrc"
 alias xmob="nvim ~/.config/xmonad/xmobar0.hs +'cd ~/.config/xmonad'"
 alias xmoc="nvim ~/.config/xmonad/xmonad.hs +'cd ~/.config/xmonad'"
+
+# lazygit shortcut
+alias lg="lazygit"
 
 # shortcuts for shell configs
 shl() {
