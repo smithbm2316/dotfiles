@@ -1,4 +1,22 @@
-require('nvim-treesitter.configs').setup {
+require'nvim-treesitter.configs'.setup {
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+        ['af'] = '@function.outer',
+        ['if'] = '@function.inner',
+      },
+    },
+    move = {
+      enable = true,
+      goto_next_start = {
+        ['<leader>nf'] = '@function.outer',
+      },
+      goto_previous_start = {
+        ['<leader>pf'] = '@function.outer',
+      },
+    },
+  },
   autopairs = {
     enable = true,
   },

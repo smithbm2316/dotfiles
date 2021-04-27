@@ -1,9 +1,9 @@
 -- Require packer.nvim
 vim.cmd [[packadd packer.nvim]]
 -- Auto compile when the plugins.lua file changes
-vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]] 
+vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 
-return require('packer').startup(function()
+return require('packer').startup(function(use)
   -- *i used the packer.nvim to manage the packer.nvim* - thanos
   use { 'wbthomason/packer.nvim', opt = true }
 
@@ -16,7 +16,7 @@ return require('packer').startup(function()
 
   -----------------------------------------------------
   ---
-  --- lua plugins :D 
+  --- lua plugins :D
   ---
   -----------------------------------------------------
   -- easier configuration for built-in neovim lsp
@@ -52,20 +52,12 @@ return require('packer').startup(function()
   -- the best fuzzy finder :0
   use {
     'nvim-telescope/telescope.nvim',
+    -- '~/code/neovim/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-lua/popup.nvim',
     }
   }
-
-  -- the best fuzzy finder, but my local version of it
-  --[[ use {
-    '~/code/neovim/telescope.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'nvim-lua/popup.nvim',
-    }
-  } ]]
 
   -- integration with github cli for telescope.nvim
   use {
@@ -102,7 +94,7 @@ return require('packer').startup(function()
   use {
     'folke/tokyonight.nvim',
   }
-  
+
   -- nice and easy to use statusline
   use {
     'hoob3rt/lualine.nvim',
@@ -111,6 +103,26 @@ return require('packer').startup(function()
   -- better quickfix window
   use {
     'kevinhwang91/nvim-bqf',
+  }
+
+  -- lazygit in neovim
+  use {
+    'kdheepak/lazygit.nvim',
+    config = function()
+      vim.g.lazygit_floating_window_winblend = 0
+      vim.g.lazygit_floating_window_use_plenary = 1
+      vim.g.lazygit_floating_window_scaling_factor = 0.85
+      vim.g.lazygit_use_neovim_remote = 0
+      vim.api.nvim_set_keymap('n', '<leader>lg', ':LazyGit<cr>', { noremap = true })
+    end,
+  }
+
+  use {
+    'norcalli/nvim-colorizer.lua',
+  }
+
+  use {
+    'nvim-treesitter/nvim-treesitter-textobjects',
   }
 
   -----------------------------------------------------
@@ -148,8 +160,8 @@ return require('packer').startup(function()
       -- ]], false)
     -- end,
   -- }
-  
-  --[[ use { 
+
+  --[[ use {
     'lambdalisue/fern-git-status.vim',
     requires = 'lambdalisue/fern.vim'
   }
@@ -172,7 +184,7 @@ return require('packer').startup(function()
   use { 'bfredl/luarefvim' }
 
   -- MOAR TEXT OBJECTS!!
-  use { 'wellle/targets.vim' }
+  -- use { 'wellle/targets.vim' }
 
   -- interactive window resizer
   use {
@@ -199,13 +211,13 @@ return require('packer').startup(function()
   }
 
   -- pretty css colors everywhere
-  use {
-    'RRethy/vim-hexokinase',
-    run = 'make',
-    config = function()
-      vim.g.Hexokinase_optInPatterns = 'full_hex,rgb,rgba,hsl,hsla'
-    end,
-  }
+  -- use {
+  --   'RRethy/vim-hexokinase',
+  --   run = 'make',
+  --   config = function()
+  --     vim.g.Hexokinase_optInPatterns = 'full_hex,rgb,rgba,hsl,hsla'
+  --   end,
+  -- }
 
   -- for automatic list bulleting when writing markdown or plaintext
   use {
@@ -258,9 +270,9 @@ return require('packer').startup(function()
   }
 
   -- more useful text objects
-  use { 'kana/vim-textobj-user' }
-  use { 'coachshea/vim-textobj-markdown' }
-  use { 'Julian/vim-textobj-variable-segment' }
+  -- use { 'kana/vim-textobj-user' }
+  -- use { 'coachshea/vim-textobj-markdown' }
+  -- use { 'Julian/vim-textobj-variable-segment' }
 
   -- Syntax highlighting plugin
   use { 'linkinpark342/xonsh-vim', ft = 'xonsh' }

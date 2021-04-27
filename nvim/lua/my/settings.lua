@@ -5,7 +5,7 @@ local bo = vim.bo
 
 -- Enable syntax highlighting and filetype plugins
 vim.cmd 'syntax enable'
-vim.cmd 'filetype plugin on'
+vim.cmd 'filetype plugin indent on'
 
 -- Buffer options
 vim.api.nvim_exec([[
@@ -26,6 +26,7 @@ o.hidden = true
 o.inccommand = 'split'
 o.incsearch = true
 o.ignorecase = true
+o.keywordprg = ':help'
 o.laststatus = 2
 o.lazyredraw = true
 o.mouse = 'n'
@@ -54,3 +55,7 @@ wo.wrap = false
 vim.cmd 'autocmd BufWritePre * let &bex = "@" . strftime("%F.%H:%M")' -- for backups
 vim.cmd 'autocmd TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
 vim.cmd 'autocmd! BufRead,BufNewFile *.conf,config,.ini setf dosini'
+
+-- colorscheme global defaults
+vim.o.background = 'dark'
+vim.o.termguicolors = true

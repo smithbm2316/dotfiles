@@ -1,7 +1,8 @@
--- Aliases for Lua API functions
+local maps = {}
+-- Alias for Lua API functions
 local map = vim.api.nvim_set_keymap
 -- Use the no recursive remapping for all remaps
-options = { noremap = true }
+local options = { noremap = true }
 
 -- swap to alternate file
 map('n', 'gp', '<c-^>', options)
@@ -41,16 +42,7 @@ map('v', 'gl', ':s/', options)
 -- Turn off search highlighting after finishing a search (nohlsearch)
 map('n', '<leader>hl', ':noh<cr>', options)
 
--- Fold Here: toggle a fold the cursor is currently in
-map('n', '<leader>fh', 'za', options)
--- Fold Open: all in buffer
-map('n', '<leader>fo', 'zo', options)
--- Fold Around {motion}
-map('n', '<leader>fa', 'zfa', options)
--- Fold In {motion}
-map('n', '<leader>fi', 'zfi', options)
-
-function source_filetype()
+maps.source_filetype = function()
   local buf = vim.api.nvim_get_current_buf() -- get reference to current buf
   local ft = vim.api.nvim_buf_get_option(buf, 'filetype') -- get filetype of buffer
   if ft == 'lua' then
@@ -65,15 +57,25 @@ function source_filetype()
 end
 
 -- File Init: Open Neovim init.lua config in new tab
-map('n', '<leader>oi', ':tabnew +tcd\\ ~/dotfiles/nvim ~/dotfiles/nvim/init.lua<cr>', options)
+map('n', '<leader>oi', [[:tabnew +tcd\ ~/dotfiles/nvim ~/dotfiles/nvim/init.lua<cr>]], options)
 -- Source Here: Reload current buffer if it is a vim or lua file
-map('n', '<leader>sh', ':lua source_filetype()<cr>', options)
+map('n', '<leader>sh', ':lua require("my.maps").source_filetype()<cr>', options)
 
--- turn terminal to normal mode with escape
-map('t', '<esc>', '<c-\\><c-n>', options)
+-- turn terminal to normal mode with escape if it's not a lazygit terminal
+maps.remap_term_escape = function()
+  if vim.fn.bufname():match('lazygit') ~= 'lazygit' then
+    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<c-\><c-n>]], options)
+  end
+end
+vim.api.nvim_exec([[
+  augroup RemapTermEscapeUnlessLazygit
+    au!
+    au TermOpen * :lua require('my.maps').remap_term_escape()
+  augroup END
+]], false)
 
 -- toggle relativenumber on/off for all windows
-function toggle_numbers(buf_win_or_tab)
+maps.toggle_numbers = function(buf_win_or_tab)
   local command = buf_win_or_tab or 'windo set '
   if vim.api.nvim_win_get_option(0, 'relativenumber') then
     vim.cmd(command .. 'norelativenumber')
@@ -81,4 +83,6 @@ function toggle_numbers(buf_win_or_tab)
     vim.cmd(command .. 'relativenumber')
   end
 end
-map('n', '<leader>tn', ':lua toggle_numbers()<cr>', options)
+map('n', '<leader>tn', ':lua require("my.maps").toggle_numbers()<cr>', options)
+
+return maps
