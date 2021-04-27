@@ -4,6 +4,9 @@ awesome/awesome-wm-widgets
 # ignore AppSupport/ dir for iTerm2
 iTerm2/AppSupport
 
+# ignore state.yml from lazygit
+lazygit/state.yml
+
 # ignore userstate.toml from ncspot
 ncspot/userstate.toml
 

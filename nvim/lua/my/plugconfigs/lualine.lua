@@ -10,7 +10,12 @@ require('lualine').setup{
   },
   sections = {
     lualine_a = {'mode'},
-    lualine_b = {'filename'},
+    lualine_b = {
+      {
+        'filename',
+        lower = false,
+      }
+    },
     lualine_c = {'branch'},
     lualine_x = {vim_obsession},
     lualine_y = {'filetype'},

@@ -99,6 +99,17 @@ if [ $(command -v dnf) ]; then
   # luacheck
   luarocks install luacheck
 
+  # sumneko_lua language server
+  cd ~/clones
+  dnf install ninja-build libstdc++ libstdc++-devel libstdc++-static
+  git clone https://github.com/sumneko/lua-language-server
+  cd lua-language-server
+  git submodule update --init --recursive
+  cd 3rd/luamake
+  compile/install.sh
+  cd ../..
+  ./3rd/luamake/luamake rebuild
+
   # ------------------------------------------------------------
   # FIREFOX DEV EDITION
   # ------------------------------------------------------------

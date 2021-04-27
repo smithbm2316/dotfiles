@@ -1,9 +1,11 @@
 require('nvim-lightbulb').update_lightbulb {
   sign = {
-    enabled = true,
-    priority = 10,
+    enabled = false,
   },
   float = {
+    enabled = false,
+  },
+  virtual_text = {
     enabled = true,
     text = "💡",
   },

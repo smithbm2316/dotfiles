@@ -13,7 +13,7 @@ local on_attach = function(client, bufnr)
   local opts = { noremap = true, silent = true }
   buf_set_keymap('n', 'gD', ':lua vim.lsp.buf.declaration()<cr>', opts)
   buf_set_keymap('n', 'gd', ':lua vim.lsp.buf.definition()<cr>', opts)
-  buf_set_keymap('n', 'K', ':lua vim.lsp.buf.hover()<cr>', opts)
+  buf_set_keymap('n', '<leader>K', ':lua vim.lsp.buf.hover()<cr>', opts)
   buf_set_keymap('n', '<leader>gi', ':lua vim.lsp.buf.implementation()<cr>', opts)
   buf_set_keymap('n', '<leader>pa', ':lua vim.lsp.buf.add_workspace_folder()<cr>', opts) -- project add directory
   buf_set_keymap('n', '<leader>pr', ':lua vim.lsp.buf.remove_workspace_folder()<cr>', opts) -- project remove directory
@@ -30,3 +30,50 @@ local servers = { 'bashls', 'cssls', 'gopls', 'html', 'jedi_language_server', 't
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
+
+-- sumneko_lua language server stuff
+local system_name
+if vim.fn.has("mac") == 1 then
+  system_name = "macOS"
+elseif vim.fn.has("unix") == 1 then
+  system_name = "Linux"
+elseif vim.fn.has('win32') == 1 then
+  system_name = "Windows"
+else
+  print("Unsupported system for sumneko")
+end
+
+-- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
+local sumneko_root_path = '/home/smithbm/clones/lua-language-server'
+local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+
+-- sumneko_lua setup
+require'lspconfig'.sumneko_lua.setup {
+  on_attach = on_attach,
+  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Setup your lua path
+        path = vim.split(package.path, ';'),
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = {
+          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+        },
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}

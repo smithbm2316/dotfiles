@@ -1,3 +1,17 @@
+gui:
+  scrollHeight: 8 # how many lines you scroll by
+  expandFocusedSidePanel: true
+  theme:
+    lightTheme: false
+    selectedLineBgColor:
+      - black
+      - bold
+git:
+  pull:
+    mode: 'rebase'
+  autoFetch: true
+confirmOnQuit: false
+reporting: 'off'
 keybinding:
   universal:
     quit: 'q'

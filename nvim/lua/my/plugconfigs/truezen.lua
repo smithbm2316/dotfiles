@@ -1,5 +1,6 @@
 require("true-zen").setup({
   true_false_commands = false,
+  unknown_bkg_color_fix = true,
   cursor_by_mode = false,
   bottom = {
     shown_laststatus = 2,

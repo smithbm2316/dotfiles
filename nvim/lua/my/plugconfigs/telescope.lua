@@ -1,7 +1,7 @@
 -- Aliases for Lua API functions
 local map = vim.api.nvim_set_keymap
 -- Use the no recursive remapping for all remaps
-opts = { noremap = true, silent = true }
+local opts = { noremap = true, silent = true }
 -- Telescope stuff I need to import for configuration
 local actions = require('telescope.actions')
 -- My module to export functions from
@@ -54,15 +54,15 @@ require('telescope').load_extension('fzf')
 -- used to map a keybinding to a telescope builtin
 local map_tsbuiltin = function(keymap, picker, config)
   config = config or {} -- set default options to be a table if the user gives none
-  config_string = ''
+  local config_string = ''
   for k,v in pairs(config) do config_string = config_string .. string.format('%s = %q, ', k, v) end
   local right_hand_side = string.format(":lua require('telescope.builtin').%s{%s}<cr>", picker, config_string)
-  vim.api.nvim_set_keymap('n', keymap, right_hand_side, opts)
+  map('n', keymap, right_hand_side, opts)
 end
 -- used to map a keybinding to a custom telescope function I write
 local map_tscustom = function(keymap, picker)
   local right_hand_side = string.format(":lua require('my.plugconfigs.telescope').%s()<cr>", picker)
-  vim.api.nvim_set_keymap('n', keymap, right_hand_side, opts)
+  map('n', keymap, right_hand_side, opts)
 end
 
 -- find files in dotfiles
@@ -87,7 +87,6 @@ map_tscustom('<leader>fin', 'find_in_neovim_config')
 ts.find_files_in_directory_of_buffer = function()
   require('telescope.builtin').find_files({ cwd = vim.fn.expand("%:p:h"), prompt_title = 'find files in buf\'s dir', hidden = true })
 end
-map_tscustom('<leader>fib', 'find_files_in_directory_of_buffer')
 
 -- git_branches with checkout branch
 ts.git_branches_custom = function()
@@ -101,24 +100,25 @@ map_tscustom('<leader>gb', 'git_branches_custom')
 
 -- telescope builtins mappings
 local rowselect_opts = { selection_strategy = 'row', hidden = true }
-map_tsbuiltin('<leader>ld', "file_browser", rowselect_opts )
-map_tsbuiltin('<leader>of', "oldfiles")
-map_tsbuiltin('<leader>fc', "grep_string")
-map_tsbuiltin('<leader>fj', "find_files", { hidden = true })
-map_tsbuiltin('<leader>fw', "live_grep")
-map_tsbuiltin('<leader>gl', "git_commits", rowselect_opts)
-map_tsbuiltin('gh', "help_tags")
-map_tsbuiltin('<leader>gm', "man_pages")
-map_tsbuiltin('<leader>gs', "git_status", rowselect_opts)
-map_tsbuiltin('<leader>la', "lsp_code_actions")
-map_tsbuiltin('<leader>lb', "buffers")
-map_tsbuiltin('<leader>lk', "keymaps")
-map_tsbuiltin('<leader>lm', "marks")
-map_tsbuiltin('<leader>lq', "quickfix")
-map_tsbuiltin('<leader>lr', "registers")
-map_tsbuiltin('<leader>ts', "builtin")
-map_tsbuiltin('<leader>va', "autocommands")
-map_tsbuiltin('<leader>vc', "commands")
-map_tsbuiltin('<leader>vo', "vim_options")
+map_tsbuiltin('<leader>ld', 'file_browser', rowselect_opts )
+map_tsbuiltin('<leader>of', 'oldfiles')
+map_tsbuiltin('<leader>fc', 'grep_string')
+map_tsbuiltin('<leader>fj', 'find_files', { hidden = true })
+map_tsbuiltin('<leader>fw', 'live_grep')
+map_tsbuiltin('<leader>fib', 'current_buffer_fuzzy_find')
+map_tsbuiltin('<leader>gl', 'git_commits', rowselect_opts)
+map_tsbuiltin('gh', 'help_tags')
+map_tsbuiltin('<leader>gm', 'man_pages')
+map_tsbuiltin('<leader>gs', 'git_status', rowselect_opts)
+map_tsbuiltin('<leader>la', 'lsp_code_actions')
+map_tsbuiltin('<leader>lb', 'buffers')
+map_tsbuiltin('<leader>lk', 'keymaps')
+map_tsbuiltin('<leader>lm', 'marks')
+map_tsbuiltin('<leader>lq', 'quickfix')
+map_tsbuiltin('<leader>lr', 'registers')
+map_tsbuiltin('<leader>ts', 'builtin')
+map_tsbuiltin('<leader>va', 'autocommands')
+map_tsbuiltin('<leader>vc', 'commands')
+map_tsbuiltin('<leader>vo', 'vim_options')
 
 return ts
