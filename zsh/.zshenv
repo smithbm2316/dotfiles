@@ -57,7 +57,7 @@ if [ "$(uname)" = "Linux" ]; then
 elif [ "$(uname)" = "Darwin" ]; then
   # setup keychain settings if not in tmux
   if [ -z "$TMUX" ]; then
-    eval $(keychain --eval --quiet id_rsa id_rsa_gl)
+    eval $(/usr/local/bin/keychain --eval --quiet id_rsa id_rsa_gl)
   fi
 fi
 
