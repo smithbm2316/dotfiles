@@ -55,7 +55,15 @@ require('telescope').load_extension('fzf')
 local map_tsbuiltin = function(keymap, picker, config)
   config = config or {} -- set default options to be a table if the user gives none
   local config_string = ''
-  for k,v in pairs(config) do config_string = config_string .. string.format('%s = %q, ', k, v) end
+  local index = 1
+  for k,v in pairs(config) do
+    local format_str = ' %s = %q,'
+    if index == #config then
+      format_str = format_str:sub(0, #format_str - 1)
+    end
+    config_string = config_string .. string.format(format_str, k, v)
+    index = index + 1
+  end
   local right_hand_side = string.format(":lua require('telescope.builtin').%s{%s}<cr>", picker, config_string)
   map('n', keymap, right_hand_side, opts)
 end
@@ -122,3 +130,11 @@ map_tsbuiltin('<leader>vc', 'commands')
 map_tsbuiltin('<leader>vo', 'vim_options')
 
 return ts
+-- local config = { hidden = true }
+-- local config_string = ''
+-- for k,v in pairs(config) do
+--   local format_str = ' %s = %q,'
+--   format_str = format_str:sub(0, #format_str - 1)
+--   config_string = config_string .. string.format(format_str, k, v)
+-- end
+-- print(string.format([[:lua require('telescope.builtin').%s{%s}<cr>]], 'find_files', config_string))

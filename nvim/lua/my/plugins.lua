@@ -77,14 +77,8 @@ return require('packer').startup(function(use)
   use { 'kyazdani42/nvim-web-devicons' }
 
   -- scratchpad/repl playground for lua
-  use { 'rafcamlet/nvim-luapad' }
-
-  -- replacement for goyo.vim, allows for making UI elements disappear/centering file in window
   use {
-    'kdav5758/TrueZen.nvim',
-    config = function()
-      vim.api.nvim_set_keymap('n', '<leader>z', ':TZAtaraxis<cr>', { noremap = true })
-    end
+    'rafcamlet/nvim-luapad',
   }
 
   -- replacement for alvan/vim-closetag and AndrewRadev/tagalong.vim
@@ -183,9 +177,6 @@ return require('packer').startup(function(use)
   -- lua 5.1 manual in vim docs
   use { 'bfredl/luarefvim' }
 
-  -- MOAR TEXT OBJECTS!!
-  -- use { 'wellle/targets.vim' }
-
   -- interactive window resizer
   use {
     'romgrk/winteract.vim',
@@ -209,15 +200,6 @@ return require('packer').startup(function(use)
       vim.api.nvim_set_keymap('n', '<leader>', ":WhichKey '<leader>'<cr>", { noremap = true, silent = true })
     end,
   }
-
-  -- pretty css colors everywhere
-  -- use {
-  --   'RRethy/vim-hexokinase',
-  --   run = 'make',
-  --   config = function()
-  --     vim.g.Hexokinase_optInPatterns = 'full_hex,rgb,rgba,hsl,hsla'
-  --   end,
-  -- }
 
   -- for automatic list bulleting when writing markdown or plaintext
   use {
@@ -268,11 +250,6 @@ return require('packer').startup(function(use)
       ]], false)
     end,
   }
-
-  -- more useful text objects
-  -- use { 'kana/vim-textobj-user' }
-  -- use { 'coachshea/vim-textobj-markdown' }
-  -- use { 'Julian/vim-textobj-variable-segment' }
 
   -- Syntax highlighting plugin
   use { 'linkinpark342/xonsh-vim', ft = 'xonsh' }

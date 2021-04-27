@@ -4,9 +4,9 @@ require("true-zen").setup({
   cursor_by_mode = false,
   bottom = {
     shown_laststatus = 2,
-    shown_ruler = false,
-    shown_showmode = false,
-    shown_showcmd = false,
+    shown_ruler = true,
+    shown_showmode = true,
+    shown_showcmd = true,
     shown_cmdheight = 1,
   },
   top = {
