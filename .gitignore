@@ -1,6 +1,10 @@
 # ignore widgets for awesomewm
 awesome/awesome-wm-widgets
 
+# ignore all gh cli files except for the config
+gh/*
+!gh/config.yml
+
 # ignore AppSupport/ dir for iTerm2
 iTerm2/AppSupport
 
