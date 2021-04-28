@@ -12,7 +12,13 @@ return require('packer').startup(function(use)
   --- my local plugins
   ---
   -----------------------------------------------------
-  use { '~/code/neovim/restful.nvim' }
+  -- use { '~/code/neovim/restful.nvim' }
+  use {
+    'smithbm2316/centerpad.nvim',
+    config = function()
+      vim.api.nvim_set_keymap('n', '<leader>z', ':lua require"centerpad".toggle()<cr>', { noremap = true, silent = true })
+    end,
+  }
 
   -----------------------------------------------------
   ---
@@ -253,5 +259,14 @@ return require('packer').startup(function(use)
 
   -- Syntax highlighting plugin
   use { 'linkinpark342/xonsh-vim', ft = 'xonsh' }
+
+  -- easier aligning of text
+  use {
+    'junegunn/vim-easy-align',
+    config = function()
+      vim.api.nvim_set_keymap('n', 'ga', ':EasyAlign<cr>', { noremap = true })
+      vim.api.nvim_set_keymap('v', 'ga', ':EasyAlign<cr>', { noremap = true })
+    end,
+  }
 
 end)
