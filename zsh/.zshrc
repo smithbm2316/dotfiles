@@ -75,7 +75,7 @@ alias bsync="browser-sync start --server --files '*.css, *.html, *.js' --no-open
 
 # lsd aliases
 alias ls="lsd"
-alias ll="lsd -lA"
+alias lsl="lsd -lA"
 alias l="lsd -A"
 alias tree="ls --tree -I 'node_modules'"
 

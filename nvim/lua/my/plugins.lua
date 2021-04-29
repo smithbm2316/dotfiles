@@ -49,10 +49,14 @@ return require('packer').startup(function(use)
   -- format code with external tools
   use { 'mhartington/formatter.nvim' }
 
-  -- highlight and indent all the things
+  -- highlight and indent and textobject all the things
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
+  }
+  use {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    requires = 'nvim-treesitter/nvim-treesitter',
   }
 
   -- the best fuzzy finder :0
@@ -117,12 +121,14 @@ return require('packer').startup(function(use)
     end,
   }
 
+  -- show preview of colors for hex, hsl, and rgb values
   use {
     'norcalli/nvim-colorizer.lua',
   }
 
+  -- i can't remember my keybinds half the time, this should help
   use {
-    'nvim-treesitter/nvim-treesitter-textobjects',
+    'folke/which-key.nvim',
   }
 
   -----------------------------------------------------
@@ -146,40 +152,6 @@ return require('packer').startup(function(use)
     end,
   }
 
-  -- netrw replacement
-  -- use {
-    -- 'lambdalisue/fern.vim',
-    -- config = function()
-      -- vim.api.nvim_exec([[
-        -- let g:fern#renderer = "nerdfont"
-        -- augroup my-glyph-palette
-          -- autocmd! *
-          -- autocmd FileType fern call glyph_palette#apply()
-        -- augroup END
-        -- autocmd FileType fern set nonumber norelativenumber
-      -- ]], false)
-    -- end,
-  -- }
-
-  --[[ use {
-    'lambdalisue/fern-git-status.vim',
-    requires = 'lambdalisue/fern.vim'
-  }
-
-  use {
-    'lambdalisue/fern-renderer-nerdfont.vim',
-    requires = {
-      'lambdalisue/fern.vim',
-      'lambdalisue/nerdfont.vim',
-      'lambdalisue/glyph-palette.vim'
-    }
-  }
-
-  use {
-    'lambdalisue/fern-hijack.vim',
-    requires = 'lambdalisue/fern.vim'
-  } ]]
-
   -- lua 5.1 manual in vim docs
   use { 'bfredl/luarefvim' }
 
@@ -196,14 +168,6 @@ return require('packer').startup(function(use)
     'junegunn/vim-slash',
     config = function()
       vim.cmd 'noremap <plug>(slash-after) zz'
-    end,
-  }
-
-  -- a reminder of what my leader remaps are
-  use {
-    'liuchengxu/vim-which-key',
-    config = function()
-      vim.api.nvim_set_keymap('n', '<leader>', ":WhichKey '<leader>'<cr>", { noremap = true, silent = true })
     end,
   }
 

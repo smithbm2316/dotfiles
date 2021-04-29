@@ -2,10 +2,10 @@
 
 USER_OS=$(sed -n "s/^NAME=\(.*\)$/\1/p" /etc/os-release)
 
-# if ~/clones dir doesn't exist, make it
-mkdir ~/clones
+# if ~/builds dir doesn't exist, make it
+mkdir ~/builds
 # then move into it
-cd clones
+cd builds
 
 if [ $(command -v dnf) ]; then
   echo "Fedora/CentOS-based system"
@@ -87,7 +87,7 @@ if [ $(command -v dnf) ]; then
   luaver use 5.1.5
 
   # luarocks
-  cd ~/clones
+  cd ~/builds
   wget https://luarocks.org/releases/luarocks-3.3.1.tar.gz
   tar zxpf luarocks-3.3.1.tar.gz
   cd luarocks-3.3.1
@@ -100,7 +100,7 @@ if [ $(command -v dnf) ]; then
   luarocks install luacheck
 
   # sumneko_lua language server
-  cd ~/clones
+  cd ~/builds
   dnf install ninja-build libstdc++ libstdc++-devel libstdc++-static
   git clone https://github.com/sumneko/lua-language-server
   cd lua-language-server

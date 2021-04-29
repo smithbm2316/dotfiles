@@ -52,9 +52,10 @@ wo.signcolumn = 'yes' -- make sure this is on for gitsigns.nvim, otherwise the s
 wo.wrap = false
 
 -- Autocmds
-vim.cmd 'autocmd BufWritePre * let &bex = "@" . strftime("%F.%H:%M")' -- for backups
-vim.cmd 'autocmd TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
+-- vim.cmd 'autocmd! BufWritePre * let &bex = "@" . strftime("%F.%H:%M")' -- for backups
+vim.cmd 'autocmd! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
 vim.cmd 'autocmd! BufRead,BufNewFile *.conf,config,.ini setf dosini'
+vim.cmd 'autocmd! TermOpen * startinsert'
 
 -- colorscheme global defaults
 vim.o.background = 'dark'
