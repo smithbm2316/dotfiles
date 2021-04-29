@@ -306,7 +306,24 @@ awful.screen.connect_for_each_screen(function(s)
         wibox.widget.textbox(' |  '),
         ram_widget(),
         wibox.widget.textbox('| '),
-        awful.widget.watch("sh -c ~/.config/awesome/scripts/amixer-status", 0.1), -- volume script
+        awful.widget.watch('sh -c /home/smithbm/dotfiles/awesome/scripts/pamixer-awm-status', 0.1, function(widget, stdout)
+          local output = ''
+          local linenr = 1
+          for line in stdout:gmatch('[^\r\n]+') do
+            if linenr == 1 then
+              output = output .. line:match('[0-9]+')
+            else
+              if tonumber(line:match('[01]$')) == 1 then
+                output = output .. ' 婢 '
+              else
+                output = output .. ' 墳 '
+              end
+            end
+            linenr = linenr + 1
+          end
+          widget:set_text(output)
+          return
+        end),
         wibox.widget.textbox(' |'),
         mytextclock,
         wibox.widget.textbox('| '),
@@ -468,14 +485,14 @@ globalkeys = gears.table.join(
     {description = 'lock', group = 'awesome'}),
 
   -- Volume Keys (using pulseaudioctl)
-  --[[ awful.key({}, 'XF86AudioRaiseVolume', function () awful.spawn('pactl set-sink-volume @DEFAULT_SINK@ +5%') end),
+  awful.key({}, 'XF86AudioRaiseVolume', function () awful.spawn('pactl set-sink-volume @DEFAULT_SINK@ +5%') end),
   awful.key({}, 'XF86AudioLowerVolume', function () awful.spawn('pactl set-sink-volume @DEFAULT_SINK@ -5%') end),
-  awful.key({}, 'XF86AudioMute', function () awful.spawn('pactl set-sink-mute @DEFAULT_SINK@ toggle') end), ]]
+  awful.key({}, 'XF86AudioMute', function () awful.spawn('pactl set-sink-mute @DEFAULT_SINK@ toggle') end),
 
   -- Volume Keys (using amixer)
-  awful.key({}, 'XF86AudioRaiseVolume', function () awful.spawn('amixer set Master 5%+') end),
-  awful.key({}, 'XF86AudioLowerVolume', function () awful.spawn('amixer set Master 5%-') end),
-  awful.key({}, 'XF86AudioMute', function () awful.spawn('amixer set Master toggle') end),
+  -- awful.key({}, 'XF86AudioRaiseVolume', function () awful.spawn('amixer set Master 5%+') end),
+  -- awful.key({}, 'XF86AudioLowerVolume', function () awful.spawn('amixer set Master 5%-') end),
+  -- awful.key({}, 'XF86AudioMute', function () awful.spawn('amixer set Master toggle') end),
 
   -- Play/Pause
   awful.key({}, 'XF86AudioPlay', function () awful.spawn('playerctl play-pause') end),
