@@ -9,6 +9,6 @@ require'colorizer'.setup(
     hsl_fn = true;
     css = true;
     css_fn = true;
-    mode = 'foreground';
+    mode = 'background';
   }
 )
