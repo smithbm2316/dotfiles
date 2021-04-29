@@ -64,12 +64,12 @@ local map_tsbuiltin = function(keymap, picker, config)
     config_string = config_string .. string.format(format_str, k, v)
     index = index + 1
   end
-  local right_hand_side = string.format(":lua require('telescope.builtin').%s{%s}<cr>", picker, config_string)
+  local right_hand_side = string.format("<cmd>lua require('telescope.builtin').%s{%s}<cr>", picker, config_string)
   map('n', keymap, right_hand_side, opts)
 end
 -- used to map a keybinding to a custom telescope function I write
 local map_tscustom = function(keymap, picker)
-  local right_hand_side = string.format(":lua require('my.plugconfigs.telescope').%s()<cr>", picker)
+  local right_hand_side = string.format("<cmd>lua require('my.plugconfigs.telescope').%s()<cr>", picker)
   map('n', keymap, right_hand_side, opts)
 end
 
@@ -137,4 +137,4 @@ return ts
 --   format_str = format_str:sub(0, #format_str - 1)
 --   config_string = config_string .. string.format(format_str, k, v)
 -- end
--- print(string.format([[:lua require('telescope.builtin').%s{%s}<cr>]], 'find_files', config_string))
+-- print(string.format([[<cmd>lua require('telescope.builtin').%s{%s}<cr>]], 'find_files', config_string))

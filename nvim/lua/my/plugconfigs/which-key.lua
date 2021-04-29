@@ -1,10 +1,10 @@
-vim.o.timeoutlen = 500
-require'which-key'.setup {
+vim.o.timeoutlen = 600
+require('which-key').setup {
   marks = false,
   registers = false,
   presets = {
     operators = false,
-    motions = true,
+    motions = false,
     text_objects = true,
     windows = true,
     nav = true,

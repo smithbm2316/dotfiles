@@ -11,18 +11,18 @@ local on_attach = function(client, bufnr)
 
   -- Mappings
   local opts = { noremap = true, silent = true }
-  buf_set_keymap('n', 'gD', ':lua vim.lsp.buf.declaration()<cr>', opts)
-  buf_set_keymap('n', 'gd', ':lua vim.lsp.buf.definition()<cr>', opts)
-  buf_set_keymap('n', '<leader>K', ':lua vim.lsp.buf.hover()<cr>', opts)
-  buf_set_keymap('n', '<leader>gi', ':lua vim.lsp.buf.implementation()<cr>', opts)
-  buf_set_keymap('n', '<leader>pa', ':lua vim.lsp.buf.add_workspace_folder()<cr>', opts) -- project add directory
-  buf_set_keymap('n', '<leader>pr', ':lua vim.lsp.buf.remove_workspace_folder()<cr>', opts) -- project remove directory
-  buf_set_keymap('n', '<leader>pd', ':lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>', opts) -- project directory
-  buf_set_keymap('n', '<leader>rn', ':lua vim.lsp.buf.rename()<cr>', opts)
-  buf_set_keymap('n', '<leader>td', ':lua vim.lsp.buf.type_definition()<cr>', opts)
-  buf_set_keymap('n', '<leader>gr', ':lua vim.lsp.buf.references()<cr>', opts)
-  buf_set_keymap('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
-  buf_set_keymap('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<cr>', opts)
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+  buf_set_keymap('n', '<leader>K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+  buf_set_keymap('n', '<leader>gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+  buf_set_keymap('n', '<leader>pa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>', opts) -- project add directory
+  buf_set_keymap('n', '<leader>pr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>', opts) -- project remove directory
+  buf_set_keymap('n', '<leader>pd', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>', opts) -- project directory
+  buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+  buf_set_keymap('n', '<leader>td', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+  buf_set_keymap('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', opts)
 end
 
 -- setup language servers

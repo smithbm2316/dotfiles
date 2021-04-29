@@ -25,6 +25,7 @@ require'nvim-treesitter.configs'.setup {
   },
   indent = {
     enable = true,
+    disable = { 'lua' },
   },
   ensure_installed = {
     'css',

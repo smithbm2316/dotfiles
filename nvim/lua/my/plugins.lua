@@ -16,7 +16,7 @@ return require('packer').startup(function(use)
   use {
     'smithbm2316/centerpad.nvim',
     config = function()
-      vim.api.nvim_set_keymap('n', '<leader>z', ':lua require"centerpad".toggle()<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>z', '<cmd>lua require"centerpad".toggle()<cr>', { noremap = true, silent = true })
     end,
   }
 

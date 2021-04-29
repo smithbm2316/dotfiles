@@ -59,7 +59,7 @@ end
 -- File Init: Open Neovim init.lua config in new tab
 map('n', '<leader>oi', [[:tabnew +tcd\ ~/dotfiles/nvim ~/dotfiles/nvim/init.lua<cr>]], options)
 -- Source Here: Reload current buffer if it is a vim or lua file
-map('n', '<leader>sh', ':lua require("my.maps").source_filetype()<cr>', options)
+map('n', '<leader>sh', '<cmd>lua require("my.maps").source_filetype()<cr>', options)
 
 -- turn terminal to normal mode with escape if it's not a lazygit terminal
 maps.remap_term_escape = function()
@@ -70,7 +70,7 @@ end
 vim.api.nvim_exec([[
   augroup RemapTermEscapeUnlessLazygit
     au!
-    au TermOpen * :lua require('my.maps').remap_term_escape()
+    au TermOpen * lua require('my.maps').remap_term_escape()
   augroup END
 ]], false)
 
@@ -83,6 +83,6 @@ maps.toggle_numbers = function(buf_win_or_tab)
     vim.cmd(command .. 'relativenumber')
   end
 end
-map('n', '<leader>tn', ':lua require("my.maps").toggle_numbers()<cr>', options)
+map('n', '<leader>tn', '<cmd>lua require("my.maps").toggle_numbers()<cr>', options)
 
 return maps
