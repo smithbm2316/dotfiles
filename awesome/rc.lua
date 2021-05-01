@@ -76,21 +76,7 @@ altkey = 'Mod1'
 awful.layout.layouts = {
   awful.layout.suit.tile.left,
   awful.layout.suit.max,
-  -- awful.layout.suit.tile,
-  -- awful.layout.suit.tile,
-  -- awful.layout.suit.floating,
-  -- awful.layout.suit.fair,
-  -- awful.layout.suit.tile.bottom,
-  -- awful.layout.suit.tile.top,
-  -- awful.layout.suit.fair.horizontal,
-  -- awful.layout.suit.spiral,
-  -- awful.layout.suit.spiral.dwindle,
-  -- awful.layout.suit.max.fullscreen,
-  -- awful.layout.suit.magnifier,
-  -- awful.layout.suit.corner.nw,
-  -- awful.layout.suit.corner.ne,
-  -- awful.layout.suit.corner.sw,
-  -- awful.layout.suit.corner.se,
+  awful.layout.suit.tile.top,
 }
 -- }}}
 
@@ -237,7 +223,7 @@ awful.screen.connect_for_each_screen(function(s)
 
   if s.index == 2 then
     awful.tag.add('web', {
-      layout = awful.layout.suit.tile.left,
+      layout = awful.layout.suit.tile.top,
       screen = s,
       selected = true,
     })
@@ -247,7 +233,7 @@ awful.screen.connect_for_each_screen(function(s)
       selected = false,
     })
     awful.tag.add('work', {
-      layout = awful.layout.suit.tile.left,
+      layout = awful.layout.suit.tile.top,
       screen = s,
       selected = false,
     })
@@ -434,15 +420,15 @@ globalkeys = gears.table.join(
 
   --{{{ CUSTOM KEYBINDINGS
 
-  -- Rofi Drun 
+  -- Rofi Drun
   awful.key({ modkey }, 'slash', function() awful.spawn('rofi -show drun -icon-theme "Papirus" -show-icons') end,
             {description = 'rofi run prompt', group = 'launcher'}),
 
-  -- Rofi Run 
+  -- Rofi Run
   awful.key({ modkey, 'Control' }, 'slash', function() awful.spawn('rofi -show run -icon-theme "Papirus" -show-icons') end,
             {description = 'rofi window prompt', group = 'launcher'}),
 
-  -- Rofi Show Open Windows 
+  -- Rofi Show Open Windows
   awful.key({ altkey }, 'Tab', function() awful.spawn('rofi -show window -icon-theme "Papirus" -show-icons') end,
             {description = 'rofi keys', group = 'launcher'}),
 
@@ -462,14 +448,14 @@ globalkeys = gears.table.join(
   awful.key({ modkey, 'Control' }, 'Print', function () awful.spawn('flameshot full --clipboard') end,
             {description = 'Screenshot current monitor to clipboard', group = 'screenshot'}),
 
-  -- Firefox 
+  -- Firefox
   awful.key({ modkey }, 'b', function () awful.spawn('firefox') end,
     {description = 'firefox', group = 'applications'}),
 
   -- Floating terminal (kitty)
   awful.key({ modkey, 'Control' }, 't', function () awful.spawn('kitty --class "scratchpad"') end,
     {description = 'floating terminal (kitty)', group = 'applications'}),
-  
+ 
   -- Lock
   awful.key({ modkey }, 'q',
     function()
@@ -654,7 +640,7 @@ awful.rules.rules = {
       'Gnome-calculator',
       'Galculator',
       'Gpick',
-      'zoom'
+      -- 'zoom'
     },
 
     -- Note that the name property shown in xprop might be set slightly after creation of the client
@@ -667,9 +653,9 @@ awful.rules.rules = {
       'ConfigManager',  -- Thunderbird's about:config.
     }
   }, properties = { floating = true }},
-  
+ 
   -- Scratchpads
-  { 
+  {
     rule_any = {
       instance = { 'scratchpad' },
     },
@@ -689,23 +675,23 @@ awful.rules.rules = {
   },
 
   -- Set default tags for apps
-  { 
+  {
     rule = { class = 'Postman' },
     properties = { screen = 1, tag = 'dev' }
   },
-  { 
+  {
     rule = { class = 'jetbrains-pycharm-ce' },
     properties = { screen = 1, tag = 'work' }
   },
-  { 
+  {
     rule_any = { class = { 'Slack', 'discord' } },
     properties = { screen = 1, tag = 'messages' }
   },
-  { 
+  {
     rule = { class = 'obs' },
     properties = { screen = 2, tag = 'scratch' }
   },
-  { 
+  {
     rule_any = { class = { 'Lutris', 'ATLauncher', 'Steam' } },
     properties = { screen = 1, tag = 'gaming' }
   },
@@ -784,15 +770,17 @@ client.connect_signal('focus', function(c) c.border_color = beautiful.border_foc
 client.connect_signal('unfocus', function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.spawn('xrandr --output DisplayPort-0 --set TearFree on --mode 1920x1080 --rate 144.00 --output HDMI-A-0 --set TearFree on --mode 1920x1080 --rate 60.00')
-awful.spawn('xsetroot -cursor_name left_ptr')
+awful.spawn('xrandr --output DisplayPort-0 --set TearFree on --mode 1920x1080 --rate 144.00 --output HDMI-A-0 --auto --rotate left --right-of DisplayPort-0')
+awful.spawn('xrandr --output HDMI-A-0 --auto --rotate right --right-of DisplayPort-0')
+awful.spawn('xsetroot -cursor_name arrow')
 awful.spawn('picom -b')
 awful.spawn('flameshot')
+awful.spawn('nitrogen --restore')
 
 awful.spawn.easy_async_with_shell(
   "pgrep xcape",
   function (stdout, stderr, exitreason, exitcode)
-    if stdout == nil or exitcode == 1 then    
+    if stdout == nil or exitcode == 1 then
       awful.spawn.once('xcape -e "Super_L=Escape;Super_R=Return"')
     end
   end
