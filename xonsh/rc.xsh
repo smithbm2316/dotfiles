@@ -112,7 +112,7 @@ def _nv(args):
     if args[0] == "plug":
       file_dir_to_open = "plugins.lua"
     elif args[0] == "plugs":
-      file_dir_to_open = "plugconfigs"
+      file_dir_to_open = "plugs/init.lua"
     elif args[0] == "maps":
       file_dir_to_open = "maps.lua"
     elif args[0] == "sets":

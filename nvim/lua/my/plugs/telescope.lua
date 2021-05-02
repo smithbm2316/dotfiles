@@ -69,7 +69,7 @@ local map_tsbuiltin = function(keymap, picker, config)
 end
 -- used to map a keybinding to a custom telescope function I write
 local map_tscustom = function(keymap, picker)
-  local right_hand_side = string.format("<cmd>lua require('my.plugconfigs.telescope').%s()<cr>", picker)
+  local right_hand_side = string.format("<cmd>lua require('my.plugs.telescope').%s()<cr>", picker)
   map('n', keymap, right_hand_side, opts)
 end
 

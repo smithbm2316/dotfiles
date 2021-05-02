@@ -168,7 +168,7 @@ function nv
     if test $argv[1] = "plug"
       eval ${nvim_config_path/filedir/plugins.lua}
     else if test $argv[1] = "plugs"
-      eval ${nvim_config_path/filedir/plugconfigs}
+      eval ${nvim_config_path/filedir/plugs/init.lua}
     else if test $argv[1] = "maps"
       eval ${nvim_config_path/filedir/maps.lua}
     else if test $argv[1] = "sets"

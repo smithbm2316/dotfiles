@@ -21,6 +21,6 @@ luapad.playground_tab = function()
   require('luapad').attach()
 end
 
-vim.api.nvim_set_keymap('n', '<leader>lp', "<cmd>lua require('my.plugconfigs.luapad').playground_tab()<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>lp', "<cmd>lua require('my.plugs.luapad').playground_tab()<cr>", { noremap = true, silent = true })
 
 return luapad
