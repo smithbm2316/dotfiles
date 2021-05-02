@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Chatterino
+Exec=/usr/local/bin/chatterino
+Icon=/usr/share/icons/Papirus-Dark/32x32/apps/tc-twitch.svg
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Internet

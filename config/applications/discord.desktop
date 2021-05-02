@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Discord
+Exec=/usr/bin/flatpak run com.discordapp.Discord
+Icon=/usr/share/icons/Papirus-Dark/32x32/apps/discord.svg
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Internet
