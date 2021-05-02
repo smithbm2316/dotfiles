@@ -5,14 +5,18 @@ vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 
 return require('packer').startup(function(use)
   -- *i used the packer.nvim to manage the packer.nvim* - thanos
-  use { 'wbthomason/packer.nvim', opt = true }
+  use {
+    'wbthomason/packer.nvim', opt = true,
+  }
 
   -----------------------------------------------------
   ---
   --- my local plugins
   ---
   -----------------------------------------------------
-  -- use { '~/code/neovim/restful.nvim' }
+  -- use {
+  --   '~/code/neovim/restful.nvim',
+  -- }
   use {
     'smithbm2316/centerpad.nvim',
     config = function()
@@ -26,19 +30,29 @@ return require('packer').startup(function(use)
   ---
   -----------------------------------------------------
   -- easier configuration for built-in neovim lsp
-  use { 'neovim/nvim-lspconfig' }
+  use {
+    'neovim/nvim-lspconfig',
+  }
 
   -- use icons in the completion menus for lsp suggestions
-  use { 'onsails/lspkind-nvim' }
+  use {
+    'onsails/lspkind-nvim',
+  }
 
   -- show a lightbulb in the gutter where a code action from lsp is available
-  use { 'kosayoda/nvim-lightbulb' }
+  use {
+    'kosayoda/nvim-lightbulb',
+  }
 
   -- completion plugin
-  use { 'hrsh7th/nvim-compe' }
+  use {
+    'hrsh7th/nvim-compe',
+  }
 
   -- autopairs but better
-  use { 'windwp/nvim-autopairs' }
+  use {
+    'windwp/nvim-autopairs',
+  }
 
   -- gitgutter lua replacement
   use {
@@ -47,7 +61,9 @@ return require('packer').startup(function(use)
   }
 
   -- format code with external tools
-  use { 'mhartington/formatter.nvim' }
+  use {
+    'mhartington/formatter.nvim',
+  }
 
   -- highlight and indent and textobject all the things
   use {
@@ -81,10 +97,14 @@ return require('packer').startup(function(use)
   }
 
   -- tpope/vim-commentary lua replacement
-  use { 'b3nj5m1n/kommentary' }
+  use {
+    'b3nj5m1n/kommentary',
+  }
 
   -- pretty icons for nerd fonts
-  use { 'kyazdani42/nvim-web-devicons' }
+  use {
+    'kyazdani42/nvim-web-devicons',
+  }
 
   -- scratchpad/repl playground for lua
   use {
@@ -92,7 +112,9 @@ return require('packer').startup(function(use)
   }
 
   -- replacement for alvan/vim-closetag and AndrewRadev/tagalong.vim
-  use { 'windwp/nvim-ts-autotag' }
+  use {
+    'windwp/nvim-ts-autotag',
+  }
 
   -- tokyo night colorscheme for fun
   use {
@@ -153,7 +175,9 @@ return require('packer').startup(function(use)
   }
 
   -- lua 5.1 manual in vim docs
-  use { 'bfredl/luarefvim' }
+  use {
+    'bfredl/luarefvim',
+  }
 
   -- interactive window resizer
   use {
@@ -178,12 +202,20 @@ return require('packer').startup(function(use)
   }
 
   -- useful for visualizing undos
-  use { 'mbbill/undotree' }
+  use {
+    'mbbill/undotree',
+  }
 
   -- tpope's blessings to vimmers everywhere
-  use { 'tpope/vim-obsession' }
-  use { 'tpope/vim-surround' }
-  use { 'tpope/vim-repeat' }
+  use {
+    'tpope/vim-obsession',
+  }
+  use {
+    'tpope/vim-surround',
+  }
+  use {
+    'tpope/vim-repeat',
+  }
   use {
     'tpope/vim-fugitive',
     config = function()
@@ -204,10 +236,14 @@ return require('packer').startup(function(use)
   }
 
   -- blur the lines between vim and tmux
-  use { 'christoomey/vim-tmux-navigator' }
+  use {
+    'christoomey/vim-tmux-navigator',
+  }
 
   -- easy access to devdocs.io while in vim
-  use { 'romainl/vim-devdocs' }
+  use {
+    'romainl/vim-devdocs',
+  }
 
   -- extra text object for copy/pasting to the system clipboard, its soo good
   use {
@@ -222,7 +258,9 @@ return require('packer').startup(function(use)
   }
 
   -- Syntax highlighting plugin
-  use { 'linkinpark342/xonsh-vim', ft = 'xonsh' }
+  use {
+    'linkinpark342/xonsh-vim', ft = { 'xonsh', 'xsh' },
+  }
 
   -- easier aligning of text
   use {

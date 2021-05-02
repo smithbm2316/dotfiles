@@ -185,7 +185,7 @@ nv() {
     if [[ $1 == "plug" ]]; then
       eval ${nvim_config_path/filedir/plugins.lua}
     elif [[ $1 == "plugs" ]]; then
-      eval ${nvim_config_path/filedir/plugconfigs}
+      eval ${nvim_config_path/filedir/plugs/init.lua}
     elif [[ $1 == "maps" ]]; then
       eval ${nvim_config_path/filedir/maps.lua}
     elif [[ $1 == "sets" ]]; then
