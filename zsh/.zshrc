@@ -82,7 +82,6 @@ alias tree="ls --tree -I 'node_modules'"
 # mv and cp and mkdir improvements
 alias mv="mv -iv"
 alias cp="cp -iv"
-
 alias mkdir="mkdir -pv"
 
 # Configuration Files
@@ -98,6 +97,9 @@ alias xmoc="nvim ~/.config/xmonad/xmonad.hs +'cd ~/.config/xmonad'"
 
 # lazygit shortcut
 alias lg="lazygit"
+
+# cf stow helper
+cf() { eval "$HOME/dotfiles/scripts/cf.sh $@" }
 
 # shortcuts for shell configs
 shl() {
@@ -119,8 +121,10 @@ shl() {
   fi
 }
 
-alias dots="cd ~/dotfiles"
-alias tscheck="luacheck --config ~/code/neovim/telescope.nvim/.luacheckrc lua/telescope/*"
+# watch a youtube video or twitch vod with mpv
+vod() {
+  mpv "$(xclip -sel clip -o)"
+}
 
 # short command for dumping links quickly and easily
 dump() {

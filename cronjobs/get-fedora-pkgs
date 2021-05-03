@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "refreshing list of explicitly installed fedora packages"
+dnf repoquery --userinstalled | \
+  sed -n "s/\(.*\)-.:.*/\1,/p" | \
+  paste -sd " " > "$HOME/documents/journals/fedora-packages.txt"
+chown smithbm:smithbm "$HOME/documents/journals/fedora-packages.txt"

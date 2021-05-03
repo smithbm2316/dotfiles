@@ -1,4 +1,6 @@
 \.git
 \.gitignore
-configuration
+config
 Makefile
+README.md
+Session.vim
