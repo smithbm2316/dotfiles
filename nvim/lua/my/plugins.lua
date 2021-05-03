@@ -29,6 +29,27 @@ return require('packer').startup(function(use)
   --- lua plugins :D
   ---
   -----------------------------------------------------
+  -- the best fuzzy finder :0
+  use {
+    'nvim-telescope/telescope.nvim',
+    -- '~/code/neovim/telescope.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-lua/popup.nvim',
+    }
+  }
+
+  -- integration with github cli for telescope.nvim
+  use {
+    'nvim-telescope/telescope-github.nvim',
+  }
+
+  -- fzf sorting algorithm for telescope
+  use {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'make'
+  }
+
   -- easier configuration for built-in neovim lsp
   use {
     'neovim/nvim-lspconfig',
@@ -73,27 +94,6 @@ return require('packer').startup(function(use)
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
     requires = 'nvim-treesitter/nvim-treesitter',
-  }
-
-  -- the best fuzzy finder :0
-  use {
-    'nvim-telescope/telescope.nvim',
-    -- '~/code/neovim/telescope.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'nvim-lua/popup.nvim',
-    }
-  }
-
-  -- integration with github cli for telescope.nvim
-  use {
-    'nvim-telescope/telescope-github.nvim',
-  }
-
-  -- fzf sorting algorithm for telescope
-  use {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make'
   }
 
   -- tpope/vim-commentary lua replacement
@@ -151,6 +151,11 @@ return require('packer').startup(function(use)
   -- i can't remember my keybinds half the time, this should help
   use {
     'folke/which-key.nvim',
+  }
+
+  -- Open a new tab for viewing git diffs for all files in current branch
+  use {
+    'sindrets/diffview.nvim',
   }
 
   -----------------------------------------------------
@@ -216,13 +221,13 @@ return require('packer').startup(function(use)
   use {
     'tpope/vim-repeat',
   }
-  use {
-    'tpope/vim-fugitive',
-    config = function()
-      vim.api.nvim_set_keymap('n', '<leader>gd', ':Gdiffsplit<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<leader>sg', ':tabnew +vert\\ Git<cr>', { noremap = true, silent = true })
-    end,
-  }
+  -- use {
+  --   'tpope/vim-fugitive',
+  --   config = function()
+  --     vim.api.nvim_set_keymap('n', '<leader>gd', ':Gdiffsplit<cr>', { noremap = true, silent = true })
+  --     vim.api.nvim_set_keymap('n', '<leader>sg', ':tabnew +vert\\ Git<cr>', { noremap = true, silent = true })
+  --   end,
+  -- }
 
   -- language plugins
   use {

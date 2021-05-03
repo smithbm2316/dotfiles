@@ -15,6 +15,7 @@ local plugins = {
   'lualine',
   'luapad',
   'which-key',
+  'diffview',
 }
 
 for _, plug in pairs(plugins) do

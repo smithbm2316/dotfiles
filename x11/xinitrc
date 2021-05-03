@@ -5,9 +5,9 @@
 sh -c "~/dotfiles/config/displays.sh"
 xcape -e "Super_L=Escape;Super_R=Return" &
 xsetroot -cursor_name arrow &
+xss-lock i3lock -- -c 27212e &
 picom -b &
 flameshot &
-# nitrogen --restore &
 
 exec dbus-launch $@
 

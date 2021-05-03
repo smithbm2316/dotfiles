@@ -97,8 +97,8 @@ myawesomemenu = {
   {
     'lock',
     function()
-      awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/pictures/retrowave-landscape/retrowave1.png"')
-    end, 
+      awful.spawn.with_shell('loginctl lock-session')
+    end,
   },
   { 'suspend', function()
     awful.spawn.with_shell('systemctl suspend')
@@ -509,7 +509,7 @@ globalkeys = gears.table.join(
 
   -- Lock
   awful.key({ modkey }, 'q', function()
-    awful.spawn.with_shell('i3lock -c "#382f47" -i "/home/smithbm/pictures/retrowave-landscape/retrowave1.png"')
+    awful.spawn.with_shell('loginctl lock-session')
   end, { description = 'lock', group = 'awesome' }),
 
   -- Suspend
