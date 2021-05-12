@@ -35,8 +35,13 @@ source $ZDOTDIR/scripts/cursor.zsh
 # ALIASES
 ##################
 
+# utility func for testing if commands exist
+cmd_exists() {
+  command -v $1 >/dev/null 2>&1 && return 0 || return 1
+}
+
 # I HAVE THE POWER
-function IAMROOT() {
+iamroot() {
   prevcmd=$(fc -ln -1)
   su -c "$prevcmd"
 }
@@ -74,15 +79,36 @@ pandocHardBreak() {
 alias bsync="browser-sync start --server --files '*.css, *.html, *.js' --no-open"
 
 # lsd aliases
-alias ls="lsd"
-alias lsl="lsd -lA"
-alias l="lsd -A"
-alias tree="ls --tree -I 'node_modules'"
+alias ls='lsd'
+alias lsl='lsd -lA'
+alias l='lsd -A'
 
 # mv and cp and mkdir improvements
-alias mv="mv -iv"
-alias cp="cp -iv"
-alias mkdir="mkdir -pv"
+alias mv='mv -iv'
+alias cp='cp -iv'
+alias mkdir='mkdir -pv'
+mkd(){ mkdir -pv && cd $1 }
+
+# use fzf to open a directory somewhere nested after $HOME
+c() {
+  cd "$HOME"
+  cd "$(fd -t d --color=never | fzf --preview='tree -L 1 -I {}')"
+  cmd_exists lsd && lsd -A || ls -A
+}
+
+# open a specific dotfile in neovim, or vim if neovim isn't installed
+dots() {
+  cd "$HOME/dotfiles"
+  file_loc="$HOME/dotfiles/$(fzf --preview='head -80 {}')"
+  cd - >/dev/null 2>&1
+  cmd_exists nvim && nvim "$file_loc" -c 'cd ~/dotfiles' || vim "$file_loc"
+}
+
+# open a file in neovim with fzf from current dir
+f() {
+  file_to_open="$(fzf --preview="head -80 {}")"
+  [ -f "$(pwd)/$file_to_open" ] && nvim "$file_to_open"
+}
 
 # Configuration Files
 alias i3c="nvim ~/.config/i3/config +'cd ~/.config/i3'"
@@ -254,18 +280,6 @@ RPROMPT=\$vcs_info_msg_0_
 ##################
 # PLUGINS
 ##################
-
-# Use bash completion script for unfog-cli
-if [ -f "/etc/bash_completion.d/unfog.bash" ]; then
-  autoload bashcompinit
-  bashcompinit
-  source /etc/bash_completion.d/unfog.bash
-fi
-
-# dfs tmux workspace script
-if [ -f "$ZDOTDIR/scripts/dfs.sh" ]; then
-  alias dfs="$ZDOTDIR/scripts/./dfs.sh"
-fi
 
 # load nvm
 export NVM_DIR="$HOME/.nvm"

@@ -735,15 +735,12 @@ awful.rules.rules = {
     properties = { screen = 1, tag = 'dev' },
   },
   {
-    rule = { class = 'jetbrains-pycharm-ce' },
-    properties = { screen = 1, tag = 'work' },
-  },
-  {
     rule_any = { class = { 'Slack', 'discord' } },
     properties = { screen = 1, tag = 'messages' },
   },
   {
     rule = { class = 'obs' },
+    except = { class = 'obsidian' },
     properties = { screen = 2, tag = 'scratch' },
   },
   {

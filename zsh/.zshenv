@@ -17,6 +17,7 @@ export GOEXEC="/usr/local/go/bin"
 export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
 export LOCALBIN="$HOME/.local/bin"
+export NVIMBIN="$HOME/.local/nvim/bin"
 export YARNBIN="$HOME/.yarn/bin"
 
 # Default env variables that are useful
@@ -26,7 +27,8 @@ export MANPAGER="nvim -c 'set ft=man' -"
 
 # Application env variables
 export CALIBRE_USE_DARK_PALETTE=1
-export FZF_DEFAULT_COMMAND="rg --files ."
+export FZF_DEFAULT_COMMAND="fd -t f --color=never"
+export FZF_DEFAULT_OPTS='--multi --layout=reverse-list --border=rounded --tabstop=2 --bind ctrl-d:page-down,ctrl-u:page-up'
 export NEXT_TELEMETRY_DISABLED=1
 export RANGER_LOAD_DEFAULT_RC=FALSE
 
@@ -35,6 +37,7 @@ export PATH="$CARGOBIN:$PATH"
 export PATH="$GOBIN:$PATH"
 export PATH="$GOEXEC:$PATH"
 export PATH="$LOCALBIN:$PATH"
+export PATH="$NVIMBIN:$PATH"
 export PATH="$YARNBIN:$PATH"
 
 # Linux settings
@@ -50,6 +53,8 @@ if [ "$(uname)" = "Linux" ]; then
     alias bat="batcat"
     # Alias for fd package
     alias fd="fdfind"
+    # redefine for debian, where fd is renamed
+    export FZF_DEFAULT_COMMAND="fdfind --type f --color=never"
     # Alias for ncal to use normal month formatting
     alias cal="ncal -b"
   fi
