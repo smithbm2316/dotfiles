@@ -8,6 +8,7 @@ xsetroot -cursor_name arrow &
 xss-lock i3lock -- -c 27212e &
 picom -b &
 flameshot &
+nm-applet &
 
 exec dbus-launch $@
 

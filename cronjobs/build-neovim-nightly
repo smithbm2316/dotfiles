@@ -1,0 +1,30 @@
+#!/bin/bash
+addlog() {
+  if [ "$#" -eq 0 ]; then
+    echo -e "\n"
+  else
+    echo "$1" >> /home/smithbm/logs/cron_daily.log
+  fi
+}
+
+addlog "build-neovim-nightly starting at $(date)"
+addlog "started rebuilding neovim"
+
+addlog "changing to neovim build dir"
+cd /home/smithbm/builds/neovim || exit
+
+addlog "fetching updates to neovim repo"
+git pull
+
+addlog "cleaning depenencies"
+make clean
+
+addlog "building dependencies"
+CMAKE_INSTALL_PREFIX=/home/smithbm/.local/nvim make
+
+addlog "installing neovim"
+CMAKE_INSTALL_PREFIX=/home/smithbm/.local/nvim make install
+
+addlog "$(ls -l /home/smithbm/.local/nvim/bin/nvim)"
+addlog "finished building neovim nightly at $(date)"
+addlog

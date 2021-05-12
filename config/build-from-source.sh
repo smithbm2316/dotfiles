@@ -43,6 +43,11 @@ if [ $(command -v dnf) ]; then
   # ------------------------------------------------------------
   # MANUAL RPM PACKAGES
   # ------------------------------------------------------------
+  # github cli (gh)
+  # all distro options: https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+  sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+  sudo dnf install gh
+
   # glow
   cd ~/downloads
   gh release download -R charmbracelet/glow -p "glow_*_linux_amd64.rpm"

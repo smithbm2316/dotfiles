@@ -1,6 +1,23 @@
 #!/bin/bash
-echo "refreshing list of explicitly installed fedora packages"
-dnf repoquery --userinstalled | \
-  sed -n "s/\(.*\)-.:.*/\1,/p" | \
-  paste -sd " " > "$HOME/documents/journals/fedora-packages.txt"
-chown smithbm:smithbm "$HOME/documents/journals/fedora-packages.txt"
+addlog() {
+  if [ "$#" -eq 0 ]; then
+    echo -e "\n"
+  else
+    echo "$1" >> /home/smithbm/logs/cron_daily.log
+  fi
+}
+
+addlog "get-fedora-pkgs starting at $(date)"
+
+addlog "refreshing list of user-installed fedora packages"
+my_packages="$(dnf repoquery --userinstalled | sed -nr 's/(.*)-.:.*/\1/p')"
+
+addlog "writing list of updated packages to file"
+echo "$my_packages" > /home/smithbm/documents/journals/fedora-packages.txt
+
+addlog "changing file ownership"
+chown smithbm:smithbm /home/smithbm/documents/journals/fedora-packages.txt
+
+addlog "$(ls -l /home/smithbm/documents/journals/fedora-packages.txt)"
+addlog "finished refreshing packages at $(date)"
+addlog
