@@ -6,6 +6,10 @@ local theme_assets = require('beautiful.theme_assets')
 local xresources = require('beautiful.xresources')
 local dpi = xresources.apply_dpi
 
+local naughty = require('naughty')
+local gears = require('gears')
+local awful = require('awful')
+
 local gfs = require('gears.filesystem')
 local themes_path = gfs.get_themes_dir()
 
@@ -68,10 +72,7 @@ theme.taglist_squares_sel = theme_assets.taglist_squares_sel(taglist_square_size
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, theme.fg_normal)
 
 -- Variables set for theming notifications:
--- notification_font
--- notification_[bg|fg]
--- notification_[width|height|margin]
--- notification_[border_color|border_width|shape|opacity]
+theme.notification_font = 'Inter V:style=Medium:size=18'
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
@@ -113,11 +114,11 @@ theme.titlebar_maximized_button_normal_active = themes_path .. 'default/titlebar
 theme.titlebar_maximized_button_focus_active = themes_path .. 'default/titlebar/maximized_focus_active.png'
 
 theme.wallpaper = function(s)
-    if s.index == 1 then
-        return '/home/smithbm/pictures/retrowave-landscape/retrowave47.jpg'
-    else
-        return '/home/smithbm/pictures/retrowave-portrait/retrowave-vertical12.jpg'
-    end
+  if s.index == 1 then
+    return '/home/smithbm/pictures/retrowave-landscape/retrowave47.jpg'
+  else
+    return '/home/smithbm/pictures/retrowave-portrait/retrowave-vertical12.jpg'
+  end
 end
 
 -- You can use your own layout icons like this:
@@ -138,11 +139,60 @@ theme.layout_cornerne = themes_path .. 'default/layouts/cornernew.png'
 theme.layout_cornersw = themes_path .. 'default/layouts/cornersww.png'
 theme.layout_cornerse = themes_path .. 'default/layouts/cornersew.png'
 
+-- Notification settings
+-- cc: https://github.com/WillPower3309/awesome-dotfiles/blob/master/awesome/components/notifications.lua
+naughty.config.defaults.ontop = true
+naughty.config.defaults.font = theme.notification_font
+naughty.config.defaults.icon_size = dpi(32)
+naughty.config.defaults.screen = awful.screen.focused()
+naughty.config.defaults.timeout = 4
+naughty.config.defaults.title = 'System Notification'
+naughty.config.defaults.margin = dpi(16)
+naughty.config.defaults.border_width = 0
+naughty.config.defaults.position = 'top_right'
+naughty.config.defaults.shape = function(cr, w, h)
+  gears.shape.rounded_rect(cr, w, h, dpi(6))
+end
+
+naughty.config.padding = dpi(7)
+naughty.config.spacing = dpi(7)
+naughty.config.icon_dirs = {
+  '/usr/share/icons/Papirus',
+}
+naughty.config.icon_formats = { 'png', 'svg' }
+
+-- notifications normal
+naughty.config.presets.normal = {
+  font = theme.notification_font,
+  fg = theme.fg_normal,
+  bg = theme.bg_normal,
+  position = 'top-right',
+}
+
+-- notifications critical
+naughty.config.presets.critical = {
+  font = theme.notification_font,
+  fg = theme.fg_focus,
+  bg = theme.bg_normal,
+  position = 'top-right',
+  border_color = theme.fg_focus,
+  border_width = dpi(2),
+  timeout = 0,
+}
+
+-- other notifications
+naughty.config.presets.low = naughty.config.presets.normal
+naughty.config.presets.ok = naughty.config.presets.normal
+naughty.config.presets.info = naughty.config.presets.normal
+naughty.config.presets.warn = naughty.config.presets.critical
+naughty.config.presets.warn.border_color = theme.fg_urgent
+naughty.config.presets.warn.fg = theme.fg_urgent
+
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.bg_focus, theme.fg_focus)
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = "Papirus"
+theme.icon_theme = 'Papirus'
 
 return theme

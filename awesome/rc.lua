@@ -26,9 +26,30 @@ require('awful.hotkeys_popup.keys')
 local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
 local ram_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
 
--- Load Debian menu entries
--- local debian = require('debian.menu')
-local has_fdo, freedesktop = pcall(require, 'freedesktop')
+-- {{{ Variable definitions
+-- Themes define colours, icons, font and wallpapers.
+beautiful.init('/home/smithbm/.config/awesome/theme.lua')
+
+-- This is used later as the default terminal and editor to run.
+terminal = 'kitty'
+editor = os.getenv('EDITOR') or 'nvim'
+editor_cmd = terminal .. ' -e ' .. editor
+
+-- Default modkey.
+-- Usually, Mod4 is the key with a logo between Control and Alt.
+-- If you do not like this or do not have such a key,
+-- I suggest you to remap Mod4 to another key using xmodmap or other tools.
+-- However, you can use another modifier like Mod1, but it may interact with others.
+modkey = 'Mod4'
+altkey = 'Mod1'
+
+-- Table of layouts to cover with awful.layout.inc, order matters.
+awful.layout.layouts = {
+  awful.layout.suit.tile.left,
+  awful.layout.suit.max,
+  awful.layout.suit.tile.top,
+}
+-- }}}
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -61,31 +82,6 @@ do
 end
 -- }}}
 
--- {{{ Variable definitions
--- Themes define colours, icons, font and wallpapers.
-beautiful.init('/home/smithbm/.config/awesome/theme.lua')
-
--- This is used later as the default terminal and editor to run.
-terminal = 'kitty'
-editor = os.getenv('EDITOR') or 'nvim'
-editor_cmd = terminal .. ' -e ' .. editor
-
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = 'Mod4'
-altkey = 'Mod1'
-
--- Table of layouts to cover with awful.layout.inc, order matters.
-awful.layout.layouts = {
-  awful.layout.suit.tile.left,
-  awful.layout.suit.max,
-  awful.layout.suit.tile.top,
-}
--- }}}
-
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {
@@ -115,24 +111,12 @@ myawesomemenu = {
   end },
 }
 
-local menu_awesome = { 'awesome', myawesomemenu, beautiful.awesome_icon }
-local menu_terminal = { 'open terminal', terminal }
-
-local mymainmenu = {}
-if has_fdo then
-  mymainmenu = freedesktop.menu.build({
-    before = { menu_awesome },
-    after = { menu_terminal },
-  })
-else
-  mymainmenu = awful.menu({
-    items = {
-      menu_awesome,
-      -- { 'Debian', debian.menu.Debian_menu.Debian },
-      menu_terminal,
-    },
-  })
-end
+local mymainmenu = awful.menu({
+  items = {
+    { 'awesome', myawesomemenu, beautiful.awesome_icon  },
+    { 'open terminal', terminal },
+  },
+})
 
 -- launcher menu
 local mylauncher = awful.widget.launcher({
