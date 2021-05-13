@@ -48,8 +48,39 @@ end
 sumneko_root_path = sumneko_root_path .. '/smithbm/builds/lua-language-server'
 local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
 
+-- the following is thanks to @folke on github: https://gist.github.com/folke/fe5d28423ea5380929c3f7ce674c41d8
+local library = {}
+local path = vim.split(package.path, ';')
+
+table.insert(path, "lua/?.lua")
+table.insert(path, "lua/?/init.lua")
+
+local function add(lib)
+  for _, p in pairs(vim.fn.expand(lib, false, true)) do
+    p = vim.loop.fs_realpath(p)
+    library[p] = true
+  end
+end
+
+-- add runtime
+add("$VIMRUNTIME")
+
+-- add your config
+add("~/.config/nvim")
+
+-- add plugins
+-- if you're not using packer, then you might need to change the paths below
+add("~/.local/share/nvim/site/pack/packer/opt/*")
+add("~/.local/share/nvim/site/pack/packer/start/*")
+
 -- sumneko_lua setup
 require'lspconfig'.sumneko_lua.setup {
+  on_new_config = function(config, root)
+    local libs = vim.tbl_deep_extend("force", {}, library)
+    libs[root] = nil
+    config.settings.Lua.workspace.library = libs
+    return config
+  end,
   on_attach = on_attach,
   cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
   settings = {

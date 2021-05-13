@@ -7,7 +7,7 @@ luacheck.telescope = function()
   -- tab and buffer
   local test = a.nvim_exec([[
     tabnew +terminal
-    call feedkeys("luacheck --config ~/code/neovim/telescope.nvim/.luacheckrc ~/code/neovim/telescope.nvim/lua/telescope/*\<CR>")
+    call feedkeys("luacheck --config ~/code/neovim/telescope/.luacheckrc ~/code/neovim/telescope/lua/telescope/*\<CR>")
   ]], true)
 
   print(test)

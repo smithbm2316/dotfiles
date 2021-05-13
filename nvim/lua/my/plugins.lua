@@ -32,7 +32,7 @@ return require('packer').startup(function(use)
   -- the best fuzzy finder :0
   use {
     'nvim-telescope/telescope.nvim',
-    -- '~/code/neovim/telescope.nvim',
+    -- '~/code/neovim/telescope',
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-lua/popup.nvim',
@@ -157,6 +157,15 @@ return require('packer').startup(function(use)
   use {
     'sindrets/diffview.nvim',
   }
+
+  -- project-specific configuration
+  use{
+    'windwp/nvim-projectconfig',
+    config = function()
+      require('nvim-projectconfig').load_project_config()
+    end,
+  }
+
 
   -----------------------------------------------------
   ---

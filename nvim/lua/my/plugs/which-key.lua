@@ -1,4 +1,4 @@
-vim.o.timeoutlen = 600
+vim.o.timeoutlen = 750
 require('which-key').setup {
   marks = false,
   registers = false,

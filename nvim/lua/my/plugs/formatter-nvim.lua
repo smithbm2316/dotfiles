@@ -12,6 +12,17 @@ local filetype_configs = {
       }
     end,
   },
+  python = {
+    function()
+      return {
+        exe = 'yapf',
+        args = {
+          '',
+        },
+        stdin = true,
+      }
+    end,
+  },
 }
 
 -- configuration options for prettier
@@ -34,7 +45,7 @@ local prettier_config = {
 }
 
 -- add a prettier_config for all js/ts/vue/svelte filetypes
-for i, ft in pairs({ 'javascript', 'javascriptreact', 'typescript', 'typescript', 'svelte', 'vue' }) do
+for _, ft in pairs({ 'javascript', 'javascriptreact', 'typescript', 'typescript', 'svelte', 'vue' }) do
   filetype_configs[ft] = prettier_config
 end
 
@@ -45,12 +56,9 @@ require('formatter').setup({
 })
 
 -- call formatter.nvim automatically on save
-vim.api.nvim_exec(
-  [[
-augroup FormatAutogroup
+vim.cmd([[
+augroup FormatterNvimWebDev
   autocmd!
   autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue FormatWrite
 augroup END
-]],
-  false
-)
+]])

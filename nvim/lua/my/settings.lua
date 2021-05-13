@@ -9,14 +9,14 @@ vim.cmd 'filetype plugin indent on'
 
 -- Buffer options
 vim.api.nvim_exec([[
-	set autoindent
-	set expandtab
+  set autoindent
+  set expandtab
   set formatoptions-=2tac
   set formatoptions+=jnrql
-	set shiftwidth=2
-	set smartindent
-	set softtabstop=2
-	set tabstop=2
+  set shiftwidth=2
+  set smartindent
+  set softtabstop=2
+  set tabstop=2
 ]], false)
 
 -- Global options

@@ -87,7 +87,7 @@ alias l='lsd -A'
 alias mv='mv -iv'
 alias cp='cp -iv'
 alias mkdir='mkdir -pv'
-mkd(){ mkdir -pv && cd $1 }
+mkd(){ mkdir -pv $1 && cd $1 }
 
 # use fzf to open a directory somewhere nested after $HOME
 c() {

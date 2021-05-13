@@ -20,17 +20,17 @@ map('n', 'Y', 'y$', options)
 map('v', 'Y', 'y$', options)
 
 -- remap : to be easier to use, less work for your poor left pinky
-map('n', ';', ':', options)
-map('v', ';', ':', options)
+map('n', 'go', ':', options)
+map('v', 'go', ':', options)
 
 -- remap '<C-m>' to replace the ';' functionality for searching for previous
 -- occurence with t/T/f/F
-map('n', '<C-m>', ';', options)
-map('v', '<C-m>', ';', options)
+-- map('n', '<C-m>', ',', options)
+-- map('v', '<C-m>', ',', options)
 
 -- remap q: to be easier to use, less work for your poor left pinky
-map('n', 'q;', 'q:', options)
-map('v', 'q;', 'q:', options)
+-- map('n', 'q;', 'q:', options)
+-- map('v', 'q;', 'q:', options)
 
 -- Global Substitute: same as %s/
 map('n', 'gs', ':%s/', options)
