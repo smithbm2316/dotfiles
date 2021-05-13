@@ -1,4 +1,4 @@
-local function vim_obsession() return vim.fn.ObsessionStatus(" session", "") end
+-- local function vim_obsession() return vim.fn.ObsessionStatus(" session", "") end
 
 require('lualine').setup{
   options = {
@@ -17,7 +17,7 @@ require('lualine').setup{
       }
     },
     lualine_c = {'branch'},
-    lualine_x = {vim_obsession},
+    lualine_x = {'fileformat'},
     lualine_y = {'filetype'},
     lualine_z = {'location'},
   },

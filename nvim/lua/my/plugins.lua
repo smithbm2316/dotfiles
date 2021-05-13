@@ -159,13 +159,49 @@ return require('packer').startup(function(use)
   }
 
   -- project-specific configuration
-  use{
+  use {
     'windwp/nvim-projectconfig',
     config = function()
       require('nvim-projectconfig').load_project_config()
     end,
   }
 
+  -- view PRs in neovim
+  use {
+    'pwntester/octo.nvim',
+    config = function()
+      require'octo'.setup()
+    end,
+  }
+
+  -- smooth scrolling in neovim
+  use {
+    'karb94/neoscroll.nvim',
+    config = function()
+      require'neoscroll'.setup()
+    end,
+  }
+
+  -- better session management in neovim
+  use {
+    'rmagatti/auto-session',
+    config = function()
+      require'auto-session'.setup {
+        auto_session_root_dir = vim.fn.stdpath('config') .. '/sessions/',
+      }
+    end,
+  }
+  use {
+    'rmagatti/session-lens',
+    config = function()
+      require'session-lens'.setup {
+        shorten_path = false,
+        prompt_title = 'Pick your saved session',
+        winblend = 0,
+      }
+      vim.api.nvim_set_keymap('n', '<leader>ls', '<cmd>SearchSession<cr>', { noremap = true, silent = true })
+    end,
+  }
 
   -----------------------------------------------------
   ---
@@ -221,9 +257,9 @@ return require('packer').startup(function(use)
   }
 
   -- tpope's blessings to vimmers everywhere
-  use {
-    'tpope/vim-obsession',
-  }
+  -- use {
+  --   'tpope/vim-obsession',
+  -- }
   use {
     'tpope/vim-surround',
   }

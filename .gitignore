@@ -18,6 +18,7 @@ ncspot/userstate.toml
 nvim/plugged
 nvim/plugin
 nvim/backups
+nvim/sessions
 nvim/.netrwhist
 
 # ignore ranger plugins
