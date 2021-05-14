@@ -15,6 +15,7 @@ require('telescope').setup{
         ['<c-x>'] = false,
         ['<c-s>'] = actions.select_horizontal,
         ['<c-q>'] = actions.send_to_qflist,
+        ['<c-c>'] = actions.close,
       },
       i = {
         ['<c-x>'] = false,

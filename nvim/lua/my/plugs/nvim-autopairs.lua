@@ -1,10 +1,8 @@
-require('nvim-autopairs').setup({
+local npairs = require('nvim-autopairs')
+npairs.setup {
   disable_filetype = { "TelescopePrompt", "vim" },
   ignored_next_char = "[%w%.]",
-})
-
-local npairs = require('nvim-autopairs')
-npairs.setup()
+}
 local endwise = require('nvim-autopairs.ts-rule').endwise
 
 -- replacement for tpope/vim-endwise for Lua
