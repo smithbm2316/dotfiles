@@ -14,13 +14,11 @@ return require('packer').startup(function(use)
   --- my local plugins
   ---
   -----------------------------------------------------
-  -- use {
-  --   '~/code/neovim/restful.nvim',
-  -- }
   use {
+    -- '/code/neovim/centerpad.nvim',
     'smithbm2316/centerpad.nvim',
     config = function()
-      vim.api.nvim_set_keymap('n', '<leader>z', '<cmd>lua require"centerpad".toggle()<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>z', '<cmd>Centerpad<cr>', { noremap = true, silent = true })
     end,
   }
 
@@ -169,6 +167,8 @@ return require('packer').startup(function(use)
   -- view PRs in neovim
   use {
     'pwntester/octo.nvim',
+    -- TODO: make this lazy-load (https://github.com/wbthomason/packer.nvim#quickstart)
+    -- opt = true,
     config = function()
       require'octo'.setup()
     end,
@@ -187,6 +187,7 @@ return require('packer').startup(function(use)
     'rmagatti/auto-session',
     config = function()
       require'auto-session'.setup {
+        log_level = 'error',
         auto_session_root_dir = vim.fn.stdpath('config') .. '/sessions/',
       }
     end,

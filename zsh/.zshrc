@@ -91,16 +91,13 @@ mkd(){ mkdir -pv $1 && cd $1 }
 
 # use fzf to open a directory somewhere nested after $HOME
 c() {
-  cd "$HOME"
-  cd "$(fd -t d --color=never | fzf --preview='tree -L 1 -I {}')"
+  cd "$(fd -t d --color=never . "$HOME" | fzf --preview='tree -L 1 -I {}')"
   cmd_exists lsd && lsd -A || ls -A
 }
 
 # open a specific dotfile in neovim, or vim if neovim isn't installed
 dots() {
-  cd "$HOME/dotfiles"
-  file_loc="$HOME/dotfiles/$(fzf --preview='head -80 {}')"
-  cd - >/dev/null 2>&1
+  file_loc="$(fd -t f --color=never . "$HOME/dotfiles" | fzf --preview='head -80 {}')"
   cmd_exists nvim && nvim "$file_loc" -c 'cd ~/dotfiles' || vim "$file_loc"
 }
 
