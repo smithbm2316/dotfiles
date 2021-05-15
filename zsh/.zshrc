@@ -121,6 +121,23 @@ alias xmoc="nvim ~/.config/xmonad/xmonad.hs +'cd ~/.config/xmonad'"
 # lazygit shortcut
 alias lg="lazygit"
 
+# git alias
+g() {
+  if [[ "$#" == 0 ]]; then
+    git
+  elif [[ "$1" == "sync" ]]; then
+    curr_branch="$(git branch --show-current)"
+    def_branch="$(git branch -r | sed -nr "s/\s*upstream.(.*)/\1/p")"
+    git fetch upstream
+    git switch "$def_branch"
+    git pull
+    git merge "upstream/$def_branch"
+    git switch "$curr_branch"
+  else
+    git "$@"
+  fi
+}
+
 # cf stow helper
 cf() { eval "$HOME/dotfiles/scripts/cf.sh $@" }
 
