@@ -5,7 +5,7 @@ local bo = vim.bo
 
 -- Enable syntax highlighting and filetype plugins
 vim.cmd 'syntax enable'
-vim.cmd 'filetype plugin indent on'
+vim.cmd 'filetype plugin on'
 
 -- Buffer options
 vim.api.nvim_exec([[
