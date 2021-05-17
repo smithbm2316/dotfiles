@@ -44,5 +44,6 @@ require'nvim-treesitter.configs'.setup {
     'regex',
     'latex',
     'comment',
+    'vue',
   },
 }

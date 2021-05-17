@@ -29,8 +29,8 @@ return require('packer').startup(function(use)
   -----------------------------------------------------
   -- the best fuzzy finder :0
   use {
-    'nvim-telescope/telescope.nvim',
-    -- '~/code/neovim/telescope',
+    -- 'nvim-telescope/telescope.nvim',
+    '~/code/neovim/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-lua/popup.nvim',
@@ -137,7 +137,7 @@ return require('packer').startup(function(use)
       vim.g.lazygit_floating_window_use_plenary = 1
       vim.g.lazygit_floating_window_scaling_factor = 0.85
       vim.g.lazygit_use_neovim_remote = 0
-      vim.api.nvim_set_keymap('n', '<leader>lg', ':LazyGit<cr>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<leader>gs', ':LazyGit<cr>', { noremap = true })
     end,
   }
 
@@ -165,14 +165,14 @@ return require('packer').startup(function(use)
   }
 
   -- view PRs in neovim
-  use {
-    'pwntester/octo.nvim',
-    -- TODO: make this lazy-load (https://github.com/wbthomason/packer.nvim#quickstart)
-    -- opt = true,
-    config = function()
-      require'octo'.setup()
-    end,
-  }
+  -- use {
+  --   'pwntester/octo.nvim',
+  --   -- TODO: make this lazy-load (https://github.com/wbthomason/packer.nvim#quickstart)
+  --   -- opt = true,
+  --   config = function()
+  --     require'octo'.setup()
+  --   end,
+  -- }
 
   -- smooth scrolling in neovim
   use {

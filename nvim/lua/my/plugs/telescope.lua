@@ -1,14 +1,12 @@
 -- Aliases for Lua API functions
 local map = vim.api.nvim_set_keymap
--- Use the no recursive remapping for all remaps
-local opts = { noremap = true, silent = true }
 -- Telescope stuff I need to import for configuration
 local actions = require('telescope.actions')
 -- My module to export functions from
 local ts = {}
 
 -- TELESCOPE CONFIG
-require('telescope').setup{
+require('telescope').setup({
   defaults = {
     mappings = {
       n = {
@@ -27,7 +25,7 @@ require('telescope').setup{
     prompt_position = 'bottom',
     prompt_prefix = '🔍 ',
     sorting_strategy = 'ascending',
-    layout_strategy = 'flex',
+    layout_strategy = 'bottom_pane',
     file_ignore_patterns = { 'node_modules/.*', '.git/.*', '_site/.*' },
     layout_defaults = {
       horizontal = {
@@ -35,107 +33,112 @@ require('telescope').setup{
       },
       vertical = {
         mirror = true,
-      }
+      },
     },
   },
   extensions = {
     fzf = {
       override_generic_sorter = false,
       override_file_sorter = true,
-      case_mode = "smart_case"
-    }
-  }
-}
+      case_mode = 'smart_case',
+    },
+  },
+})
 -- require gh cli telescope integration
 require('telescope').load_extension('gh')
 -- require fzf extension for fzf sorting algorithm
 require('telescope').load_extension('fzf')
 
--- stolen from Thorsten Ball's neovim config: https://github.com/mrnugget/vimconfig
--- used to map a keybinding to a telescope builtin
-local map_tsbuiltin = function(keymap, picker, config)
-  config = config or {} -- set default options to be a table if the user gives none
-  local config_string = ''
-  local index = 1
-  for k,v in pairs(config) do
-    local format_str = ' %s = %q,'
-    if index == #config then
-      format_str = format_str:sub(0, #format_str - 1)
-    end
-    config_string = config_string .. string.format(format_str, k, v)
-    index = index + 1
-  end
-  local right_hand_side = string.format("<cmd>lua require('telescope.builtin').%s{%s}<cr>", picker, config_string)
-  map('n', keymap, right_hand_side, opts)
-end
--- used to map a keybinding to a custom telescope function I write
-local map_tscustom = function(keymap, picker)
-  local right_hand_side = string.format("<cmd>lua require('my.plugs.telescope').%s()<cr>", picker)
-  map('n', keymap, right_hand_side, opts)
-end
+-- global table to contain all of my opts for the different pickers
+TelescopeMapArgs = TelescopeMapArgs or {}
 
--- find files in dotfiles
-ts.dotfiles = function()
-  require('telescope.builtin').find_files{ cwd = '~/dotfiles', prompt_title = '... dotfiles ...', hidden = true }
-end
-map_tscustom('<leader>fd', 'dotfiles')
+-- function for mapping keys to any of my pickers, including custom opts and some good defaults included
+local map_picker = function(keymap, picker, opts, module, mode)
+  local map_key = vim.api.nvim_replace_termcodes(keymap .. picker, true, true, true)
+  local global_opts = {
+    hidden = true,
+    layout_config = {
+      height = 16,
+      mirror = true,
+    },
+  }
+  module = module or 'telescope.builtin'
+  mode = mode or 'n'
 
--- neovim config
-ts.neovim_config = function()
-  require('telescope.builtin').find_files{ cwd = '~/.config/nvim', prompt_title = 'neovim config', hidden = true }
-end
-map_tscustom('<leader>fn', 'neovim_config')
+  TelescopeMapArgs[map_key] = opts and vim.tbl_deep_extend('keep', opts, global_opts) or global_opts
 
--- search for word in neovim config
-ts.find_in_neovim_config = function()
-  require('telescope.builtin').live_grep{ cwd = '~/.config/nvim', prompt_title = 'find in neovim config' }
-end
-map_tscustom('<leader>fin', 'find_in_neovim_config')
+  local rhs = string.format(
+    [[<cmd>lua require('%s')['%s'](TelescopeMapArgs['%s'])<cr>]],
+    module,
+    picker,
+    map_key
+  )
 
--- self-explanatory
-ts.find_files_in_directory_of_buffer = function()
-  require('telescope.builtin').find_files({ cwd = vim.fn.expand("%:p:h"), prompt_title = 'find files in buf\'s dir', hidden = true })
+  map(mode, keymap, rhs, { noremap = true, silent = true })
 end
-
--- git_branches with checkout branch
-ts.git_branches_custom = function()
-  require('telescope.builtin').git_branches({ attach_mappings = function(_, map)
-    map('i', '<c-o>', actions.git_checkout)
-    map('n', '<c-o>', actions.git_checkout)
-    return true
-  end, selection_strategy = 'row' })
-end
-map_tscustom('<leader>gb', 'git_branches_custom')
 
 -- telescope builtins mappings
-local rowselect_opts = { selection_strategy = 'row', hidden = true }
-map_tsbuiltin('<leader>ld', 'file_browser', rowselect_opts )
-map_tsbuiltin('<leader>of', 'oldfiles')
-map_tsbuiltin('<leader>fc', 'grep_string')
-map_tsbuiltin('<leader>fj', 'find_files', { hidden = true })
-map_tsbuiltin('<leader>fw', 'live_grep')
-map_tsbuiltin('<leader>fib', 'current_buffer_fuzzy_find')
-map_tsbuiltin('<leader>gl', 'git_commits', rowselect_opts)
-map_tsbuiltin('gh', 'help_tags')
-map_tsbuiltin('<leader>gm', 'man_pages')
-map_tsbuiltin('<leader>gs', 'git_status', rowselect_opts)
-map_tsbuiltin('<leader>la', 'lsp_code_actions')
-map_tsbuiltin('<leader>lb', 'buffers')
-map_tsbuiltin('<leader>lk', 'keymaps')
-map_tsbuiltin('<leader>lm', 'marks')
-map_tsbuiltin('<leader>lq', 'quickfix')
-map_tsbuiltin('<leader>lr', 'registers')
-map_tsbuiltin('<leader>ts', 'builtin')
-map_tsbuiltin('<leader>va', 'autocommands')
-map_tsbuiltin('<leader>vc', 'commands')
-map_tsbuiltin('<leader>vo', 'vim_options')
+-- TODO: move some of my lspconfig mappings to use telescope's lsp pickers instead
+-- i.e. references and definition
+map_picker('<leader>ld', 'file_browser', {
+  selection_strategy = 'row',
+})
+map_picker('<leader>of', 'oldfiles')
+map_picker('<leader>fc', 'grep_string', {
+  prompt_title = 'word under cursor',
+})
+map_picker('<leader>fj', 'find_files')
+map_picker('<leader>lg', 'live_grep')
+map_picker('<leader>fib', 'current_buffer_fuzzy_find')
+map_picker('<leader>gl', 'git_commits', {
+  selection_strategy = 'row',
+  prompt_title = 'git log',
+})
+map_picker('gh', 'help_tags')
+map_picker('<leader>gm', 'man_pages')
+map_picker('<leader>lb', 'buffers')
+map_picker('<leader>ts', 'builtin')
+map_picker('<leader>rp', 'reloader')
+
+-- find files in dotfiles
+map_picker('<leader>fd', 'find_files', {
+  cwd = '~/dotfiles',
+  prompt_title = '.. dotfiles ..',
+})
+
+-- neovim config
+map_picker('<leader>fn', 'find_files', {
+  cwd = '~/dotfiles/nvim',
+  prompt_title = 'nvim config',
+})
+
+-- search for word in neovim config
+map_picker('<leader>fin', 'live_grep', {
+  cwd = '~/.config/nvim',
+  prompt_title = 'grep nvim config',
+})
+
+-- git_branches with checkout branch
+map_picker('<leader>gb', 'git_branches', {
+  attach_mappings = function(_, local_map)
+    local_map('i', '<c-o>', actions.git_checkout)
+    local_map('n', '<c-o>', actions.git_checkout)
+    return true
+  end,
+  selection_strategy = 'row',
+})
+
+-- vim-grepper-like picker with grep_string
+ts.ripgrepper = function(opts)
+  local ripgrepper_opts = {
+    prompt_title = 'ripgrepper',
+    search = vim.fn.input('ripgrepper > '),
+    search_dirs = { '%' },
+    use_regex = true,
+  }
+  opts = opts and vim.tbl_deep_extend('force', opts, ripgrepper_opts) or ripgrepper_opts
+  require('telescope.builtin').grep_string(opts)
+end
+map_picker('<leader>rg', 'ripgrepper', nil, 'my.plugs.telescope')
 
 return ts
--- local config = { hidden = true }
--- local config_string = ''
--- for k,v in pairs(config) do
---   local format_str = ' %s = %q,'
---   format_str = format_str:sub(0, #format_str - 1)
---   config_string = config_string .. string.format(format_str, k, v)
--- end
--- print(string.format([[<cmd>lua require('telescope.builtin').%s{%s}<cr>]], 'find_files', config_string))

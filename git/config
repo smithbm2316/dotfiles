@@ -13,6 +13,7 @@
 	cl = clone
   sw = switch
   bra = branch -a
+  brd = branch -d
   stash = stash -u
 	cob = checkout -b
 [core]
