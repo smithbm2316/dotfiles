@@ -299,9 +299,11 @@ RPROMPT=\$vcs_info_msg_0_
 # load nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# Load fzf-tab
+source "$ZDOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh"
 
 # Load zsh-autosuggestions plugin
-source $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source "$ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # Load zsh-syntax-highlighting plugin
-source $ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source "$ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
