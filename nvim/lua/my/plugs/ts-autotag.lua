@@ -3,9 +3,9 @@ require('nvim-ts-autotag').setup({
     'html',
     'javascript',
     'javascriptreact',
+    'svelte',
     'typescript',
     'typescriptreact',
-    'svelte',
     'vue',
   },
   skip_tags = {

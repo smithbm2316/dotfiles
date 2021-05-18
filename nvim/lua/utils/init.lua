@@ -16,7 +16,7 @@ Utils.tbl_to_str = function(tbl)
     if type(v) == 'string' then
       v = string.format("'%s'", v)
     elseif type(v) == 'table' then
-      v = utils.tbl_to_str(v)
+      v = Utils.tbl_to_str(v)
     end
     str_tbl = string.format([[%s %s = %s,]], str_tbl, k, v)
   end

@@ -15,12 +15,10 @@ luapad.playground_tab = function()
     bufname = bufname .. '1'
   end
   vim.api.nvim_buf_set_name(scratch, bufname)
-  if package.loaded['true-zen'] then
-    vim.cmd('TZAtaraxis')
-  end
   require('luapad').attach()
 end
 
-vim.api.nvim_set_keymap('n', '<leader>lp', "<cmd>lua require('my.plugs.luapad').playground_tab()<cr>", { noremap = true, silent = true })
+-- REPL lua
+vim.api.nvim_set_keymap('n', '<leader>rl', "<cmd>lua require('my.plugs.luapad').playground_tab()<cr>", { noremap = true, silent = true })
 
 return luapad

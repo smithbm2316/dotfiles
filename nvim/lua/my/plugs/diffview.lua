@@ -26,5 +26,4 @@ require'diffview'.setup {
     },
   },
 }
-
 vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>DiffviewOpen<cr>', { noremap = true, silent = true })

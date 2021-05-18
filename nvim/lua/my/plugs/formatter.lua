@@ -58,7 +58,7 @@ require('formatter').setup({
 -- call formatter.nvim automatically on save
 vim.cmd([[
 augroup FormatterNvimWebDev
-  autocmd!
-  autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue FormatWrite
+autocmd!
+autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue FormatWrite
 augroup END
 ]])

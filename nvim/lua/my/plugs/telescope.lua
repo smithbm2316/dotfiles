@@ -5,6 +5,18 @@ local actions = require('telescope.actions')
 -- My module to export functions from
 local ts = {}
 
+-- get the module you need and reload it
+function RELOADER(module)
+  if not module then
+    local buf_path = vim.api.nvim_buf_get_name(2)
+    local start = buf_path:find('/lua')
+    local module_name = buf_path:sub(start + 5, -5)
+    module = module_name:gsub('/', '.')
+  end
+  package.loaded[module] = nil
+  return require(module)
+end
+
 -- TELESCOPE CONFIG
 require('telescope').setup({
   defaults = {
@@ -80,7 +92,8 @@ end
 -- telescope builtins mappings
 -- TODO: move some of my lspconfig mappings to use telescope's lsp pickers instead
 -- i.e. references and definition
-map_picker('<leader>ld', 'file_browser', {
+map_picker('<leader>wd', 'file_browser', {
+  prompt_title = 'working directory',
   selection_strategy = 'row',
 })
 map_picker('<leader>of', 'oldfiles')
@@ -109,7 +122,7 @@ map_picker('<leader>fd', 'find_files', {
 -- neovim config
 map_picker('<leader>fn', 'find_files', {
   cwd = '~/dotfiles/nvim',
-  prompt_title = 'nvim config',
+  prompt_title = 'files in nvim config',
 })
 
 -- search for word in neovim config
@@ -140,5 +153,16 @@ ts.ripgrepper = function(opts)
   require('telescope.builtin').grep_string(opts)
 end
 map_picker('<leader>rg', 'ripgrepper', nil, 'my.plugs.telescope')
+
+ts.buffer_directory = function(opts)
+  local bd_opts = {
+    cwd = vim.fn.expand('%:p:h'),
+    prompt_title = "buffer's directory",
+    selection_strategy = 'row',
+  }
+  opts = opts and vim.tbl_deep_extend('force', opts, bd_opts) or bd_opts
+  require('telescope.builtin').file_browser(opts)
+end
+map_picker('<leader>bd', 'buffer_directory', nil, 'my.plugs.telescope')
 
 return ts

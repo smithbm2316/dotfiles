@@ -5,9 +5,9 @@ require('which-key').setup {
   presets = {
     operators = false,
     motions = false,
-    text_objects = true,
-    windows = true,
-    nav = true,
+    text_objects = false,
+    windows = false,
+    nav = false,
     z = true,
     g = true,
   },

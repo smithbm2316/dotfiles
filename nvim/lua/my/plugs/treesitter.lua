@@ -17,6 +17,14 @@ require'nvim-treesitter.configs'.setup {
       },
     },
   },
+  playground = {
+    enable = true,
+  },
+  query_linter = {
+    enable = true,
+    use_virtual_text = true,
+    lint_events = {'BufWrite', 'CursorHold'},
+  },
   autopairs = {
     enable = true,
   },
@@ -43,7 +51,8 @@ require'nvim-treesitter.configs'.setup {
     'toml',
     'regex',
     'latex',
-    'comment',
+    -- 'comment',
     'vue',
+    'query',
   },
 }

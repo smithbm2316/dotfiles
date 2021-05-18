@@ -4,6 +4,9 @@ vim.cmd [[packadd packer.nvim]]
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 
 return require('packer').startup(function(use)
+  local reqplug = function(name)
+    return require('my.plugs.' .. name)
+  end
   -- *i used the packer.nvim to manage the packer.nvim* - thanos
   use {
     'wbthomason/packer.nvim', opt = true,
@@ -11,16 +14,9 @@ return require('packer').startup(function(use)
 
   -----------------------------------------------------
   ---
-  --- my local plugins
+  --- my plugins
   ---
   -----------------------------------------------------
-  use {
-    -- '/code/neovim/centerpad.nvim',
-    'smithbm2316/centerpad.nvim',
-    config = function()
-      vim.api.nvim_set_keymap('n', '<leader>z', '<cmd>Centerpad<cr>', { noremap = true, silent = true })
-    end,
-  }
 
   -----------------------------------------------------
   ---
@@ -82,12 +78,20 @@ return require('packer').startup(function(use)
   -- format code with external tools
   use {
     'mhartington/formatter.nvim',
+    opt = true,
+    cmd = { 'FormatWrite', 'Format' },
+    config = function()
+      reqplug('formatter')
+    end,
   }
 
   -- highlight and indent and textobject all the things
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
+  }
+  use {
+    'nvim-treesitter/playground',
   }
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
@@ -107,11 +111,18 @@ return require('packer').startup(function(use)
   -- scratchpad/repl playground for lua
   use {
     'rafcamlet/nvim-luapad',
+    opt = true,
+    cmd = { 'Luapad', 'Lua', 'LuaRun' },
   }
 
   -- replacement for alvan/vim-closetag and AndrewRadev/tagalong.vim
   use {
     'windwp/nvim-ts-autotag',
+    opt = true,
+    ft = { 'html', 'javascript', 'javascriptreact', 'svelte', 'typescript', 'typescriptreact', 'vue' },
+    config = function()
+      reqplug('ts-autotag')
+    end,
   }
 
   -- tokyo night colorscheme for fun
@@ -132,13 +143,17 @@ return require('packer').startup(function(use)
   -- lazygit in neovim
   use {
     'kdheepak/lazygit.nvim',
+    setup = function()
+      vim.api.nvim_set_keymap('n', '<leader>gs', '<cmd>LazyGit<cr>', { noremap = true, silent = true })
+    end,
     config = function()
       vim.g.lazygit_floating_window_winblend = 0
       vim.g.lazygit_floating_window_use_plenary = 1
       vim.g.lazygit_floating_window_scaling_factor = 0.85
       vim.g.lazygit_use_neovim_remote = 0
-      vim.api.nvim_set_keymap('n', '<leader>gs', ':LazyGit<cr>', { noremap = true })
     end,
+    opt = true,
+    cmd = { 'LazyGit', 'LazyGitConfig', 'LazyGitFilter' },
   }
 
   -- show preview of colors for hex, hsl, and rgb values
@@ -154,31 +169,41 @@ return require('packer').startup(function(use)
   -- Open a new tab for viewing git diffs for all files in current branch
   use {
     'sindrets/diffview.nvim',
+    config = function()
+      require('my.plugs.diffview')
+    end,
   }
 
   -- project-specific configuration
   use {
     'windwp/nvim-projectconfig',
+    setup = function()
+      vim.api.nvim_set_keymap('n', '<leader>pc', [[<cmd>lua require'nvim-projectconfig'.edit_project_config()<cr>]], { noremap = true, silent = true })
+    end,
     config = function()
       require('nvim-projectconfig').load_project_config()
     end,
   }
 
   -- view PRs in neovim
-  -- use {
-  --   'pwntester/octo.nvim',
-  --   -- TODO: make this lazy-load (https://github.com/wbthomason/packer.nvim#quickstart)
-  --   -- opt = true,
-  --   config = function()
-  --     require'octo'.setup()
-  --   end,
-  -- }
+  use {
+    'pwntester/octo.nvim',
+    opt = true,
+    cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' },
+    config = function()
+      require('octo').setup()
+    end,
+  }
 
   -- smooth scrolling in neovim
   use {
     'karb94/neoscroll.nvim',
     config = function()
-      require'neoscroll'.setup()
+      require('neoscroll').setup()
+      require('neoscroll.config').set_mappings({
+        ['<C-y>'] = { 'scroll', { '-0.05', 'false', '20' } },
+        ['<C-e>'] = { 'scroll', { '0.05', 'false', '20' } },
+      })
     end,
   }
 
@@ -204,6 +229,55 @@ return require('packer').startup(function(use)
     end,
   }
 
+  -- centerpad, but much better (uses a floating window!!)
+  use {
+    'folke/zen-mode.nvim',
+    setup = function()
+      vim.api.nvim_set_keymap('n', '<leader>z', [[<cmd>ZenMode<cr>]], { noremap = true })
+    end,
+    config = function()
+      require('zen-mode').setup {
+        window = {
+          width = 104,
+          backdrop = 0.95,
+        },
+      }
+    end,
+    opt = true,
+    cmd = 'ZenMode',
+  }
+
+  -- pretty list for showing lsp info
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup()
+    end
+  }
+
+  -- highlight todos and other style comments
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup()
+    end
+  }
+
+  -- highlight ranges as they are being selected
+  use {
+    'winston0410/range-highlight.nvim',
+    config = function()
+      require("range-highlight").setup()
+    end,
+  }
+
+  -- simple file explorer
+  use {
+    'tamago324/lir.nvim',
+  }
+
   -----------------------------------------------------
   ---
   --- vimscript plugins
@@ -220,9 +294,9 @@ return require('packer').startup(function(use)
       vim.g.mkdp_echo_preview_url = 1
       -- Start markdown preview server on port 5000
       vim.g.mkdp_port = 5000
-      -- markdown preview toggle
-      vim.api.nvim_set_keymap('n', '<leader>pm', ':MarkdownPreviewToggle<cr>', { noremap = true })
     end,
+    opt = true,
+    cmd = 'MarkdownPreviewToggle',
   }
 
   -- lua 5.1 manual in vim docs
@@ -249,41 +323,30 @@ return require('packer').startup(function(use)
   -- for automatic list bulleting when writing markdown or plaintext
   use {
     'dkarter/bullets.vim',
+    opt = true,
     ft = { 'markdown', 'text', 'latex' },
   }
 
-  -- useful for visualizing undos
-  use {
-    'mbbill/undotree',
-  }
-
   -- tpope's blessings to vimmers everywhere
-  -- use {
-  --   'tpope/vim-obsession',
-  -- }
   use {
     'tpope/vim-surround',
   }
   use {
     'tpope/vim-repeat',
   }
-  -- use {
-  --   'tpope/vim-fugitive',
-  --   config = function()
-  --     vim.api.nvim_set_keymap('n', '<leader>gd', ':Gdiffsplit<cr>', { noremap = true, silent = true })
-  --     vim.api.nvim_set_keymap('n', '<leader>sg', ':tabnew +vert\\ Git<cr>', { noremap = true, silent = true })
-  --   end,
-  -- }
 
   -- language plugins
   use {
     'conornewton/vim-latex-preview',
-    ft = 'tex',
-    config = function()
+    setup = function()
       vim.api.nvim_set_keymap('n', '<leader>pl', ':StartLatexPreview<cr>', { noremap = true })
+    end,
+    config = function()
       vim.g.latex_pdf_viewer = 'evince'
       vim.g.latex_engine = 'pdflatex'
     end,
+    opt = true,
+    ft = 'tex',
   }
 
   -- blur the lines between vim and tmux
@@ -294,32 +357,36 @@ return require('packer').startup(function(use)
   -- easy access to devdocs.io while in vim
   use {
     'romainl/vim-devdocs',
+    opt = true,
+    cmd = 'DD',
   }
 
   -- extra text object for copy/pasting to the system clipboard, its soo good
   use {
     'christoomey/vim-system-copy',
     config = function()
-      vim.api.nvim_exec([[
-        let g:system_copy#copy_command = 'xclip -sel clipboard'
-        let g:system_paste#paste_command = 'xclip -sel clipboard -o'
-        let g:system_copy_silent = 1
-      ]], false)
+      vim.g['system_copy#copy_command'] = 'xclip -sel clipboard'
+      vim.g['system_paste#paste_command'] = 'xclip -sel clipboard -o'
+      vim.g['system_copy_silent'] = 1
     end,
   }
 
   -- Syntax highlighting plugin
   use {
-    'linkinpark342/xonsh-vim', ft = { 'xonsh', 'xsh' },
+    'linkinpark342/xonsh-vim',
+    opt = true,
+    ft = { 'xonsh', 'xsh' },
   }
 
   -- easier aligning of text
   use {
     'junegunn/vim-easy-align',
-    config = function()
-      vim.api.nvim_set_keymap('n', 'ga', ':EasyAlign<cr>', { noremap = true })
-      vim.api.nvim_set_keymap('v', 'ga', ':EasyAlign<cr>', { noremap = true })
+    setup = function()
+      vim.api.nvim_set_keymap('n', 'ga', '<cmd>EasyAlign<cr>', { noremap = true })
+      vim.api.nvim_set_keymap('v', 'ga', '<cmd>EasyAlign<cr>', { noremap = true })
     end,
+    opt = true,
+    cmd = 'EasyAlign',
   }
 
 end)

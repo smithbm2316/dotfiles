@@ -1,23 +1,25 @@
+-- load colorscheme config first before other plugin configs in case of issues
+require('my.plugs.tokyonight')
+
+-- list of plugin configs
 local plugins = {
-  'tokyonight',
-  'nvim-compe',
-  'nvim-autopairs',
-  'nvim-lightbulb',
-  'nvim-lspconfig',
-  'nvim-web-devicons',
-  'telescope',
-  'treesitter',
-  'gitsigns',
-  'formatter-nvim',
-  'nvim-ts-autotag',
-  'kommentary',
+  'autopairs',
   'colorizer',
+  'compe',
+  'gitsigns',
+  'kommentary',
+  'lightbulb',
+  'lir',
+  'lspconfig',
   'lualine',
   'luapad',
+  'telescope',
+  'treesitter',
+  'web-devicons',
   'which-key',
-  'diffview',
 }
 
+-- loop through and load each plugin config file
 for _, plug in pairs(plugins) do
   require(string.format('my.plugs.%s', plug))
 end
