@@ -4,6 +4,9 @@ local map = vim.api.nvim_set_keymap
 -- Use the no recursive remapping for all remaps
 local options = { noremap = true }
 
+-- packer sync baby
+map('n', '<leader>ps', '<cmd>PackerSync<cr>', options)
+
 -- swap to alternate file
 map('n', 'gp', '<c-^>', options)
 map('v', 'gp', '<c-^>', options)
@@ -23,14 +26,13 @@ map('v', 'Y', 'y$', options)
 map('n', 'go', ':', options)
 map('v', 'go', ':', options)
 
--- remap '<C-m>' to replace the ';' functionality for searching for previous
--- occurence with t/T/f/F
--- map('n', '<C-m>', ',', options)
--- map('v', '<C-m>', ',', options)
+-- remap <c-m> to repeat last command
+map('n', '<c-m>', '@:', options)
+map('v', '<c-m>', '@:', options)
 
 -- remap q: to be easier to use, less work for your poor left pinky
--- map('n', 'q;', 'q:', options)
--- map('v', 'q;', 'q:', options)
+map('n', '<c-q>', 'q:', options)
+map('v', '<c-q>', 'q:', options)
 
 -- Global Substitute: same as %s/
 map('n', 'gs', ':%s/', options)
@@ -38,6 +40,10 @@ map('v', 'gs', ':%s/', options)
 -- Linewise Substitute: same as s/
 map('n', 'gl', ':s/', options)
 map('v', 'gl', ':s/', options)
+
+-- quickfix list navigation yay
+map('n', '<c-n>', '<cmd>cnext<cr>', options)
+map('n', '<c-p>', '<cmd>cprev<cr>', options)
 
 -- Turn off search highlighting after finishing a search (nohlsearch)
 map('n', '<leader>hl', ':noh<cr>', options)

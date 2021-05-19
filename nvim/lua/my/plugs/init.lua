@@ -17,6 +17,7 @@ local plugins = {
   'treesitter',
   'web-devicons',
   'which-key',
+  'zen-mode',
 }
 
 -- loop through and load each plugin config file

@@ -101,15 +101,17 @@ map_picker('<leader>fc', 'grep_string', {
   prompt_title = 'word under cursor',
 })
 map_picker('<leader>fj', 'find_files')
-map_picker('<leader>lg', 'live_grep')
+map_picker('<leader>gw', 'live_grep') -- grep word
 map_picker('<leader>fib', 'current_buffer_fuzzy_find')
 map_picker('<leader>gl', 'git_commits', {
   selection_strategy = 'row',
   prompt_title = 'git log',
-})
-map_picker('gh', 'help_tags')
+}) -- git log
+map_picker('<leader>gh', 'help_tags')
 map_picker('<leader>gm', 'man_pages')
-map_picker('<leader>lb', 'buffers')
+map_picker('<leader>bl', 'buffers', {
+  show_all_buffers = true,
+})
 map_picker('<leader>ts', 'builtin')
 map_picker('<leader>rp', 'reloader')
 

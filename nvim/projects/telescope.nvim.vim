@@ -6,5 +6,4 @@ augroup TelescopePluginDev
   au FileType lua setlocal tw=120 fo+=t cc=120
 augroup END
 
-" overwrite centerpad default command to center with the colorcolumn fully in sight
-nnoremap <silent><leader>z <cmd>Centerpad 22<cr>
+nnoremap <silent><leader>z <cmd>lua require("zen-mode").toggle({ window = { width = 126 } })<cr>

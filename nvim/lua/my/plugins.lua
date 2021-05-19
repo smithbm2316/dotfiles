@@ -232,19 +232,6 @@ return require('packer').startup(function(use)
   -- centerpad, but much better (uses a floating window!!)
   use {
     'folke/zen-mode.nvim',
-    setup = function()
-      vim.api.nvim_set_keymap('n', '<leader>z', [[<cmd>ZenMode<cr>]], { noremap = true })
-    end,
-    config = function()
-      require('zen-mode').setup {
-        window = {
-          width = 104,
-          backdrop = 0.95,
-        },
-      }
-    end,
-    opt = true,
-    cmd = 'ZenMode',
   }
 
   -- pretty list for showing lsp info
@@ -265,17 +252,14 @@ return require('packer').startup(function(use)
     end
   }
 
-  -- highlight ranges as they are being selected
-  use {
-    'winston0410/range-highlight.nvim',
-    config = function()
-      require("range-highlight").setup()
-    end,
-  }
-
   -- simple file explorer
   use {
     'tamago324/lir.nvim',
+  }
+
+  -- luv docs in neovim
+  use {
+    'nanotee/luv-vimdocs',
   }
 
   -----------------------------------------------------

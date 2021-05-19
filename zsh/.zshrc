@@ -132,7 +132,7 @@ g() {
     git switch "$def_branch"
     git pull
     git merge "upstream/$def_branch"
-    git push "origin/$def_branch"
+    git push
     git switch "$curr_branch"
   else
     git "$@"
