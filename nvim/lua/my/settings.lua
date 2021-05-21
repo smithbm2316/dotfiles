@@ -20,6 +20,7 @@ vim.api.nvim_exec([[
 ]], false)
 
 -- Global options
+o.completeopt = 'menuone,noselect'
 o.errorbells = false
 o.exrc = true
 o.hidden = true
@@ -43,6 +44,7 @@ o.wildmode = 'full'
 o.wildignore = '*/node_modules/*,*/.git/*,DS_Store,*/venv/*,*/__pycache__/*,*.pyc'
 o.wildmenu = true
 o.wildoptions = 'pum'
+o.updatetime = 2000
 
 -- Window options
 wo.foldmethod = 'manual'

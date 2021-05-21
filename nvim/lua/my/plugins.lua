@@ -4,9 +4,6 @@ vim.cmd [[packadd packer.nvim]]
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 
 return require('packer').startup(function(use)
-  local reqplug = function(name)
-    return require('my.plugs.' .. name)
-  end
   -- *i used the packer.nvim to manage the packer.nvim* - thanos
   use {
     'wbthomason/packer.nvim', opt = true,
@@ -57,9 +54,13 @@ return require('packer').startup(function(use)
   -- show a lightbulb in the gutter where a code action from lsp is available
   use {
     'kosayoda/nvim-lightbulb',
+    config = function()
+      vim.cmd [[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
+    end,
+    disable = true,
   }
 
-  -- completion plugin
+  -- auto-completion plugin
   use {
     'hrsh7th/nvim-compe',
   }
@@ -81,7 +82,7 @@ return require('packer').startup(function(use)
     opt = true,
     cmd = { 'FormatWrite', 'Format' },
     config = function()
-      reqplug('formatter')
+      require('my.plugs.formatter')
     end,
   }
 
@@ -92,6 +93,8 @@ return require('packer').startup(function(use)
   }
   use {
     'nvim-treesitter/playground',
+    opt = true,
+    cmd = 'TSPlaygroundToggle',
   }
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
@@ -121,7 +124,7 @@ return require('packer').startup(function(use)
     opt = true,
     ft = { 'html', 'javascript', 'javascriptreact', 'svelte', 'typescript', 'typescriptreact', 'vue' },
     config = function()
-      reqplug('ts-autotag')
+      require('my.plugs.ts-autotag')
     end,
   }
 
@@ -169,9 +172,20 @@ return require('packer').startup(function(use)
   -- Open a new tab for viewing git diffs for all files in current branch
   use {
     'sindrets/diffview.nvim',
+    opt = true,
+    setup = function()
+      vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>DiffviewOpen<cr>', { noremap = true, silent = true })
+    end,
     config = function()
       require('my.plugs.diffview')
     end,
+    cmd = {
+      'DiffviewOpen',
+      'DiffviewClose',
+      'DiffviewFocusFiles',
+      'DiffviewToggleFiles',
+      'DiffviewRefresh',
+    },
   }
 
   -- project-specific configuration
@@ -262,6 +276,16 @@ return require('packer').startup(function(use)
     'nanotee/luv-vimdocs',
   }
 
+  -- make lua nvim development easier
+  use {
+    'folke/lua-dev.nvim',
+  }
+
+  -- show lsp hover docs automatically
+  use {
+    'ray-x/lsp_signature.nvim',
+  }
+
   -----------------------------------------------------
   ---
   --- vimscript plugins
@@ -308,7 +332,7 @@ return require('packer').startup(function(use)
   use {
     'dkarter/bullets.vim',
     opt = true,
-    ft = { 'markdown', 'text', 'latex' },
+    ft = { 'markdown', 'text', 'latex', 'tex' },
   }
 
   -- tpope's blessings to vimmers everywhere
@@ -370,7 +394,7 @@ return require('packer').startup(function(use)
       vim.api.nvim_set_keymap('v', 'ga', '<cmd>EasyAlign<cr>', { noremap = true })
     end,
     opt = true,
-    cmd = 'EasyAlign',
+    cmd = { 'EasyAlign' },
   }
 
 end)

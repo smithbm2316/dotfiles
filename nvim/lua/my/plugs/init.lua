@@ -8,7 +8,6 @@ local plugins = {
   'compe',
   'gitsigns',
   'kommentary',
-  'lightbulb',
   'lir',
   'lspconfig',
   'lualine',

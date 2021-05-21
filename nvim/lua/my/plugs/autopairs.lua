@@ -3,9 +3,9 @@ npairs.setup {
   disable_filetype = { "TelescopePrompt", "vim" },
   ignored_next_char = "[%w%.]",
 }
-local endwise = require('nvim-autopairs.ts-rule').endwise
 
 -- replacement for tpope/vim-endwise for Lua
+-- local endwise = require('nvim-autopairs.ts-rule').endwise
 -- npairs.add_rules({
 --   endwise('then$', 'end', 'lua', 'if_statement'),
 --   endwise('function.+%)$', 'end', 'lua', 'function_definition'),
