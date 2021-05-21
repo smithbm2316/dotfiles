@@ -1,0 +1,31 @@
+#!/bin/bash
+addlog() {
+  if [ "$#" -eq 0 ]; then
+    echo -e "\n"
+  else
+    echo "$1" >> /home/smithbm/logs/cron_daily.log
+  fi
+}
+
+addlog "build-sumneko-lualsp starting at $(date)"
+addlog "started rebuilding sumneko_lua lsp"
+
+addlog "changing to sumneko_lua build dir"
+cd /home/smithbm/builds/lua-language-server || exit
+
+addlog "fetching updates to sumneko_lua repo"
+curr_commit="$(git log -n1 --format=format:"%h")"
+git pull
+latest_commit="$(git log -n1 --format=format:"%h")"
+[ "$curr_commit" -eq "$latest_commit" ] && addlog "no updates, exiting without rebuilding at $(date)" && exit
+
+addlog "building dependencies"
+git submodule update --init --recursive
+cd 3rd/luamake || exit
+compile/install.sh
+cd ../.. || exit
+./3rd/luamake/luamake rebuild
+
+addlog "$(ls -l /home/smithbm/.local/bin/lua-language-server)"
+addlog "finished building lua-language-server at $(date)"
+addlog

@@ -228,6 +228,11 @@ awful.screen.connect_for_each_screen(function(s)
       screen = s,
       selected = false,
     })
+    awful.tag.add('notes', {
+      layout = awful.layout.suit.max,
+      screen = s,
+      selected = false,
+    })
   end
 
   if s.index == 2 then
