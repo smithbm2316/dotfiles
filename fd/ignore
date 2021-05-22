@@ -1,0 +1,5 @@
+# ignore mac-specific directories
+/Users/smithbm/Applications/
+/Users/smithbm/Library/
+
+node_modules/

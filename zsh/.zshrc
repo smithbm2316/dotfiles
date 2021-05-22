@@ -88,6 +88,7 @@ alias mv='mv -iv'
 alias cp='cp -iv'
 alias mkdir='mkdir -pv'
 mkd(){ mkdir -pv $1 && cd $1 }
+alias cwd='basename "$PWD"'
 
 # use fzf to open a directory somewhere nested after $HOME
 c() {
@@ -265,7 +266,11 @@ tmks() {
 }
 # tmux new session command
 tmn() {
-  tmux new-session -s $@
+  if [ -z $@ ]; then
+    tmux new-session -s $(basename "$PWD")
+  else
+    tmux new-session -s $1
+  fi
 }
 # tmux new project command
 tmnp() {

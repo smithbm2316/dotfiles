@@ -15,7 +15,7 @@ local my_on_attach = function(client, bufnr)
   -- lsp references
   buf_set_keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
   -- lsp definition
-  buf_set_keymap('n', 'ld', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+  buf_set_keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
   -- next diagnostic
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
   -- prev diagnostic
@@ -51,8 +51,8 @@ for _, lsp in ipairs(servers) do
 end
 
 -- sumneko_lua setup, using lua-dev plugin for better lua docs
-local sumneko_root_path = os.getenv('HOME') .. '/builds/lua-language-server';
-local system_name = vim.fn.has('unix') and 'Linux' or 'macOS';
+local sumneko_root_path = os.getenv('HOME') .. '/builds/lua-language-server'
+local system_name = vim.fn.has('mac') and 'macOS' or 'Linux'
 local sumneko_binary = sumneko_root_path .. '/bin/' .. system_name .. '/lua-language-server'
 
 -- TODO: find a way to conditionally load awesomeWM's runtime files and add globals when editing awesome files
