@@ -24,13 +24,14 @@ require('telescope').setup({
       n = {
         ['<c-x>'] = false,
         ['<c-s>'] = actions.select_horizontal,
-        ['<c-q>'] = actions.send_to_qflist,
+        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
         ['<c-c>'] = actions.close,
       },
       i = {
         ['<c-x>'] = false,
         ['<c-s>'] = actions.select_horizontal,
-        ['<c-q>'] = actions.send_to_qflist,
+        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
+        ['<c-c>'] = actions.close,
       },
     },
     color_devicons = true,

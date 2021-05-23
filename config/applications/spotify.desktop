@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Spotify
+Exec=/usr/bin/flatpak run com.spotify.Client
+Icon=/usr/share/icons/Papirus-Dark/32x32/apps/spotify.svg
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Music

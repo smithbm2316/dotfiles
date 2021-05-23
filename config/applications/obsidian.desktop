@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Obsidian
+Exec=/usr/local/bin/obsidian
+Icon=/usr/share/icons/Papirus-Dark/32x32/apps/obsidian.svg
+Terminal=false
+Type=Application
+StartupNotify=true
+MimeType=x-scheme-handler/obsidian;

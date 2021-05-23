@@ -30,18 +30,22 @@ local my_on_attach = function(client, bufnr)
     }
   end
 
+  -- TODO: setup lspsaga instead of lspsignature
+  -- TODO: setup custom tsserver settings
   -- show signature help automatically
-  local has_lsp_signature, lsp_signature = pcall(require, 'lsp_signature')
-  if has_lsp_signature then
-    lsp_signature.on_attach {
-      bind = true,
-      handler_opts = {
-        border = 'single',
-      },
-      hint_enable = true,
-      doc_lines = 10,
-    }
-  end
+  -- local has_lsp_signature, lsp_signature = pcall(require, 'lsp_signature')
+  -- if has_lsp_signature then
+  --   lsp_signature.on_attach {
+  --     bind = true,
+  --     lsp_saga = true,
+  --     hint_prefix = nil,
+  --     handler_opts = {
+  --       border = 'double',
+  --     },
+  --     hint_enable = true,
+  --     doc_lines = 10,
+  --   }
+  -- end
 end
 
 -- setup language servers
@@ -52,7 +56,7 @@ end
 
 -- sumneko_lua setup, using lua-dev plugin for better lua docs
 local sumneko_root_path = os.getenv('HOME') .. '/builds/lua-language-server'
-local system_name = vim.fn.has('mac') and 'macOS' or 'Linux'
+local system_name = vim.fn.has('mac') == 0 and 'Linux' or 'macOS'
 local sumneko_binary = sumneko_root_path .. '/bin/' .. system_name .. '/lua-language-server'
 
 -- TODO: find a way to conditionally load awesomeWM's runtime files and add globals when editing awesome files
