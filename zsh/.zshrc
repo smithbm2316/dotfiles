@@ -55,6 +55,8 @@ alias .......="../../../../../../"
 alias ........="../../../../../../../"
 alias .........="../../../../../../../../"
 
+alias cl="clear"
+
 # apt
 aptup() {
   sudo apt update
@@ -79,9 +81,14 @@ pandocHardBreak() {
 alias bsync="browser-sync start --server --files '*.css, *.html, *.js' --no-open"
 
 # lsd aliases
-alias ls='lsd'
-alias lsl='lsd -lA'
-alias l='lsd -A'
+# alias ls='lsd'
+# alias lsl='lsd -lA'
+# alias l='lsd -A'
+alias l='exa --icons -a'
+alias ls='exa --icons'
+alias ll='exa --icons -l'
+alias lla='exa --icons -la'
+alias tree='exa --icons --tree --all'
 
 # mv and cp and mkdir improvements
 alias mv='mv -iv'
@@ -267,7 +274,7 @@ tmks() {
 # tmux new session command
 tmn() {
   if [ -z $@ ]; then
-    tmux new-session -s $(basename "$PWD")
+    tmux new-session -s "$(basename "$PWD")"
   else
     tmux new-session -s $1
   fi

@@ -1,6 +1,11 @@
 # ignore widgets for awesomewm
 awesome/awesome-wm-widgets
 
+# ignore plugin directories for fish
+fish/fundle
+fish/functions/fundle.fish
+fish/fish_variables
+
 # ignore all gh cli files except for the config
 gh/*
 !gh/config.yml

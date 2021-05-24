@@ -1,3 +1,4 @@
+-- TODO: set up parameter textobjects, so I can swap elements in a lua table back and forth cc TJ's recent stream
 require'nvim-treesitter.configs'.setup {
   textobjects = {
     select = {
@@ -54,5 +55,8 @@ require'nvim-treesitter.configs'.setup {
     -- 'comment',
     'vue',
     'query',
+    'fish',
   },
 }
+vim.cmd'au! BufRead,BufNewFile *.fish set filetype=fish'
+vim.cmd'au! BufEnter *.fish set commentstring=#%s'
