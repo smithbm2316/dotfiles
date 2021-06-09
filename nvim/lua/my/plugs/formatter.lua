@@ -36,7 +36,6 @@ local prettier_config = {
         '--single-quote',
         '--tab-width 2',
         '--trailing-comma all',
-        '--jsx-bracket-same-line',
         '--jsx-single-quote',
       },
       stdin = true,
@@ -56,9 +55,9 @@ require('formatter').setup({
 })
 
 -- call formatter.nvim automatically on save
-vim.cmd([[
+vim.cmd[[
 augroup FormatterNvimWebDev
-autocmd!
-autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue FormatWrite
+  autocmd!
+  autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue Format
 augroup END
-]])
+]]

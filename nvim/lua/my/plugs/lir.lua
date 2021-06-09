@@ -12,13 +12,13 @@ require('lir').setup {
     ['<C-t>'] = actions.tabedit,
     ['h']     = actions.up,
     ['q']     = actions.quit,
-    ['d']     = actions.mkdir,
-    ['f']     = actions.newfile,
+    ['f']     = actions.mkdir,
+    ['e']     = actions.newfile,
     ['r']     = actions.rename,
-    ['@']     = actions.cd,
+    ['C']     = actions.cd,
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
-    ['dd']     = actions.delete,
+    ['d']     = actions.delete,
     ['y'] = clipboard_actions.copy,
     ['x'] = clipboard_actions.cut,
     ['p'] = clipboard_actions.paste,
@@ -33,4 +33,5 @@ require('lir').setup {
   hide_cursor = true,
 }
 
-vim.api.nvim_set_keymap('n', '<leader>fe', [[<cmd>lua require'lir.float'.toggle()<cr>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fb', [[<cmd>lua require'lir.float'.toggle()<cr>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fe', [[<cmd>lua require'lir.float'.toggle(vim.fn.getcwd())<cr>]], { noremap = true, silent = true })

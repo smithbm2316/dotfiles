@@ -15,7 +15,7 @@ local plugins = {
   'telescope',
   'treesitter',
   'web-devicons',
-  'which-key',
+  -- 'which-key',
   'zen-mode',
 }
 

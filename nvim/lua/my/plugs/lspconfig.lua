@@ -1,5 +1,15 @@
 local lspconfig = require('lspconfig')
 
+local my_capabilities = vim.lsp.protocol.make_client_capabilities()
+my_capabilities.textDocument.completion.completionItem.snippetSupport = true
+my_capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
+
 local my_on_attach = function(client, bufnr)
   -- aliases for keybinds below
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -49,10 +59,28 @@ local my_on_attach = function(client, bufnr)
 end
 
 -- setup language servers
-local servers = { 'bashls', 'cssls', 'gopls', 'html', 'jedi_language_server', 'tsserver', 'vimls' }
+local servers = { 'bashls', 'cssls', 'gopls', 'html', 'jedi_language_server', 'jsonls', 'vimls' }
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup { on_attach = my_on_attach }
+  lspconfig[lsp].setup {
+    on_attach = my_on_attach,
+    capabilities = my_capabilities,
+  }
 end
+
+lspconfig.tsserver.setup {
+  capabilities = my_capabilities,
+  filetypes = { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'javascript.jsx', 'typescript.tsx' },
+  on_attach = function(client, bufnr)
+    my_on_attach(client, bufnr)
+    -- autocommand to automatically organize imports for tsserver files
+    vim.cmd [[
+      augroup TSServerOrganizeImports
+        au!
+        au BufWritePost * lua vim.lsp.buf.execute_command({ command = "_typescript.organizeImports", arguments = {vim.api.nvim_buf_get_name(0)}, title = "" })
+      augroup END
+    ]]
+  end,
+}
 
 -- sumneko_lua setup, using lua-dev plugin for better lua docs
 local sumneko_root_path = os.getenv('HOME') .. '/builds/lua-language-server'
@@ -70,6 +98,7 @@ local luadev = require('lua-dev').setup {
     },
   },
   lspconfig = {
+    capabilities = my_capabilities,
     on_attach = my_on_attach,
     cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
     settings = {

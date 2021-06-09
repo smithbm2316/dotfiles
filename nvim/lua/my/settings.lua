@@ -1,23 +1,20 @@
 -- Aliases for Lua API functions
 local o = vim.o
-local wo = vim.wo
-local bo = vim.bo
+local opt = vim.opt
 
 -- Enable syntax highlighting and filetype plugins
 vim.cmd 'syntax enable'
 vim.cmd 'filetype plugin on'
 
 -- Buffer options
-vim.api.nvim_exec([[
-  set autoindent
-  set expandtab
-  set formatoptions-=2tac
-  set formatoptions+=jnrql
-  set shiftwidth=2
-  set smartindent
-  set softtabstop=2
-  set tabstop=2
-]], false)
+o.autoindent = true
+o.expandtab = true
+opt.formatoptions:remove('2tac')
+opt.formatoptions:append('jnrql')
+o.shiftwidth=2
+o.smartindent = true
+o.softtabstop=2
+o.tabstop=2
 
 -- Global options
 o.completeopt = 'menuone,noselect'
@@ -34,7 +31,7 @@ o.mouse = 'n'
 o.path = '.,,'
 o.scrolloff = 3
 o.showmode = false
-o.shortmess = o.shortmess .. 'c'
+opt.shortmess:append('c')
 o.showtabline = 1
 o.smartcase = true
 o.splitbelow = true
@@ -47,11 +44,11 @@ o.wildoptions = 'pum'
 o.updatetime = 2000
 
 -- Window options
-wo.foldmethod = 'manual'
-wo.relativenumber = true
-wo.number = true
-wo.signcolumn = 'yes' -- make sure this is on for gitsigns.nvim, otherwise the signcolumn changes size constantly
-wo.wrap = false
+o.foldmethod = 'manual'
+o.relativenumber = true
+o.number = true
+o.signcolumn = 'yes' -- make sure this is on for gitsigns.nvim, otherwise the signcolumn changes size constantly
+o.wrap = false
 
 -- Autocmds
 -- vim.cmd 'autocmd! BufWritePre * let &bex = "@" . strftime("%F.%H:%M")' -- for backups
@@ -60,5 +57,5 @@ vim.cmd 'autocmd! BufRead,BufNewFile *.conf,config,.ini setf dosini'
 vim.cmd 'autocmd! TermOpen * startinsert'
 
 -- colorscheme global defaults
-vim.o.background = 'dark'
-vim.o.termguicolors = true
+o.background = 'dark'
+o.termguicolors = true

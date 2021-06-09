@@ -13,6 +13,7 @@ set -Ux SAVEHIST 10000
 
 # Programming languages and their dependenices
 set -Ux CARGOBIN $HOME/.cargo/bin
+set -Ux DENO_INSTALL $HOME/.deno/bin
 set -Ux GOEXEC /usr/local/go/bin
 set -Ux GOBIN $HOME/go/bin
 set -Ux GOPATH $HOME/go
@@ -34,6 +35,7 @@ set -Ux RANGER_LOAD_DEFAULT_RC FALSE
 
 # PATH configuration
 fish_add_path $CARGOBIN
+fish_add_path $DENO_INSTALL
 fish_add_path $GOBIN
 fish_add_path $GOEXEC
 fish_add_path $LOCALBIN

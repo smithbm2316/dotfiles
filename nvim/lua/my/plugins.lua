@@ -14,6 +14,12 @@ return require('packer').startup(function(use)
   --- my plugins
   ---
   -----------------------------------------------------
+  use {
+    'smithbm2316/centerpad.nvim',
+  }
+  use {
+    'pantharshit00/vim-prisma',
+  }
 
   -----------------------------------------------------
   ---
@@ -49,15 +55,6 @@ return require('packer').startup(function(use)
   -- use icons in the completion menus for lsp suggestions
   use {
     'onsails/lspkind-nvim',
-  }
-
-  -- show a lightbulb in the gutter where a code action from lsp is available
-  use {
-    'kosayoda/nvim-lightbulb',
-    config = function()
-      vim.cmd [[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
-    end,
-    disable = true,
   }
 
   -- auto-completion plugin
@@ -100,6 +97,11 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter-textobjects',
     requires = 'nvim-treesitter/nvim-treesitter',
   }
+  use {
+    'romgrk/nvim-treesitter-context',
+    requires = 'nvim-treesitter/nvim-treesitter',
+    disable = true,
+  }
 
   -- tpope/vim-commentary lua replacement
   use {
@@ -126,6 +128,7 @@ return require('packer').startup(function(use)
     config = function()
       require('my.plugs.ts-autotag')
     end,
+    -- disable = true,
   }
 
   -- tokyo night colorscheme for fun
@@ -213,7 +216,9 @@ return require('packer').startup(function(use)
   use {
     'karb94/neoscroll.nvim',
     config = function()
-      require('neoscroll').setup()
+      require('neoscroll').setup {
+        mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', '<C-e>' },
+      }
       require('neoscroll.config').set_mappings({
         ['<C-y>'] = { 'scroll', { '-0.05', 'false', '20' } },
         ['<C-e>'] = { 'scroll', { '0.05', 'false', '20' } },
@@ -248,15 +253,6 @@ return require('packer').startup(function(use)
     'folke/zen-mode.nvim',
   }
 
-  -- pretty list for showing lsp info
-  use {
-    "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("trouble").setup()
-    end
-  }
-
   -- highlight todos and other style comments
   use {
     "folke/todo-comments.nvim",
@@ -286,6 +282,41 @@ return require('packer').startup(function(use)
     'ray-x/lsp_signature.nvim',
   }
 
+  -- view treesitter symbols in sidebar
+  use {
+    'simrat39/symbols-outline.nvim',
+    opt = true,
+    cmd = { 'SymbolsOutline', 'SymbolsOutlineOpen', 'SymbolsOutlineClose' },
+    config = function()
+      vim.g.symbols_outline = {
+        highlight_hovered_item = true,
+        show_guides = true,
+        auto_preview = false, -- experimental
+        position = 'right',
+        keymaps = {
+          close = "<Esc>",
+          goto_location = "<Cr>",
+          focus_location = "o",
+          hover_symbol = "gh",
+          rename_symbol = "r",
+          code_actions = "a",
+        },
+        lsp_blacklist = {},
+      }
+    end,
+  }
+
+  -- better tsserver support
+  use {
+    'jose-elias-alvarez/nvim-lsp-ts-utils',
+    opt = true,
+    ft = { 'html', 'javascript', 'javascriptreact', 'svelte', 'typescript', 'typescriptreact', 'vue' },
+  }
+
+  use {
+    'hrsh7th/vim-vsnip',
+  }
+
   -----------------------------------------------------
   ---
   --- vimscript plugins
@@ -308,8 +339,11 @@ return require('packer').startup(function(use)
   }
 
   -- lua 5.1 manual in vim docs
+  -- use {
+  --   'bfredl/luarefvim',
+  -- }
   use {
-    'bfredl/luarefvim',
+    'milisims/nvim-luaref',
   }
 
   -- interactive window resizer
@@ -373,8 +407,13 @@ return require('packer').startup(function(use)
   use {
     'christoomey/vim-system-copy',
     config = function()
-      vim.g['system_copy#copy_command'] = 'xclip -sel clipboard'
-      vim.g['system_paste#paste_command'] = 'xclip -sel clipboard -o'
+      if vim.fn.has('mac') == 1 then
+        vim.g['system_copy#copy_command'] = 'xclip -sel clipboard'
+        vim.g['system_paste#paste_command'] = 'xclip -sel clipboard -o'
+      else
+        vim.g['system_copy#copy_command'] = 'pbcopy'
+        vim.g['system_paste#paste_command'] = 'pbpaste'
+      end
       vim.g['system_copy_silent'] = 1
     end,
   }

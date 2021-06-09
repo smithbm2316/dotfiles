@@ -1,17 +1,3 @@
--- nvim-lua/completion.nvim
-local has_completion = pcall(require, 'completion')
-if has_completion then
-  vim.g.completion_enable_auto_popup = 1
-  vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
-  vim.g.completion_trigger_keyword_length = 1
-  vim.g.completion_enable_auto_hover = 1
-  vim.g.completion_enable_auto_signature = 1
-  vim.g.completion_matching_smart_case = 1
-  vim.g.completion_trigger_on_delete = 0
-  vim.g.completion_timer_cycle = 200
-end
-
--- nvim-compe
 local has_compe, compe = pcall(require, 'compe')
 if has_compe then
   compe.setup {
@@ -33,6 +19,7 @@ if has_compe then
         enable = true,
         priority = 10001,
       },
+      vsnip = true,
       path = true,
       buffer = true,
       -- disabled
@@ -44,7 +31,6 @@ if has_compe then
       emoji = false,
       omni = false,
       snippets_nvim = false,
-      vsnip = false,
     },
   }
   vim.api.nvim_set_keymap('i', '<c-y>', 'compe#confirm("<c-y>")', { silent = true, noremap = true, expr = true })

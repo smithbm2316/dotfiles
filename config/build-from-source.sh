@@ -77,7 +77,7 @@ if [ $(command -v dnf) ]; then
   ) && \. "$NVM_DIR/nvm.sh"
   nvm install node --lts
 
-  # yarn & language servers for neovim
+  # yarn & language servers for neovim (lsp)
   npm -g install bash-language-server typescript typescript-language-server vim-language-server vscode-css-languageserver-bin vscode-html-languageserver-bin yarn
 
   # yarn globals

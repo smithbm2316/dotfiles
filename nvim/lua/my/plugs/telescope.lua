@@ -1,3 +1,4 @@
+-- TODO: add a mapping to delete buffers from the buffers picker
 -- Aliases for Lua API functions
 local map = vim.api.nvim_set_keymap
 -- Telescope stuff I need to import for configuration
@@ -62,7 +63,7 @@ require('telescope').load_extension('gh')
 -- require fzf extension for fzf sorting algorithm
 require('telescope').load_extension('fzf')
 
--- global table to contain all of my opts for the different pickers
+-- global table to contain all of my options for the different pickers
 TelescopeMapArgs = TelescopeMapArgs or {}
 
 -- function for mapping keys to any of my pickers, including custom opts and some good defaults included
@@ -90,7 +91,7 @@ local map_picker = function(keymap, picker, opts, module, mode)
   map(mode, keymap, rhs, { noremap = true, silent = true })
 end
 
--- telescope builtins mappings
+-- my telescope builtins mappings
 -- TODO: move some of my lspconfig mappings to use telescope's lsp pickers instead
 -- i.e. references and definition
 map_picker('<leader>wd', 'file_browser', {
