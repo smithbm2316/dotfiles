@@ -685,6 +685,8 @@ awful.rules.rules = {
         'Gnome-calculator',
         'Galculator',
         'Gpick',
+        'tk',
+        'Tk',
         -- 'zoom'
       },
 

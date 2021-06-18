@@ -40,7 +40,7 @@ require('telescope').setup({
     prompt_prefix = '🔍 ',
     sorting_strategy = 'ascending',
     layout_strategy = 'bottom_pane',
-    file_ignore_patterns = { 'node_modules/.*', '.git/.*', '_site/.*' },
+    file_ignore_patterns = { 'node_modules/.*', '.git/.*', '.neuron/*', },
     layout_defaults = {
       horizontal = {
         mirror = true,

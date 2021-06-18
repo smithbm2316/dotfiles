@@ -8,15 +8,15 @@ require'nvim-treesitter.configs'.setup {
         ['if'] = '@function.inner',
       },
     },
-    move = {
-      enable = true,
-      goto_next_start = {
-        ['<leader>nf'] = '@function.outer',
-      },
-      goto_previous_start = {
-        ['<leader>pf'] = '@function.outer',
-      },
-    },
+    -- move = {
+    --   enable = true,
+    --   goto_next_start = {
+    --     ['<leader>nf'] = '@function.outer',
+    --   },
+    --   goto_previous_start = {
+    --     ['<leader>pf'] = '@function.outer',
+    --   },
+    -- },
   },
   playground = {
     enable = true,

@@ -89,6 +89,12 @@ map('n', '<leader>oi', [[:tabnew +tcd\ ~/dotfiles/nvim ~/dotfiles/nvim/init.lua<
 -- Source Here: Reload current buffer if it is a vim or lua file
 map('n', '<leader>sh', '<cmd>lua require("my.maps").source_filetype()<cr>', opts)
 
+-- Color picker wrapper
+maps.convert_color_to = function()
+  vim.cmd(string.format('ConvertColorTo %s', vim.fn.input('Convert to: ')))
+end
+map('n', '<leader>cc', '<cmd>lua require("my.maps").convert_color_to()<cr>', opts)
+
 -- turn terminal to normal mode with escape if it's not a lazygit terminal
 maps.remap_term_escape = function()
   if vim.fn.bufname():match('lazygit') ~= 'lazygit' then
@@ -112,5 +118,19 @@ maps.toggle_numbers = function(buf_win_or_tab)
   end
 end
 map('n', '<leader>tn', '<cmd>lua require("my.maps").toggle_numbers()<cr>', opts)
+
+-- toggle wrapping
+maps.toggle_wrap = function()
+  if vim.api.nvim_win_get_option(0, 'linebreak') then
+    vim.api.nvim_win_set_option(0, 'linebreak', false)
+    vim.api.nvim_win_set_option(0, 'wrap', false)
+    print('wrapping off')
+  else
+    vim.api.nvim_win_set_option(0, 'linebreak', true)
+    vim.api.nvim_win_set_option(0, 'wrap', true)
+    print('wrapping on')
+  end
+end
+map('n', '<leader>tw', '<cmd>lua require("my.maps").toggle_wrap()<cr>', nosilent)
 
 return maps

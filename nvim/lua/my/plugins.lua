@@ -76,8 +76,6 @@ return require('packer').startup(function(use)
   -- format code with external tools
   use {
     'mhartington/formatter.nvim',
-    opt = true,
-    cmd = { 'FormatWrite', 'Format' },
     config = function()
       require('my.plugs.formatter')
     end,
@@ -317,6 +315,16 @@ return require('packer').startup(function(use)
     'hrsh7th/vim-vsnip',
   }
 
+  use {
+    'oberblastmeister/neuron.nvim',
+    requires = {
+      'nvim-lua/popup.nvim',
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+    },
+    branch = 'unstable',
+  }
+
   -----------------------------------------------------
   ---
   --- vimscript plugins
@@ -408,11 +416,11 @@ return require('packer').startup(function(use)
     'christoomey/vim-system-copy',
     config = function()
       if vim.fn.has('mac') == 1 then
-        vim.g['system_copy#copy_command'] = 'xclip -sel clipboard'
-        vim.g['system_paste#paste_command'] = 'xclip -sel clipboard -o'
-      else
         vim.g['system_copy#copy_command'] = 'pbcopy'
         vim.g['system_paste#paste_command'] = 'pbpaste'
+      else
+        vim.g['system_copy#copy_command'] = 'xclip -sel clipboard'
+        vim.g['system_paste#paste_command'] = 'xclip -sel clipboard -o'
       end
       vim.g['system_copy_silent'] = 1
     end,
@@ -434,6 +442,10 @@ return require('packer').startup(function(use)
     end,
     opt = true,
     cmd = { 'EasyAlign' },
+  }
+
+  use {
+    'amadeus/vim-convert-color-to',
   }
 
 end)

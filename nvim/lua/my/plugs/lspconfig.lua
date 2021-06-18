@@ -63,12 +63,12 @@ local servers = { 'bashls', 'cssls', 'gopls', 'html', 'jedi_language_server', 'j
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = my_on_attach,
-    capabilities = my_capabilities,
+    -- capabilities = my_capabilities,
   }
 end
 
 lspconfig.tsserver.setup {
-  capabilities = my_capabilities,
+  -- capabilities = my_capabilities,
   filetypes = { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'javascript.jsx', 'typescript.tsx' },
   on_attach = function(client, bufnr)
     my_on_attach(client, bufnr)
@@ -98,7 +98,7 @@ local luadev = require('lua-dev').setup {
     },
   },
   lspconfig = {
-    capabilities = my_capabilities,
+    -- capabilities = my_capabilities,
     on_attach = my_on_attach,
     cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
     settings = {

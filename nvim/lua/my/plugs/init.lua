@@ -12,6 +12,7 @@ local plugins = {
   'lspconfig',
   'lualine',
   'luapad',
+  'neuron',
   'telescope',
   'treesitter',
   'web-devicons',

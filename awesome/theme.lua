@@ -117,7 +117,8 @@ theme.wallpaper = function(s)
   if s.index == 1 then
     return '/home/smithbm/pictures/retrowave-landscape/retrowave47.jpg'
   else
-    return '/home/smithbm/pictures/retrowave-portrait/retrowave-vertical12.jpg'
+    -- return '/home/smithbm/pictures/retrowave-portrait/retrowave-vertical12.jpg'
+    return '/home/smithbm/pictures/retrowave-landscape/retrowave47.jpg'
   end
 end
 

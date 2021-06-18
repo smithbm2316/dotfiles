@@ -9,6 +9,7 @@ if not functions -q fundle
   eval (curl -sfL https://git.io/fundle-install)
 else # load fundle packages
   fundle plugin 'edc/bass'
+  fundle plugin 'lilyball/nix-env.fish'
   
   fundle init
 end
@@ -140,8 +141,9 @@ end
 
 # make tmux easier to use
 alias tml='tmux ls'
+abbr -a tma 'tmux attach -t '
 
-function tma -a session
+function tm -a session
   if test -z $session
     tmux attach
   else
@@ -159,7 +161,12 @@ end
 
 function tmn -a session
   if test -z $session
-    tmux new -s (basename $PWD)
+    # tmux new -s (basename $PWD)
+    tmux \
+      new -n code -s (basename $PWD) \; \
+      send 'nvim' C-m \; \
+      neww -n serve \; \
+      splitw -h -c $idk -t serve
   else
     tmux new -s $session
   end

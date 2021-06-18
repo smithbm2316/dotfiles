@@ -68,3 +68,4 @@ fi
 
 # load luaver
 [ -s ~/.luaver/luaver ] && source ~/.luaver/luaver
+if [ -e /home/smithbm/.nix-profile/etc/profile.d/nix.sh ]; then . /home/smithbm/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
