@@ -16,14 +16,14 @@ cd /home/smithbm/builds/neovim || exit
 addlog "fetching updates to neovim repo"
 git pull
 
-addlog "cleaning depenencies"
+addlog "cleaning dependencies"
 make clean
 
 addlog "building dependencies"
-CMAKE_INSTALL_PREFIX=/home/smithbm/.local/nvim make
+make CMAKE_INSTALL_PREFIX=/home/smithbm/.local/nvim
 
 addlog "installing neovim"
-CMAKE_INSTALL_PREFIX=/home/smithbm/.local/nvim make install
+make CMAKE_INSTALL_PREFIX=/home/smithbm/.local/nvim install
 
 addlog "$(ls -l /home/smithbm/.local/nvim/bin/nvim)"
 addlog "finished building neovim nightly at $(date)"
