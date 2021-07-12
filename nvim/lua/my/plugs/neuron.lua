@@ -12,7 +12,7 @@ require'neuron'.setup {
 map('n', '<cr>', [[<cmd>lua require'neuron'.enter_link()<cr>]], opts)
 
 -- Neuron Create: create a new note
-map('n', '<leader>nc', [[<cmd>lua require'neuron/cmd'.new_edit(require'neuron'.config.neuron_dir)<cr>]], opts)
+map('n', '<leader>nc', [[<cmd>lua require'neuron/cmd'.new_edit('~/neuron')<cr>]], opts)
 
 -- Neuron Find: find your notes, click enter to create the note if there are not notes that match
 map('n', '<leader>nf', [[<cmd>lua require'neuron/telescope'.find_zettels()<cr>]], opts)

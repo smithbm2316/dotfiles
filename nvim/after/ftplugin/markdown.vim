@@ -1,6 +1,6 @@
 " setlocal spell spelllang=en_us
-" setlocal wrap
-" setlocal linebreak
+setlocal wrap
+setlocal linebreak
 
 " mapping to make movements operate on 1 screen line in wrap mode
 " https://stackoverflow.com/questions/4946421/vim-moving-with-hjkl-in-long-lines-screen-lines

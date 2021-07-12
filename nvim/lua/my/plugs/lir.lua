@@ -24,11 +24,7 @@ require('lir').setup {
     ['p'] = clipboard_actions.paste,
   },
   float = {
-    size_percentage = 0.5,
     winblend = 0,
-    border = false,
-    -- borderchars = {"╔" , "═" , "╗" , "║" , "╝" , "═" , "╚", "║"},
-    shadow = true,
   },
   hide_cursor = true,
 }

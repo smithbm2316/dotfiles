@@ -1,7 +1,5 @@
 -- Require packer.nvim
 vim.cmd [[packadd packer.nvim]]
--- Auto compile when the plugins.lua file changes
-vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 
 return require('packer').startup(function(use)
   -- *i used the packer.nvim to manage the packer.nvim* - thanos
@@ -323,6 +321,10 @@ return require('packer').startup(function(use)
       'nvim-telescope/telescope.nvim',
     },
     branch = 'unstable',
+  }
+
+  use {
+    'famiu/bufdelete.nvim',
   }
 
   -----------------------------------------------------
