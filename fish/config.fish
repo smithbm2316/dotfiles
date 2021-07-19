@@ -104,6 +104,8 @@ function nv
   end
 end
 
+abbr -a nvs '/usr/bin/nvim'
+
 # shortcuts for shell configs
 function shl
   set -l shlcmd 'nvim ~/.config/fish'

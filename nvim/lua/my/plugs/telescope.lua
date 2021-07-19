@@ -36,12 +36,12 @@ require('telescope').setup({
       },
     },
     color_devicons = true,
-    prompt_position = 'bottom',
     prompt_prefix = '🔍 ',
     sorting_strategy = 'ascending',
     layout_strategy = 'bottom_pane',
     file_ignore_patterns = { 'node_modules/.*', '.git/.*', '.neuron/*', },
-    layout_defaults = {
+    layout_config = {
+      prompt_position = 'bottom',
       horizontal = {
         mirror = true,
       },
@@ -62,6 +62,8 @@ require('telescope').setup({
 require('telescope').load_extension('gh')
 -- require fzf extension for fzf sorting algorithm
 require('telescope').load_extension('fzf')
+-- require zk extension for zk-cli
+require('telescope').load_extension('zk')
 
 -- global table to contain all of my options for the different pickers
 TelescopeMapArgs = TelescopeMapArgs or {}
@@ -168,5 +170,10 @@ ts.buffer_directory = function(opts)
   require('telescope.builtin').file_browser(opts)
 end
 map_picker('<leader>bd', 'buffer_directory', nil, 'my.plugs.telescope')
+
+ts.zk_notes = function(opts)
+  require('telescope').extensions.zk.zk_notes(opts)
+end
+map_picker('<leader>nf', 'zk_notes', nil, 'my.plugs.telescope')
 
 return ts

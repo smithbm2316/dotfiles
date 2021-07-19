@@ -1,4 +1,16 @@
 local lspconfig = require('lspconfig')
+local configs = require('lspconfig/configs')
+
+configs.zk = {
+  default_config = {
+    cmd = { 'zk', 'lsp' },
+    filetypes = { 'markdown' },
+    root_dir = function()
+      return vim.loop.cwd()
+    end,
+    settings = {}
+  };
+}
 
 local my_capabilities = vim.lsp.protocol.make_client_capabilities()
 my_capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -81,6 +93,11 @@ lspconfig.tsserver.setup {
     ]]
   end,
 }
+
+lspconfig.zk.setup {
+  on_attach = my_on_attach,
+}
+
 
 -- sumneko_lua setup, using lua-dev plugin for better lua docs
 local sumneko_root_path = os.getenv('HOME') .. '/builds/lua-language-server'

@@ -1,4 +1,4 @@
-vim.o.timeoutlen = 750
+vim.o.timeoutlen = 650
 require('which-key').setup {
   marks = false,
   registers = false,
@@ -8,7 +8,7 @@ require('which-key').setup {
     text_objects = false,
     windows = false,
     nav = false,
-    z = true,
-    g = true,
+    z = false,
+    g = false,
   },
 }

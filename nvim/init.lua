@@ -33,4 +33,6 @@ else
   require('utils') -- utility modules for various things
   require('my.plugins') -- my plugin loader (uses packer.nvim)
   require('my.plugs') -- my plugin-specific settings
+
+  vim.cmd[[syntax enable]]
 end

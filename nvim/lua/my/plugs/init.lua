@@ -12,12 +12,14 @@ local plugins = {
   'lspconfig',
   'lualine',
   'luapad',
-  'neuron',
+  'neorg',
+  -- 'neuron',
   'telescope',
   'treesitter',
   'web-devicons',
-  -- 'which-key',
+  'which-key',
   'zen-mode',
+  'zk',
 }
 
 -- loop through and load each plugin config file

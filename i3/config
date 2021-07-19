@@ -34,12 +34,12 @@ mode "$mode_system" {
   bindsym l exec --no-startup-id i3lock -c "#382f47" -i "/home/smithbm/Pictures/retrowave-landscape/retrowave1.png", mode "default"
   bindsym s exec --no-startup-id i3lock -c "#382f47" -i "/home/smithbm/Pictures/retrowave-landscape/retrowave1.png" && systemctl suspend, mode "default"
   bindsym e exec i3-msg exit, mode "default"
-  bindsym r exec reboot, mode "default"
+  bindsym ctrl+r exec reboot, mode "default"
   bindsym p exec shutdown 1, mode "default"
   #i3help reload the configuration file
   bindsym c reload, mode "default"
   #i3help restart i3 inplace
-  bindsym ctrl+r restart, mode "default"
+  bindsym r restart, mode "default"
 
   # exit system mode: "Enter" or "Escape"
   bindsym Return mode "default"
@@ -79,8 +79,8 @@ bindsym $mod+a focus parent
 bindsym $mod+y focus child
 
 # -------------------------------------------------- WORKSPACE MOVEMENT
-bindsym $mod+ctrl+n move workspace to output right
-bindsym $mod+n focus output right
+bindsym $mod+ctrl+n move workspace to output up
+bindsym $mod+n focus output up
 bindsym $mod+p workspace back_and_forth
 
 # -------------------------------------------------- PULSEAUDIO CONTROLS
@@ -181,7 +181,7 @@ mouse_warping none
 # When launching a new app, focus should go to it
 focus_on_window_activation focus
 #i3help start a terminal
-bindsym $mod+t exec alacritty
+bindsym $mod+t exec kitty
 # kill focused window
 bindsym $mod+c kill
 #i3help Rofi launcher
@@ -293,6 +293,7 @@ bindsym $mod+b exec firefox
 # -------------------------------------------------- DEFAULT WORKSPACES
 # Spotify is annoying and doesn't work with regular "assign"
 for_window [class="Spotify"] move to workspace $wsVibes
+assign [class="ncspot"] $wsVibes
 assign [class="Slack"] $wsMessages 
 assign [class="discord"] $wsMessages 
 assign [class="jetbrains-pycharm-ce"] $wsShare
@@ -318,7 +319,7 @@ for_window [class="^obs$"] resize set 1600 900
 for_window [class="^obs$"] move scratchpad
 
 # -------------------------------------------------- AUTOSTART
-exec xrandr --output DisplayPort-0 --set TearFree on --mode 1920x1080 --rate 144.00 --output HDMI-A-0 --set TearFree on --mode 1920x1080 --rate 60.00
+exec ~/dotfiles/config/displays.sh
 exec picom
 exec nitrogen --restore
 exec xsetroot -cursor_name left_ptr
@@ -330,7 +331,7 @@ exec pactl exit
 exec --no-startup-id alacritty --class "scratchpad"
 
 # programs to use on startup
-exec --no-startup-id i3-msg workspace $wsWeb; exec firefox
+# exec --no-startup-id i3-msg workspace $wsWeb; exec firefox
 
 # exec --no-startup-id i3-msg workspace $wsVibes; exec spotify
 # exec --no-startup-id i3-msg workspace $wsDev; exec alacritty

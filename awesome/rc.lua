@@ -237,7 +237,7 @@ awful.screen.connect_for_each_screen(function(s)
 
   if s.index == 2 then
     awful.tag.add('web', {
-      layout = awful.layout.suit.tile.top,
+      layout = awful.layout.suit.max,
       screen = s,
       selected = true,
     })

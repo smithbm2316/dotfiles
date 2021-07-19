@@ -309,10 +309,12 @@ return require('packer').startup(function(use)
     ft = { 'html', 'javascript', 'javascriptreact', 'svelte', 'typescript', 'typescriptreact', 'vue' },
   }
 
+  -- snippets
   use {
     'hrsh7th/vim-vsnip',
   }
 
+  -- for use with neuron zettlekasten manager
   use {
     'oberblastmeister/neuron.nvim',
     requires = {
@@ -321,10 +323,27 @@ return require('packer').startup(function(use)
       'nvim-telescope/telescope.nvim',
     },
     branch = 'unstable',
+    disable = true,
   }
 
+  -- delete buffers without destroying your window layouts
   use {
     'famiu/bufdelete.nvim',
+  }
+
+  -- neorg is a re-imagined version of org-mode for neovim
+  use {
+    'vhyrro/neorg',
+  }
+
+  -- zk cli wrapper for neovim
+  use {
+    'megalithic/zk.nvim',
+  }
+
+  -- add LSP colors for old colorschemes
+  use {
+    'folke/lsp-colors.nvim'
   }
 
   -----------------------------------------------------
@@ -428,8 +447,8 @@ return require('packer').startup(function(use)
     end,
   }
 
-  -- Syntax highlighting plugin
-  use {
+  -- Syntax highlighting plugins
+  use { -- xonsh
     'linkinpark342/xonsh-vim',
     opt = true,
     ft = { 'xonsh', 'xsh' },

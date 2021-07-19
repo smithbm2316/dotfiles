@@ -1,4 +1,15 @@
 -- TODO: set up parameter textobjects, so I can swap elements in a lua table back and forth cc TJ's recent stream
+local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+
+-- neorg treesitter module
+parser_configs.norg = {
+  install_info = {
+    url = "https://github.com/vhyrro/tree-sitter-norg",
+    files = { "src/parser.c" },
+    branch = "main"
+  },
+}
+
 require'nvim-treesitter.configs'.setup {
   textobjects = {
     select = {
@@ -35,28 +46,7 @@ require'nvim-treesitter.configs'.setup {
   indent = {
     enable = true,
   },
-  ensure_installed = {
-    'css',
-    'html',
-    'javascript',
-    'typescript',
-    'tsx',
-    'bash',
-    'go',
-    'c',
-    'cpp',
-    'lua',
-    'python',
-    'json',
-    'yaml',
-    'toml',
-    'regex',
-    'latex',
-    -- 'comment',
-    'vue',
-    'query',
-    'fish',
-  },
+  ensure_installed = 'maintained',
 }
 vim.cmd'au! BufRead,BufNewFile *.fish set filetype=fish'
 vim.cmd'au! BufEnter *.fish set commentstring=#%s'

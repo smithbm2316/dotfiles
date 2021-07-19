@@ -18,40 +18,40 @@ local theme = {}
 theme.font = 'Iosevka Nerd Font Bold 12'
 
 -- Laserwave theme
--- theme.bg_normal     = '#27212e'
--- theme.bg_focus      = '#27212e'
--- theme.bg_urgent     = '#27212e'
--- theme.bg_minimize   = '#e0dfe1'
--- theme.bg_systray    = theme.bg_focus
+theme.bg_normal     = '#27212e'
+theme.bg_focus      = '#27212e'
+theme.bg_urgent     = '#27212e'
+theme.bg_minimize   = '#e0dfe1'
+theme.bg_systray    = theme.bg_focus
 
--- theme.fg_normal     = '#91889b'
--- theme.fg_focus      = '#eb64b9'
--- theme.fg_urgent     = '#ffe261'
--- theme.fg_minimize   = '#b381c5'
+theme.fg_normal     = '#91889b'
+theme.fg_focus      = '#eb64b9'
+theme.fg_urgent     = '#ffe261'
+theme.fg_minimize   = '#b381c5'
 
--- theme.useless_gap   = dpi(4)
--- theme.border_width  = dpi(2)
--- theme.border_normal = '#27212e'
--- theme.border_focus  = '#eb64b9'
--- theme.border_marked = '#40b4c4'
+theme.useless_gap   = dpi(4)
+theme.border_width  = dpi(2)
+theme.border_normal = '#27212e'
+theme.border_focus  = '#eb64b9'
+theme.border_marked = '#40b4c4'
 
 -- Tokyo Night theme
-theme.bg_normal = '#24283b'
-theme.bg_focus = '#24283b'
-theme.bg_urgent = '#24283b'
-theme.bg_minimize = '#a9b1d6'
-theme.bg_systray = theme.bg_focus
+-- theme.bg_normal = '#24283b'
+-- theme.bg_focus = '#24283b'
+-- theme.bg_urgent = '#24283b'
+-- theme.bg_minimize = '#a9b1d6'
+-- theme.bg_systray = theme.bg_focus
 
-theme.fg_normal = '#a9b1d6'
-theme.fg_focus = '#f7768e'
-theme.fg_urgent = '#9ece6a'
-theme.fg_minimize = '#bb9af7'
+-- theme.fg_normal = '#a9b1d6'
+-- theme.fg_focus = '#f7768e'
+-- theme.fg_urgent = '#9ece6a'
+-- theme.fg_minimize = '#bb9af7'
 
-theme.useless_gap = dpi(4)
-theme.border_width = dpi(2)
-theme.border_normal = '#1a1b26'
-theme.border_focus = '#7aa2f7'
-theme.border_marked = '#ff9e64'
+-- theme.useless_gap = dpi(4)
+-- theme.border_width = dpi(2)
+-- theme.border_normal = '#1a1b26'
+-- theme.border_focus = '#7aa2f7'
+-- theme.border_marked = '#ff9e64'
 
 -- There are other variable sets
 -- overriding the default one when
@@ -115,10 +115,9 @@ theme.titlebar_maximized_button_focus_active = themes_path .. 'default/titlebar/
 
 theme.wallpaper = function(s)
   if s.index == 1 then
-    return '/home/smithbm/pictures/retrowave-landscape/retrowave47.jpg'
+    return '/home/smithbm/pictures/retrowave-landscape/retrowave33.jpg'
   else
-    -- return '/home/smithbm/pictures/retrowave-portrait/retrowave-vertical12.jpg'
-    return '/home/smithbm/pictures/retrowave-landscape/retrowave47.jpg'
+    return '/home/smithbm/pictures/retrowave-landscape/retrowave33.jpg'
   end
 end
 
