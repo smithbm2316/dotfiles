@@ -38,7 +38,7 @@ require('telescope').setup({
     color_devicons = true,
     prompt_prefix = '🔍 ',
     sorting_strategy = 'ascending',
-    layout_strategy = 'bottom_pane',
+    layout_strategy = 'flex',
     file_ignore_patterns = { 'node_modules/.*', '.git/.*', '.neuron/*', },
     layout_config = {
       prompt_position = 'bottom',
@@ -74,7 +74,7 @@ local map_picker = function(keymap, picker, opts, module, mode)
   local global_opts = {
     hidden = true,
     layout_config = {
-      height = 16,
+      -- height = 16,
       mirror = true,
     },
   }

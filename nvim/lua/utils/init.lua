@@ -3,11 +3,14 @@ local opts = { noremap = true, silent = true }
 Utils = {}
 
 -- wrapper for vim.inspect
-Utils.print_table = function(item)
-  print(vim.inspect(item))
-  return item
+Utils.print_table = function()
+  local func = vim.fn.input({ prompt = 'Run: ', completion = 'lua'})
+  if not func then
+    local result = vim.api.nvim_exec(string.format('lua %s', func), true)
+    print(vim.inspect(result))
+  end
 end
-map('n', '<leader>vi', [[:lua print( vim.inspect( ]], opts)
+map('n', '<leader>vi', [[:lua Utils.print_table()<cr>]], opts)
 
 -- turn a table into a string for keymapping
 Utils.tbl_to_str = function(tbl)

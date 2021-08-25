@@ -15,9 +15,6 @@ return require('packer').startup(function(use)
   use {
     'smithbm2316/centerpad.nvim',
   }
-  use {
-    'pantharshit00/vim-prisma',
-  }
 
   -----------------------------------------------------
   ---
@@ -26,8 +23,8 @@ return require('packer').startup(function(use)
   -----------------------------------------------------
   -- the best fuzzy finder :0
   use {
-    -- 'nvim-telescope/telescope.nvim',
-    '~/code/neovim/telescope.nvim',
+    'nvim-telescope/telescope.nvim',
+    -- '~/code/neovim/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-lua/popup.nvim',
@@ -57,7 +54,17 @@ return require('packer').startup(function(use)
 
   -- auto-completion plugin
   use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'saadparwaiz1/cmp_luasnip',
+    },
+  }
+  use {
     'hrsh7th/nvim-compe',
+    disable = true,
   }
 
   -- autopairs but better
@@ -124,12 +131,12 @@ return require('packer').startup(function(use)
     config = function()
       require('my.plugs.ts-autotag')
     end,
-    -- disable = true,
   }
 
   -- tokyo night colorscheme for fun
   use {
     'folke/tokyonight.nvim',
+    disable = true,
   }
 
   -- nice and easy to use statusline
@@ -305,13 +312,15 @@ return require('packer').startup(function(use)
   -- better tsserver support
   use {
     'jose-elias-alvarez/nvim-lsp-ts-utils',
-    opt = true,
-    ft = { 'html', 'javascript', 'javascriptreact', 'svelte', 'typescript', 'typescriptreact', 'vue' },
   }
 
   -- snippets
   use {
+    'L3MON4D3/LuaSnip',
+  }
+  use {
     'hrsh7th/vim-vsnip',
+    disable = true,
   }
 
   -- for use with neuron zettlekasten manager
@@ -331,11 +340,6 @@ return require('packer').startup(function(use)
     'famiu/bufdelete.nvim',
   }
 
-  -- neorg is a re-imagined version of org-mode for neovim
-  use {
-    'vhyrro/neorg',
-  }
-
   -- zk cli wrapper for neovim
   use {
     'megalithic/zk.nvim',
@@ -343,7 +347,44 @@ return require('packer').startup(function(use)
 
   -- add LSP colors for old colorschemes
   use {
-    'folke/lsp-colors.nvim'
+    'folke/lsp-colors.nvim',
+    disable = true,
+  }
+
+  -- fun new colorscheme to try
+  use {
+    'rose-pine/neovim',
+    as = 'rose-pine',
+    config = function()
+      vim.g.rose_pine_variant = 'moon'
+      vim.cmd('colorscheme rose-pine')
+    end
+  }
+
+  -- change the color of cursorline/cursor on different modes
+  use {
+    'mvllow/modes.nvim',
+    disable = true,
+    config = function()
+      require('modes').setup {
+        colors = {
+          copy = "#f5c359",
+          delete = "#c75c6a",
+          insert = "#78ccc5",
+          visual = "#9745be",
+        },
+        line_opacity = 0.1
+      }
+    end,
+  }
+
+  -- lsp diagnostics in quickfix list
+  use {
+    'folke/trouble.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function()
+      require('trouble').setup {}
+    end,
   }
 
   -----------------------------------------------------
@@ -419,6 +460,9 @@ return require('packer').startup(function(use)
     opt = true,
     ft = 'tex',
   }
+  use {
+    'pantharshit00/vim-prisma',
+  }
 
   -- blur the lines between vim and tmux
   use {
@@ -447,13 +491,6 @@ return require('packer').startup(function(use)
     end,
   }
 
-  -- Syntax highlighting plugins
-  use { -- xonsh
-    'linkinpark342/xonsh-vim',
-    opt = true,
-    ft = { 'xonsh', 'xsh' },
-  }
-
   -- easier aligning of text
   use {
     'junegunn/vim-easy-align',
@@ -465,8 +502,19 @@ return require('packer').startup(function(use)
     cmd = { 'EasyAlign' },
   }
 
+  -- color converter for hex to rgb, etc
   use {
     'amadeus/vim-convert-color-to',
+  }
+
+  -- emmet completion
+  use {
+    'mattn/emmet-vim',
+    disable = true,
+    config = function()
+      vim.g.user_emmet_leader_key = '<c-f>' -- conflicts with normal mode scroll
+      vim.g.user_emmet_mode = 'a'
+    end,
   }
 
 end)

@@ -1,19 +1,18 @@
 -- load colorscheme config first before other plugin configs in case of issues
-require('my.plugs.tokyonight')
+-- require('my.plugs.tokyonight')
 
 -- list of plugin configs
 local plugins = {
   'autopairs',
   'colorizer',
-  'compe',
+  'cmp',
+  -- 'compe',
   'gitsigns',
   'kommentary',
   'lir',
   'lspconfig',
   'lualine',
   'luapad',
-  'neorg',
-  -- 'neuron',
   'telescope',
   'treesitter',
   'web-devicons',

@@ -19,6 +19,12 @@ map('v', 'gz', '<Nop>', opts)
 map('n', '<c-_>', '<Nop>', opts)
 map('v', '<c-_>', '<Nop>', opts)
 
+-- swap parenthesis and number mappings for normal mode
+-- map('n', ')', '0', opts)
+-- map('n', '0', ')', opts)
+-- map('n', '(', '9', opts)
+-- map('n', '9', '(', opts)
+
 -- packer sync baby
 map('n', '<leader>ps', '<cmd>PackerSync<cr>', opts)
 
@@ -132,5 +138,11 @@ maps.toggle_wrap = function()
   end
 end
 map('n', '<leader>tw', '<cmd>lua require("my.maps").toggle_wrap()<cr>', nosilent)
+
+maps.quit_session = function()
+  vim.cmd('DeleteSession')
+  vim.cmd('qall')
+end
+map('n', '<leader>qs', '<cmd>lua require("my.maps").quit_session()<cr>', nosilent)
 
 return maps

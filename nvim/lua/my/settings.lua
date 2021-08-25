@@ -17,7 +17,8 @@ o.softtabstop=2
 o.tabstop=2
 
 -- Global options
-o.completeopt = 'menuone,noselect'
+o.cursorline = true
+-- o.completeopt = 'menuone,noselect' -- check cmp.lua for this
 o.errorbells = false
 o.exrc = true
 o.hidden = true
@@ -53,8 +54,10 @@ o.wrap = false
 -- Autocmds
 -- vim.cmd 'autocmd! BufWritePre * let &bex = "@" . strftime("%F.%H:%M")' -- for backups
 vim.cmd 'autocmd! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
-vim.cmd 'autocmd! BufRead,BufNewFile *.conf,config,.ini setf dosini'
+vim.cmd 'autocmd! BufRead,BufNewFile config,.ini set ft=dosini'
 vim.cmd 'autocmd! TermOpen * startinsert'
+vim.cmd 'autocmd! BufRead,BufNewFile .env* set ft=sh' -- .env.local ft detection
+vim.cmd 'autocmd! BufRead,BufNewFile *.conf set ft=conf' -- set .conf ft detection
 
 -- colorscheme global defaults
 o.background = 'dark'

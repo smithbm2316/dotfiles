@@ -1,8 +1,10 @@
-if g:loaded_vsnip
+if exists('g:loaded_vsnip')
   imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
   smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
   imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
   smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+  let g:vsnip_snippet_dir = expand('$HOME') . '/dotfiles/nvim/vsnip'
 
   let s:webdev = ['javascript', 'css', 'html']
   let g:vsnip_filetypes = {}

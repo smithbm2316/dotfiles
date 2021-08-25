@@ -10,4 +10,4 @@ vim.g.tokyonight_dark_sidebar = true
 vim.g.tokyonight_dark_float = true
 vim.g.tokyonight_style = 'storm'
 
-vim.cmd('colorscheme laserwave')
+-- vim.cmd('colorscheme tokyonight')
