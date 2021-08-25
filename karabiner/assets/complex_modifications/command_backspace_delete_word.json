@@ -1,0 +1,48 @@
+{
+  "title": "Delete word with Cmd+Backspace",
+  "rules": [
+    {
+      "description": "Delete word with Cmd+Backspace",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "modifiers": {
+              "mandatory": [
+                "left_command"
+              ]
+            },
+            "key_code": "delete_or_backspace"
+          },
+          "to": [
+            {
+              "key_code": "delete_or_backspace",
+              "modifiers": [
+                "left_option"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "modifiers": {
+              "mandatory": [
+                "right_command"
+              ]
+            },
+            "key_code": "delete_or_backspace"
+          },
+          "to": [
+            {
+              "key_code": "delete_or_backspace",
+              "modifiers": [
+                "right_option"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

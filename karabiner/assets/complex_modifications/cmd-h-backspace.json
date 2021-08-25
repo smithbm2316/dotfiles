@@ -1,0 +1,26 @@
+{
+  "title": "Rebind Cmd+H to Backspace",
+  "rules": [
+    {
+      "description": "Cmd+H -> Backspace",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "modifiers": {
+              "mandatory": [
+                "left_command"
+              ]
+            },
+            "key_code": "h"
+          },
+          "to": [
+            {
+              "key_code": "delete_or_backspace"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

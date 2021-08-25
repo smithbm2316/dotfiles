@@ -1,0 +1,22 @@
+{
+  "title": "Disable Cmd+Tab app switcher on MacOS",
+  "rules": [
+    {
+      "description": "Disable Cmd+Tab app switcher",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "tab",
+            "modifiers": [
+              "left_command"
+            ]
+          },
+          "to": [
+            {}
+          ],
+          "type": "basic"
+        }
+      ]
+    }
+  ]
+}
