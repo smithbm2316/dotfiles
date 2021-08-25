@@ -1,0 +1,25 @@
+# espanso configuration file
+
+# This is the default configuration file, change it as you like it
+# You can refer to the official documentation:
+# https://espanso.org/docs/
+
+# Matches are the substitution rules, when you type the "trigger" string
+# it gets replaced by the "replace" string.
+matches:
+  # Dates
+  - trigger: ';date'
+    replace: '{{mydate}}'
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: '%m/%d/%Y'
+
+  # Vincit Email
+  - trigger: ';bsfi'
+    replace: 'ben.smith@vincit.fi'
+
+  # Personal Email
+  - trigger: ';bsme'
+    replace: 'bensmith@mailbox.org'

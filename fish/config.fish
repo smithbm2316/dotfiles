@@ -183,6 +183,10 @@ function tmnp -a session serve_command
     send -c $serve_command C-m
 end
 
+function tmns-fzf
+  tmux display-popup -E "new-session -c (fd -E 'Library' --base-directory $HOME | fzf)"
+end
+
 # git alias
 function g
   switch $argv
@@ -264,6 +268,9 @@ if test (uname -s) = 'Linux'
 else if test (uname -s) = 'Darwin'
   # setup keychain settings if not in tmux
   if test -z $TMUX && status --is-interactive
-    SHELL=/usr/bin/fish /usr/local/bin/keychain --eval --quiet -Q id_rsa id_rsa_gl | source
+    SHELL=/usr/bin/fish /usr/local/bin/keychain --eval --quiet -Q gl_vincit gh_vincit | source
   end
+
+  # do all of the homebrew things please
+  alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew doctor'
 end
