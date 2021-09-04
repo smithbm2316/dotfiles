@@ -1,5 +1,5 @@
 -- hyper keys
-local hyper = { 'shift', 'ctrl', 'option' }
+local hyper = { 'shift', 'cmd', 'option' }
 local cmd_hyper = { 'shift', 'ctrl', 'option', 'cmd' }
 
 -- helper function for getting an App's Bundle ID
@@ -29,7 +29,7 @@ Install:andUse('BrewInfo')
 Install:andUse('Seal', {
   hotkeys = {
     toggle = {
-      hyper,
+      'option',
       'o'
     },
   },
@@ -75,9 +75,13 @@ Install:andUse('KSheet', {
 })
 
 
+-- TODO make drink water/get up reminder in bar
+-- TODO make weather menu bar app that `curl`s wttr.in/?format=1
+-- TODO make seal integration to open the docs for tools I commonly use
 
 
 -- define hammerspoon mode
+--[[
 HsMode = hs.hotkey.modal.new(hyper, '`')
 -- callbacks for hammerspoon mode
 function HsMode:entered() hs.alert('Hammerspoon time') end
@@ -89,7 +93,7 @@ HsMode:bind(hyper, '`', function() HsMode:exit() end)
 
 -- Launch seal
 HsMode:bind('', 'o', function() spoon.Seal:toggle(); HsMode:exit() end)
-
+--]]
 
 
 

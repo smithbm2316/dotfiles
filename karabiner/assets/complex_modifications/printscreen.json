@@ -1,0 +1,30 @@
+{
+  "title": "Screenshot shortcuts",
+  "rules": [
+    {
+      "description": "Screenshot select with PrintScreen",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "print_screen",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "4",
+              "modifiers": [
+                "left_command",
+                "left_shift"
+              ]
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    }
+  ]
+}

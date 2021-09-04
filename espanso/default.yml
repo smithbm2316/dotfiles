@@ -4,6 +4,9 @@
 # You can refer to the official documentation:
 # https://espanso.org/docs/
 
+toggle_key: OFF
+secure_input_notification: false
+
 # Matches are the substitution rules, when you type the "trigger" string
 # it gets replaced by the "replace" string.
 matches:
@@ -20,6 +23,18 @@ matches:
   - trigger: ';bsfi'
     replace: 'ben.smith@vincit.fi'
 
+  # Vincit Email
+  - trigger: ';bsvi'
+    replace: 'ben.smith@vincit.com'
+
   # Personal Email
-  - trigger: ';bsme'
+  - trigger: ';bspe'
     replace: 'bensmith@mailbox.org'
+  
+  # Personal Dev Email
+  - trigger: ';bsdev'
+    replace: 'bsmithdev@mailbox.org'
+
+  # Personal Shopping Email
+  - trigger: ';shop'
+    replace: '2316shop@mailbox.org'
