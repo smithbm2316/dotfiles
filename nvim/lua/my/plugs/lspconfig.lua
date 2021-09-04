@@ -1,6 +1,9 @@
-local lspconfig = require('lspconfig')
-local configs = require('lspconfig/configs')
+local lspconfig = require 'lspconfig'
+local configs = require 'lspconfig/configs'
+local util = require 'lspconfig/util'
+local map = vim.api.nvim_set_keymap
 
+-- zk cli lsp setup
 configs.zk = {
   default_config = {
     cmd = { 'zk', 'lsp' },
@@ -8,6 +11,25 @@ configs.zk = {
     root_dir = function()
       return vim.loop.cwd()
     end,
+    settings = {},
+  },
+}
+
+-- astro lsp setup
+configs.astro_language_server = {
+  default_config = {
+    cmd = {
+      os.getenv('HOME') .. '/builds/astro-language-tools/packages/language-server/bin/server.js',
+      '--stdio'
+    },
+    filetypes = { 'astro' },
+    root_dir = function(fname)
+      return util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")(fname)
+    end,
+    docs = {
+      description = 'https://github.com/snowpackjs/astro-language-tools',
+      root_dir = [[root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")]],
+    },
     settings = {},
   },
 }
@@ -98,6 +120,10 @@ lspconfig.zk.setup({
   on_attach = my_on_attach,
 })
 
+lspconfig.astro_language_server.setup {
+  on_attach = my_on_attach,
+}
+
 -- sumneko_lua setup, using lua-dev plugin for better lua docs
 local sumneko_root_path = os.getenv('HOME') .. '/builds/lua-language-server'
 local system_name = vim.fn.has('mac') == 0 and 'Linux' or 'macOS'
@@ -130,3 +156,37 @@ local luadev = require('lua-dev').setup({
 })
 
 lspconfig.sumneko_lua.setup(luadev)
+
+-- manage lsp diagnostics
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    -- Enable underline, use default values
+    underline = false,
+    -- Use a function to dynamically turn virtual_text off
+    -- and on, using buffer local variables
+    virtual_text = function()
+      if vim.b.show_virtual_text == nil then
+        vim.b.show_virtual_text = true
+        return true
+      else
+        return vim.b.show_virtual_text
+      end
+    end,
+    signs = true,
+    update_in_insert = false,
+  }
+)
+map('n', '<leader>td', '<cmd>lua vim.b.show_virtual_text = not vim.b.show_virtual_text; vim.lsp.diagnostic.redraw()<cr>', { noremap = true, silent = true })
+
+-- define signcolumn lsp diagnostic icons
+local signs = {
+  Error = " ",
+  Warning = " ",
+  Hint = " ",
+  Information = " "
+}
+
+for type, icon in pairs(signs) do
+  local hl = "LspDiagnosticsSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end

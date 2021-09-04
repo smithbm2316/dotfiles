@@ -35,7 +35,11 @@ local function map_zk(keybind, func, mode)
 end
 
 map_zk('<leader>nn', 'new')
-map_zk('<cr>', 'visual_new_link', 'x')
-map_zk('<cr>', 'cword_new_link')
+
+-- only map these if the current working directory is $HOME/notes
+if vim.api.nvim_exec('pwd', true) == vim.fn.expand('$HOME') .. '/notes' then
+  map_zk('<cr>', 'visual_new_link', 'x')
+  map_zk('<cr>', 'cword_new_link')
+end
 
 return zk

@@ -1,19 +1,42 @@
 local actions = require('lir.actions')
 local clipboard_actions = require('lir.clipboard.actions')
+local get_context = require('lir.vim').get_context
+
+local function create_file(edit_cmd)
+  local ctx = get_context()
+  edit_cmd = edit_cmd .. ' '
+
+  if vim.w.lir_is_float then
+    vim.api.nvim_feedkeys(':close | :' .. edit_cmd .. ctx.dir, 'n', true)
+  else
+    vim.api.nvim_feedkeys(':keepalt ' .. edit_cmd .. ctx.dir, 'n', true)
+  end
+end
+
+local function edit() create_file 'edit' end
+local function v_edit() create_file 'vsplit' end
+local function sp_edit() create_file 'split' end
+
+local show_hidden = false
+if vim.fn.getcwd() == vim.fn.expand('$HOME') .. '/dotfiles' then
+  show_hidden = true
+end
 
 require('lir').setup {
-  show_hidden_files = true,
+  show_hidden_files = show_hidden,
   devicons_enable = true,
   mappings = {
     ['l']     = actions.edit,
     ['<cr>']  = actions.edit,
-    ['<C-s>'] = actions.split,
-    ['<C-v>'] = actions.vsplit,
-    ['<C-t>'] = actions.tabedit,
+    ['s']     = sp_edit,
+    ['v']     = v_edit,
+    ['<c-s>'] = actions.split,
+    ['<c-v>'] = actions.vsplit,
+    ['<c-t>'] = actions.tabedit,
     ['h']     = actions.up,
     ['q']     = actions.quit,
     ['f']     = actions.mkdir,
-    ['e']     = actions.newfile,
+    ['e']     = edit,
     ['r']     = actions.rename,
     ['C']     = actions.cd,
     ['Y']     = actions.yank_path,
@@ -29,5 +52,8 @@ require('lir').setup {
   hide_cursor = true,
 }
 
-vim.api.nvim_set_keymap('n', '<leader>fb', [[<cmd>lua require'lir.float'.toggle()<cr>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fe', [[<cmd>lua require'lir.float'.toggle(vim.fn.getcwd())<cr>]], { noremap = true, silent = true })
+-- lir .: list files/directories for current buffer's location
+vim.api.nvim_set_keymap('n', '<leader>l.', [[<cmd>lua require'lir.float'.toggle()<cr>]], { noremap = true, silent = true })
+-- lir files: list files/directories for current project root
+vim.api.nvim_set_keymap('n', '<leader>lf', [[<cmd>lua require'lir.float'.toggle(vim.fn.getcwd())<cr>]], { noremap = true, silent = true })
+

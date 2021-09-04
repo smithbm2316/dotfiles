@@ -44,7 +44,17 @@ local prettier_config = {
 }
 
 -- add a prettier_config for all js/ts/vue/svelte filetypes
-for _, ft in pairs({ 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'svelte', 'vue' }) do
+for _, ft in pairs({
+  'javascript',
+  'javascriptreact',
+  'typescript',
+  'typescriptreact',
+  'svelte',
+  'vue',
+  'html',
+  'css',
+  'json',
+}) do
   filetype_configs[ft] = prettier_config
 end
 

@@ -111,6 +111,11 @@ return require('packer').startup(function(use)
     'b3nj5m1n/kommentary',
   }
 
+  -- add plugin that uses treesitter to figure out what the commentstring should be
+  use {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+  }
+
   -- pretty icons for nerd fonts
   use {
     'kyazdani42/nvim-web-devicons',
@@ -201,7 +206,9 @@ return require('packer').startup(function(use)
       vim.api.nvim_set_keymap('n', '<leader>pc', [[<cmd>lua require'nvim-projectconfig'.edit_project_config()<cr>]], { noremap = true, silent = true })
     end,
     config = function()
-      require('nvim-projectconfig').load_project_config()
+      require('nvim-projectconfig').load_project_config {
+        project_dir = '~/dotfiles/nvim/projects/'
+      }
     end,
   }
 
@@ -384,6 +391,29 @@ return require('packer').startup(function(use)
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
       require('trouble').setup {}
+    end,
+  }
+
+  -- project-local notes
+  use {
+    'marcushwz/nvim-workbench',
+    config = function()
+      vim.api.nvim_set_keymap('n', '<leader>wp', '<Plug>ToggleProjectWorkbench', { silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>wb', '<Plug>ToggleBranchWorkbench', { silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>wt', '<Plug>WorkbenchToggleCheckbox', { silent = true })
+    end,
+  }
+
+  -- add indent line guides to editor
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    config = function()
+      require 'indent_blankline'.setup {
+        -- char = '|',
+        -- show_current_context = true,
+        buftype_exclude = { 'terminal' },
+        filetype_exclude = { 'help' },
+      }
     end,
   }
 

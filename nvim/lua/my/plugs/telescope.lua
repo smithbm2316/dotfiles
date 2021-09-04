@@ -1,4 +1,5 @@
 -- TODO: add a mapping to delete buffers from the buffers picker
+-- TODO: rewrite 'setup' function, as that apparently is way cleaner than the mess i've got right now
 -- Aliases for Lua API functions
 local map = vim.api.nvim_set_keymap
 -- Telescope stuff I need to import for configuration
@@ -17,6 +18,20 @@ function RELOADER(module)
   package.loaded[module] = nil
   return require(module)
 end
+
+local ignore_these = {
+  'node_modules/.*',
+  '.git/.*',
+  '.yarn/.*',
+  '.neuron/*',
+  'fonts/*',
+  'icons/*',
+  'images/*',
+  'dist/*',
+  'build/*',
+  'yarn.lock',
+  'package-lock.json',
+}
 
 -- TELESCOPE CONFIG
 require('telescope').setup({
@@ -39,7 +54,7 @@ require('telescope').setup({
     prompt_prefix = '🔍 ',
     sorting_strategy = 'ascending',
     layout_strategy = 'flex',
-    file_ignore_patterns = { 'node_modules/.*', '.git/.*', '.neuron/*', },
+    file_ignore_patterns = ignore_these,
     layout_config = {
       prompt_position = 'bottom',
       horizontal = {
@@ -55,6 +70,11 @@ require('telescope').setup({
       override_generic_sorter = false,
       override_file_sorter = true,
       case_mode = 'smart_case',
+    },
+  },
+  pickers = {
+    live_grep = {
+      file_ignore_patterns = { 'yarn.lock', 'package%-lock.json' } -- the '-' needs to be escaped because lua patterns...yay...
     },
   },
 })
@@ -105,6 +125,9 @@ map_picker('<leader>fc', 'grep_string', {
   prompt_title = 'word under cursor',
 })
 map_picker('<leader>fj', 'find_files')
+map_picker('<leader>fa', 'find_files', {
+  no_ignore = true,
+})
 map_picker('<leader>gw', 'live_grep') -- grep word
 map_picker('<leader>fib', 'current_buffer_fuzzy_find')
 map_picker('<leader>gl', 'git_commits', {
@@ -152,7 +175,7 @@ ts.ripgrepper = function(opts)
   local ripgrepper_opts = {
     prompt_title = 'ripgrepper',
     search = vim.fn.input('ripgrepper > '),
-    search_dirs = { '%' },
+    search_dirs = { '$PWD' },
     use_regex = true,
   }
   opts = opts and vim.tbl_deep_extend('force', opts, ripgrepper_opts) or ripgrepper_opts

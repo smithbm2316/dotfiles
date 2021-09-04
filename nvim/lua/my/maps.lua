@@ -25,8 +25,20 @@ map('v', '<c-_>', '<Nop>', opts)
 -- map('n', '(', '9', opts)
 -- map('n', '9', '(', opts)
 
--- packer sync baby
-map('n', '<leader>ps', '<cmd>PackerSync<cr>', opts)
+-- uninstall removed plugins, install new plugins, and download latest version
+-- of existing plugins
+maps.packer_sync = function()
+  vim.api.nvim_exec([[
+    luafile %
+    PackerCompile
+    PackerSync
+  ]], false)
+end
+map('n', '<leader>ps', '<cmd>lua require("my.maps").packer_sync()<cr>', opts)
+
+-- make gu toggle between upper and lower case instead of just upper
+map('n', 'gu', 'g~', opts)
+map('v', 'gu', 'g~', opts)
 
 -- swap to alternate file
 map('n', 'gp', '<c-^>', opts)
