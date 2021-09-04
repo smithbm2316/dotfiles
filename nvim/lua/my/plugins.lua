@@ -391,6 +391,7 @@ return require('packer').startup(function(use)
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
       require('trouble').setup {}
+      vim.api.nvim_set_keymap('n', '<leader>ld', '<cmd>TroubleToggle<cr>', { noremap = true, silent = true })
     end,
   }
 
@@ -415,6 +416,15 @@ return require('packer').startup(function(use)
         filetype_exclude = { 'help' },
       }
     end,
+  }
+
+  -- language server for linting/formatting
+  use {
+    'jose-elias-alvarez/null-ls.nvim',
+  }
+
+  use {
+    'RRethy/nvim-treesitter-textsubjects',
   }
 
   -----------------------------------------------------

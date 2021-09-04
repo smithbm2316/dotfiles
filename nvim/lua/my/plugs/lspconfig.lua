@@ -34,6 +34,13 @@ configs.astro_language_server = {
   },
 }
 
+-- eslint setup
+local null_ls = require 'null-ls'
+null_ls.config {}
+lspconfig['null-ls'].setup {
+  debug = true,
+}
+
 local my_on_attach = function(client, bufnr)
   -- aliases for keybinds below
   local function buf_set_keymap(...)
@@ -51,14 +58,14 @@ local my_on_attach = function(client, bufnr)
   -- lsp references
   buf_set_keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
   -- lsp definition
-  buf_set_keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
   -- next diagnostic
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
   -- prev diagnostic
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', opts)
   buf_set_keymap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-  -- show diagnostics on current line in floating window
-  buf_set_keymap('n', '<leader>ld', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', opts)
+  -- show diagnostics on current line in floating window: hover diagnostics for line
+  buf_set_keymap('n', '<leader>hd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', opts)
 
   -- show icons in completion
   local has_lspkind, lspkind = pcall(require, 'lspkind')
@@ -94,31 +101,35 @@ for _, lsp in ipairs(servers) do
   })
 end
 
-lspconfig.tsserver.setup({
+lspconfig.tsserver.setup {
   filetypes = { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'javascript.jsx', 'typescript.tsx' },
   on_attach = function(client, bufnr)
     my_on_attach(client, bufnr)
-    -- autocommand to automatically organize imports for tsserver files
-    -- vim.cmd([[
-    --   augroup TSServerOrganizeImports
-    --     au!
-    --     au BufWritePost * lua vim.lsp.buf.execute_command({ command = "_typescript.organizeImports", arguments = {vim.api.nvim_buf_get_name(0)}, title = "" })
-    --   augroup END
-    -- ]])
+    -- disable tsserver from formatting, only use null-ls
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
+    vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()')
+
     local ts_utils = require('nvim-lsp-ts-utils')
     ts_utils.setup {
-      debug = false,
-      enable_formatting = false,
-      formatter = 'prettier',
+      debug = true,
       enable_import_on_completion = true,
+      -- prettier
+      enable_formatting = true,
+      formatter = 'prettier',
+      -- eslint
+      eslint_enable_code_actions = true,
+      eslint_enable_disable_comments = true,
+      eslint_enable_diagnostics = true,
+      eslint_bin = 'eslint_d',
     }
     ts_utils.setup_client(client)
   end,
-})
+}
 
-lspconfig.zk.setup({
+lspconfig.zk.setup {
   on_attach = my_on_attach,
-})
+}
 
 lspconfig.astro_language_server.setup {
   on_attach = my_on_attach,
@@ -130,7 +141,7 @@ local system_name = vim.fn.has('mac') == 0 and 'Linux' or 'macOS'
 local sumneko_binary = sumneko_root_path .. '/bin/' .. system_name .. '/lua-language-server'
 
 -- TODO: find a way to conditionally load awesomeWM's runtime files and add globals when editing awesome files
-local luadev = require('lua-dev').setup({
+local luadev = require('lua-dev').setup {
   library = {
     vimruntime = true,
     types = true,
@@ -153,8 +164,7 @@ local luadev = require('lua-dev').setup({
       },
     },
   },
-})
-
+}
 lspconfig.sumneko_lua.setup(luadev)
 
 -- manage lsp diagnostics
