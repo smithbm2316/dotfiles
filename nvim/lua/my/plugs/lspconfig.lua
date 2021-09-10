@@ -1,7 +1,9 @@
 local lspconfig = require 'lspconfig'
 local configs = require 'lspconfig/configs'
 local util = require 'lspconfig/util'
-local map = vim.api.nvim_set_keymap
+
+-- functions to hook into
+local m = {}
 
 -- zk cli lsp setup
 configs.zk = {
@@ -18,10 +20,8 @@ configs.zk = {
 -- astro lsp setup
 configs.astro_language_server = {
   default_config = {
-    cmd = {
-      os.getenv('HOME') .. '/builds/astro-language-tools/packages/language-server/bin/server.js',
-      '--stdio'
-    },
+    -- os.getenv('HOME') .. '/builds/astro-language-tools/packages/language-server/bin/server.js',
+    cmd = { 'astro-ls', '--stdio' },
     filetypes = { 'astro' },
     root_dir = function(fname)
       return util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")(fname)
@@ -38,7 +38,7 @@ configs.astro_language_server = {
 local null_ls = require 'null-ls'
 null_ls.config {}
 lspconfig['null-ls'].setup {
-  debug = true,
+  debug = false,
 }
 
 local my_on_attach = function(client, bufnr)
@@ -67,29 +67,29 @@ local my_on_attach = function(client, bufnr)
   -- show diagnostics on current line in floating window: hover diagnostics for line
   buf_set_keymap('n', '<leader>hd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', opts)
 
+  -- manage lsp diagnostics
+  vim.b.show_virtual_text = true
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      underline = false,
+      virtual_text = function()
+        if vim.b.show_virtual_text then
+          return { severity_limit = 'Warning' }
+        else
+          return false
+        end
+      end,
+      signs = true,
+      update_in_insert = false,
+    }
+  )
+
   -- show icons in completion
   local has_lspkind, lspkind = pcall(require, 'lspkind')
   if has_lspkind then
     lspkind.init({
       with_text = true,
     })
-  end
-
-  -- TODO: setup lspsaga instead of lspsignature
-  -- TODO: setup custom tsserver settings
-  -- show signature help automatically
-  local has_lsp_signature, lsp_signature = pcall(require, 'lsp_signature')
-  if not has_lsp_signature then
-    lsp_signature.on_attach {
-      bind = true,
-      lsp_saga = false,
-      hint_prefix = nil,
-      handler_opts = {
-        border = 'double',
-      },
-      hint_enable = true,
-      doc_lines = 10,
-    }
   end
 end
 
@@ -112,7 +112,7 @@ lspconfig.tsserver.setup {
 
     local ts_utils = require('nvim-lsp-ts-utils')
     ts_utils.setup {
-      debug = true,
+      debug = false,
       enable_import_on_completion = true,
       -- prettier
       enable_formatting = true,
@@ -160,33 +160,29 @@ local luadev = require('lua-dev').setup {
             'awesome', -- awesomewm
             'spoon', 'hs', -- hammerspoon
           },
+          -- disable specific diagnostic messages
+          disable = {
+            'lowercase-global',
+          },
         },
+        workspace = {
+          -- hammerspoon support
+          library = {
+            [vim.fn.expand('/Applications/Hammerspoon.app/Contents/Resources/extensions/hs')] = true,
+          }
+        }
       },
     },
   },
 }
 lspconfig.sumneko_lua.setup(luadev)
 
--- manage lsp diagnostics
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    -- Enable underline, use default values
-    underline = false,
-    -- Use a function to dynamically turn virtual_text off
-    -- and on, using buffer local variables
-    virtual_text = function()
-      if vim.b.show_virtual_text == nil then
-        vim.b.show_virtual_text = true
-        return true
-      else
-        return vim.b.show_virtual_text
-      end
-    end,
-    signs = true,
-    update_in_insert = false,
-  }
-)
-map('n', '<leader>td', '<cmd>lua vim.b.show_virtual_text = not vim.b.show_virtual_text; vim.lsp.diagnostic.redraw()<cr>', { noremap = true, silent = true })
+-- toggle diagnostics virtual_text
+m.toggle_diagnostics = function()
+  vim.b.show_virtual_text = not vim.b.show_virtual_text
+  vim.lsp.diagnostic.redraw(0)
+end
+nnoremap('<leader>td', [[<cmd>lua require'my.plugs.lspconfig'.toggle_diagnostics()<cr>]])
 
 -- define signcolumn lsp diagnostic icons
 local signs = {
@@ -200,3 +196,5 @@ for type, icon in pairs(signs) do
   local hl = "LspDiagnosticsSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
+
+return m

@@ -1,24 +1,11 @@
--- TODO: add a mapping to delete buffers from the buffers picker
--- TODO: rewrite 'setup' function, as that apparently is way cleaner than the mess i've got right now
--- Aliases for Lua API functions
-local map = vim.api.nvim_set_keymap
--- Telescope stuff I need to import for configuration
-local actions = require('telescope.actions')
+-- TODO: write a wrapper for custom functions
+-- TODO: why isn't telescope finding neuron or web-devicons files??
 -- My module to export functions from
 local ts = {}
+-- Telescope stuff I need to import for configuration
+local actions = require'telescope.actions'
 
--- get the module you need and reload it
-function RELOADER(module)
-  if not module then
-    local buf_path = vim.api.nvim_buf_get_name(2)
-    local start = buf_path:find('/lua')
-    local module_name = buf_path:sub(start + 5, -5)
-    module = module_name:gsub('/', '.')
-  end
-  package.loaded[module] = nil
-  return require(module)
-end
-
+-- files to ignore with `file_ignore_patterns`
 local ignore_these = {
   'node_modules/.*',
   '.git/.*',
@@ -30,41 +17,99 @@ local ignore_these = {
   'dist/*',
   'build/*',
   'yarn.lock',
-  'package-lock.json',
+  'package%-lock.json',
 }
 
--- TELESCOPE CONFIG
-require('telescope').setup({
-  defaults = {
-    mappings = {
-      n = {
-        ['<c-x>'] = false,
-        ['<c-s>'] = actions.select_horizontal,
-        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
-        ['<c-c>'] = actions.close,
-      },
-      i = {
-        ['<c-x>'] = false,
-        ['<c-s>'] = actions.select_horizontal,
-        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
-        ['<c-c>'] = actions.close,
-      },
-    },
-    color_devicons = true,
-    prompt_prefix = '🔍 ',
-    sorting_strategy = 'ascending',
-    layout_strategy = 'flex',
-    file_ignore_patterns = ignore_these,
-    layout_config = {
-      prompt_position = 'bottom',
-      horizontal = {
-        mirror = true,
-      },
-      vertical = {
-        mirror = true,
-      },
-    },
+local default_picker_opts = {
+  file_browser = {
+    prompt_title = 'working directory',
+    selection_strategy = 'row',
   },
+  grep_string = {
+    prompt_title = 'word under cursor',
+  },
+  live_grep = {
+    file_ignore_patterns = ignore_these,
+  },
+  git_commits = {
+    selection_strategy = 'row',
+    prompt_title = 'git log',
+  },
+  buffers = {
+    show_all_buffers = true,
+    attach_mappings = function(_, local_map)
+      local_map('n', 'd', actions.delete_buffer)
+      local_map('i', '<c-x>', actions.delete_buffer)
+      return true
+    end,
+  },
+  git_branches = {
+    attach_mappings = function(_, local_map)
+      local_map('i', '<c-o>', actions.git_checkout)
+      local_map('n', '<c-o>', actions.git_checkout)
+      return true
+    end,
+    selection_strategy = 'row',
+  },
+  find_files = {
+    find_command = { 'rg', '--files', '-L' },
+    follow = true,
+    hidden = false,
+    no_ignore = true,
+  },
+}
+
+  -- TELESCOPE CONFIG
+  require'telescope'.setup {
+    pickers = default_picker_opts,
+    defaults = {
+      vimgrep_arguments = {
+        'rg',
+        '--color=never',
+        '--no-heading',
+        '--with-filename',
+        '--line-number',
+        '--column',
+        '--smart-case'
+      },
+      mappings = {
+        n = {
+          ['<c-x>'] = false,
+          ['<c-s>'] = actions.select_horizontal,
+          ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
+          ['<c-c>'] = actions.close,
+        },
+        i = {
+          ['<c-x>'] = false,
+          ['<c-s>'] = actions.select_horizontal,
+          ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
+          ['<c-c>'] = actions.close,
+        },
+      },
+      color_devicons = true,
+      prompt_prefix = '🔍 ',
+      scroll_strategy = 'cycle',
+      sorting_strategy = 'ascending',
+      layout_strategy = 'flex',
+      file_ignore_patterns = ignore_these,
+      layout_config = {
+        prompt_position = 'top',
+        horizontal = {
+          mirror = true,
+          preview_cutoff = 100,
+          preview_width = 0.5,
+        },
+        vertical = {
+          mirror = true,
+          preview_cutoff = 0.4,
+        },
+        flex = {
+          flip_columns = 110,
+        },
+        height = 0.94,
+        width = 0.86,
+      },
+    },
   extensions = {
     fzf = {
       override_generic_sorter = false,
@@ -72,131 +117,107 @@ require('telescope').setup({
       case_mode = 'smart_case',
     },
   },
-  pickers = {
-    live_grep = {
-      file_ignore_patterns = { 'yarn.lock', 'package%-lock.json' } -- the '-' needs to be escaped because lua patterns...yay...
-    },
-  },
-})
--- require gh cli telescope integration
-require('telescope').load_extension('gh')
+}
 -- require fzf extension for fzf sorting algorithm
-require('telescope').load_extension('fzf')
+require'telescope'.load_extension('fzf')
 -- require zk extension for zk-cli
-require('telescope').load_extension('zk')
+require'telescope'.load_extension('zk')
+-- require neoclip extension
+require'telescope'.load_extension('neoclip')
 
--- global table to contain all of my options for the different pickers
-TelescopeMapArgs = TelescopeMapArgs or {}
-
--- function for mapping keys to any of my pickers, including custom opts and some good defaults included
-local map_picker = function(keymap, picker, opts, module, mode)
-  local map_key = vim.api.nvim_replace_termcodes(keymap .. picker, true, true, true)
-  local global_opts = {
-    hidden = true,
-    layout_config = {
-      -- height = 16,
-      mirror = true,
-    },
-  }
-  module = module or 'telescope.builtin'
-  mode = mode or 'n'
-
-  TelescopeMapArgs[map_key] = opts and vim.tbl_deep_extend('keep', opts, global_opts) or global_opts
-
+-- function for generating keymap for each picker
+local builtin = function(mapping, picker, is_custom)
+  local module = is_custom and 'my.plugs.telescope' or 'telescope.builtin'
   local rhs = string.format(
-    [[<cmd>lua require('%s')['%s'](TelescopeMapArgs['%s'])<cr>]],
+    [[<cmd>lua require'%s'.%s()<cr>]],
     module,
-    picker,
-    map_key
+    picker
   )
+  nnoremap(mapping, rhs)
+end
 
-  map(mode, keymap, rhs, { noremap = true, silent = true })
+local custom = function(mapping, picker_name, builtin_name, opts)
+  opts = opts or {}
+  ts[picker_name] = function()
+    require'telescope.builtin'[builtin_name](opts)
+  end
+  local rhs = string.format(
+    [[<cmd>lua require'my.plugs.telescope'.%s()<cr>]],
+    picker_name
+  )
+  nnoremap(mapping, rhs)
 end
 
 -- my telescope builtins mappings
 -- TODO: move some of my lspconfig mappings to use telescope's lsp pickers instead
 -- i.e. references and definition
-map_picker('<leader>wd', 'file_browser', {
-  prompt_title = 'working directory',
-  selection_strategy = 'row',
-})
-map_picker('<leader>of', 'oldfiles')
-map_picker('<leader>fc', 'grep_string', {
-  prompt_title = 'word under cursor',
-})
-map_picker('<leader>fj', 'find_files')
-map_picker('<leader>fa', 'find_files', {
-  no_ignore = true,
-})
-map_picker('<leader>gw', 'live_grep') -- grep word
-map_picker('<leader>fib', 'current_buffer_fuzzy_find')
-map_picker('<leader>gl', 'git_commits', {
-  selection_strategy = 'row',
-  prompt_title = 'git log',
-}) -- git log
-map_picker('<leader>gh', 'help_tags')
-map_picker('<leader>gm', 'man_pages')
-map_picker('<leader>bl', 'buffers', {
-  show_all_buffers = true,
-})
-map_picker('<leader>ts', 'builtin')
-map_picker('<leader>rp', 'reloader')
+builtin('<leader>wd', 'file_browser')
+builtin('<leader>of', 'oldfiles')
+builtin('<leader>fc', 'grep_string')
+builtin('<leader>fj', 'find_files')
+builtin('<leader>gw', 'live_grep') -- grep word
+builtin('<leader>gib', 'current_buffer_fuzzy_find') -- grep in buffer
+builtin('<leader>gl', 'git_commits') -- git log
+builtin('<leader>gb', 'git_branches')
+builtin('<leader>gh', 'help_tags')
+builtin('<leader>gm', 'man_pages')
+builtin('<leader>bl', 'buffers')
+builtin('<leader>ts', 'builtin')
+builtin('<leader>rp', 'reloader')
+builtin('<leader>tp', 'resume') -- telescope previous
 
--- find files in dotfiles
-map_picker('<leader>fd', 'find_files', {
+-- find_files, but don't use ignored patterns
+custom('<leader>fa', 'find_files_all', 'find_files', {
+  no_ignore = true,
+  hidden = true,
+})
+
+-- find in dotfiles
+custom('<leader>fd', 'find_dotfiles', 'find_files', {
   cwd = '~/dotfiles',
   prompt_title = '.. dotfiles ..',
 })
 
--- neovim config
-map_picker('<leader>fn', 'find_files', {
+-- find in neovim config
+custom('<leader>fn', 'find_neovim', 'find_files', {
   cwd = '~/dotfiles/nvim',
   prompt_title = 'files in nvim config',
 })
 
--- search for word in neovim config
-map_picker('<leader>fin', 'live_grep', {
+-- grep inside of neovim config
+custom('<leader>gin', 'grep_in_neovim', 'live_grep', {
   cwd = '~/.config/nvim',
   prompt_title = 'grep nvim config',
 })
 
--- git_branches with checkout branch
-map_picker('<leader>gb', 'git_branches', {
-  attach_mappings = function(_, local_map)
-    local_map('i', '<c-o>', actions.git_checkout)
-    local_map('n', '<c-o>', actions.git_checkout)
-    return true
-  end,
-  selection_strategy = 'row',
-})
+-- pickers for zk extension
+ts.zk_notes = function()
+  require'telescope'.extensions.zk.zk_notes()
+end
+builtin('<leader>nf', 'zk_notes', true)
+ts.zk_grep = function()
+  require'telescope'.extensions.zk.zk_grep()
+end
+builtin('<leader>ng', 'zk_grep', true)
 
 -- vim-grepper-like picker with grep_string
-ts.ripgrepper = function(opts)
-  local ripgrepper_opts = {
+ts.ripgrepper = function()
+  require'telescope.builtin'.grep_string {
     prompt_title = 'ripgrepper',
     search = vim.fn.input('ripgrepper > '),
     search_dirs = { '$PWD' },
     use_regex = true,
   }
-  opts = opts and vim.tbl_deep_extend('force', opts, ripgrepper_opts) or ripgrepper_opts
-  require('telescope.builtin').grep_string(opts)
 end
-map_picker('<leader>rg', 'ripgrepper', nil, 'my.plugs.telescope')
+builtin('<leader>rg', 'ripgrepper', true)
 
-ts.buffer_directory = function(opts)
-  local bd_opts = {
+ts.buffer_directory = function()
+  require'telescope.builtin'.file_browser {
     cwd = vim.fn.expand('%:p:h'),
     prompt_title = "buffer's directory",
     selection_strategy = 'row',
   }
-  opts = opts and vim.tbl_deep_extend('force', opts, bd_opts) or bd_opts
-  require('telescope.builtin').file_browser(opts)
 end
-map_picker('<leader>bd', 'buffer_directory', nil, 'my.plugs.telescope')
-
-ts.zk_notes = function(opts)
-  require('telescope').extensions.zk.zk_notes(opts)
-end
-map_picker('<leader>nf', 'zk_notes', nil, 'my.plugs.telescope')
+builtin('<leader>bd', 'buffer_directory', true)
 
 return ts

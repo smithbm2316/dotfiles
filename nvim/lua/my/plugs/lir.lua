@@ -1,4 +1,5 @@
 local actions = require('lir.actions')
+local mark = require('lir.mark.actions')
 local clipboard_actions = require('lir.clipboard.actions')
 local get_context = require('lir.vim').get_context
 
@@ -41,10 +42,11 @@ require('lir').setup {
     ['C']     = actions.cd,
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
-    ['d']     = actions.delete,
-    ['y'] = clipboard_actions.copy,
-    ['x'] = clipboard_actions.cut,
-    ['p'] = clipboard_actions.paste,
+    ['d']     = actions.wipeout,
+    ['y']     = clipboard_actions.copy,
+    ['x']     = clipboard_actions.cut,
+    ['p']     = clipboard_actions.paste,
+    ['m']     = function() mark.toggle_mark(); vim.cmd 'norm! j' end,
   },
   float = {
     winblend = 0,

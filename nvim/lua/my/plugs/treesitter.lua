@@ -22,9 +22,14 @@ require'nvim-treesitter.configs'.setup {
   textobjects = {
     select = {
       enable = true,
+      lookahead = true,
       keymaps = {
         ['af'] = '@function.outer',
         ['if'] = '@function.inner',
+        ['ac'] = '@conditional.outer',
+        ['ic'] = '@conditional.inner',
+        ['al'] = '@loop.outer',
+        ['il'] = '@loop.inner',
       },
     },
     lsp_interop = {
@@ -46,6 +51,20 @@ require'nvim-treesitter.configs'.setup {
       ['.'] = 'textsubjects-smart',
       [';'] = 'textsubjects-container-outer',
     }
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    colors = {
+      '#eb6f92',
+      '#f6c177',
+      '#ea9a97',
+      '#3e8fb0',
+      '#9ccfd8',
+      '#c4a7e7',
+      '#817c9c',
+    },
+    -- max_file_lines = nil,
   },
   playground = {
     enable = true,

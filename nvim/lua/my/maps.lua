@@ -1,92 +1,105 @@
 local maps = {}
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
-local nosilent = { noremap = true }
+-- helper fn to get full rhs of mappings for this module
+local mapfn = function(fn)
+  return [[<cmd>lua require'my.maps'.]] .. fn .. [[()<cr>]]
+end
 
 -- unused opts atm, prime for remaps :D
-map('n', 'gb', '<Nop>', opts)
-map('v', 'gb', '<Nop>', opts)
+nnoremap('gb', '<Nop>')
+vnoremap('gb', '<Nop>')
 
-map('n', 'gl', '<Nop>', opts)
-map('v', 'gl', '<Nop>', opts)
+nnoremap('gl', '<Nop>')
+vnoremap('gl', '<Nop>')
 
-map('n', 'gy', '<Nop>', opts)
-map('v', 'gy', '<Nop>', opts)
+nnoremap('gy', '<Nop>')
+vnoremap('gy', '<Nop>')
 
-map('n', 'gz', '<Nop>', opts)
-map('v', 'gz', '<Nop>', opts)
+nnoremap('gz', '<Nop>')
+vnoremap('gz', '<Nop>')
 
-map('n', '<c-_>', '<Nop>', opts)
-map('v', '<c-_>', '<Nop>', opts)
+nnoremap('<c-_>', '<Nop>')
+vnoremap('<c-_>', '<Nop>')
 
--- swap parenthesis and number mappings for normal mode
--- map('n', ')', '0', opts)
--- map('n', '0', ')', opts)
--- map('n', '(', '9', opts)
--- map('n', '9', '(', opts)
+-- unbind in normal mode { / } jumping
+nnoremap('{', '<Nop>')
+nnoremap('}', '<Nop>')
 
--- uninstall removed plugins, install new plugins, and download latest version
--- of existing plugins
-maps.packer_sync = function()
-  vim.api.nvim_exec([[
-    luafile %
-    PackerCompile
-    PackerSync
-  ]], false)
-end
-map('n', '<leader>ps', '<cmd>lua require("my.maps").packer_sync()<cr>', opts)
+-- PackerSync
+nnoremap('<leader>ps', '<cmd>PackerSync<cr>')
+-- PackerInstall
+nnoremap('<leader>pi', '<cmd>PackerInstall<cr>')
+-- PackerCompile
+nnoremap('<leader>pc', '<cmd>PackerCompile<cr>')
 
 -- make gu toggle between upper and lower case instead of just upper
-map('n', 'gu', 'g~', opts)
-map('v', 'gu', 'g~', opts)
+nnoremap('gu', 'g~')
+vnoremap('gu', 'g~')
 
 -- swap to alternate file
-map('n', 'gp', '<c-^>', opts)
-map('v', 'gp', '<c-^>', opts)
+nnoremap('gp', '<c-^>')
+vnoremap('gp', '<c-^>')
 
 -- delete without yanking
-map('n', '<leader>d', '"_d', opts)
-map('v', '<leader>d', '"_d', opts)
+nnoremap('<leader>d', '"_d')
+vnoremap('<leader>d', '"_d')
 
 -- replace currently selected text with default register without yanking it
-map('v', 'p', '"_dP', opts)
+vnoremap('p', '"_dP')
 
--- Remap Y to yank to end of line instead of aliasing yy
-map('n', 'Y', 'y$', opts)
-map('v', 'Y', 'y$', opts)
-
--- run a g:command
-map('n', 'go', ':', nosilent)
-map('v', 'go', ':', nosilent)
+-- run a :command
+nnoremap('go', ':', 'nosilent')
+vnoremap('go', ':', 'nosilent')
 
 -- repeat last macro
-map('n', '<c-m>', '@@', opts)
-map('v', '<c-m>', '@@', opts)
+nnoremap('<c-m>', '@@')
+vnoremap('<c-m>', '@@')
 
 -- repeat last :command
-map('n', '<c-s>', '@:', nosilent)
-map('v', '<c-s>', '@:', nosilent)
+nnoremap('<c-s>', '@:')
+vnoremap('<c-s>', '@:')
 
 -- remap q: to be easier to use, less work for your poor left pinky
-map('n', 'gx', 'q:', nosilent)
-map('v', 'gx', 'q:', nosilent)
+nnoremap('gx', 'q:')
+vnoremap('gx', 'q:')
 
 -- Global Substitute: same as %s/
-map('n', 'gs', ':%s/', opts)
-map('v', 'gs', ':%s/', opts)
+nnoremap('gs', ':%s/')
+vnoremap('gs', ':%s/')
 
 -- open quickfix list
-map('n', '<c-q>', '<cmd>copen<cr>', opts)
+nnoremap('<c-q>', '<cmd>copen<cr>')
 
 -- make 'q' exit the quickfix window
 vim.cmd [[au! FileType qf lua vim.api.nvim_buf_set_keymap(0, 'n', 'q', '<cmd>cclose<cr>', { noremap = true })]]
 
 -- quickfix list navigation yay
-map('n', '<c-n>', '<cmd>cnext<cr>', opts)
-map('n', '<c-p>', '<cmd>cprev<cr>', opts)
+nnoremap('<c-n>', '<cmd>cnext<cr>')
+nnoremap('<c-p>', '<cmd>cprev<cr>')
+
+-- make more regular commands center screen too
+nnoremap('n', 'nzz')
+nnoremap('N', 'Nzz')
+nnoremap('g;', 'g;zz')
+nnoremap('gi', 'zzgi')
+
+-- make c/C change command send text to black hole register, i didn't want
+-- it anyways if I changed it probably
+nnoremap('c', '"_c')
+nnoremap('C', '"_C')
+
+-- make <c-v> paste in insert and command-line mode too
+icnoremap('<c-v>', '<c-r>+')
+icnoremap('<c-v>', '<c-r>+')
+
+-- make +/- increment/decrement numbers like <c-a>/<c-x>
+-- and in visual/v-block mode the same like g<c-a>/g<c-x>, respectively
+nnoremap('+', '<c-a>')
+nnoremap('-', '<c-x>')
+vnoremap('+', 'g<c-a>')
+vnoremap('-', 'g<c-x>')
 
 -- turn off search highlighting after finishing a search (nohlsearch)
-map('n', '<leader>hl', '<cmd>noh<cr>', opts)
+nnoremap('<leader>hl', '<cmd>noh<cr>')
 
 maps.source_filetype = function()
   local buf = vim.api.nvim_get_current_buf() -- get reference to current buf
@@ -103,20 +116,20 @@ maps.source_filetype = function()
 end
 
 -- File Init: Open Neovim init.lua config in new tab
-map('n', '<leader>oi', [[:tabnew +tcd\ ~/dotfiles/nvim ~/dotfiles/nvim/init.lua<cr>]], opts)
+nnoremap('<leader>oi', [[:tabnew +tcd\ ~/dotfiles/nvim ~/dotfiles/nvim/init.lua<cr>]])
 -- Source Here: Reload current buffer if it is a vim or lua file
-map('n', '<leader>sh', '<cmd>lua require("my.maps").source_filetype()<cr>', opts)
+nnoremap('<leader>sh', mapfn('source_filetype'))
 
 -- Color picker wrapper
 maps.convert_color_to = function()
   vim.cmd(string.format('ConvertColorTo %s', vim.fn.input('Convert to: ')))
 end
-map('n', '<leader>cc', '<cmd>lua require("my.maps").convert_color_to()<cr>', opts)
+nnoremap('<leader>cc',mapfn('convert_color_to'))
 
 -- turn terminal to normal mode with escape if it's not a lazygit terminal
 maps.remap_term_escape = function()
   if vim.fn.bufname():match('lazygit') ~= 'lazygit' then
-    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<c-\><c-n>]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<c-\><c-n>]], { noremap = true, silent = true })
   end
 end
 vim.api.nvim_exec([[
@@ -135,7 +148,7 @@ maps.toggle_numbers = function(buf_win_or_tab)
     vim.cmd(command .. 'relativenumber')
   end
 end
-map('n', '<leader>tn', '<cmd>lua require("my.maps").toggle_numbers()<cr>', opts)
+nnoremap('<leader>tn', mapfn('toggle_numbers'))
 
 -- toggle wrapping
 maps.toggle_wrap = function()
@@ -149,12 +162,36 @@ maps.toggle_wrap = function()
     print('wrapping on')
   end
 end
-map('n', '<leader>tw', '<cmd>lua require("my.maps").toggle_wrap()<cr>', nosilent)
+nnoremap('<leader>tw', mapfn('toggle_wrap'))
 
 maps.quit_session = function()
   vim.cmd('DeleteSession')
   vim.cmd('qall')
 end
-map('n', '<leader>qs', '<cmd>lua require("my.maps").quit_session()<cr>', nosilent)
+nnoremap('<leader>qs', mapfn('quit_session'))
+
+-- change a split between horizontal and vertical
+maps.change_split_direction = function()
+  local a = vim.api
+  local windows = a.nvim_tabpage_list_wins(0)
+
+  if #windows ~= 2 then
+    vim.notify('Only works for 2 splits', 'error')
+    return
+  end
+
+  local ui = a.nvim_list_uis()[1]
+  local win1_height = a.nvim_win_get_height(windows[1])
+  local win2_height = a.nvim_win_get_height(windows[2])
+
+  local cmd_mapping
+  if ui.height < win1_height + win2_height then
+    cmd_mapping = a.nvim_replace_termcodes('<c-w>K', true, false, true)
+  else
+    cmd_mapping = a.nvim_replace_termcodes('<c-w>L', true, false, true)
+  end
+  a.nvim_feedkeys(cmd_mapping, 'n', false)
+end
+nnoremap('<leader>wr', mapfn('change_split_direction'))
 
 return maps

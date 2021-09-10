@@ -1,19 +1,7 @@
--- Require packer.nvim
-vim.cmd [[packadd packer.nvim]]
-
 return require('packer').startup(function(use)
   -- *i used the packer.nvim to manage the packer.nvim* - thanos
   use {
-    'wbthomason/packer.nvim', opt = true,
-  }
-
-  -----------------------------------------------------
-  ---
-  --- my plugins
-  ---
-  -----------------------------------------------------
-  use {
-    'smithbm2316/centerpad.nvim',
+    'wbthomason/packer.nvim'
   }
 
   -----------------------------------------------------
@@ -29,11 +17,6 @@ return require('packer').startup(function(use)
       'nvim-lua/plenary.nvim',
       'nvim-lua/popup.nvim',
     }
-  }
-
-  -- integration with github cli for telescope.nvim
-  use {
-    'nvim-telescope/telescope-github.nvim',
   }
 
   -- fzf sorting algorithm for telescope
@@ -62,10 +45,6 @@ return require('packer').startup(function(use)
       'saadparwaiz1/cmp_luasnip',
     },
   }
-  use {
-    'hrsh7th/nvim-compe',
-    disable = true,
-  }
 
   -- autopairs but better
   use {
@@ -81,9 +60,7 @@ return require('packer').startup(function(use)
   -- format code with external tools
   use {
     'mhartington/formatter.nvim',
-    config = function()
-      require('my.plugs.formatter')
-    end,
+    disable = true,
   }
 
   -- highlight and indent and textobject all the things
@@ -99,11 +76,6 @@ return require('packer').startup(function(use)
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
     requires = 'nvim-treesitter/nvim-treesitter',
-  }
-  use {
-    'romgrk/nvim-treesitter-context',
-    requires = 'nvim-treesitter/nvim-treesitter',
-    disable = true,
   }
 
   -- tpope/vim-commentary lua replacement
@@ -121,13 +93,6 @@ return require('packer').startup(function(use)
     'kyazdani42/nvim-web-devicons',
   }
 
-  -- scratchpad/repl playground for lua
-  use {
-    'rafcamlet/nvim-luapad',
-    opt = true,
-    cmd = { 'Luapad', 'Lua', 'LuaRun' },
-  }
-
   -- replacement for alvan/vim-closetag and AndrewRadev/tagalong.vim
   use {
     'windwp/nvim-ts-autotag',
@@ -136,12 +101,6 @@ return require('packer').startup(function(use)
     config = function()
       require('my.plugs.ts-autotag')
     end,
-  }
-
-  -- tokyo night colorscheme for fun
-  use {
-    'folke/tokyonight.nvim',
-    disable = true,
   }
 
   -- nice and easy to use statusline
@@ -172,7 +131,9 @@ return require('packer').startup(function(use)
 
   -- show preview of colors for hex, hsl, and rgb values
   use {
-    'norcalli/nvim-colorizer.lua',
+    -- 'norcalli/nvim-colorizer.lua',
+    -- use the fork until norcalli merges the PR
+    'DarwinSenior/nvim-colorizer.lua',
   }
 
   -- i can't remember my keybinds half the time, this should help
@@ -203,7 +164,8 @@ return require('packer').startup(function(use)
   use {
     'windwp/nvim-projectconfig',
     setup = function()
-      vim.api.nvim_set_keymap('n', '<leader>pc', [[<cmd>lua require'nvim-projectconfig'.edit_project_config()<cr>]], { noremap = true, silent = true })
+      -- set up cmd to edit project config
+      vim.cmd [[command! ProjectConfig lua require'nvim-projectconfig'.edit_project_config()]]
     end,
     config = function()
       require('nvim-projectconfig').load_project_config {
@@ -222,20 +184,6 @@ return require('packer').startup(function(use)
     end,
   }
 
-  -- smooth scrolling in neovim
-  use {
-    'karb94/neoscroll.nvim',
-    config = function()
-      require('neoscroll').setup {
-        mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', '<C-e>' },
-      }
-      require('neoscroll.config').set_mappings({
-        ['<C-y>'] = { 'scroll', { '-0.05', 'false', '20' } },
-        ['<C-e>'] = { 'scroll', { '0.05', 'false', '20' } },
-      })
-    end,
-  }
-
   -- better session management in neovim
   use {
     'rmagatti/auto-session',
@@ -244,17 +192,6 @@ return require('packer').startup(function(use)
         log_level = 'error',
         auto_session_root_dir = vim.fn.stdpath('config') .. '/sessions/',
       }
-    end,
-  }
-  use {
-    'rmagatti/session-lens',
-    config = function()
-      require'session-lens'.setup {
-        shorten_path = false,
-        prompt_title = 'Pick your saved session',
-        winblend = 0,
-      }
-      vim.api.nvim_set_keymap('n', '<leader>ls', '<cmd>SearchSession<cr>', { noremap = true, silent = true })
     end,
   }
 
@@ -275,6 +212,7 @@ return require('packer').startup(function(use)
   -- simple file explorer
   use {
     'tamago324/lir.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
   }
 
   -- luv docs in neovim
@@ -285,11 +223,6 @@ return require('packer').startup(function(use)
   -- make lua nvim development easier
   use {
     'folke/lua-dev.nvim',
-  }
-
-  -- show lsp hover docs automatically
-  use {
-    'ray-x/lsp_signature.nvim',
   }
 
   -- view treesitter symbols in sidebar
@@ -317,17 +250,15 @@ return require('packer').startup(function(use)
   }
 
   -- better tsserver support
+  -- language server for linting/formatting
   use {
     'jose-elias-alvarez/nvim-lsp-ts-utils',
+    requires = 'jose-elias-alvarez/null-ls.nvim',
   }
 
   -- snippets
   use {
     'L3MON4D3/LuaSnip',
-  }
-  use {
-    'hrsh7th/vim-vsnip',
-    disable = true,
   }
 
   -- for use with neuron zettlekasten manager
@@ -352,13 +283,7 @@ return require('packer').startup(function(use)
     'megalithic/zk.nvim',
   }
 
-  -- add LSP colors for old colorschemes
-  use {
-    'folke/lsp-colors.nvim',
-    disable = true,
-  }
-
-  -- fun new colorscheme to try
+  -- fun colorscheme
   use {
     'rose-pine/neovim',
     as = 'rose-pine',
@@ -390,8 +315,8 @@ return require('packer').startup(function(use)
     'folke/trouble.nvim',
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
-      require('trouble').setup {}
-      vim.api.nvim_set_keymap('n', '<leader>ld', '<cmd>TroubleToggle<cr>', { noremap = true, silent = true })
+      require'trouble'.setup {}
+      vim.api.nvim_set_keymap('n', '<leader>ld', '<cmd>TroubleToggle lsp_document_diagnostics<cr>', { noremap = true, silent = true })
     end,
   }
 
@@ -409,23 +334,75 @@ return require('packer').startup(function(use)
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
+      -- try #393552 if it's too light
+      vim.cmd 'hi IndentBlanklineIndent1 guifg=#312f44 blend=nocombine'
       require 'indent_blankline'.setup {
-        -- char = '|',
         -- show_current_context = true,
-        buftype_exclude = { 'terminal' },
-        filetype_exclude = { 'help' },
+        buftype_exclude = { 'terminal', 'man' },
+        filetype_exclude = { 'help', 'man', 'startuptime', 'qf', 'lspinfo' },
+        char_highlight_list = {
+          'IndentBlanklineIndent1',
+        },
       }
     end,
   }
 
-  -- language server for linting/formatting
-  use {
-    'jose-elias-alvarez/null-ls.nvim',
-  }
-
+  -- semantically select up a level of text to operate on
   use {
     'RRethy/nvim-treesitter-textsubjects',
   }
+
+  -- rainbow coloring of brackets/curly braces/parenthesis/tags to make finding pairs easier
+  use {
+    'p00f/nvim-ts-rainbow',
+  }
+
+  -- clipboard manager for vim registers
+  use {
+    'AckslD/nvim-neoclip.lua',
+    config = function()
+      require'neoclip'.setup {
+        history = 500,
+        filter = function(...)
+          -- event, filetype, buffer_name params from neoclip
+          local _, ft, buf_name = ...
+          -- don't save yanks from .env files
+          if ft == 'sh' and buf_name:match('.env') then
+            return false
+          else
+            return true
+          end
+        end,
+        preview = true,
+        default_register = '"',
+        content_spec_column = false,
+        on_paste = {
+          set_reg = false,
+        },
+        keys = {
+          i = {
+            select = '<cr>',
+            paste = '<c-p>',
+            paste_behind = '<c-k>',
+          },
+          n = {
+            select = '<cr>',
+            paste = 'p',
+            paste_behind = 'P',
+          },
+        },
+      }
+    end,
+  }
+
+
+
+
+
+
+
+
+
 
   -----------------------------------------------------
   ---
@@ -448,10 +425,6 @@ return require('packer').startup(function(use)
     cmd = 'MarkdownPreviewToggle',
   }
 
-  -- lua 5.1 manual in vim docs
-  -- use {
-  --   'bfredl/luarefvim',
-  -- }
   use {
     'milisims/nvim-luaref',
   }
@@ -502,6 +475,8 @@ return require('packer').startup(function(use)
   }
   use {
     'pantharshit00/vim-prisma',
+    opt = true,
+    ft = 'prisma',
   }
 
   -- blur the lines between vim and tmux
@@ -545,16 +520,6 @@ return require('packer').startup(function(use)
   -- color converter for hex to rgb, etc
   use {
     'amadeus/vim-convert-color-to',
-  }
-
-  -- emmet completion
-  use {
-    'mattn/emmet-vim',
-    disable = true,
-    config = function()
-      vim.g.user_emmet_leader_key = '<c-f>' -- conflicts with normal mode scroll
-      vim.g.user_emmet_mode = 'a'
-    end,
   }
 
 end)

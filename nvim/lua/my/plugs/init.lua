@@ -1,26 +1,33 @@
 -- load colorscheme config first before other plugin configs in case of issues
 -- require('my.plugs.tokyonight')
 
+-- lir needs this to exist
+-- load and setup core plugins before all others
+local core_plugins = {
+  'nvim_web_devicons',
+  'lspconfig',
+  'treesitter',
+  'cmp',
+}
+for _, plug in pairs(core_plugins) do
+  require(string.format('my.plugs.%s', plug))
+end
+
 -- list of plugin configs
 local plugins = {
   'autopairs',
   'colorizer',
-  'cmp',
-  -- 'compe',
+  -- 'formatter',
   'gitsigns',
   'kommentary',
   'lir',
-  'lspconfig',
   'lualine',
   'luapad',
   'telescope',
-  'treesitter',
-  'web-devicons',
   'which-key',
   'zen-mode',
   'zk',
 }
-
 -- loop through and load each plugin config file
 for _, plug in pairs(plugins) do
   require(string.format('my.plugs.%s', plug))

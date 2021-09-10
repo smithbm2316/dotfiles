@@ -1,4 +1,4 @@
-require('nvim-ts-autotag').setup({
+require'nvim-ts-autotag'.setup {
   filetypes = {
     'html',
     'javascript',
@@ -28,4 +28,4 @@ require('nvim-ts-autotag').setup({
     'track',
     'wbr',
   },
-})
+}
