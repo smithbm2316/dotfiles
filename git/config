@@ -1,7 +1,10 @@
 # This is Git's per-user configuration file.
 [user]
 	name = Ben Smith
-	email = bsmithdev@mailbox.org
+[includeIf "gitdir:~/code/"]
+  path = ./gh_personal
+[includeIf "gitdir:~/vincit/"]
+  path = ./gh_vincit
 [alias]
 	aa = add -A
   cm = commit -m 
@@ -14,8 +17,8 @@
   sw = switch
   bra = branch -a
   brd = branch -d
+  nb = checkout -b
   stash = stash -u
-	cob = checkout -b
 [core]
 	excludesFile = ~/.config/git/ignore
 [color]

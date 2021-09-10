@@ -24,7 +24,7 @@ set -Ux YARNBIN $HOME/.yarn/bin
 # Default env variables that are useful
 set -Ux EDITOR nvim
 set -Ux VISUAL nvim
-set -Ux MANPAGER "nvim -c 'set ft=man' -"
+set -Ux MANPAGER "nvim -c 'Man!' -"
 
 # Application env variables
 set -Ux CALIBRE_USE_DARK_PALETTE 1

@@ -204,6 +204,21 @@ function g
   end
 end
 
+# jira alias
+# function jira
+#   set -l jiraCmd "$GOBIN/jira"
+#   if test (count $argv) -lt 2
+#     switch $argv
+#       case 'lsme'
+#         eval "$jiraCmd ls -a 'Ben Smith'"
+#       case '*'
+#         eval "$jiraCmd $argv"
+#     end
+#   else
+#     eval "$jiraCmd $argv"
+#   end
+# end
+
 
 
 ##################################################
@@ -271,7 +286,7 @@ else if test (uname -s) = 'Darwin'
     SHELL=/usr/bin/fish /usr/local/bin/keychain --eval --quiet -Q gl_vincit gh_vincit gh_personal | source
   end
 
-  # do all of the homebrew things please
-  alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew doctor'
+  # do all of the homebrew things please and update neovim nightly
+  alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew reinstall neovim; brew doctor'
 end
 fish_add_path /usr/local/sbin

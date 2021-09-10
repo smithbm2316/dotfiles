@@ -14,6 +14,7 @@ hs.loadSpoon('SpoonInstall')
 -- keep all spoons up to date
 Install = spoon.SpoonInstall
 Install.use_syncinstall = true
+
 -- configure what repositories to install spoons from
 Install.repos = {
   default = {
