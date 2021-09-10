@@ -3,8 +3,8 @@ local o = vim.o
 local opt = vim.opt
 
 -- Enable syntax highlighting and filetype plugins
-vim.cmd 'syntax enable'
-vim.cmd 'filetype plugin on'
+-- vim.cmd 'syntax enable'
+-- vim.cmd 'filetype plugin on'
 
 -- Buffer options
 o.autoindent = true
@@ -18,31 +18,30 @@ o.tabstop=2
 
 -- Global options
 o.cursorline = true
--- o.completeopt = 'menuone,noselect' -- check cmp.lua for this
 o.errorbells = false
 o.exrc = true
 o.hidden = true
+o.ignorecase = true
 o.inccommand = 'split'
 o.incsearch = true
-o.ignorecase = true
 o.keywordprg = ':help'
 o.laststatus = 2
 o.lazyredraw = true
 o.mouse = 'n'
+o.nrformats = ''
 o.path = '.,,'
-o.scrolloff = 3
 o.showmode = false
-opt.shortmess:append('c')
 o.showtabline = 1
 o.smartcase = true
 o.splitbelow = true
 o.splitright = true
 o.swapfile = true
-o.wildmode = 'full'
+o.updatetime = 2000
 o.wildignore = '*/node_modules/*,*/.git/*,DS_Store,*/venv/*,*/__pycache__/*,*.pyc'
 o.wildmenu = true
+o.wildmode = 'full'
 o.wildoptions = 'pum'
-o.updatetime = 2000
+opt.shortmess:append('c')
 
 -- Window options
 o.foldmethod = 'manual'
@@ -52,12 +51,19 @@ o.signcolumn = 'yes' -- make sure this is on for gitsigns.nvim, otherwise the si
 o.wrap = false
 
 -- Autocmds
--- vim.cmd 'autocmd! BufWritePre * let &bex = "@" . strftime("%F.%H:%M")' -- for backups
-vim.cmd 'autocmd! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
-vim.cmd 'autocmd! BufRead,BufNewFile config,.ini set ft=dosini'
-vim.cmd 'autocmd! TermOpen * startinsert'
-vim.cmd 'autocmd! BufRead,BufNewFile .env* set ft=sh' -- .env.local ft detection
-vim.cmd 'autocmd! BufRead,BufNewFile *.conf set ft=conf' -- set .conf ft detection
+vim.cmd 'au! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
+vim.cmd 'au! BufRead,BufNewFile config,.ini set ft=dosini'
+vim.cmd 'au! TermOpen * startinsert'
+vim.cmd 'au! BufRead,BufNewFile .env* set ft=sh' -- .env.local ft detection
+vim.cmd 'au! BufRead,BufNewFile *.conf set ft=conf' -- set .conf ft detection
+vim.cmd 'au! BufRead,BufNewFile *.astro setfiletype astro'
+vim.cmd 'au! BufRead,BufNewFile *.njk setfiletype nunjucks'
+vim.cmd 'au! BufRead,BufNewFile *.fish setfiletype fish'
+vim.cmd 'au! BufEnter *.fish set commentstring=#%s'
+vim.cmd 'au! FileType man setlocal tw=0 wrapmargin=4 linebreak wrap'
+
+-- filetype windows to close with 'q'
+vim.cmd 'au! FileType man,help,startuptime,qf,lspinfo nnoremap <buffer><silent> q :close<cr>'
 
 -- colorscheme global defaults
 o.background = 'dark'
