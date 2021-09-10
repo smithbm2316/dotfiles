@@ -22,17 +22,18 @@ if vim.g.vscode ~= nil then
   require('my.maps') -- my key mappings
 else
   -- Autoinstall packer.nvim if not already installed
-  local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
-  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    vim.api.nvim_command.execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-    vim.api.nvim_command.execute 'packadd packer.nvim'
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd 'packadd packer.nvim'
   end
 
+  require('globals') -- require all global functions before loading other stuff
   require('my.settings') -- my vim settings
   require('my.maps') -- my key mappings
+  require('my.user_commands') -- my custom user-defined commands
   require('utils') -- utility modules for various things
   require('my.plugins') -- my plugin loader (uses packer.nvim)
   require('my.plugs') -- my plugin-specific settings
-
-  vim.cmd[[syntax enable]]
 end
