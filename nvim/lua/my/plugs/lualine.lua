@@ -1,8 +1,10 @@
+-- TODO: fix bug with lualine not using angled separators on load
+-- TODO: change color of tabline
 require('lualine').setup {
   options = {
     theme = 'rose-pine',
-    section_separators = {'', ''},
-    component_separators = {'|', '|'},
+    section_separators = {'', ''},
+    component_separators = {'', ''},
     icons_enabled = true,
     lower = true,
   },
@@ -11,12 +13,12 @@ require('lualine').setup {
     lualine_b = {
       {
         'filename',
-        path = 1,
+        path = 0,
         lower = false,
       }
     },
     lualine_c = {
-      'branch',
+      -- 'branch',
       {
         'diff',
         colored = true,
@@ -47,9 +49,23 @@ require('lualine').setup {
   inactive_sections = {
     lualine_a = {},
     lualine_b = {'filename'},
-    lualine_c = {'branch'},
+    lualine_c = {},
     lualine_x = {},
     lualine_y = {'filetype'},
     lualine_z = {'location'},
+  },
+  tabline = {
+    lualine_a = {},
+    lualine_b = {
+      {
+        'filename',
+        path = 1,
+        lower = false,
+      }
+    },
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {'branch'},
+    lualine_z = {},
   },
 }

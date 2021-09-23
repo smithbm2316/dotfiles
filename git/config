@@ -18,7 +18,7 @@
   bra = branch -a
   brd = branch -d
   nb = checkout -b
-  stash = stash -u
+  stall = stash push -u -m
 [core]
 	excludesFile = ~/.config/git/ignore
 [color]

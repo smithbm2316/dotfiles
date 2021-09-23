@@ -108,17 +108,17 @@ abbr -a nvs '/usr/bin/nvim'
 
 # shortcuts for shell configs
 function shl
-  set -l shlcmd 'nvim ~/.config/fish'
+  set -l shlcmd 'nvim ~/dotfiles/fish'
 
   switch $argv
     case 'rc'
       eval "$shlcmd/config.fish"
     case 'env'
-      eval "$shlcmd/env"
+      eval "$shlcmd/env.fish"
     case 'hist'
       eval "$shlcmd/history"
     case 'fns'
-      eval "$shlcmd/functions"
+      nvim "$shlcmd/functions"
     case ''
       fish
     case '*'

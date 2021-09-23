@@ -4,7 +4,13 @@ local mapfn = function(fn)
   return [[<cmd>lua require'my.maps'.]] .. fn .. [[()<cr>]]
 end
 
+-- TODO: add mapping for visual mode macro running
+-- cc: https://www.hillelwayne.com/vim-macro-trickz/
+
 -- unused opts atm, prime for remaps :D
+nnoremap('Q', '<Nop>')
+vnoremap('Q', '<Nop>')
+
 nnoremap('gb', '<Nop>')
 vnoremap('gb', '<Nop>')
 
@@ -168,7 +174,7 @@ maps.quit_session = function()
   vim.cmd('DeleteSession')
   vim.cmd('qall')
 end
-nnoremap('<leader>qs', mapfn('quit_session'))
+nnoremap('<leader>qa', mapfn('quit_session'))
 
 -- change a split between horizontal and vertical
 maps.change_split_direction = function()

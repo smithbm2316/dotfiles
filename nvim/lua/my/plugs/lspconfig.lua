@@ -60,29 +60,15 @@ local my_on_attach = function(client, bufnr)
   -- lsp definition
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
   -- next diagnostic
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev({ popup_opts = { border = "single" } })<cr>', opts)
   -- prev diagnostic
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next({ popup_opts = { border = "single" } })<cr>', opts)
   buf_set_keymap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
   -- show diagnostics on current line in floating window: hover diagnostics for line
-  buf_set_keymap('n', '<leader>hd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', opts)
+  buf_set_keymap('n', '<leader>hd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ popup_opts = { border = "single" } })<cr>', opts)
 
-  -- manage lsp diagnostics
+  -- define buffer-local variable for virtual_text toggling
   vim.b.show_virtual_text = true
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      underline = false,
-      virtual_text = function()
-        if vim.b.show_virtual_text then
-          return { severity_limit = 'Warning' }
-        else
-          return false
-        end
-      end,
-      signs = true,
-      update_in_insert = false,
-    }
-  )
 
   -- show icons in completion
   local has_lspkind, lspkind = pcall(require, 'lspkind')
@@ -177,24 +163,53 @@ local luadev = require('lua-dev').setup {
 }
 lspconfig.sumneko_lua.setup(luadev)
 
+-- manage lsp diagnostics
+vim.diagnostic.config {
+  underline = {
+    severity = 'Error',
+  },
+  virtual_text = {
+    severity = { min = vim.diagnostic.severity.WARN },
+  },
+  signs = true,
+  update_in_insert = false,
+}
+
 -- toggle diagnostics virtual_text
 m.toggle_diagnostics = function()
-  vim.b.show_virtual_text = not vim.b.show_virtual_text
-  vim.lsp.diagnostic.redraw(0)
+  if vim.b.show_virtual_text then
+    vim.diagnostic.disable()
+    vim.b.show_virtual_text = false
+  else
+    vim.diagnostic.enable()
+    vim.b.show_virtual_text = true
+  end
 end
 nnoremap('<leader>td', [[<cmd>lua require'my.plugs.lspconfig'.toggle_diagnostics()<cr>]])
 
 -- define signcolumn lsp diagnostic icons
-local signs = {
-  Error = " ",
-  Warning = " ",
-  Hint = " ",
-  Information = " "
-}
+local diagnostic_signs = { " ", " ", " ", " " }
+local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Hint', 'Information' }
+local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Hint', 'Info' }
 
-for type, icon in pairs(signs) do
-  local hl = "LspDiagnosticsSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+-- define diagnostic icons/highlights for signcolumn and other stuff
+for index, icon in ipairs(diagnostic_signs) do
+  local fullname = diagnostic_severity_fullnames[index]
+  local shortname = diagnostic_severity_shortnames[index]
+
+  vim.fn.sign_define('DiagnosticSign' .. shortname, {
+    text = icon,
+    texthl = 'Diagnostic' .. shortname,
+    linehl = '',
+    numhl = '',
+  })
+
+  vim.fn.sign_define('LspDiagnosticsSign' .. fullname, {
+    text = icon,
+    texthl = 'LspDiagnosticsSign' .. fullname,
+    linehl = '',
+    numhl = '',
+  })
 end
 
 return m
