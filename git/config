@@ -3,6 +3,8 @@
 	name = Ben Smith
 [includeIf "gitdir:~/code/"]
   path = ./gh_personal
+[includeIf "gitdir:~/dotfiles/"]
+  path = ./gh_personal
 [includeIf "gitdir:~/vincit/"]
   path = ./gh_vincit
 [alias]

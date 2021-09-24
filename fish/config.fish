@@ -44,7 +44,8 @@ function mkd; mkdir -pv $argv[1] && cd $argv[1]; end
 # yeet something into nonexistence
 abbr -a yeet 'rm -rf'
 # stow helper for dotfiles and cronjobs
-abbr -a cf "$HOME/dotfiles/scripts/cf.sh"
+alias cf "$HOME/dotfiles/scripts/cf.sh"
+alias stowdots "$HOME/dotfiles/scripts/stowdots.fish"
 # exa aliases
 alias l 'exa --icons -a'
 alias ls 'exa --icons'
@@ -288,5 +289,8 @@ else if test (uname -s) = 'Darwin'
 
   # do all of the homebrew things please and update neovim nightly
   alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew reinstall neovim; brew doctor'
+
+	# update $PATH to use gnu coreutils and commands instead of bsd defaults
+	set -p PATH /usr/local/opt/gnu-sed/libexec/gnubin
 end
 fish_add_path /usr/local/sbin

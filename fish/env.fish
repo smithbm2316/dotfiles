@@ -32,6 +32,7 @@ set -Ux FZF_DEFAULT_COMMAND "fd -t f --color=never"
 set -Ux FZF_DEFAULT_OPTS '--multi --layout=reverse-list --border=rounded --tabstop=2 --bind ctrl-d:page-down,ctrl-u:page-up'
 set -Ux NEXT_TELEMETRY_DISABLED 1
 set -Ux RANGER_LOAD_DEFAULT_RC FALSE
+set -Ux SRC_ENDPOINT 'https://sourcegraph.com'
 
 # PATH configuration
 fish_add_path $CARGOBIN
