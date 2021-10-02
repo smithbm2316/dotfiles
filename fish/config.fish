@@ -205,6 +205,15 @@ function g
   end
 end
 
+# count lines of code, defaults to looking for web dev files
+function loc
+  if test (count $argv) = 0
+    rg --files -I 'node_modules|.git' **.{ts,tsx,js,jsx,css,html} 2>/dev/null | xargs cat | wc -l | xargs
+  else
+    rg --files -I 'node_modules|.git' $argv 2>/dev/null | xargs cat | wc -l | xargs
+  end
+end
+
 # jira alias
 # function jira
 #   set -l jiraCmd "$GOBIN/jira"

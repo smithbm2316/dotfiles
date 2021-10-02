@@ -9,7 +9,8 @@
   path = ./gh_vincit
 [alias]
 	aa = add -A
-  cm = commit -m 
+  cm = commit
+  cmm = commit -m 
 	cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
 	pushup = push -u origin HEAD
   s = status

@@ -32,6 +32,7 @@ else
   require('globals') -- require all global functions before loading other stuff
   require('my.settings') -- my vim settings
   require('my.maps') -- my key mappings
+  require('my.ftdetect') -- my filetype-specific settings
   require('my.user_commands') -- my custom user-defined commands
   require('utils') -- utility modules for various things
   require('my.plugins') -- my plugin loader (uses packer.nvim)

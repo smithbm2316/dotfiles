@@ -153,7 +153,7 @@ end
 -- i.e. references and definition
 builtin('<leader>wd', 'file_browser')
 builtin('<leader>of', 'oldfiles')
-builtin('<leader>fc', 'grep_string')
+builtin('<leader>fw', 'grep_string')
 builtin('<leader>fj', 'find_files')
 builtin('<leader>gw', 'live_grep') -- grep word
 builtin('<leader>gib', 'current_buffer_fuzzy_find') -- grep in buffer

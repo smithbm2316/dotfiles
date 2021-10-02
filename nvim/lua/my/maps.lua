@@ -200,4 +200,10 @@ maps.change_split_direction = function()
 end
 nnoremap('<leader>wr', mapfn('change_split_direction'))
 
+-- send expression under cursor as a query to Dash.app on macOS
+maps.show_dash_docs = function()
+  os.execute('open dash://' .. vim.fn.expand('<cexpr>'))
+end
+nnoremap('<leader>sd', mapfn('show_dash_docs'))
+
 return maps

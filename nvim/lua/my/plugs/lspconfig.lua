@@ -165,9 +165,7 @@ lspconfig.sumneko_lua.setup(luadev)
 
 -- manage lsp diagnostics
 vim.diagnostic.config {
-  underline = {
-    severity = 'Error',
-  },
+  underline = false,
   virtual_text = {
     severity = { min = vim.diagnostic.severity.WARN },
   },

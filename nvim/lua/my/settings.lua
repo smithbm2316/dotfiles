@@ -52,18 +52,6 @@ o.wrap = false
 
 -- Autocmds
 vim.cmd 'au! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
-vim.cmd 'au! BufRead,BufNewFile config,.ini set ft=dosini'
-vim.cmd 'au! TermOpen * startinsert'
-vim.cmd 'au! BufRead,BufNewFile .env* set ft=sh' -- .env.local ft detection
-vim.cmd 'au! BufRead,BufNewFile *.conf set ft=conf' -- set .conf ft detection
-vim.cmd 'au! BufRead,BufNewFile *.astro setfiletype astro'
-vim.cmd 'au! BufRead,BufNewFile *.njk setfiletype nunjucks'
-vim.cmd 'au! BufRead,BufNewFile *.fish setfiletype fish'
-vim.cmd 'au! BufEnter *.fish set commentstring=#%s'
-vim.cmd 'au! FileType man setlocal tw=0 wrapmargin=4 linebreak wrap'
-
--- filetype windows to close with 'q'
-vim.cmd 'au! FileType man,help,startuptime,qf,lspinfo nnoremap <buffer><silent> q :close<cr>'
 
 -- colorscheme global defaults
 o.background = 'dark'

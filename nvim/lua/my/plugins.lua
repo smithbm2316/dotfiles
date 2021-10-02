@@ -395,6 +395,34 @@ return require('packer').startup(function(use)
     end,
   }
 
+  -- script runner/test playground for code
+  use {
+    'jbyuki/dash.nvim',
+    config = function()
+      -- playground run
+      vim.api.nvim_set_keymap(
+        'n',
+        '<leader>pr',
+        [[<cmd>lua require'dash'.execute_buf()<cr>]],
+        { silent = true, noremap = true }
+      )
+      -- playground lua
+      vim.api.nvim_set_keymap(
+        'n',
+        '<leader>pl',
+        [[<cmd>vnew | set ft=lua<cr>]],
+        { silent = true, noremap = true }
+      )
+    end
+  }
+
+  -- nice way of managing split focusing
+  use {
+    'beauwilliams/focus.nvim',
+    config = function()
+      require'focus'.setup()
+    end,
+  }
 
 
 
