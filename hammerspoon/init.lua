@@ -2,6 +2,10 @@
 local hyper = { 'shift', 'ctrl', 'option' }
 local cmd_hyper = { 'shift', 'ctrl', 'option', 'cmd' }
 
+-- screens
+local screens = hs.screen.allScreens()
+local primary_screen, other_screen = screens[1], screens[2]
+
 -- print table helper
 function tprint (tbl, indent)
   if not indent then indent = 0 end
@@ -54,33 +58,45 @@ Install:andUse('Seal', {
     seal:loadPlugins({
       'apps', 'calc', 'useractions'
     })
+    seal.plugins.apps.appSearchPaths = {
+      '/Applications',
+      '~/Applications',
+      '/Developer/Applications',
+      -- '/Applications/Xcode.app/Contents',
+      -- '/usr/local/Cellar',
+      '/System/Applications',
+      -- '/System/Library/PreferencePanes',
+      -- '~/Library/PreferencePanes',
+    }
+    seal.plugins.apps:restart()
     -- define my own custom actions
     seal.plugins.useractions.actions = {
-      ['Hammerspoon Docs'] = {
+      hammer = {
         keyword = 'hammer',
-        name = 'Hammerspoon Docs',
         url = 'https://hammerspoon.org/docs',
       },
-      GitHub = {
+      gh = {
         keyword = 'gh',
-        name = 'GitHub',
         url = 'https://github.com/search?q=${query}',
       },
-      DuckDuckGo = {
+      ddg = {
         keyword = 'ddg',
-        name = 'DuckDuckGo',
         url = 'https://duckduckgo.com/?q=%{query}',
       },
-      Sleep = {
+      sleep = {
         keyword = 'sleep',
-        name = 'Sleep',
         fn = function() os.execute('pmset sleepnow') end,
       },
-      Lock = {
+      lock = {
         keyword = 'lock',
-        name = 'Lock Screen',
         fn = function()
           hs.osascript.applescriptFromFile('lockScreen.applescript')
+        end,
+      },
+      scrollDir = {
+        keyword = 'scrollDir',
+        fn = function()
+          hs.osascript.applescriptFromFile('scrollDirectionToggle.applescript')
         end,
       },
     }
@@ -96,8 +112,36 @@ Install:andUse('KSheet', {
   },
 })
 
--- Close the current window of an application. If it's the last one, kill the app.
+-- Close the current tab if the focused app is in the apps_with_tabs list,
+-- otherwise close the currently focused window
 hs.hotkey.bind(hyper, 'c', nil, function()
+  local apps_with_tabs = {
+    'Dash',
+    'Firefox',
+    'Firefox Developer Edition',
+    'Vivaldi',
+    'Safari',
+    'Google Chrome Canary',
+    'Sizzy'
+  }
+  local current_app = hs.application.frontmostApplication()
+
+  local closed_app = false
+  for _, app in ipairs(apps_with_tabs) do
+    if current_app:title() == app then
+      hs.eventtap.keyStroke({ 'cmd' }, 'w')
+      closed_app = true
+      break
+    end
+  end
+
+  if not closed_app then
+    hs.window.focusedWindow():close()
+  end
+end)
+
+-- Close the current window of an application. If it's the last one, kill the app.
+hs.hotkey.bind(cmd_hyper, 'c', nil, function()
   local current_app = hs.application.frontmostApplication()
   local closedWindow = hs.window.focusedWindow():close()
   if not current_app:focusedWindow() then
@@ -118,6 +162,13 @@ hs.hotkey.bind(cmd_hyper, 'o', nil, function()
       hs.alert.show(hs.application.frontmostApplication():name(),
         nil, hs.screen.primaryScreen())
     end,
+    ['mouse buttons'] = function()
+      tprint(hs.mouse.getButtons())
+    end,
+    ['px to em'] = function(s)
+      tprint(s)
+      hs.alert.show('testing')
+    end,
   }
 
   local options = {}
@@ -132,9 +183,11 @@ hs.hotkey.bind(cmd_hyper, 'o', nil, function()
   chooser:show()
 end)
 
--- TODO make drink water/get up reminder in bar
--- TODO make weather menu bar app that `curl`s wttr.in/?format=1
--- TODO make seal integration to open the docs for tools I commonly use
+-- TODO: make drink water/get up reminder in bar
+-- TODO: make weather menu bar app that `curl`s wttr.in/?format=1
+-- TODO: make seal integration to open the docs for tools I commonly use
+-- TODO: make auto-clicker for notifications with keyboard
+-- TODO: make calculator for px -> em / em -> px with seal/hs.chooser
 
 
 
@@ -213,6 +266,29 @@ app_keybind({ 'ctrl', 'shift' }, 'g', {}, 'end', 'Dash')
 app_keybind(hyper, '/', { 'cmd', 'shift' }, 'p', 'Google Chrome Canary')
 
 
+
+-- bind keystroke to mouse button for a specific app
+local app_binds = function(to_mods, to_key, app_name)
+  if hs.application.frontmostApplication():name() == app_name then
+    hs.eventtap.keyStroke(to_mods, to_key)
+  end
+end
+
+-- mouse button 4 binds
+local mouse_events = hs.eventtap.new({ 14 }, function(event)
+  if event:getButtonState(3) then
+    app_binds({}, 'h', 'Figma')
+    return true
+  elseif event:getButtonState(4) then
+    app_binds({}, 'v', 'Figma')
+    return true
+  end
+  return false
+end)
+mouse_events:start()
+
+
+
 -- define hammerspoon mode
 --[[
 HsMode = hs.hotkey.modal.new(hyper, '`')
@@ -229,6 +305,13 @@ HsMode:bind('', 'o', function() spoon.Seal:toggle(); HsMode:exit() end)
 --]]
 
 
+-- this currently doesn't work, I wish it did
+local usbWatcher = hs.usb.watcher.new(function(data)
+  hs.alert.show(data.productID)
+  if data.productID == 16642 then
+    hs.osascript.applescriptFromFile('scrollDirectionToggle.applescript')
+  end
+end)
 
 
 
