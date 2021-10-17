@@ -39,5 +39,4 @@ else
   require('my.plugs') -- my plugin-specific settings
   vim.g.rose_pine_variant = 'moon'
   vim.cmd('colorscheme rose-pine')
-  nnoremap('<leader>tt', "<cmd>lua require'rose-pine.functions'.toggle_variant { 'moon', 'dawn' }<cr>")
 end

@@ -210,5 +210,16 @@ maps.luasnip_expand_or_jump = function()
 end
 inoremap('<c-j>', mapfn('luasnip_expand_or_jump'))
 
+-- switch between light/dark rose-pine theme
+maps.toggle_rose_pine_variant = function()
+  local colors = {
+    moon = '#312f44',
+    dawn = '#f2e9de',
+  }
+  require('rose-pine.functions').toggle_variant(vim.tbl_keys(colors))
+  vim.cmd('hi IndentBlanklineIndent1 blend=nocombine guifg=' .. colors[vim.g.rose_pine_variant])
+end
+nnoremap('<leader>tt', mapfn('toggle_rose_pine_variant'))
+
 
 return maps

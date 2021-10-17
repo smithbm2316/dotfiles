@@ -139,9 +139,6 @@ return require('packer').startup(function(use)
   use {
     'sindrets/diffview.nvim',
     opt = true,
-    setup = function()
-      vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>DiffviewOpen<cr>', { noremap = true, silent = true })
-    end,
     config = function()
       require('my.plugs.diffview')
     end,
@@ -217,30 +214,6 @@ return require('packer').startup(function(use)
   -- make lua nvim development easier
   use {
     'folke/lua-dev.nvim',
-  }
-
-  -- view treesitter symbols in sidebar
-  use {
-    'simrat39/symbols-outline.nvim',
-    opt = true,
-    cmd = { 'SymbolsOutline', 'SymbolsOutlineOpen', 'SymbolsOutlineClose' },
-    config = function()
-      vim.g.symbols_outline = {
-        highlight_hovered_item = true,
-        show_guides = true,
-        auto_preview = false, -- experimental
-        position = 'right',
-        keymaps = {
-          close = "<Esc>",
-          goto_location = "<Cr>",
-          focus_location = "o",
-          hover_symbol = "gh",
-          rename_symbol = "r",
-          code_actions = "a",
-        },
-        lsp_blacklist = {},
-      }
-    end,
   }
 
   -- better tsserver support
@@ -322,10 +295,7 @@ return require('packer').startup(function(use)
   -- add indent line guides to editor
   use {
     'lukas-reineke/indent-blankline.nvim',
-    disable = true,
     config = function()
-      -- try #393552 if it's too light
-      vim.cmd 'hi IndentBlanklineIndent1 guifg=#312f44 blend=nocombine'
       require 'indent_blankline'.setup {
         -- show_current_context = true,
         buftype_exclude = { 'terminal', 'man' },
@@ -334,6 +304,7 @@ return require('packer').startup(function(use)
           'IndentBlanklineIndent1',
         },
       }
+      vim.cmd 'hi IndentBlanklineIndent1 guifg=#312f44 blend=nocombine'
     end,
   }
 
@@ -447,14 +418,6 @@ return require('packer').startup(function(use)
     'milisims/nvim-luaref',
   }
 
-  -- interactive window resizer
-  use {
-    'romgrk/winteract.vim',
-    config = function()
-      vim.api.nvim_set_keymap('n', '<leader>wi', ':InteractiveWindow<cr>', { noremap = true })
-    end,
-  }
-
   -- runs :noh whenever the mouse cursor is moved 
   use {
     'junegunn/vim-slash',
@@ -476,25 +439,6 @@ return require('packer').startup(function(use)
   }
   use {
     'tpope/vim-repeat',
-  }
-
-  -- language plugins
-  use {
-    'conornewton/vim-latex-preview',
-    setup = function()
-      vim.api.nvim_set_keymap('n', '<leader>pl', ':StartLatexPreview<cr>', { noremap = true })
-    end,
-    config = function()
-      vim.g.latex_pdf_viewer = 'evince'
-      vim.g.latex_engine = 'pdflatex'
-    end,
-    opt = true,
-    ft = 'tex',
-  }
-  use {
-    'pantharshit00/vim-prisma',
-    opt = true,
-    ft = 'prisma',
   }
 
   -- blur the lines between vim and tmux
