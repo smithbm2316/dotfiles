@@ -60,7 +60,6 @@ return require('packer').startup(function(use)
   -- format code with external tools
   use {
     'mhartington/formatter.nvim',
-    disable = true,
   }
 
   -- highlight and indent and textobject all the things

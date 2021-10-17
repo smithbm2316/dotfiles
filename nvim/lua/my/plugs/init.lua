@@ -1,7 +1,3 @@
--- load colorscheme config first before other plugin configs in case of issues
--- require('my.plugs.tokyonight')
-
--- lir needs this to exist
 -- load and setup core plugins before all others
 local core_plugins = {
   'nvim_web_devicons',
@@ -18,9 +14,8 @@ local plugins = {
   'autopairs',
   'colorizer',
   'comment',
-  -- 'formatter',
+  'formatter',
   'gitsigns',
-  -- 'kommentary',
   'lir',
   'lualine',
   'luapad',

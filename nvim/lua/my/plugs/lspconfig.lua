@@ -34,13 +34,6 @@ configs.astro_language_server = {
   },
 }
 
--- eslint setup
-local null_ls = require 'null-ls'
-null_ls.config {}
-lspconfig['null-ls'].setup {
-  debug = false,
-}
-
 local my_on_attach = function(client, bufnr)
   -- aliases for keybinds below
   local function buf_set_keymap(...)
@@ -91,32 +84,14 @@ lspconfig.tsserver.setup {
   filetypes = { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'javascript.jsx', 'typescript.tsx' },
   on_attach = function(client, bufnr)
     my_on_attach(client, bufnr)
-    -- disable tsserver from formatting, only use null-ls
+    -- disable tsserver from formatting
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.document_range_formatting = false
-    vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()')
-
-    --[[
-    local ts_utils = require('nvim-lsp-ts-utils')
-    ts_utils.setup {
-      debug = false,
-      enable_import_on_completion = true,
-      -- prettier
-      enable_formatting = true,
-      formatter = 'prettier',
-      -- eslint
-      eslint_enable_code_actions = true,
-      eslint_enable_disable_comments = true,
-      eslint_enable_diagnostics = true,
-      eslint_bin = 'eslint_d',
-    }
-    ts_utils.setup_client(client)
-    ]]--
+    -- vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()')
   end,
 }
 
 lspconfig.eslint.setup {
-  filetypes = { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'javascript.jsx', 'typescript.tsx' },
   on_attach = my_on_attach,
 }
 
