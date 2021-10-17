@@ -3,14 +3,33 @@ vim.o.completeopt = 'menuone,noselect'
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 local snip = luasnip.snippet
-local snode = luasnip.snippet_node
-local indnode = luasnip.indent_snippet_node
-local tnode = luasnip.text_node
-local insnode = luasnip.insert_node
-local fnnode = luasnip.function_node
-local chnode = luasnip.choice_node
-local dynode = luasnip.dynamic_node
-local events = require('luasnip.util.events')
+local sn = luasnip.snippet_node
+local isn = luasnip.indent_snippet_node
+local t = luasnip.text_node
+local i = luasnip.insert_node
+local f = luasnip.function_node
+local c = luasnip.choice_node
+local d = luasnip.dynamic_node
+local r = require 'luasnip.extras'.rep
+local events = require 'luasnip.util.events'
+local types = require 'luasnip.util.types'
+
+require'luasnip'.config.setup {
+  ext_opts = {
+    [types.choiceNode] = {
+      active = {
+        virt_text = {{"●", "LspDiagnosticsSignHint"}}
+      }
+    },
+    [types.insertNode] = {
+      active = {
+        virt_text = {{"●", "LspDiagnosticsSignWarning"}}
+      }
+    }
+  },
+  delete_check_events = 'InsertLeave',
+}
+
 
 -- load vscode-style/json-style snippets
 require('luasnip/loaders/from_vscode').load({
@@ -22,11 +41,63 @@ require('luasnip/loaders/from_vscode').load({
 -- for javascript/typescript/javascriptreact/typescriptreact snippets
 local jsts = {
   -- console.log snippet
-  snip({ trig='log' }, {
-    tnode('console.log('),
-    insnode(1),
-    tnode(')')
-  }),
+  snip(
+    {
+      trig = 'log',
+      name = 'console.log',
+      dscr = 'console.log something out'
+    },
+    {
+      t('console.log('),
+      i(0),
+      t(')')
+    }
+  ),
+  snip(
+    {
+      trig = 'imdc',
+      dscr = 'import default component'
+    },
+    {
+      t('import '),
+      r(2),
+      t(" from '@"),
+      i(1, 'location'),
+      t('/'),
+      i(2, 'component'),
+      t("'"),
+    }
+  ),
+  snip(
+    {
+      trig = 'im',
+      name = 'import',
+      dscr = 'import a component/function from a package',
+    },
+    {
+      t('import { '),
+      i(0, 'component'),
+      t(' } '),
+      t("from '"),
+      i(1, 'package'),
+      t("'"),
+    }
+  ),
+  snip(
+    {
+      trig = 'require',
+      dscr = 'require statement'
+    },
+    {
+      t('const '),
+      d(2, function (nodes)
+        return sn(1, {i(1, nodes[1][1])})
+      end, {1}),
+      t(" = require('"),
+      i(1, 'ModuleName'),
+      t("');"),
+    }
+  ),
 }
 
 -- load all my snippets :D
@@ -36,8 +107,16 @@ luasnip.snippets = {
   javascriptreact = jsts,
   typescript = jsts,
   typescriptreact = jsts,
+  lua = {
+    snip({trig="if", wordTrig=true}, {
+      t({"if "}),
+      i(1),
+      t({" then", "\t"}),
+      i(0),
+      t({"", "end"})
+    }),
+  },
 }
-
 
 cmp.setup {
   snippet = {
@@ -56,9 +135,6 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    -- ['<c-k>'] = function()
-    --   vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<cr>', true, true, true))
-    -- end,
     ['<Tab>'] = function(fallback)
       if vim.fn.pumvisible() == 1 then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<c-k>', true, true, true))

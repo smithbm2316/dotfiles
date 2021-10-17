@@ -96,6 +96,7 @@ lspconfig.tsserver.setup {
     client.resolved_capabilities.document_range_formatting = false
     vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()')
 
+    --[[
     local ts_utils = require('nvim-lsp-ts-utils')
     ts_utils.setup {
       debug = false,
@@ -110,7 +111,13 @@ lspconfig.tsserver.setup {
       eslint_bin = 'eslint_d',
     }
     ts_utils.setup_client(client)
+    ]]--
   end,
+}
+
+lspconfig.eslint.setup {
+  filetypes = { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'javascript.jsx', 'typescript.tsx' },
+  on_attach = my_on_attach,
 }
 
 lspconfig.zk.setup {

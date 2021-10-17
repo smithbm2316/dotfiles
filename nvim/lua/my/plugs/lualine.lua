@@ -1,10 +1,8 @@
--- TODO: fix bug with lualine not using angled separators on load
--- TODO: change color of tabline
 require('lualine').setup {
   options = {
     theme = 'rose-pine',
-    section_separators = {'', ''},
-    component_separators = {'', ''},
+    section_separators = { left = '', right = ''},
+    component_separators = { left = '', right = ''},
     icons_enabled = true,
     lower = true,
   },
@@ -22,9 +20,9 @@ require('lualine').setup {
       {
         'diff',
         colored = true,
-        color_added = '#266d6a',
-        color_modified = '#536c9e',
-        color_removed = '#b2555b',
+        color_added = { fg = '#266d6a' },
+        color_modified = { fg = '#536c9e' },
+        color_removed = { fg = '#b2555b' },
         symbols = { added = '+', modified = '~', removed = '-' },
       },
     },
@@ -33,9 +31,9 @@ require('lualine').setup {
         'diagnostics',
         sources = { 'nvim_lsp' },
         sections = { 'error', 'warn', 'info' },
-        color_error = '#db4b4b',
-        color_warn = '#e0af68',
-        color_info = '#1abc9c',
+        color_error = { fg = '#db4b4b' },
+        color_warn = { fg = '#e0af68' },
+        color_info = { fg = '#1abc9c' },
         symbols = {
           error = ' ',
           warn = ' ',

@@ -30,13 +30,6 @@ vnoremap('<c-_>', '<Nop>')
 nnoremap('{', '<Nop>')
 nnoremap('}', '<Nop>')
 
--- PackerSync
-nnoremap('<leader>ps', '<cmd>PackerSync<cr>')
--- PackerInstall
-nnoremap('<leader>pi', '<cmd>PackerInstall<cr>')
--- PackerCompile
-nnoremap('<leader>pc', '<cmd>PackerCompile<cr>')
-
 -- make gu toggle between upper and lower case instead of just upper
 nnoremap('gu', 'g~')
 vnoremap('gu', 'g~')
@@ -205,5 +198,17 @@ maps.show_dash_docs = function()
   os.execute('open dash://' .. vim.fn.expand('<cexpr>'))
 end
 nnoremap('<leader>sd', mapfn('show_dash_docs'))
+
+
+maps.luasnip_expand_or_jump = function()
+  local luasnip = require('luasnip')
+  if luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  else
+    vim.cmd('norm o')
+  end
+end
+inoremap('<c-j>', mapfn('luasnip_expand_or_jump'))
+
 
 return maps

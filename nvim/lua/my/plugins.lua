@@ -80,7 +80,7 @@ return require('packer').startup(function(use)
 
   -- tpope/vim-commentary lua replacement
   use {
-    'b3nj5m1n/kommentary',
+    'numToStr/Comment.nvim',
   }
 
   -- add plugin that uses treesitter to figure out what the commentstring should be
@@ -105,7 +105,7 @@ return require('packer').startup(function(use)
 
   -- nice and easy to use statusline
   use {
-    'hoob3rt/lualine.nvim',
+    'shadmansaleh/lualine.nvim',
   }
 
   -- better quickfix window
@@ -118,12 +118,6 @@ return require('packer').startup(function(use)
     'kdheepak/lazygit.nvim',
     setup = function()
       vim.api.nvim_set_keymap('n', '<leader>gs', '<cmd>LazyGit<cr>', { noremap = true, silent = true })
-    end,
-    config = function()
-      vim.g.lazygit_floating_window_winblend = 0
-      vim.g.lazygit_floating_window_use_plenary = 1
-      vim.g.lazygit_floating_window_scaling_factor = 0.85
-      vim.g.lazygit_use_neovim_remote = 0
     end,
     opt = true,
     cmd = { 'LazyGit', 'LazyGitConfig', 'LazyGitFilter' },
@@ -286,11 +280,6 @@ return require('packer').startup(function(use)
   -- fun colorscheme
   use {
     'rose-pine/neovim',
-    as = 'rose-pine',
-    config = function()
-      vim.g.rose_pine_variant = 'moon'
-      vim.cmd('colorscheme rose-pine')
-    end
   }
 
   -- change the color of cursorline/cursor on different modes
@@ -333,6 +322,7 @@ return require('packer').startup(function(use)
   -- add indent line guides to editor
   use {
     'lukas-reineke/indent-blankline.nvim',
+    disable = true,
     config = function()
       -- try #393552 if it's too light
       vim.cmd 'hi IndentBlanklineIndent1 guifg=#312f44 blend=nocombine'

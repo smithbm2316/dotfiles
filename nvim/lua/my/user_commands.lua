@@ -1,2 +1,2 @@
 -- delete all buffers
-vim.cmd 'command! Bdeleteall bufdo bd'
+vim.cmd 'command! Bgone bufdo bd'

@@ -17,9 +17,10 @@ end
 local plugins = {
   'autopairs',
   'colorizer',
+  'comment',
   -- 'formatter',
   'gitsigns',
-  'kommentary',
+  -- 'kommentary',
   'lir',
   'lualine',
   'luapad',

@@ -1,3 +1,9 @@
+-- lazygit options, cuz they don't work in packer config ???
+vim.g.lazygit_floating_window_winblend = 1
+vim.g.lazygit_floating_window_use_plenary = 1
+vim.g.lazygit_floating_window_scaling_factor = 1
+vim.g.lazygit_use_neovim_remote = 0
+
 -- Aliases for Lua API functions
 local o = vim.o
 local opt = vim.opt
