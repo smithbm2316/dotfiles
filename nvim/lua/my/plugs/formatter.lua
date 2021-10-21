@@ -68,6 +68,6 @@ require('formatter').setup({
 vim.cmd[[
 augroup FormatterNvimWebDev
   autocmd!
-  autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue Format
+  autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue FormatWrite
 augroup END
 ]]

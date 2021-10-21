@@ -106,11 +106,11 @@ Install:andUse('Seal', {
 })
 
 -- Keyboard shortcut cheatsheet
-Install:andUse('KSheet', {
-  hotkeys = {
-    toggle = { cmd_hyper , '/' },
-  },
-})
+-- Install:andUse('KSheet', {
+--   hotkeys = {
+--     toggle = { cmd_hyper , '/' },
+--   },
+-- })
 
 -- Close the current tab if the focused app is in the apps_with_tabs list,
 -- otherwise close the currently focused window
@@ -264,6 +264,11 @@ app_keybind({ 'ctrl', 'shift' }, 'g', {}, 'end', 'Dash')
 
 -- Use hyper+/ to launch Google Chrome Canary's dev tools command palette
 app_keybind(hyper, '/', { 'cmd', 'shift' }, 'p', 'Google Chrome Canary')
+
+-- Switch between previous and next conversations in Messages
+app_keybind({ 'ctrl' }, 'n', { 'ctrl' }, 'tab', 'Messages')
+app_keybind({ 'ctrl' }, 'p', { 'ctrl', 'shift' }, 'tab', 'Messages')
+app_keybind({ 'ctrl' }, 'r', { 'cmd' }, 'r', 'Messages')
 
 
 

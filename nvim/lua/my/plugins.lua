@@ -239,11 +239,6 @@ return require('packer').startup(function(use)
     disable = true,
   }
 
-  -- delete buffers without destroying your window layouts
-  use {
-    'famiu/bufdelete.nvim',
-  }
-
   -- zk cli wrapper for neovim
   use {
     'megalithic/zk.nvim',

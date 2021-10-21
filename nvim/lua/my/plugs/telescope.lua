@@ -84,6 +84,7 @@ local default_picker_opts = {
           ['<c-s>'] = actions.select_horizontal,
           ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
           ['<c-c>'] = actions.close,
+          ['<c-k>'] = actions.delete_buffer,
         },
       },
       color_devicons = true,
@@ -165,6 +166,7 @@ builtin('<leader>bl', 'buffers')
 builtin('<leader>ts', 'builtin')
 builtin('<leader>rp', 'reloader')
 builtin('<leader>tp', 'resume') -- telescope previous
+builtin('<leader>ps', 'lsp_dynamic_workspace_symbols') -- project symbols
 
 -- find_files, but don't use ignored patterns
 custom('<leader>fa', 'find_files_all', 'find_files', {
@@ -175,19 +177,25 @@ custom('<leader>fa', 'find_files_all', 'find_files', {
 -- find in dotfiles
 custom('<leader>fd', 'find_dotfiles', 'find_files', {
   cwd = '~/dotfiles',
-  prompt_title = '.. dotfiles ..',
+  prompt_title = 'files in dotfiles',
 })
 
 -- find in neovim config
 custom('<leader>fn', 'find_neovim', 'find_files', {
   cwd = '~/dotfiles/nvim',
-  prompt_title = 'files in nvim config',
+  prompt_title = 'files in neovim config',
+})
+
+-- grep inside of dotfiles
+custom('<leader>gid', 'grep_in_dotfiles', 'live_grep', {
+  cwd = '~/dotfiles',
+  prompt_title = 'grep in dotfiles',
 })
 
 -- grep inside of neovim config
 custom('<leader>gin', 'grep_in_neovim', 'live_grep', {
   cwd = '~/.config/nvim',
-  prompt_title = 'grep nvim config',
+  prompt_title = 'grep in neovim config',
 })
 
 -- pickers for zk extension
@@ -210,14 +218,5 @@ ts.ripgrepper = function()
   }
 end
 builtin('<leader>rg', 'ripgrepper', true)
-
-ts.buffer_directory = function()
-  require'telescope.builtin'.file_browser {
-    cwd = vim.fn.expand('%:p:h'),
-    prompt_title = "buffer's directory",
-    selection_strategy = 'row',
-  }
-end
-builtin('<leader>bd', 'buffer_directory', true)
 
 return ts

@@ -58,7 +58,9 @@ local my_on_attach = function(client, bufnr)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next({ popup_opts = { border = "single" } })<cr>', opts)
   buf_set_keymap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
   -- show diagnostics on current line in floating window: hover diagnostics for line
-  buf_set_keymap('n', '<leader>hd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ popup_opts = { border = "single" } })<cr>', opts)
+  local hover_diagnostics = [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ popup_opts = { border = "single" } })<cr>]]
+  buf_set_keymap('n', '<leader>hd', hover_diagnostics, opts)
+  buf_set_keymap('n', 'gh', hover_diagnostics, opts)
 
   -- define buffer-local variable for virtual_text toggling
   vim.b.show_virtual_text = true
@@ -148,9 +150,10 @@ lspconfig.sumneko_lua.setup(luadev)
 -- manage lsp diagnostics
 vim.diagnostic.config {
   underline = false,
-  virtual_text = {
-    severity = { min = vim.diagnostic.severity.WARN },
-  },
+  -- virtual_text = {
+  --   severity = { min = vim.diagnostic.severity.WARN },
+  -- },
+  virtual_text = false,
   signs = true,
   update_in_insert = false,
 }
