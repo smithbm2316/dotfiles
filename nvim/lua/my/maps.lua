@@ -8,7 +8,7 @@ end
 -- cc: https://www.hillelwayne.com/vim-macro-trickz/
 
 maps.source_filetype = function()
-  local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  local ft = nv.buf_get_option(0, 'filetype')
   if ft == 'lua' or ft == 'vim' then
     vim.cmd 'source %'
     print(ft .. ' file reloaded!')
@@ -28,10 +28,10 @@ nnoremap('<leader>cc',mapfn('convert_color_to'))
 -- turn terminal to normal mode with escape if it's not a lazygit terminal
 maps.remap_term_escape = function()
   if vim.fn.bufname():match('lazygit') ~= 'lazygit' then
-    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<c-\><c-n>]], { noremap = true, silent = true })
+    nv.buf_set_keymap(0, 't', '<esc>', [[<c-\><c-n>]], { noremap = true, silent = true })
   end
 end
-vim.api.nvim_exec([[
+nv.exec([[
   augroup RemapTermEscapeUnlessLazygit
     au!
     au TermOpen * lua require('my.maps').remap_term_escape()
@@ -41,7 +41,7 @@ vim.api.nvim_exec([[
 -- toggle relativenumber on/off for all windows
 maps.toggle_numbers = function(buf_win_or_tab)
   local command = buf_win_or_tab or 'windo set '
-  if vim.api.nvim_win_get_option(0, 'relativenumber') then
+  if nv.win_get_option(0, 'relativenumber') then
     vim.cmd(command .. 'norelativenumber')
   else
     vim.cmd(command .. 'relativenumber')
@@ -51,13 +51,13 @@ nnoremap('<leader>tn', mapfn('toggle_numbers'))
 
 -- toggle wrapping
 maps.toggle_wrap = function()
-  if vim.api.nvim_win_get_option(0, 'linebreak') then
-    vim.api.nvim_win_set_option(0, 'linebreak', false)
-    vim.api.nvim_win_set_option(0, 'wrap', false)
+  if nv.win_get_option(0, 'linebreak') then
+    nv.win_set_option(0, 'linebreak', false)
+    nv.win_set_option(0, 'wrap', false)
     print('wrapping off')
   else
-    vim.api.nvim_win_set_option(0, 'linebreak', true)
-    vim.api.nvim_win_set_option(0, 'wrap', true)
+    nv.win_set_option(0, 'linebreak', true)
+    nv.win_set_option(0, 'wrap', true)
     print('wrapping on')
   end
 end

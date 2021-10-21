@@ -37,7 +37,7 @@ configs.astro_language_server = {
 local my_on_attach = function(client, bufnr)
   -- aliases for keybinds below
   local function buf_set_keymap(...)
-    vim.api.nvim_buf_set_keymap(bufnr, ...)
+    nv.buf_set_keymap(bufnr, ...)
   end
 
   -- Mappings

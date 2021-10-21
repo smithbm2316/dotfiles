@@ -5,4 +5,4 @@ require('zen-mode').setup {
   },
 }
 
-vim.api.nvim_set_keymap('n', '<leader>z', [[<cmd>ZenMode<cr>]], { noremap = true })
+nv.set_keymap('n', '<leader>z', [[<cmd>ZenMode<cr>]], { noremap = true })

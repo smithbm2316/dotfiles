@@ -31,13 +31,13 @@ end
 local function map_zk(keybind, func, mode)
   mode = mode or 'n'
   local command = string.format("<cmd>lua require('my.plugs.zk').%s()<cr>", func)
-  vim.api.nvim_set_keymap(mode, keybind, command, { noremap = true })
+  nv.set_keymap(mode, keybind, command, { noremap = true })
 end
 
 map_zk('<leader>nn', 'new')
 
 -- only map these if the current working directory is $HOME/notes
-if vim.api.nvim_exec('pwd', true) == vim.fn.expand('$HOME') .. '/notes' then
+if nv.exec('pwd', true) == vim.fn.expand('$HOME') .. '/notes' then
   map_zk('<cr>', 'visual_new_link', 'x')
   map_zk('<cr>', 'cword_new_link')
 end

@@ -1,3 +1,11 @@
+-- allows you to run nv.*insert vim.api method name here*() without the `nvim_` prefix
+-- example: nv.get_current_buf()
+_G.nv = setmetatable({}, {
+  __index = function(_, key)
+    return vim.api['nvim_' .. key]
+  end,
+})
+
 -- quickly print a lua table to :messages
 _G.dump = function(...)
   print(vim.inspect(...))
@@ -5,7 +13,7 @@ end
 
 -- TODO: add functionality for all ':h map-arguments' options (silent, buffer, etc)
 -- wrapper for nvim_set_keymap with sensible defaults
-_G.keymapper = function(mode, lhs, rhs, override_opts)
+local keymapper = function(mode, lhs, rhs, override_opts)
   local map_args = { 'buffer', 'nowait', 'silent', 'script', 'expr', 'unique' }
 
   local opts = { noremap = true, silent = true }
@@ -14,7 +22,7 @@ _G.keymapper = function(mode, lhs, rhs, override_opts)
   elseif type(override_opts) == 'table' then
     vim.tbl_extend('keep', override_opts, opts)
   end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+  nv.set_keymap(mode, lhs, rhs, opts)
 end
 
 -- set a key mapping for normal mode
@@ -34,9 +42,29 @@ _G.icnoremap = function(lhs, rhs, opts) keymapper('!', lhs, rhs, opts) end
 
 -- toggle two windows between vertical and horizontal splits
 _G.rotate_windows = function()
-  buffers_list = vim.api.nvim_exec('buffers', true)
+  buffers_list = nv.exec('buffers', true)
   for match in buffers_list:gmatch('.*\n') do
     -- TODO: extract the buffer info 'a' for all active buffers and save it
     print(match)
   end
 end
+
+--[[
+-- https://github.com/norcalli/nvim_utils/blob/71919c2f05920ed2f9718b4c2e30f8dd5f167194/lua/nvim_utils.lua#L240
+_G.nvim = setmetatable({
+  print = function(...)
+    print(vim.inspect(...))
+  end,
+}, {
+  __index = function(t, key)
+    local mt = getmetatable(t)
+    local x = mt[key]
+    if x ~= nil then
+      return x
+    end
+    local f = vim.api['nvim_' .. key]
+    mt[key] = f
+    return f
+  end,
+})
+--]]

@@ -1,4 +1,4 @@
-local map = vim.api.nvim_set_keymap
+local map = nv.set_keymap
 local opts = { noremap = true, silent = true }
 utils = {}
 
@@ -6,7 +6,7 @@ utils = {}
 utils.print_table = function()
   local func = vim.fn.input({ prompt = 'Run: ', completion = 'lua'})
   if not func then
-    local result = vim.api.nvim_exec(string.format('lua %s', func), true)
+    local result = nv.exec(string.format('lua %s', func), true)
     print(vim.inspect(result))
   end
 end

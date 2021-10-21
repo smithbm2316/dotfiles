@@ -21,6 +21,7 @@ local cmd = vim.cmd
 vim.g.mapleader = ' '
 
 if vim.g.vscode then
+  require('globals') -- require all global functions before loading other stuff
   require('my.settings') -- my vim settings
   require('my.maps') -- my key mappings
   cmd 'runtime! vimscript/**' -- load all vimscript files

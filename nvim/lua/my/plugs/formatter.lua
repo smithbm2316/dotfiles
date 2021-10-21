@@ -32,7 +32,7 @@ local prettier_config = {
       exe = 'prettier',
       args = {
         '--stdin-filepath',
-        vim.api.nvim_buf_get_name(0),
+        nv.buf_get_name(0),
         '--single-quote',
         '--tab-width 2',
         '--trailing-comma all',

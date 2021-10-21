@@ -29,4 +29,4 @@ MUtils.completion_confirm=function()
   end
 end
 
-vim.api.nvim_set_keymap('i' , '<cr>', 'v:lua.MUtils.completion_confirm()', { expr = true, noremap = true })
+nv.set_keymap('i' , '<cr>', 'v:lua.MUtils.completion_confirm()', { expr = true, noremap = true })

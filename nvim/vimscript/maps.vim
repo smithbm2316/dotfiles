@@ -68,8 +68,8 @@ nnoremap <silent> c "_c
 nnoremap <silent> C "_C
 
 " make <c-v> paste in insert and command-line mode too
-lnoremap <silent> <c-v> <c-r>+
-lnoremap <silent> <c-v> <c-r>+
+inoremap <silent> <c-v> <c-r>+
+cnoremap <silent> <c-v> <c-r>+
 
 " make +/- increment/decrement numbers like <c-a>/<c-x>
 " and in visual/v-block mode the same like g<c-a>/g<c-x>, respectively

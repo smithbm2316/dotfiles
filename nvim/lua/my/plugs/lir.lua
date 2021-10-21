@@ -8,9 +8,9 @@ local function create_file(edit_cmd)
   edit_cmd = edit_cmd .. ' '
 
   if vim.w.lir_is_float then
-    vim.api.nvim_feedkeys(':close | :' .. edit_cmd .. ctx.dir, 'n', true)
+    nv.feedkeys(':close | :' .. edit_cmd .. ctx.dir, 'n', true)
   else
-    vim.api.nvim_feedkeys(':keepalt ' .. edit_cmd .. ctx.dir, 'n', true)
+    nv.feedkeys(':keepalt ' .. edit_cmd .. ctx.dir, 'n', true)
   end
 end
 
@@ -55,7 +55,7 @@ require('lir').setup {
 }
 
 -- lir .: list files/directories for current buffer's location
-vim.api.nvim_set_keymap('n', '<leader>l.', [[<cmd>lua require'lir.float'.toggle()<cr>]], { noremap = true, silent = true })
+nv.set_keymap('n', '<leader>l.', [[<cmd>lua require'lir.float'.toggle()<cr>]], { noremap = true, silent = true })
 -- lir files: list files/directories for current project root
-vim.api.nvim_set_keymap('n', '<leader>lf', [[<cmd>lua require'lir.float'.toggle(vim.fn.getcwd())<cr>]], { noremap = true, silent = true })
+nv.set_keymap('n', '<leader>lf', [[<cmd>lua require'lir.float'.toggle(vim.fn.getcwd())<cr>]], { noremap = true, silent = true })
 
