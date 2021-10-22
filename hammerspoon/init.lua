@@ -201,8 +201,13 @@ local current_space_filter = function(allowed_screen)
     }
   }
 end
-local primary_filter = current_space_filter(hs.screen.allScreens()[1]:name())
-local secondary_filter = current_space_filter(hs.screen.allScreens()[2]:name())
+
+local screens = hs.screen.allScreens()
+local primary_filter = current_space_filter(screens[1]:name())
+local secondary_filter
+if #screens == 2 then 
+  current_space_filter(screens[2]:name())
+end
 
 local current_space_switcher = function(screen_switcher)
   return hs.window.switcher.new(screen_switcher, {
