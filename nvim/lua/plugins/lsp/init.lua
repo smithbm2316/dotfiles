@@ -3,7 +3,7 @@ local configs = require 'lspconfig/configs'
 local util = require 'lspconfig/util'
 
 -- functions to hook into
-local m = {}
+local M = {}
 
 -- zk cli lsp setup
 configs.zk = {
@@ -159,7 +159,7 @@ vim.diagnostic.config {
 }
 
 -- toggle diagnostics virtual_text
-m.toggle_diagnostics = function()
+M.toggle_diagnostics = function()
   if vim.b.show_virtual_text then
     vim.diagnostic.disable()
     vim.b.show_virtual_text = false
@@ -195,4 +195,4 @@ for index, icon in ipairs(diagnostic_signs) do
   })
 end
 
-return m
+return M

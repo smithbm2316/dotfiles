@@ -1,6 +1,6 @@
 -- runtime path to current file
 local plugin_config_root = 'plugins.'
-local plugin_configs = vim.fn.globpath('lua/plugins', '*')
+local plugin_configs = vim.fn.globpath('~/dotfiles/nvim/lua/plugins', '*')
 local discard, core_plugin_configs, plugin_config_files = {}, {}, {}
 
 for match in plugin_configs:gmatch('([%w%d-_.]+)%c') do
