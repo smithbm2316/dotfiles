@@ -1,6 +1,7 @@
 # To implement in my Neovim config
 
 ## Yes please now this minute
+- Add a telescope custom picker to get currently loaded Packer plugins
 - [Add easier way to create files/directories to lir](https://github.com/tamago324/lir.nvim/wiki/Custom-actions#input_newfile)
 - Refactor autopairs config
   * Add autopairs endwise config

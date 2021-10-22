@@ -1,1 +1,1 @@
-autocmd BufNewFile,BufRead *.njk set filetype=nunjucks
+au! BufRead,BufNewFile *.njk set ft=nunjucks

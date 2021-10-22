@@ -442,6 +442,61 @@
       ]
     },
     {
+      "description": "Rebind quit (c-r)",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^net\\.kovidgoyal\\.kitty$"
+              ],
+              "type": "frontmost_application_unless"
+            }
+          ],
+          "type": "basic",
+          "from": {
+            "modifiers": {
+              "mandatory": ["left_control"]
+            },
+            "key_code": "r"
+          },
+          "to": [
+            {
+              "key_code": "r",
+              "modifiers": ["left_command"]
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^net\\.kovidgoyal\\.kitty$"
+              ],
+              "type": "frontmost_application_unless"
+            }
+          ],
+          "type": "basic",
+          "from": {
+            "modifiers": {
+              "mandatory": ["right_control"]
+            },
+            "key_code": "q"
+          },
+          "to": [
+            {
+              "key_code": "q",
+              "modifiers": ["right_command"]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "description": "Rebind (c-t)",
       "manipulators": [
         {

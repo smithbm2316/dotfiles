@@ -1,10 +1,16 @@
 # This is Git's per-user configuration file.
 [user]
 	name = Ben Smith
-	email = bsmithdev@mailbox.org
+[includeIf "gitdir:~/code/"]
+  path = ./gh_personal
+[includeIf "gitdir:~/dotfiles/"]
+  path = ./gh_personal
+[includeIf "gitdir:~/vincit/"]
+  path = ./gh_vincit
 [alias]
 	aa = add -A
-  cm = commit -m 
+  cm = commit
+  cmm = commit -m 
 	cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
 	pushup = push -u origin HEAD
   s = status
@@ -14,8 +20,8 @@
   sw = switch
   bra = branch -a
   brd = branch -d
-  stash = stash -u
-	cob = checkout -b
+  nb = checkout -b
+  stall = stash push -u -m
 [core]
 	excludesFile = ~/.config/git/ignore
 [color]

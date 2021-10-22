@@ -1,25 +1,25 @@
-local map = vim.api.nvim_set_keymap
+local map = nv.set_keymap
 local opts = { noremap = true, silent = true }
-Utils = {}
+utils = {}
 
 -- wrapper for vim.inspect
-Utils.print_table = function()
+utils.print_table = function()
   local func = vim.fn.input({ prompt = 'Run: ', completion = 'lua'})
   if not func then
-    local result = vim.api.nvim_exec(string.format('lua %s', func), true)
+    local result = nv.exec(string.format('lua %s', func), true)
     print(vim.inspect(result))
   end
 end
 map('n', '<leader>vi', [[:lua Utils.print_table()<cr>]], opts)
 
 -- turn a table into a string for keymapping
-Utils.tbl_to_str = function(tbl)
+utils.tbl_to_str = function(tbl)
   local str_tbl = '{ '
   for k, v in pairs(tbl) do
     if type(v) == 'string' then
       v = string.format("'%s'", v)
     elseif type(v) == 'table' then
-      v = Utils.tbl_to_str(v)
+      v = utils.tbl_to_str(v)
     end
     str_tbl = string.format([[%s %s = %s,]], str_tbl, k, v)
   end
@@ -30,5 +30,6 @@ end
 require('utils.log')
 require('utils.luacheck')
 
+-- TODO: integrate luacheck linting into Neovim
 -- Telescope Lint (run linting for Telescope development)
 map('n', '<leader>tl', [[<cmd>lua require'utils.luacheck'.telescope()<cr>]], opts)

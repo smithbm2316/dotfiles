@@ -44,7 +44,8 @@ function mkd; mkdir -pv $argv[1] && cd $argv[1]; end
 # yeet something into nonexistence
 abbr -a yeet 'rm -rf'
 # stow helper for dotfiles and cronjobs
-abbr -a cf "$HOME/dotfiles/scripts/cf.sh"
+alias cf "$HOME/dotfiles/scripts/cf.sh"
+alias stowdots "$HOME/dotfiles/scripts/stowdots.fish"
 # exa aliases
 alias l 'exa --icons -a'
 alias ls 'exa --icons'
@@ -108,17 +109,17 @@ abbr -a nvs '/usr/bin/nvim'
 
 # shortcuts for shell configs
 function shl
-  set -l shlcmd 'nvim ~/.config/fish'
+  set -l shlcmd 'nvim ~/dotfiles/fish'
 
   switch $argv
     case 'rc'
       eval "$shlcmd/config.fish"
     case 'env'
-      eval "$shlcmd/env"
+      eval "$shlcmd/env.fish"
     case 'hist'
       eval "$shlcmd/history"
     case 'fns'
-      eval "$shlcmd/functions"
+      nvim "$shlcmd/functions"
     case ''
       fish
     case '*'
@@ -204,6 +205,30 @@ function g
   end
 end
 
+# count lines of code, defaults to looking for web dev files
+function loc
+  if test (count $argv) = 0
+    rg --files -I 'node_modules|.git' **.{ts,tsx,js,jsx,css,html} 2>/dev/null | xargs cat | wc -l | xargs
+  else
+    rg --files -I 'node_modules|.git' $argv 2>/dev/null | xargs cat | wc -l | xargs
+  end
+end
+
+# jira alias
+# function jira
+#   set -l jiraCmd "$GOBIN/jira"
+#   if test (count $argv) -lt 2
+#     switch $argv
+#       case 'lsme'
+#         eval "$jiraCmd ls -a 'Ben Smith'"
+#       case '*'
+#         eval "$jiraCmd $argv"
+#     end
+#   else
+#     eval "$jiraCmd $argv"
+#   end
+# end
+
 
 
 ##################################################
@@ -271,7 +296,10 @@ else if test (uname -s) = 'Darwin'
     SHELL=/usr/bin/fish /usr/local/bin/keychain --eval --quiet -Q gl_vincit gh_vincit gh_personal | source
   end
 
-  # do all of the homebrew things please
-  alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew doctor'
+  # do all of the homebrew things please and update neovim nightly
+  alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew reinstall neovim; brew doctor'
+
+	# update $PATH to use gnu coreutils and commands instead of bsd defaults
+	set -p PATH /usr/local/opt/gnu-sed/libexec/gnubin
 end
 fish_add_path /usr/local/sbin
