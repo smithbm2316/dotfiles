@@ -10,20 +10,20 @@
 --  Ben Smith
 --  github.com/smithbm2316
 --  https://ben-smith.dev
---  This is my neovim configuration!
+--  This is neovim configuration!
 --
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- aliases
 local fn = vim.fn
 local cmd = vim.cmd
 
--- Set my leader key to space
+-- Set leader key to space
 vim.g.mapleader = ' '
 
 if vim.g.vscode then
   require('globals') -- require all global functions before loading other stuff
-  require('my.settings') -- my vim settings
-  require('my.maps') -- my key mappings
+  require('settings') -- my vim settings
+  require('maps') -- my key mappings
   cmd 'runtime! vimscript/**' -- load all vimscript files
 else
   -- Autoinstall packer.nvim if not already installed
@@ -33,15 +33,15 @@ else
     vim.cmd 'packadd packer.nvim'
   end
 
-  -- Load my configuration files
+  -- Load configuration files
   require('globals') -- require all global functions before loading other stuff
-  require('my.settings') -- my vim settings
+  require('settings') -- my vim settings
   cmd 'runtime! vimscript/**' -- load all vimscript files
-  require('my.maps') -- my key mappings
-  require('my.ftdetect') -- my filetype-specific settings
+  require('maps') -- my key mappings
+  require('ftdetect') -- my filetype-specific settings
   require('utils') -- utility modules for various things
-  require('my.plugins') -- my plugin loader (uses packer.nvim)
-  require('my.plugs') -- my plugin-specific settings
+  require('install_plugins') -- my plugin loader (uses packer.nvim)
   vim.g.rose_pine_variant = 'moon'
   cmd 'colorscheme rose-pine'
+  require('plugins') -- my plugin-specific settings
 end

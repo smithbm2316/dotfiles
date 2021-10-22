@@ -128,7 +128,7 @@ require'telescope'.load_extension('neoclip')
 
 -- function for generating keymap for each picker
 local builtin = function(mapping, picker, is_custom)
-  local module = is_custom and 'my.plugs.telescope' or 'telescope.builtin'
+  local module = is_custom and 'plugins.telescope' or 'telescope.builtin'
   local rhs = string.format(
     [[<cmd>lua require'%s'.%s()<cr>]],
     module,
@@ -143,7 +143,7 @@ local custom = function(mapping, picker_name, builtin_name, opts)
     require'telescope.builtin'[builtin_name](opts)
   end
   local rhs = string.format(
-    [[<cmd>lua require'my.plugs.telescope'.%s()<cr>]],
+    [[<cmd>lua require'plugins.telescope'.%s()<cr>]],
     picker_name
   )
   nnoremap(mapping, rhs)
@@ -167,6 +167,7 @@ builtin('<leader>ts', 'builtin')
 builtin('<leader>rp', 'reloader')
 builtin('<leader>tp', 'resume') -- telescope previous
 builtin('<leader>ps', 'lsp_dynamic_workspace_symbols') -- project symbols
+builtin('<leader>ca', 'lsp_code_actions')
 
 -- find_files, but don't use ignored patterns
 custom('<leader>fa', 'find_files_all', 'find_files', {

@@ -1,7 +1,7 @@
 local maps = {}
 -- helper fn to get full rhs of mappings for this module
 local mapfn = function(fn)
-  return [[<cmd>lua require'my.maps'.]] .. fn .. [[()<cr>]]
+  return [[<cmd>lua require'maps'.]] .. fn .. [[()<cr>]]
 end
 
 -- TODO: add mapping for visual mode macro running
@@ -34,7 +34,7 @@ end
 nv.exec([[
   augroup RemapTermEscapeUnlessLazygit
     au!
-    au TermOpen * lua require('my.maps').remap_term_escape()
+    au TermOpen * lua require('maps').remap_term_escape()
   augroup END
 ]], false)
 

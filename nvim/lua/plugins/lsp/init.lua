@@ -168,7 +168,7 @@ m.toggle_diagnostics = function()
     vim.b.show_virtual_text = true
   end
 end
-nnoremap('<leader>td', [[<cmd>lua require'my.plugs.lspconfig'.toggle_diagnostics()<cr>]])
+nnoremap('<leader>td', [[<cmd>lua require'plugins.lsp'.toggle_diagnostics()<cr>]])
 
 -- define signcolumn lsp diagnostic icons
 local diagnostic_signs = { " ", " ", " ", " " }

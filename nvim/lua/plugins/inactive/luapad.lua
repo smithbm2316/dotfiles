@@ -19,6 +19,6 @@ luapad.playground_tab = function()
 end
 
 -- REPL lua
-nv.set_keymap('n', '<leader>rl', "<cmd>lua require('my.plugs.luapad').playground_tab()<cr>", { noremap = true, silent = true })
+nv.set_keymap('n', '<leader>rl', "<cmd>lua require('plugins.luapad').playground_tab()<cr>", { noremap = true, silent = true })
 
 return luapad

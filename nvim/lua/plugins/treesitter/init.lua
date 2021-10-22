@@ -73,13 +73,46 @@ require'nvim-treesitter.configs'.setup {
   autopairs = {
     enable = true,
   },
+  autotag = {
+    enable = true,
+  },
   highlight = {
     enable = true,
   },
   indent = {
     enable = true,
   },
-  ensure_installed = 'maintained',
+  ensure_installed = {
+    'bash',
+    'c',
+    'cmake',
+    'comment',
+    'cpp',
+    'css',
+    'dockerfile',
+    'fish',
+    'go',
+    'gomod',
+    'graphql',
+    'html',
+    'javascript',
+    'jsdoc',
+    'json',
+    'jsonc',
+    'lua',
+    'nix',
+    'python',
+    'query',
+    'regex',
+    'scss',
+    'svelte',
+    'toml',
+    'tsx',
+    'typescript',
+    'vim',
+    'vue',
+    'yaml',
+  },
 }
 
 -- set mappings for lsp peek definition for functions and classes with treesitter

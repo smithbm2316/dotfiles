@@ -30,7 +30,7 @@ end
 
 local function map_zk(keybind, func, mode)
   mode = mode or 'n'
-  local command = string.format("<cmd>lua require('my.plugs.zk').%s()<cr>", func)
+  local command = string.format("<cmd>lua require('plugins.zk').%s()<cr>", func)
   nv.set_keymap(mode, keybind, command, { noremap = true })
 end
 
