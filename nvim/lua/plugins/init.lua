@@ -1,3 +1,6 @@
+-- TODO: move plugins to after/plugin directory...
+-- TODO: apparently that works automatically with lua now??
+
 -- runtime path to current file
 local plugin_config_root = 'plugins.'
 local plugin_configs = vim.fn.globpath('~/dotfiles/nvim/lua/plugins', '*')

@@ -1,8 +1,6 @@
 return require('packer').startup(function(use)
   -- *i used the packer.nvim to manage the packer.nvim* - thanos
-  use {
-    'wbthomason/packer.nvim'
-  }
+  use 'wbthomason/packer.nvim'
 
   -----------------------------------------------------
   ---
@@ -26,14 +24,10 @@ return require('packer').startup(function(use)
   }
 
   -- easier configuration for built-in neovim lsp
-  use {
-    'neovim/nvim-lspconfig',
-  }
+  use 'neovim/nvim-lspconfig'
 
   -- use icons in the completion menus for lsp suggestions
-  use {
-    'onsails/lspkind-nvim',
-  }
+  use 'onsails/lspkind-nvim'
 
   -- auto-completion plugin
   use {
@@ -41,16 +35,13 @@ return require('packer').startup(function(use)
     requires = {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-path',
       'saadparwaiz1/cmp_luasnip',
     },
   }
 
   -- autopairs but better
-  use {
-    'windwp/nvim-autopairs',
-  }
+  use 'windwp/nvim-autopairs'
 
   -- gitgutter lua replacement
   use {
@@ -59,9 +50,7 @@ return require('packer').startup(function(use)
   }
 
   -- format code with external tools
-  use {
-    'mhartington/formatter.nvim',
-  }
+  use 'mhartington/formatter.nvim'
 
   -- highlight and indent and textobject all the things
   use {
@@ -79,19 +68,13 @@ return require('packer').startup(function(use)
   }
 
   -- tpope/vim-commentary lua replacement
-  use {
-    'numToStr/Comment.nvim',
-  }
+  use 'numToStr/Comment.nvim'
 
   -- add plugin that uses treesitter to figure out what the commentstring should be
-  use {
-    'JoosepAlviste/nvim-ts-context-commentstring',
-  }
+  use 'JoosepAlviste/nvim-ts-context-commentstring'
 
   -- pretty icons for nerd fonts
-  use {
-    'kyazdani42/nvim-web-devicons',
-  }
+  use 'kyazdani42/nvim-web-devicons'
 
   -- replacement for alvan/vim-closetag and AndrewRadev/tagalong.vim
   use {
@@ -104,14 +87,10 @@ return require('packer').startup(function(use)
   }
 
   -- nice and easy to use statusline
-  use {
-    'shadmansaleh/lualine.nvim',
-  }
+  use 'nvim-lualine/lualine.nvim'
 
   -- better quickfix window
-  use {
-    'kevinhwang91/nvim-bqf',
-  }
+  use 'kevinhwang91/nvim-bqf'
 
   -- lazygit in neovim
   use {
@@ -128,9 +107,7 @@ return require('packer').startup(function(use)
   }
 
   -- i can't remember my keybinds half the time, this should help
-  use {
-    'folke/which-key.nvim',
-  }
+  use 'folke/which-key.nvim'
 
   -- Open a new tab for viewing git diffs for all files in current branch
   use {
@@ -149,9 +126,7 @@ return require('packer').startup(function(use)
   }
 
   -- project-specific configuration
-  use {
-    'windwp/nvim-projectconfig',
-  }
+  use 'windwp/nvim-projectconfig'
 
   -- view PRs in neovim
   use {
@@ -164,14 +139,13 @@ return require('packer').startup(function(use)
   }
 
   -- better session management in neovim
-  use {
-    'rmagatti/auto-session',
-  }
+  use 'rmagatti/auto-session'
+
+  -- preview window for lsp references/definitions/implementations
+  use 'rmagatti/goto-preview'
 
   -- centerpad, but much better (uses a floating window!!)
-  use {
-    'folke/zen-mode.nvim',
-  }
+  use 'folke/zen-mode.nvim'
 
   -- highlight todos and other style comments
   use {
@@ -186,14 +160,10 @@ return require('packer').startup(function(use)
   }
 
   -- luv docs in neovim
-  use {
-    'nanotee/luv-vimdocs',
-  }
+  use 'nanotee/luv-vimdocs'
 
   -- make lua nvim development easier
-  use {
-    'folke/lua-dev.nvim',
-  }
+  use 'folke/lua-dev.nvim'
 
   -- better tsserver support
   -- language server for linting/formatting
@@ -203,9 +173,7 @@ return require('packer').startup(function(use)
   }
 
   -- snippets
-  use {
-    'L3MON4D3/LuaSnip',
-  }
+  use 'L3MON4D3/LuaSnip'
 
   -- for use with neuron zettlekasten manager
   use {
@@ -220,14 +188,10 @@ return require('packer').startup(function(use)
   }
 
   -- zk cli wrapper for neovim
-  use {
-    'megalithic/zk.nvim',
-  }
+  use 'megalithic/zk.nvim'
 
   -- fun colorscheme
-  use {
-    'rose-pine/neovim',
-  }
+  use 'rose-pine/neovim'
 
   -- change the color of cursorline/cursor on different modes
   use {
@@ -242,40 +206,22 @@ return require('packer').startup(function(use)
   }
 
   -- project-local notes
-  use {
-    'marcushwz/nvim-workbench',
-  }
+  use 'marcushwz/nvim-workbench'
 
   -- add indent line guides to editor
-  use {
-    'lukas-reineke/indent-blankline.nvim',
-  }
+  use 'lukas-reineke/indent-blankline.nvim'
 
   -- semantically select up a level of text to operate on
-  use {
-    'RRethy/nvim-treesitter-textsubjects',
-  }
+  use 'RRethy/nvim-treesitter-textsubjects'
 
   -- rainbow coloring of brackets/curly braces/parenthesis/tags to make finding pairs easier
-  use {
-    'p00f/nvim-ts-rainbow',
-  }
-
-  -- clipboard manager for vim registers
-  use {
-    'AckslD/nvim-neoclip.lua',
-  }
+  use 'p00f/nvim-ts-rainbow'
 
   -- script runner/test playground for code
-  use {
-    'jbyuki/dash.nvim',
-  }
+  use 'jbyuki/dash.nvim'
 
   -- nice way of managing split focusing
-  use {
-    'beauwilliams/focus.nvim',
-  }
-
+  use 'beauwilliams/focus.nvim'
 
 
 
@@ -297,14 +243,11 @@ return require('packer').startup(function(use)
     cmd = 'MarkdownPreviewToggle',
   }
 
-  use {
-    'milisims/nvim-luaref',
-  }
+  -- lua reference 
+  use 'milisims/nvim-luaref'
 
   -- runs :noh whenever the mouse cursor is moved 
-  use {
-    'junegunn/vim-slash',
-  }
+  use 'junegunn/vim-slash'
 
   -- for automatic list bulleting when writing markdown or plaintext
   use {
@@ -314,17 +257,11 @@ return require('packer').startup(function(use)
   }
 
   -- tpope's blessings to vimmers everywhere
-  use {
-    'tpope/vim-surround',
-  }
-  use {
-    'tpope/vim-repeat',
-  }
+  use 'tpope/vim-surround'
+  use 'tpope/vim-repeat'
 
   -- blur the lines between vim and tmux
-  use {
-    'christoomey/vim-tmux-navigator',
-  }
+  use 'christoomey/vim-tmux-navigator'
 
   -- easy access to devdocs.io while in vim
   use {
@@ -334,13 +271,15 @@ return require('packer').startup(function(use)
   }
 
   -- extra text object for copy/pasting to the system clipboard, its soo good
-  use {
-    'christoomey/vim-system-copy',
-  }
+  use 'christoomey/vim-system-copy'
 
   -- color converter for hex to rgb, etc
-  use {
-    'amadeus/vim-convert-color-to',
-  }
+  use 'amadeus/vim-convert-color-to'
+
+  -- lua syntax highlighting
+  use 'euclidianAce/BetterLua.vim'
+
+  -- replace with register
+  use 'vim-scripts/ReplaceWithRegister'
 
 end)

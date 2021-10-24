@@ -1,3 +1,3 @@
-nnoremap('<leader>wp', '<Plug>ToggleProjectWorkbench')
-nnoremap('<leader>wb', '<Plug>ToggleBranchWorkbench')
-nnoremap('<leader>wt', '<Plug>WorkbenchToggleCheckbox')
+nnoremap('<leader>wp', '<plug>ToggleProjectWorkbench')
+nnoremap('<leader>wb', '<plug>ToggleBranchWorkbench')
+nnoremap('<leader>wt', '<plug>WorkbenchToggleCheckbox')

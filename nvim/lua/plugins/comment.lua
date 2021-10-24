@@ -17,10 +17,9 @@ require'Comment'.setup {
     block = 'gb',
   },
   pre_hook = function(ctx)
-    return require('ts_context_commentstring.internal').calculate_commentstring()
+    if vim.bo.filetype ~= 'lua' then
+      return require('ts_context_commentstring.internal').calculate_commentstring()
+    end
   end,
   post_hook = nil,
 }
-
--- set both line and block commentstring
-ft.set('lua', {'-- %s', '--[[ %s --]]'})

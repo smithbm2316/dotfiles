@@ -64,21 +64,29 @@ local my_on_attach = function(client, bufnr)
 
   -- define buffer-local variable for virtual_text toggling
   vim.b.show_virtual_text = true
-
-  -- show icons in completion
-  local has_lspkind, lspkind = pcall(require, 'lspkind')
-  if has_lspkind then
-    lspkind.init({
-      with_text = true,
-    })
-  end
 end
 
+local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+local my_capabilities = require("cmp_nvim_lsp").update_capabilities(lsp_capabilities)
+
 -- setup language servers
-local servers = { 'bashls', 'cssls', 'gopls', 'graphql', 'html', 'jedi_language_server', 'jsonls', 'vimls' }
+local servers = {
+  'astro_language_server',
+  'bashls',
+  'cssls',
+  'eslint',
+  'gopls',
+  'graphql',
+  'html',
+  'jedi_language_server',
+  'jsonls',
+  'vimls',
+  'zk',
+}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     on_attach = my_on_attach,
+    capabilities = my_capabilities,
   })
 end
 
@@ -91,18 +99,6 @@ lspconfig.tsserver.setup {
     client.resolved_capabilities.document_range_formatting = false
     -- vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()')
   end,
-}
-
-lspconfig.eslint.setup {
-  on_attach = my_on_attach,
-}
-
-lspconfig.zk.setup {
-  on_attach = my_on_attach,
-}
-
-lspconfig.astro_language_server.setup {
-  on_attach = my_on_attach,
 }
 
 -- sumneko_lua setup, using lua-dev plugin for better lua docs

@@ -21,20 +21,17 @@ require'nvim-treesitter.configs'.setup {
         ['ic'] = '@conditional.inner',
         ['al'] = '@loop.outer',
         ['il'] = '@loop.inner',
+        ['aa'] = '@parameter.outer', -- TODO: add JS/TS custom queries for objects and JSX props
+        ['ia'] = '@parameter.inner',
       },
     },
     lsp_interop = {
       enable = true,
+      border = 'double',
+      peek_definition_code = {
+        ['<leader>gd'] = '@function.outer',
+      },
     },
-    -- move = {
-    --   enable = true,
-    --   goto_next_start = {
-    --     ['<leader>nf'] = '@function.outer',
-    --   },
-    --   goto_previous_start = {
-    --     ['<leader>pf'] = '@function.outer',
-    --   },
-    -- },
   },
   textsubjects = {
     enable = true,
