@@ -4,6 +4,13 @@
 local ts = {}
 -- Telescope stuff I need to import for configuration
 local actions = require'telescope.actions'
+local action_state = require'telescope.actions.state'
+local previewers = require'telescope.previewers'
+local pickers = require'telescope.pickers'
+local sorters = require'telescope.sorters'
+local finders = require'telescope.finders'
+local themes = require'telescope.themes'
+local conf = require'telescope.config'.values
 
 -- files to ignore with `file_ignore_patterns`
 local ignore_these = {
@@ -124,7 +131,7 @@ require'telescope'.load_extension('fzf')
 -- require zk extension for zk-cli
 require'telescope'.load_extension('zk')
 -- require neoclip extension
-require'telescope'.load_extension('neoclip')
+-- require'telescope'.load_extension('neoclip')
 
 -- function for generating keymap for each picker
 local builtin = function(mapping, picker, is_custom)
@@ -152,7 +159,7 @@ end
 -- my telescope builtins mappings
 -- TODO: move some of my lspconfig mappings to use telescope's lsp pickers instead
 -- i.e. references and definition
-builtin('<leader>wd', 'file_browser')
+builtin('<leader>fb', 'file_browser')
 builtin('<leader>of', 'oldfiles')
 builtin('<leader>fw', 'grep_string')
 builtin('<leader>fj', 'find_files')
@@ -219,5 +226,40 @@ ts.ripgrepper = function()
   }
 end
 builtin('<leader>rg', 'ripgrepper', true)
+
+-- custom telescope picker to execute a packer.nvim command
+-- https://github.com/nvim-telescope/telescope.nvim/blob/master/developers.md#guide-to-your-first-picker
+ts.packer_commands = function(opts)
+  local packer_commands = {
+    'Clean',
+    'Compile',
+    'Install',
+    'Load',
+    'Profile',
+    'Status',
+    'Sync',
+    'Update',
+  }
+  local dropdown = themes.get_dropdown()
+  opts = opts and vim.tbl_deep_extend('keep', opts, dropdown) or dropdown
+
+  pickers.new(opts, {
+    prompt_title = 'Run a packer.nvim command',
+    finder = finders.new_table(packer_commands),
+    sorter = sorters.get_generic_fuzzy_sorter(),
+    attach_mappings = function(prompt_bufnr)
+      actions.select_default:replace(function()
+        local cmd = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+        if cmd then
+          vim.cmd('Packer' .. cmd[1])
+        end
+      end)
+      return true
+    end,
+    previewer = nil,
+  }):find()
+end
+nnoremap('<leader>pc', [[<cmd>lua require'plugins.telescope'.packer_commands()<cr>]])
 
 return ts
