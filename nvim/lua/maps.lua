@@ -132,4 +132,18 @@ end
 nnoremap('<leader>hg', mapfn('helpgrep'))
 
 
+-- delete current buffer without losing your windows layout
+-- https://stackoverflow.com/questions/4465095/how-to-delete-a-buffer-in-vim-without-losing-the-split-window
+maps.bufdelete = function()
+  local alt_buf = vim.fn.expand('#n:h')
+  local alt_listed = vim.fn.buflisted(alt_buf) == 1 and true or false
+  if alt_listed then
+    vim.cmd 'b# | bd #'
+  else
+    -- vim.notify('alt buf not listed')
+    vim.cmd 'bn | bd #'
+  end
+end
+nnoremap('<leader>bd', mapfn('bufdelete'))
+
 return maps

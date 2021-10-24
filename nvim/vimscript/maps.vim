@@ -22,16 +22,18 @@ vnoremap gS :%s/\v
 " silent mappings
 """"""""""""""""""""""
 " unbind in normal mode { / } jumping
-nnoremap <silent> { <Nop>
-nnoremap <silent> } <Nop>
+nnoremap <silent> { <nop>
+nnoremap <silent> } <nop>
 
 " make gu toggle between upper and lower case instead of just upper
 nnoremap <silent> gu g~
 vnoremap <silent> gu g~
 
 " swap to alternate file
-nnoremap <silent> gp <c-^>
-vnoremap <silent> gp <c-^>
+nnoremap <silent> gp <nop>
+vnoremap <silent> gp <nop>
+nnoremap <silent> gl <c-^>
+vnoremap <silent> gl <c-^>
 
 " delete without yanking
 nnoremap <silent> <leader>d "_d
@@ -45,8 +47,8 @@ nnoremap <silent> <c-m> @@
 vnoremap <silent> <c-m> @@
 
 " repeat last :command
-nnoremap <silent> gl @:
-vnoremap <silent> gl @:
+nnoremap <silent> gx @:
+vnoremap <silent> gx @:
 
 " remap q: to be easier to use, less work for your poor left pinky
 nnoremap <silent> <c-q> q:
@@ -83,10 +85,6 @@ nnoremap <silent> <leader>hl <cmd>noh<cr>
 
 " take the only existing window and split it to the right
 nnoremap <silent> <leader>wr <cmd>vnew \| wincmd r \| wincmd l<cr>
-
-" delete current buffer without losing your windows layout
-" https://stackoverflow.com/questions/4465095/how-to-delete-a-buffer-in-vim-without-losing-the-split-window
-nnoremap <silent> <leader>bd <cmd>b#\|bd #<cr>
 
 " swap to left/right window and rotate the split
 nnoremap <silent> <leader>wh <cmd>wincmd h \| wincmd r<cr>

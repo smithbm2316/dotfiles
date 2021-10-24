@@ -1,32 +1,22 @@
-local npairs = require('nvim-autopairs')
+local npairs = require'nvim-autopairs'
+local cmp_completion = require'nvim-autopairs.completion.cmp'
+
 npairs.setup {
   disable_filetype = { "TelescopePrompt", "vim" },
   ignored_next_char = "[%w%.]",
 }
 
--- replacement for tpope/vim-endwise for Lua
--- local endwise = require('nvim-autopairs.ts-rule').endwise
--- npairs.add_rules(require'nvim-autopairs.rules.endwise-lua')
--- npairs.add_rules({
---   endwise('then$', 'end', 'lua', 'if_statement'),
---   endwise('function.+%)$', 'end', 'lua', 'function_definition'),
---   endwise(' do$', 'end', 'lua', 'while_statement'),
---   endwise(' do$', 'end', 'lua', 'for_statement'),
--- })
+-- you need setup cmp first put this after cmp.setup()
+cmp_completion.setup {
+  map_cr = true, --  map <CR> on insert mode
+  map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
+  auto_select = false, -- automatically select the first item
+  insert = false, -- use insert confirm behavior instead of replace
+  map_char = { -- modifies the function or method delimiter by filetypes
+    all = '(',
+    tex = '{'
+  }
+}
 
-_G.MUtils= {}
-
-vim.g.completion_confirm_key = ""
-MUtils.completion_confirm=function()
-  if vim.fn.pumvisible() ~= 0  then
-    if vim.fn.complete_info()["selected"] ~= -1 then
-      return vim.fn["compe#confirm"](npairs.esc("<c-r>"))
-    else
-      return npairs.esc("<cr>")
-    end
-  else
-    return npairs.autopairs_cr()
-  end
-end
-
-nv.set_keymap('i' , '<cr>', 'v:lua.MUtils.completion_confirm()', { expr = true, noremap = true })
+-- load endwise plugin for lua files
+npairs.add_rules(require'nvim-autopairs.rules.endwise-lua')
