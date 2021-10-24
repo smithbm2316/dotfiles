@@ -18,6 +18,7 @@
 	l = log --oneline
 	cl = clone
   sw = switch
+  swp = switch -
   bra = branch -a
   brd = branch -d
   nb = checkout -b

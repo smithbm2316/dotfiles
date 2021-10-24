@@ -605,6 +605,61 @@
           ]
         }
       ]
+    },
+    {
+      "description": "Rebind (c-d)",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^net\\.kovidgoyal\\.kitty$"
+              ],
+              "type": "frontmost_application_unless"
+            }
+          ],
+          "type": "basic",
+          "from": {
+            "modifiers": {
+              "mandatory": ["left_control"]
+            },
+            "key_code": "d"
+          },
+          "to": [
+            {
+              "key_code": "d",
+              "modifiers": ["left_command"]
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^net\\.kovidgoyal\\.kitty$"
+              ],
+              "type": "frontmost_application_unless"
+            }
+          ],
+          "type": "basic",
+          "from": {
+            "modifiers": {
+              "mandatory": ["right_control"]
+            },
+            "key_code": "d"
+          },
+          "to": [
+            {
+              "key_code": "d",
+              "modifiers": ["right_command"]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

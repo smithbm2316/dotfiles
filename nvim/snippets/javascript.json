@@ -1,9 +1,0 @@
-{
-  "Import component from package": {
-    "prefix": "imc",
-    "body": [
-      "import { $2 } from '$1'"
-    ],
-    "description": "Pick the package you want to import from first, then the components"
-  }
-}
