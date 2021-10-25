@@ -3,14 +3,14 @@
 -- My module to export functions from
 local ts = {}
 -- Telescope stuff I need to import for configuration
-local actions = require'telescope.actions'
-local action_state = require'telescope.actions.state'
-local previewers = require'telescope.previewers'
-local pickers = require'telescope.pickers'
-local sorters = require'telescope.sorters'
-local finders = require'telescope.finders'
-local themes = require'telescope.themes'
-local conf = require'telescope.config'.values
+local actions = require 'telescope.actions'
+local action_state = require 'telescope.actions.state'
+local previewers = require 'telescope.previewers'
+local pickers = require 'telescope.pickers'
+local sorters = require 'telescope.sorters'
+local finders = require 'telescope.finders'
+local themes = require 'telescope.themes'
+local conf = require('telescope.config').values
 
 -- files to ignore with `file_ignore_patterns`
 local ignore_these = {
@@ -25,6 +25,22 @@ local ignore_these = {
   'build/*',
   'yarn.lock',
   'package%-lock.json',
+}
+
+local webdev_dash_keywords = {
+  'css',
+  'cssmedia',
+  'html',
+  'htmle',
+  'htmlhead',
+  'httpheaders',
+  'httpstatus',
+  'js',
+  'nextjs',
+  'nodejs',
+  'react',
+  'scss',
+  'ts',
 }
 
 local default_picker_opts = {
@@ -66,93 +82,111 @@ local default_picker_opts = {
   },
 }
 
-  -- TELESCOPE CONFIG
-  require'telescope'.setup {
-    pickers = default_picker_opts,
-    defaults = {
-      vimgrep_arguments = {
-        'rg',
-        '--color=never',
-        '--no-heading',
-        '--with-filename',
-        '--line-number',
-        '--column',
-        '--smart-case'
+-- TELESCOPE CONFIG
+require('telescope').setup {
+  pickers = default_picker_opts,
+  defaults = {
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+    },
+    mappings = {
+      n = {
+        ['<c-x>'] = false,
+        ['<c-s>'] = actions.select_horizontal,
+        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
+        ['<c-c>'] = actions.close,
       },
-      mappings = {
-        n = {
-          ['<c-x>'] = false,
-          ['<c-s>'] = actions.select_horizontal,
-          ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
-          ['<c-c>'] = actions.close,
-        },
-        i = {
-          ['<c-x>'] = false,
-          ['<c-s>'] = actions.select_horizontal,
-          ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
-          ['<c-c>'] = actions.close,
-          ['<c-k>'] = actions.delete_buffer,
-        },
-      },
-      color_devicons = true,
-      prompt_prefix = '🔍 ',
-      scroll_strategy = 'cycle',
-      sorting_strategy = 'ascending',
-      layout_strategy = 'flex',
-      file_ignore_patterns = ignore_these,
-      layout_config = {
-        prompt_position = 'top',
-        horizontal = {
-          mirror = true,
-          preview_cutoff = 100,
-          preview_width = 0.5,
-        },
-        vertical = {
-          mirror = true,
-          preview_cutoff = 0.4,
-        },
-        flex = {
-          flip_columns = 110,
-        },
-        height = 0.94,
-        width = 0.86,
+      i = {
+        ['<c-x>'] = false,
+        ['<c-s>'] = actions.select_horizontal,
+        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
+        ['<c-c>'] = actions.close,
+        ['<c-k>'] = actions.delete_buffer,
       },
     },
+    color_devicons = true,
+    prompt_prefix = '🔍 ',
+    scroll_strategy = 'cycle',
+    sorting_strategy = 'ascending',
+    layout_strategy = 'flex',
+    file_ignore_patterns = ignore_these,
+    layout_config = {
+      prompt_position = 'top',
+      horizontal = {
+        mirror = true,
+        preview_cutoff = 100,
+        preview_width = 0.5,
+      },
+      vertical = {
+        mirror = true,
+        preview_cutoff = 0.4,
+      },
+      flex = {
+        flip_columns = 110,
+      },
+      height = 0.94,
+      width = 0.86,
+    },
+  },
   extensions = {
     fzf = {
       override_generic_sorter = false,
       override_file_sorter = true,
       case_mode = 'smart_case',
     },
+    dash = {
+      -- debounce while typing, in milliseconds
+      debounce = 0,
+      file_type_keywords = {
+        TelescopePrompt = false,
+        terminal = false,
+        packer = false,
+        -- a table of strings will search on multiple keywords
+        html = { 'html', 'htmle', 'htmlhead' },
+        css = { 'css', 'cssmedia' },
+        scss = { 'css', 'scss' },
+        javascript = webdev_dash_keywords,
+        typescript = webdev_dash_keywords,
+        typescriptreact = webdev_dash_keywords,
+        javascriptreact = webdev_dash_keywords,
+        svelte = webdev_dash_keywords,
+        vue = webdev_dash_keywords,
+        bash = 'bash',
+        fish = 'fish',
+        lua = { 'lua', 'neovim', 'lspconfig', 'nvimts', 'hammer' },
+        go = 'go',
+        vim = 'vim',
+        man = 'man',
+      },
+    },
   },
 }
 -- require fzf extension for fzf sorting algorithm
-require'telescope'.load_extension('fzf')
+require('telescope').load_extension 'fzf'
 -- require zk extension for zk-cli
-require'telescope'.load_extension('zk')
+require('telescope').load_extension 'zk'
 -- require neoclip extension
 -- require'telescope'.load_extension('neoclip')
 
 -- function for generating keymap for each picker
 local builtin = function(mapping, picker, is_custom)
   local module = is_custom and 'plugins.telescope' or 'telescope.builtin'
-  local rhs = string.format(
-    [[<cmd>lua require'%s'.%s()<cr>]],
-    module,
-    picker
-  )
+  local rhs = string.format([[<cmd>lua require'%s'.%s()<cr>]], module, picker)
   nnoremap(mapping, rhs)
 end
 
 local custom = function(mapping, picker_name, builtin_name, opts)
   opts = opts or {}
   ts[picker_name] = function()
-    require'telescope.builtin'[builtin_name](opts)
+    require('telescope.builtin')[builtin_name](opts)
   end
-  local rhs = string.format(
-    [[<cmd>lua require'plugins.telescope'.%s()<cr>]],
-    picker_name
-  )
+  local rhs = string.format([[<cmd>lua require'plugins.telescope'.%s()<cr>]], picker_name)
   nnoremap(mapping, rhs)
 end
 
@@ -206,21 +240,27 @@ custom('<leader>gin', 'grep_in_neovim', 'live_grep', {
   prompt_title = 'grep in neovim config',
 })
 
+-- grep inside of vim help docs
+custom('<leader>vh', 'grep_vim_help', 'live_grep', {
+  cwd = os.getenv 'VIMRUNTIME' .. '/doc',
+  prompt_title = 'Grep in vim help docs',
+})
+
 -- pickers for zk extension
 ts.zk_notes = function()
-  require'telescope'.extensions.zk.zk_notes()
+  require('telescope').extensions.zk.zk_notes()
 end
 builtin('<leader>nf', 'zk_notes', true)
 ts.zk_grep = function()
-  require'telescope'.extensions.zk.zk_grep()
+  require('telescope').extensions.zk.zk_grep()
 end
 builtin('<leader>ng', 'zk_grep', true)
 
 -- vim-grepper-like picker with grep_string
 ts.ripgrepper = function()
-  require'telescope.builtin'.grep_string {
+  require('telescope.builtin').grep_string {
     prompt_title = 'ripgrepper',
-    search = vim.fn.input('ripgrepper > '),
+    search = vim.fn.input 'ripgrepper > ',
     search_dirs = { '$PWD' },
     use_regex = true,
   }

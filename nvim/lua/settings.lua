@@ -15,12 +15,12 @@ local opt = vim.opt
 -- Buffer options
 o.autoindent = true
 o.expandtab = true
-opt.formatoptions:remove('2tac')
-opt.formatoptions:append('jnrql')
-o.shiftwidth=2
+opt.formatoptions:remove '2tac'
+opt.formatoptions:append 'jnrql'
+o.shiftwidth = 2
 o.smartindent = true
-o.softtabstop=2
-o.tabstop=2
+o.softtabstop = 2
+o.tabstop = 2
 
 -- Global options
 o.cursorline = true
@@ -47,7 +47,7 @@ o.wildignore = '*/node_modules/*,*/.git/*,DS_Store,*/venv/*,*/__pycache__/*,*.py
 o.wildmenu = true
 o.wildmode = 'full'
 o.wildoptions = 'pum'
-opt.shortmess:append('c')
+opt.shortmess:append 'c'
 
 -- Window options
 o.foldmethod = 'manual'

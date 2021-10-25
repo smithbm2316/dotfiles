@@ -9,7 +9,7 @@ parser_config.astro = {
   },
 }
 
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
   textobjects = {
     select = {
       enable = true,
@@ -38,7 +38,7 @@ require'nvim-treesitter.configs'.setup {
     keymaps = {
       ['.'] = 'textsubjects-smart',
       [';'] = 'textsubjects-container-outer',
-    }
+    },
   },
   rainbow = {
     enable = true,
@@ -60,7 +60,7 @@ require'nvim-treesitter.configs'.setup {
   query_linter = {
     enable = true,
     use_virtual_text = true,
-    lint_events = {'BufWrite', 'CursorHold'},
+    lint_events = { 'BufWrite', 'CursorHold' },
   },
   -- nvim-ts-context-commentstring setup
   context_commentstring = {

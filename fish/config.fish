@@ -3,6 +3,8 @@ set fish_greeting
 # TODO: set colors and syntax highlighting colors
 # https://fishshell.com/docs/current/cmds/set_color.html#cmd-set-color
 # https://fishshell.com/docs/current/index.html#variables-color
+# TODO: look into custom completion
+# https://medium.com/@fabioantunes/a-guide-for-fish-shell-completions-485ac04ac63c
 
 # install fundle if it's not already installed
 if not functions -q fundle

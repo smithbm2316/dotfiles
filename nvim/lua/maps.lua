@@ -8,60 +8,63 @@ end
 -- cc: https://www.hillelwayne.com/vim-macro-trickz/
 
 maps.source_filetype = function()
-  local ft = nv.buf_get_option(0, 'filetype')
+  local ft = vim.api.nvim_buf_get_option(0, 'filetype')
   if ft == 'lua' or ft == 'vim' then
     vim.cmd 'source %'
     print(ft .. ' file reloaded!')
   else
-    print('Not a lua or vim file')
+    print 'Not a lua or vim file'
   end
 end
 -- Source Here: Reload current buffer if it is a vim or lua file
-nnoremap('<leader>sh', mapfn('source_filetype'))
+nnoremap('<leader>sh', mapfn 'source_filetype')
 
 -- Color picker wrapper
 maps.convert_color_to = function()
-  vim.cmd(string.format('ConvertColorTo %s', vim.fn.input('Convert to: ')))
+  vim.cmd(string.format('ConvertColorTo %s', vim.fn.input 'Convert to: '))
 end
-nnoremap('<leader>cc',mapfn('convert_color_to'))
+nnoremap('<leader>cc', mapfn 'convert_color_to')
 
 -- turn terminal to normal mode with escape if it's not a lazygit terminal
 maps.remap_term_escape = function()
-  if vim.fn.bufname():match('lazygit') ~= 'lazygit' then
-    nv.buf_set_keymap(0, 't', '<esc>', [[<c-\><c-n>]], { noremap = true, silent = true })
+  if vim.fn.bufname():match 'lazygit' ~= 'lazygit' then
+    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<c-\><c-n>]], { noremap = true, silent = true })
   end
 end
-nv.exec([[
+vim.api.nvim_exec(
+  [[
   augroup RemapTermEscapeUnlessLazygit
     au!
     au TermOpen * lua require('maps').remap_term_escape()
   augroup END
-]], false)
+]],
+  false
+)
 
 -- toggle relativenumber on/off for all windows
 maps.toggle_numbers = function(buf_win_or_tab)
   local command = buf_win_or_tab or 'windo set '
-  if nv.win_get_option(0, 'relativenumber') then
+  if vim.api.nvim_win_get_option(0, 'relativenumber') then
     vim.cmd(command .. 'norelativenumber')
   else
     vim.cmd(command .. 'relativenumber')
   end
 end
-nnoremap('<leader>tn', mapfn('toggle_numbers'))
+nnoremap('<leader>tn', mapfn 'toggle_numbers')
 
 -- toggle wrapping
 maps.toggle_wrap = function()
-  if nv.win_get_option(0, 'linebreak') then
-    nv.win_set_option(0, 'linebreak', false)
-    nv.win_set_option(0, 'wrap', false)
-    print('wrapping off')
+  if vim.api.nvim_win_get_option(0, 'linebreak') then
+    vim.api.nvim_win_set_option(0, 'linebreak', false)
+    vim.api.nvim_win_set_option(0, 'wrap', false)
+    print 'wrapping off'
   else
-    nv.win_set_option(0, 'linebreak', true)
-    nv.win_set_option(0, 'wrap', true)
-    print('wrapping on')
+    vim.api.nvim_win_set_option(0, 'linebreak', true)
+    vim.api.nvim_win_set_option(0, 'wrap', true)
+    print 'wrapping on'
   end
 end
-nnoremap('<leader>tw', mapfn('toggle_wrap'))
+nnoremap('<leader>tw', mapfn 'toggle_wrap')
 
 maps.quit_session = function()
   vim.cmd [[
@@ -69,7 +72,7 @@ maps.quit_session = function()
     qall
   ]]
 end
-nnoremap('<leader>qa', mapfn('quit_session'))
+nnoremap('<leader>qa', mapfn 'quit_session')
 
 -- change a split between horizontal and vertical
 maps.change_split_direction = function()
@@ -93,24 +96,23 @@ maps.change_split_direction = function()
   end
   a.nvim_feedkeys(cmd_mapping, 'n', false)
 end
-nnoremap('<leader>ws', mapfn('change_split_direction'))
+nnoremap('<leader>ws', mapfn 'change_split_direction')
 
 -- send expression under cursor as a query to Dash.app on macOS
 maps.show_dash_docs = function()
-  os.execute('open dash://' .. vim.fn.expand('<cexpr>'))
+  os.execute('open dash://' .. vim.fn.expand '<cexpr>')
 end
-nnoremap('<leader>sd', mapfn('show_dash_docs'))
-
+nnoremap('<leader>sd', mapfn 'show_dash_docs')
 
 maps.luasnip_expand_or_jump = function()
-  local luasnip = require('luasnip')
+  local luasnip = require 'luasnip'
   if luasnip.expand_or_jumpable() then
     luasnip.expand_or_jump()
   else
-    vim.cmd('norm o')
+    vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<cr>', true, false, true), 'i')
   end
 end
-inoremap('<c-j>', mapfn('luasnip_expand_or_jump'))
+inoremap('<c-j>', mapfn 'luasnip_expand_or_jump')
 
 -- switch between light/dark rose-pine theme
 maps.toggle_rose_pine_variant = function()
@@ -121,21 +123,19 @@ maps.toggle_rose_pine_variant = function()
   require('rose-pine.functions').toggle_variant(vim.tbl_keys(colors))
   vim.cmd('hi IndentBlanklineIndent1 blend=nocombine guifg=' .. colors[vim.g.rose_pine_variant])
 end
-nnoremap('<leader>tt', mapfn('toggle_rose_pine_variant'))
-
+nnoremap('<leader>tt', mapfn 'toggle_rose_pine_variant')
 
 -- use 'helpgrep' to grep through vim's help docs
 maps.helpgrep = function()
-  local pattern = vim.fn.input('Pattern to search help docs for: ')
+  local pattern = vim.fn.input 'Pattern to search help docs for: '
   vim.cmd('helpgrep ' .. pattern)
 end
-nnoremap('<leader>hg', mapfn('helpgrep'))
-
+nnoremap('<leader>hg', mapfn 'helpgrep')
 
 -- delete current buffer without losing your windows layout
 -- https://stackoverflow.com/questions/4465095/how-to-delete-a-buffer-in-vim-without-losing-the-split-window
 maps.bufdelete = function()
-  local alt_buf = vim.fn.expand('#n:h')
+  local alt_buf = vim.fn.expand '#n:h'
   local alt_listed = vim.fn.buflisted(alt_buf) == 1 and true or false
   if alt_listed then
     vim.cmd 'b# | bd #'
@@ -144,6 +144,6 @@ maps.bufdelete = function()
     vim.cmd 'bn | bd #'
   end
 end
-nnoremap('<leader>bd', mapfn('bufdelete'))
+nnoremap('<leader>bd', mapfn 'bufdelete')
 
 return maps

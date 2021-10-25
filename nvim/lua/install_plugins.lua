@@ -14,13 +14,13 @@ return require('packer').startup(function(use)
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-lua/popup.nvim',
-    }
+    },
   }
 
   -- fzf sorting algorithm for telescope
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make'
+    run = 'make',
   }
 
   -- easier configuration for built-in neovim lsp
@@ -46,7 +46,7 @@ return require('packer').startup(function(use)
   -- gitgutter lua replacement
   use {
     'lewis6991/gitsigns.nvim',
-    requires = 'nvim-lua/plenary.nvim'
+    requires = 'nvim-lua/plenary.nvim',
   }
 
   -- format code with external tools
@@ -82,7 +82,7 @@ return require('packer').startup(function(use)
     opt = true,
     ft = { 'html', 'javascript', 'javascriptreact', 'svelte', 'typescript', 'typescriptreact', 'vue' },
     config = function()
-      require('plugins.opt.autotag')
+      require 'plugins.opt.autotag'
     end,
   }
 
@@ -91,13 +91,6 @@ return require('packer').startup(function(use)
 
   -- better quickfix window
   use 'kevinhwang91/nvim-bqf'
-
-  -- lazygit in neovim
-  use {
-    'kdheepak/lazygit.nvim',
-    opt = true,
-    cmd = { 'LazyGit', 'LazyGitConfig', 'LazyGitFilter' },
-  }
 
   -- show preview of colors for hex, hsl, and rgb values
   use {
@@ -114,7 +107,7 @@ return require('packer').startup(function(use)
     'sindrets/diffview.nvim',
     opt = true,
     config = function()
-      require('plugins.opt.diffview')
+      require 'plugins.opt.diffview'
     end,
     cmd = {
       'DiffviewOpen',
@@ -134,7 +127,7 @@ return require('packer').startup(function(use)
     opt = true,
     cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' },
     config = function()
-      require('plugins.opt.octo')
+      require 'plugins.opt.octo'
     end,
   }
 
@@ -149,8 +142,8 @@ return require('packer').startup(function(use)
 
   -- highlight todos and other style comments
   use {
-    "folke/todo-comments.nvim",
-    requires = "nvim-lua/plenary.nvim",
+    'folke/todo-comments.nvim',
+    requires = 'nvim-lua/plenary.nvim',
   }
 
   -- simple file explorer
@@ -217,18 +210,23 @@ return require('packer').startup(function(use)
   -- rainbow coloring of brackets/curly braces/parenthesis/tags to make finding pairs easier
   use 'p00f/nvim-ts-rainbow'
 
-  -- script runner/test playground for code
-  use 'jbyuki/dash.nvim'
-
   -- nice way of managing split focusing
   use 'beauwilliams/focus.nvim'
 
+  -- nicer listing of registers
+  use 'tversteeg/registers.nvim'
 
+  -- lightbulb icon to display code actions
+  use 'kosayoda/nvim-lightbulb'
 
+  -- Dash.app integration in neovim
+  use {
+    'mrjones2014/dash.nvim',
+    run = 'make install',
+  }
 
-
-
-
+  -- treesitter-based hinting for selecting a textobject in operator-pending mode
+  use 'mfussenegger/nvim-ts-hint-textobject'
 
   -----------------------------------------------------
   ---
@@ -243,7 +241,7 @@ return require('packer').startup(function(use)
     cmd = 'MarkdownPreviewToggle',
   }
 
-  -- lua reference 
+  -- lua reference
   use 'milisims/nvim-luaref'
 
   -- runs :noh whenever the mouse cursor is moved 
@@ -281,5 +279,4 @@ return require('packer').startup(function(use)
 
   -- replace with register
   use 'vim-scripts/ReplaceWithRegister'
-
 end)

@@ -8,7 +8,7 @@ local i = ls.insert_node
 local f = ls.function_node
 local c = ls.choice_node
 local d = ls.dynamic_node
-local r = require 'luasnip.extras'.rep
+local r = require('luasnip.extras').rep
 local events = require 'luasnip.util.events'
 local types = require 'luasnip.util.types'
 
@@ -16,12 +16,12 @@ ls.config.set_config {
   ext_opts = {
     [types.choiceNode] = {
       active = {
-        virt_text = {{"", "LspDiagnosticsSignHint"}}, -- ●
+        virt_text = { { '', 'LspDiagnosticsSignHint' } }, -- ●
       },
     },
     [types.insertNode] = {
       active = {
-        virt_text = {{"", "LspDiagnosticsSignWarning"}},
+        virt_text = { { '', 'LspDiagnosticsSignWarning' } },
       },
     },
   },
@@ -32,63 +32,51 @@ local snippets = {}
 
 -- snippets for web development
 local webdev_snippets = {
-  snip(
-    {
-      trig = 'log',
-      name = 'console.log',
-      dscr = 'console.log something out'
-    },
-    {
-      t('console.log('),
-      i(0),
-      t(')')
-    }
-  ),
-  snip(
-    {
-      trig = 'imdc',
-      dscr = 'import default component'
-    },
-    {
-      t('import '),
-      r(2),
-      t(" from '@"),
-      i(1, 'location'),
-      t('/'),
-      i(2, 'component'),
-      t("'"),
-    }
-  ),
-  snip(
-    {
-      trig = 'im',
-      name = 'import',
-      dscr = 'import a component/function from a package',
-    },
-    {
-      t('import { '),
-      i(0, 'component'),
-      t(' } '),
-      t("from '"),
-      i(1, 'package'),
-      t("'"),
-    }
-  ),
-  snip(
-    {
-      trig = 'require',
-      dscr = 'require statement'
-    },
-    {
-      t('const '),
-      d(2, function (nodes)
-        return sn(1, {i(1, nodes[1][1])})
-      end, {1}),
-      t(" = require('"),
-      i(1, 'ModuleName'),
-      t("');"),
-    }
-  ),
+  snip({
+    trig = 'log',
+    name = 'console.log',
+    dscr = 'console.log something out',
+  }, {
+    t 'console.log(',
+    i(0),
+    t ')',
+  }),
+  snip({
+    trig = 'imdc',
+    dscr = 'import default component',
+  }, {
+    t 'import ',
+    r(2),
+    t " from '@",
+    i(1, 'location'),
+    t '/',
+    i(2, 'component'),
+    t "'",
+  }),
+  snip({
+    trig = 'im',
+    name = 'import',
+    dscr = 'import a component/function from a package',
+  }, {
+    t 'import { ',
+    i(0, 'component'),
+    t ' } ',
+    t "from '",
+    i(1, 'package'),
+    t "'",
+  }),
+  snip({
+    trig = 'require',
+    dscr = 'require statement',
+  }, {
+    t 'const ',
+    d(2, function(nodes)
+      return sn(1, { i(1, nodes[1][1]) })
+    end, { 1 }),
+    t " = require('",
+    i(1, 'ModuleName'),
+    t "');",
+  }),
 }
 
 snippets.javascript = webdev_snippets
@@ -96,9 +84,13 @@ snippets.javascriptreact = webdev_snippets
 snippets.typescript = webdev_snippets
 snippets.typescriptreact = webdev_snippets
 
+-- wrapper for basic lua snippets
 local lua_snippet = function(trig, text)
+  -- set a cmd-line abbreviation for luasnip expansions
+  vim.cmd(string.format('cnoreabbrev %s lua %s', trig, text))
+
   return snip({ trig = trig }, {
-    t({ text })
+    t { text },
   })
 end
 

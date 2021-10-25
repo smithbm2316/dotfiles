@@ -5,7 +5,8 @@ local filetype_configs = {
       return {
         exe = 'stylua',
         args = {
-          '--config-path ~/dotfiles/stylua/stylua.toml',
+          -- '--config-path ~/dotfiles/stylua/stylua.toml',
+          '--search-parent-directories',
           '-',
         },
         stdin = true,
@@ -44,7 +45,7 @@ local prettier_config = {
 }
 
 -- add a prettier_config for all js/ts/vue/svelte filetypes
-for _, ft in pairs({
+for _, ft in pairs {
   'javascript',
   'javascriptreact',
   'typescript',
@@ -54,20 +55,20 @@ for _, ft in pairs({
   'html',
   'css',
   'json',
-}) do
+} do
   filetype_configs[ft] = prettier_config
 end
 
 -- require formatter.nvim
-require('formatter').setup({
+require('formatter').setup {
   logging = false,
   filetype = filetype_configs,
-})
+}
 
 -- call formatter.nvim automatically on save
-vim.cmd[[
-augroup FormatterNvimWebDev
-  autocmd!
-  autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue FormatWrite
+vim.cmd [[
+augroup AutoFormatting
+  au!
+  au BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue,*.lua FormatWrite
 augroup END
 ]]

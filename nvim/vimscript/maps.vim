@@ -36,8 +36,8 @@ nnoremap <silent> gl <c-^>
 vnoremap <silent> gl <c-^>
 
 " delete without yanking
-nnoremap <silent> <leader>d "_d
-vnoremap <silent> <leader>d "_d
+nnoremap <silent> <leader>dd "_d
+vnoremap <silent> <leader>dd "_d
 
 " replace currently selected text with default register without yanking it
 vnoremap <silent> p "_dP
@@ -89,3 +89,6 @@ nnoremap <silent> <leader>wr <cmd>vnew \| wincmd r \| wincmd l<cr>
 " swap to left/right window and rotate the split
 nnoremap <silent> <leader>wh <cmd>wincmd h \| wincmd r<cr>
 nnoremap <silent> <leader>wl <cmd>wincmd l \| wincmd r<cr>
+
+" treesitter textobject hinting
+omap <silent> m :<c-u>lua require('tsht').nodes()<cr>
