@@ -7,13 +7,15 @@ local screens = hs.screen.allScreens()
 local primary_screen, other_screen = screens[1], screens[2]
 
 -- print table helper
-function tprint (tbl, indent)
-  if not indent then indent = 0 end
+function tprint(tbl, indent)
+  if not indent then
+    indent = 0
+  end
   for k, v in pairs(tbl) do
-    formatting = string.rep("  ", indent) .. k .. ": "
-    if type(v) == "table" then
+    formatting = string.rep('  ', indent) .. k .. ': '
+    if type(v) == 'table' then
       print(formatting)
-      tprint(v, indent+1)
+      tprint(v, indent + 1)
     else
       print(formatting .. tostring(v))
     end
@@ -22,13 +24,11 @@ end
 
 -- helper function for getting an App's Bundle ID
 function getAppId(app)
-  return hs.application.infoForBundlePath(
-    string.format('/Applications/%s.app', app)
-  )['CFBundleIdentifier']
+  return hs.application.infoForBundlePath(string.format('/Applications/%s.app', app))['CFBundleIdentifier']
 end
 
 -- "i used the spoon to install the spoons" - thanos
-hs.loadSpoon('SpoonInstall')
+hs.loadSpoon 'SpoonInstall'
 -- keep all spoons up to date
 Install = spoon.SpoonInstall
 Install.use_syncinstall = true
@@ -39,25 +39,27 @@ Install.repos = {
     url = 'https://github.com/Hammerspoon/Spoons',
     desc = 'Main Hammerspoon Spoon repository',
     branch = 'master',
-  }
+  },
 }
 -- homebrew info
-Install:andUse('BrewInfo')
+Install:andUse 'BrewInfo'
 
 -- Alfred and spotlight-like launcher
 Install:andUse('Seal', {
   hotkeys = {
     toggle = {
       hyper,
-      'o'
+      'o',
     },
   },
   fn = function()
     local seal = spoon.Seal
     -- load all of the seal plugins I want
-    seal:loadPlugins({
-      'apps', 'calc', 'useractions'
-    })
+    seal:loadPlugins {
+      'apps',
+      'calc',
+      'useractions',
+    }
     seal.plugins.apps.appSearchPaths = {
       '/Applications',
       '~/Applications',
@@ -85,18 +87,20 @@ Install:andUse('Seal', {
       },
       sleep = {
         keyword = 'sleep',
-        fn = function() os.execute('pmset sleepnow') end,
+        fn = function()
+          os.execute 'pmset sleepnow'
+        end,
       },
       lock = {
         keyword = 'lock',
         fn = function()
-          hs.osascript.applescriptFromFile('lockScreen.applescript')
+          hs.osascript.applescriptFromFile 'lockScreen.applescript'
         end,
       },
       scrollDir = {
         keyword = 'scrollDir',
         fn = function()
-          hs.osascript.applescriptFromFile('scrollDirectionToggle.applescript')
+          hs.osascript.applescriptFromFile 'scrollDirectionToggle.applescript'
         end,
       },
     }
@@ -122,7 +126,7 @@ hs.hotkey.bind(hyper, 'c', nil, function()
     'Vivaldi',
     'Safari',
     'Google Chrome Canary',
-    'Sizzy'
+    'Sizzy',
   }
   local current_app = hs.application.frontmostApplication()
 
@@ -153,21 +157,20 @@ end)
 hs.hotkey.bind(cmd_hyper, 'o', nil, function()
   local actions = {
     lock = function()
-      hs.osascript.applescriptFromFile('lockScreen.applescript')
+      hs.osascript.applescriptFromFile 'lockScreen.applescript'
     end,
     sleep = function()
-      os.execute('pmset sleepnow')
+      os.execute 'pmset sleepnow'
     end,
     ['Show current app name'] = function()
-      hs.alert.show(hs.application.frontmostApplication():name(),
-        nil, hs.screen.primaryScreen())
+      hs.alert.show(hs.application.frontmostApplication():name(), nil, hs.screen.primaryScreen())
     end,
     ['mouse buttons'] = function()
       tprint(hs.mouse.getButtons())
     end,
     ['px to em'] = function(s)
       tprint(s)
-      hs.alert.show('testing')
+      hs.alert.show 'testing'
     end,
   }
 
@@ -189,23 +192,20 @@ end)
 -- TODO: make auto-clicker for notifications with keyboard
 -- TODO: make calculator for px -> em / em -> px with seal/hs.chooser
 
-
-
-
 local current_space_filter = function(allowed_screen)
   return hs.window.filter.new {
     override = {
       allowScreens = allowed_screen,
       currentSpace = true,
       visible = true,
-    }
+    },
   }
 end
 
 local screens = hs.screen.allScreens()
 local primary_filter = current_space_filter(screens[1]:name())
 local secondary_filter
-if #screens == 2 then 
+if #screens == 2 then
   current_space_filter(screens[2]:name())
 end
 
@@ -214,7 +214,7 @@ local current_space_switcher = function(screen_switcher)
     showSelectedThumbnail = false,
     showThumbnails = true,
     showTitles = true,
-  }) 
+  })
 end
 local primary_switcher = current_space_switcher(primary_filter)
 local secondary_switcher = current_space_switcher(secondary_filter)
@@ -223,26 +223,24 @@ local next_app = function()
   print(hs.screen.primaryScreen():name(), ' <-> ', hs.screen.mainScreen():name())
   if hs.screen.primaryScreen():name() == hs.mouse.getCurrentScreen():name() then
     primary_switcher:next()
-    print('next primary')
+    print 'next primary'
   else
     secondary_switcher:next()
-    print('next secondary')
+    print 'next secondary'
   end
 end
 local prev_app = function()
   if hs.screen.primaryScreen():name() == hs.mouse.getCurrentScreen():name() then
     primary_switcher:previous()
-    print('previous primary')
+    print 'previous primary'
   else
     secondary_switcher:previous()
-    print('next secondary')
+    print 'next secondary'
   end
 end
 
 hs.hotkey.bind('alt', 'j', 'next app', next_app, nil, next_app)
 hs.hotkey.bind('alt', 'k', 'prev app', prev_app, nil, prev_app)
-
-
 
 -- define custom keybindings for specific apps
 local app_keybind = function(from_modifiers, from_key, to_modifiers, to_key, app_name)
@@ -269,13 +267,12 @@ app_keybind({ 'ctrl', 'shift' }, 'g', {}, 'end', 'Dash')
 
 -- Use hyper+/ to launch Google Chrome Canary's dev tools command palette
 app_keybind(hyper, '/', { 'cmd', 'shift' }, 'p', 'Google Chrome Canary')
+app_keybind(hyper, '/', { 'cmd', 'shift' }, 'p', 'Vivaldi')
 
 -- Switch between previous and next conversations in Messages
 app_keybind({ 'ctrl' }, 'n', { 'ctrl' }, 'tab', 'Messages')
 app_keybind({ 'ctrl' }, 'p', { 'ctrl', 'shift' }, 'tab', 'Messages')
 app_keybind({ 'ctrl' }, 'r', { 'cmd' }, 'r', 'Messages')
-
-
 
 -- bind keystroke to mouse button for a specific app
 local app_binds = function(to_mods, to_key, app_name)
@@ -297,8 +294,6 @@ local mouse_events = hs.eventtap.new({ 14 }, function(event)
 end)
 mouse_events:start()
 
-
-
 -- define hammerspoon mode
 --[[
 HsMode = hs.hotkey.modal.new(hyper, '`')
@@ -314,20 +309,16 @@ HsMode:bind(hyper, '`', function() HsMode:exit() end)
 HsMode:bind('', 'o', function() spoon.Seal:toggle(); HsMode:exit() end)
 --]]
 
-
 -- this currently doesn't work, I wish it did
 local usbWatcher = hs.usb.watcher.new(function(data)
   hs.alert.show(data.productID)
   if data.productID == 16642 then
-    hs.osascript.applescriptFromFile('scrollDirectionToggle.applescript')
+    hs.osascript.applescriptFromFile 'scrollDirectionToggle.applescript'
   end
 end)
 
-
-
-
 -- Load plugin to fade in the Hammerspoon logo when reloading configuration
-Install:andUse('FadeLogo')
+Install:andUse 'FadeLogo'
 -- reload config on change
 Install:andUse('ReloadConfiguration', {
   fn = function()
