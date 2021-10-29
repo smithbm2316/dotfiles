@@ -1,1 +1,1 @@
-; inherits: html_tags
+(astro_component_script) @typescriptreact

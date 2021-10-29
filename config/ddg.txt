@@ -1,1 +1,2 @@
-Theme: smithbm2316-laserwave
+Laserwave Theme: smithbm2316-laserwave
+Rose Pine Moon Theme: smithbm2316-rose-pine-moon
