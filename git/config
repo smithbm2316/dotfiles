@@ -1,3 +1,4 @@
+# vim: filetype=dosini
 # This is Git's per-user configuration file.
 [user]
 	name = Ben Smith
@@ -10,6 +11,7 @@
 [alias]
 	aa = add -A
   cm = commit
+  cmf = commit --no-verify
   cmm = commit -m 
 	cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
 	pushup = push -u origin HEAD

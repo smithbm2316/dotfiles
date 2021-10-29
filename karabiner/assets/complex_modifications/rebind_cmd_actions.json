@@ -228,6 +228,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "^com\\.microsoft\\.VSCode$",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -442,12 +443,13 @@
       ]
     },
     {
-      "description": "Rebind quit (c-r)",
+      "description": "Rebind reload (c-r)",
       "manipulators": [
         {
           "conditions": [
             {
               "bundle_identifiers": [
+                "^com\\.microsoft\\.VSCode$",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"

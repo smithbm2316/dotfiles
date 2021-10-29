@@ -53,7 +53,6 @@ alias l 'exa --icons -a'
 alias ls 'exa --icons'
 alias ll 'exa --icons -l'
 alias lla 'exa --icons -la'
-alias tree 'exa --icons --tree --all'
 # .. commands
 abbr -a ... ../../
 abbr -a .... ../../../
@@ -83,6 +82,16 @@ function f
   set -l file_to_open (fzf --preview='head -80 {}')
   if test -f $PWD/$file_to_open
     nvim $file_to_open
+  end
+end
+
+# tree
+function tree
+  switch $argv
+    case '-a'
+      exa --icons --tree -all
+    case '*'
+      exa --icons --tree --all -I "node_modules|.git" $argv
   end
 end
 
@@ -145,7 +154,7 @@ function js
 end
 
 # make tmux easier to use
-alias tml='tmux ls'
+alias tmls='tmux ls'
 abbr -a tma 'tmux attach -t '
 
 function tm -a session
