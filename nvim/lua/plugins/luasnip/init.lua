@@ -77,6 +77,24 @@ local webdev_snippets = {
     i(1, 'ModuleName'),
     t "');",
   }),
+  snip({
+    trig = 'logc',
+    dscr = 'colored console.log',
+  }, {
+    t 'console.log(',
+    i(0, 'output'),
+    t ');',
+  }),
+  snip({
+    trig = 'logf',
+    dscr = 'formatted console.log',
+  }, {
+    t 'console.log(`',
+    i(1, 'varName'),
+    t ': ${',
+    i(0, 'var'),
+    t '}`);',
+  }),
 }
 
 snippets.javascript = webdev_snippets

@@ -24,7 +24,7 @@ configs.astro_language_server = {
     cmd = { 'astro-ls', '--stdio' },
     filetypes = { 'astro' },
     root_dir = function(fname)
-      return util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")(fname)
+      return util.root_pattern('package.json', 'tsconfig.json', 'jsconfig.json', '.git')(fname)
     end,
     docs = {
       description = 'https://github.com/snowpackjs/astro-language-tools',
@@ -35,39 +35,44 @@ configs.astro_language_server = {
 }
 
 local my_on_attach = function(client, bufnr)
-  -- aliases for keybinds below
-  local function buf_set_keymap(...)
-    nv.buf_set_keymap(bufnr, ...)
-  end
-
-  -- Mappings
-  local opts = { noremap = true, silent = true }
   -- show hover, enter hover menu on second run
-  buf_set_keymap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+  nnoremap('gh', [[<cmd>lua vim.lsp.buf.hover()<cr>]], nil, bufnr)
   -- code action
-  buf_set_keymap('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+  nnoremap('ca', [[<cmd>lua vim.lsp.buf.code_action()<cr>]], nil, bufnr)
   -- rename symbol
-  buf_set_keymap('n', '<leader>rs', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-  -- lsp references
-  buf_set_keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+  nnoremap('<leader>rs', [[<cmd>lua vim.lsp.buf.rename()<cr>]], nil, bufnr)
+  -- lsp references picker in Telescope
+  nnoremap('<leader>lr', [[<cmd>lua require'telescope.builtin'.lsp_references()<cr>]], nil, bufnr)
+  -- lsp symbols pickers in Telescope
+  nnoremap('<leader>lsw', [[<cmd>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols()<cr>]], nil, bufnr)
+  nnoremap('<leader>lsd', [[<cmd>lua require'telescope.builtin'.lsp_dynamic_document_symbols()<cr>]], nil, bufnr)
+  -- lsp diagnostics pickers in Telescope
+  nnoremap('<leader>ldd', [[<cmd>lua require'telescope.builtin'.lsp_workspace_diagnostics()<cr>]], nil, bufnr)
+  nnoremap('<leader>ldw', [[<cmd>lua require'telescope.builtin'.lsp_document_diagnostics()<cr>]], nil, bufnr)
   -- lsp definition
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+  nnoremap('gd', [[<cmd>lua vim.lsp.buf.definition()<cr>]], nil, bufnr)
+  -- TODO: update this mapping with the new nightly breaking change
   -- next diagnostic
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev({ popup_opts = { border = "single" } })<cr>', opts)
+  nnoremap('[d', [[<cmd>lua vim.lsp.diagnostic.goto_prev({ popup_opts = { border = "double" } })<cr>]], nil, bufnr)
   -- prev diagnostic
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next({ popup_opts = { border = "single" } })<cr>', opts)
-  buf_set_keymap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+  nnoremap(']d', [[<cmd>lua vim.lsp.diagnostic.goto_next({ popup_opts = { border = "double" } })<cr>]], nil, bufnr)
+  -- signature help hover
+  nnoremap('<c-s>', [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], nil, bufnr)
+  inoremap('<c-s>', [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], nil, bufnr)
   -- show diagnostics on current line in floating window: hover diagnostics for line
-  local hover_diagnostics = [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ popup_opts = { border = "single" } })<cr>]]
-  buf_set_keymap('n', '<leader>hd', hover_diagnostics, opts)
-  buf_set_keymap('n', 'gh', hover_diagnostics, opts)
+  nnoremap(
+    'gh',
+    [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ popup_opts = { border = "single" } })<cr>]],
+    nil,
+    bufnr
+  )
 
   -- define buffer-local variable for virtual_text toggling
   vim.b.show_virtual_text = true
 end
 
 local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-local my_capabilities = require("cmp_nvim_lsp").update_capabilities(lsp_capabilities)
+local my_capabilities = require('cmp_nvim_lsp').update_capabilities(lsp_capabilities)
 
 -- setup language servers
 local servers = {
@@ -79,15 +84,14 @@ local servers = {
   'graphql',
   'html',
   'jedi_language_server',
-  'jsonls',
   'vimls',
   'zk',
 }
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
+  lspconfig[lsp].setup {
     on_attach = my_on_attach,
     capabilities = my_capabilities,
-  })
+  }
 end
 
 lspconfig.tsserver.setup {
@@ -99,14 +103,79 @@ lspconfig.tsserver.setup {
     client.resolved_capabilities.document_range_formatting = false
     -- vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()')
   end,
+  commands = {
+    OrganizeImports = {
+      function()
+        local params = {
+          command = '_typescript.organizeImports',
+          arguments = { vim.api.nvim_buf_get_name(0) },
+          title = '',
+        }
+        vim.lsp.buf.execute_command(params)
+      end,
+      description = 'Organize Imports',
+    },
+  },
+}
+
+lspconfig.jsonls.setup {
+  on_attach = my_on_attach,
+  capabilities = my_capabilities,
+  settings = {
+    json = {
+      schemas = {
+        {
+          fileMatch = { 'package.json' },
+          url = 'https://json.schemastore.org/package.json',
+        },
+        {
+          fileMatch = { 'tsconfig*.json' },
+          url = 'https://json.schemastore.org/tsconfig.json',
+        },
+        {
+          fileMatch = {
+            '.prettierrc',
+            '.prettierrc.json',
+            'prettier.config.json',
+          },
+          url = 'https://json.schemastore.org/prettierrc.json',
+        },
+        {
+          fileMatch = { '.eslintrc', '.eslintrc.json' },
+          url = 'https://json.schemastore.org/eslintrc.json',
+        },
+        {
+          fileMatch = { '.babelrc', '.babelrc.json', 'babel.config.json' },
+          url = 'https://json.schemastore.org/babelrc.json',
+        },
+        {
+          fileMatch = { 'lerna.json' },
+          url = 'https://json.schemastore.org/lerna.json',
+        },
+        {
+          fileMatch = { 'now.json', 'vercel.json' },
+          url = 'https://json.schemastore.org/now.json',
+        },
+        {
+          fileMatch = {
+            '.stylelintrc',
+            '.stylelintrc.json',
+            'stylelint.config.json',
+          },
+          url = 'http://json.schemastore.org/stylelintrc.json',
+        },
+      },
+    },
+  },
 }
 
 -- sumneko_lua setup, using lua-dev plugin for better lua docs
-local sumneko_root_path = os.getenv('HOME') .. '/builds/lua-language-server'
-local system_name = vim.fn.has('mac') == 0 and 'Linux' or 'macOS'
+local sumneko_root_path = os.getenv 'HOME' .. '/builds/lua-language-server'
+local system_name = vim.fn.has 'mac' == 0 and 'Linux' or 'macOS'
 local sumneko_binary = sumneko_root_path .. '/bin/' .. system_name .. '/lua-language-server'
 
--- TODO: find a way to conditionally load awesomeWM's runtime files and add globals when editing awesome files
+-- TODO: remove luadev, install cmp_nvim_lua, update runtime files in library,
+-- make sure you have access to signature help still
 local luadev = require('lua-dev').setup {
   library = {
     vimruntime = true,
@@ -124,7 +193,8 @@ local luadev = require('lua-dev').setup {
         diagnostics = {
           globals = {
             'awesome', -- awesomewm
-            'spoon', 'hs', -- hammerspoon
+            'spoon',
+            'hs', -- hammerspoon
           },
           -- disable specific diagnostic messages
           disable = {
@@ -134,9 +204,9 @@ local luadev = require('lua-dev').setup {
         workspace = {
           -- hammerspoon support
           library = {
-            [vim.fn.expand('/Applications/Hammerspoon.app/Contents/Resources/extensions/hs')] = true,
-          }
-        }
+            [vim.fn.expand '/Applications/Hammerspoon.app/Contents/Resources/extensions/hs'] = true,
+          },
+        },
       },
     },
   },
@@ -167,7 +237,7 @@ end
 nnoremap('<leader>td', [[<cmd>lua require'plugins.lsp'.toggle_diagnostics()<cr>]])
 
 -- define signcolumn lsp diagnostic icons
-local diagnostic_signs = { " ", " ", " ", " " }
+local diagnostic_signs = { ' ', ' ', ' ', ' ' }
 local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Hint', 'Information' }
 local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Hint', 'Info' }
 

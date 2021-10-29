@@ -228,6 +228,9 @@ return require('packer').startup(function(use)
   -- treesitter-based hinting for selecting a textobject in operator-pending mode
   use 'mfussenegger/nvim-ts-hint-textobject'
 
+  -- nanotee's lua guide reference
+  use 'nanotee/nvim-lua-guide'
+
   -----------------------------------------------------
   ---
   --- vimscript plugins
@@ -274,9 +277,17 @@ return require('packer').startup(function(use)
   -- color converter for hex to rgb, etc
   use 'amadeus/vim-convert-color-to'
 
-  -- lua syntax highlighting
-  use 'euclidianAce/BetterLua.vim'
-
   -- replace with register
   use 'vim-scripts/ReplaceWithRegister'
+
+  -----------------------------------------------------
+  ---
+  --- syntax highlighting plugins
+  ---
+  -----------------------------------------------------
+  -- lua
+  use 'euclidianAce/BetterLua.vim'
+
+  -- i3wm config
+  use 'mboughaba/i3config.vim'
 end)
