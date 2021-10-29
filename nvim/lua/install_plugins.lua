@@ -223,6 +223,7 @@ return require('packer').startup(function(use)
   use {
     'mrjones2014/dash.nvim',
     run = 'make install',
+    disable = vim.fn.has 'mac' == 0 and true or false,
   }
 
   -- treesitter-based hinting for selecting a textobject in operator-pending mode
