@@ -1,1 +1,1 @@
-(astro_component_script) @javascript
+; inherits: html_tags
