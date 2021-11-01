@@ -103,6 +103,12 @@ Install:andUse('Seal', {
           hs.osascript.applescriptFromFile 'scrollDirectionToggle.applescript'
         end,
       },
+      theme = {
+        keyword = 'theme',
+        fn = function()
+          hs.osascript.applescriptFromFile 'toggleTheme.applescript'
+        end,
+      },
     }
     seal:refreshAllCommands()
   end,
