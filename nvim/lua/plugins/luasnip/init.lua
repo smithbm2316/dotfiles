@@ -105,7 +105,7 @@ snippets.typescriptreact = webdev_snippets
 -- wrapper for basic lua snippets
 local lua_snippet = function(trig, text)
   -- set a cmd-line abbreviation for luasnip expansions
-  vim.cmd(string.format('cnoreabbrev %s lua %s', trig, text))
+  -- vim.cmd(string.format('cnoreabbrev %s lua %s', trig, text))
 
   return snip({ trig = trig }, {
     t { text },

@@ -1,4 +1,4 @@
-require'gitsigns'.setup {
+require('gitsigns').setup {
   keymaps = {
     noremap = true,
     ['n ]h'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<cr>'" },

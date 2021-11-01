@@ -2,6 +2,20 @@
 
 ## To Do
 
+- [x] install harpoon please
+- [ ] Read up on `:help :map-operator`
+- [ ] install emmet.vim and func from mhartington's config
+- [ ] Create `awesome-neovim-learning/resources` repo to centralize great blog posts, videos, articles, repos, and resources on how to use Lua and Neovim
+- [ ] remove `luadev` dependency and configure lua-language-server properly
+- [ ] add astro config to lspconfig repo in a PR
+- [ ] write a plugin/script for better recent buffer management/deletion/swapping
+- [ ] update `lua-language-server`
+- [ ] check cronjobs
+- [ ] list out all my critical dev setup tools and figure out best distro for them
+- [ ] maybe start reading the "mouseless dev environment" book to try arch??
+- [ ] replace bullets.vim with better solution (maybe autopairs luasnip?)
+- [ ] redo lualine config
+
 - [ ] [Add easier way to create files/directories to lir](https://github.com/tamago324/lir.nvim/wiki/Custom-actions#input_newfile)
 - [ ] Setup some luasnip snippets for easier dev stuff
   * [x] Make luasnip go to next insert point when completing an item with nvim-cmp
@@ -19,6 +33,16 @@
 	- [ ] nvim-workbench for project notes setup
 	- [ ] Central place to access and process quick fleeting ideas
 	- [ ] Review process for fleeting notes
+
+
+
+## Learn
+
+- [ ] How does `modeline` work?
+- [ ] [How can you create a new operator?](https://stackoverflow.com/questions/8994276/how-to-define-a-new-vim-operator-with-a-parameter#8998136)
+  - [ ] How does `opfunc` work for creating new operators?
+- [ ] Set custom `equalprg`/`formatprg` to `prettier` for web dev files to format/indent with prettier
+- [ ] `:<C-U>` in mappings -> deletes all text before the cursor to remove the visual line inserted range
 
 
 

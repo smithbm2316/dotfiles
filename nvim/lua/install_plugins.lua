@@ -232,6 +232,9 @@ return require('packer').startup(function(use)
   -- nanotee's lua guide reference
   use 'nanotee/nvim-lua-guide'
 
+  -- hey prime I'm testing harpoon like I promised at VimConf
+  use 'theprimeagen/harpoon'
+
   -----------------------------------------------------
   ---
   --- vimscript plugins
@@ -262,21 +265,20 @@ return require('packer').startup(function(use)
   use 'tpope/vim-surround'
   use 'tpope/vim-repeat'
 
+  -- color converter for hex to rgb, etc
+  use {
+    'amadeus/vim-convert-color-to',
+    opt = true,
+  }
+
   -- blur the lines between vim and tmux
   use 'christoomey/vim-tmux-navigator'
 
-  -- easy access to devdocs.io while in vim
-  use {
-    'romainl/vim-devdocs',
-    opt = true,
-    cmd = 'DD',
-  }
+  -- extra operator function for sorting over a textobject or visual range
+  use 'christoomey/vim-sort-motion'
 
   -- extra text object for copy/pasting to the system clipboard, its soo good
   use 'christoomey/vim-system-copy'
-
-  -- color converter for hex to rgb, etc
-  use 'amadeus/vim-convert-color-to'
 
   -- replace with register
   use 'vim-scripts/ReplaceWithRegister'

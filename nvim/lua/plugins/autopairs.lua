@@ -1,7 +1,7 @@
 local npairs = require 'nvim-autopairs'
 
 npairs.setup {
-  disable_filetype = { 'TelescopePrompt', 'vim' },
+  disable_filetype = { 'TelescopePrompt', 'vim', 'markdown' },
   ignored_next_char = '[%w%.]',
 }
 -- If you want insert `(` after select function or method item

@@ -6,13 +6,21 @@
 nnoremap go :
 vnoremap go :
 
-" Substitute: same as s/
-nnoremap gs :s/\v
-vnoremap gs :s/\v
+" Search Forwards
+nnoremap / /\v
+vnoremap / /\v
 
-" Global Substitute: same as %s/
-nnoremap gS :%s/\v
-vnoremap gS :%s/\v
+" Search Backwards
+nnoremap ? ?\v
+vnoremap ? ?\v
+
+" Substitute Linewise
+nnoremap <leader>sl :s/\v
+vnoremap <leader>sl :s/\v
+
+" Substitute Globally
+nnoremap <leader>sg :%s/\v
+vnoremap <leader>sg :%s/\v
 
 
 
@@ -32,12 +40,15 @@ vnoremap <silent> gu g~
 " swap to alternate file
 nnoremap <silent> gp <nop>
 vnoremap <silent> gp <nop>
-nnoremap <silent> gl <c-^>
-vnoremap <silent> gl <c-^>
+nnoremap <silent> gl <nop>
+vnoremap <silent> gl <nop>
+nnoremap <silent> ga <c-^>
+vnoremap <silent> ga <c-^>
 
 " delete without yanking
-nnoremap <silent> <leader>dd "_d
-vnoremap <silent> <leader>dd "_d
+" TODO: add operator mapping for this to work properly!
+nnoremap <silent>s "_d
+vnoremap <silent>s "_d
 
 " replace currently selected text with default register without yanking it
 vnoremap <silent> p "_dP

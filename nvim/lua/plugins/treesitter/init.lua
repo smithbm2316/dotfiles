@@ -75,9 +75,11 @@ require('nvim-treesitter.configs').setup {
   },
   highlight = {
     enable = true,
+    disable = { 'astro' },
   },
   indent = {
     enable = true,
+    disable = { 'astro' },
   },
   ensure_installed = {
     'bash',
@@ -113,5 +115,5 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- set mappings for lsp peek definition for functions and classes with treesitter
-nnoremap('<leader>hf', '<cmd>TSTextobjectPeekDefinitionCode @function.outer<cr>')
-nnoremap('<leader>hc', '<cmd>TSTextobjectPeekDefinitionCode @class.outer<cr>')
+nnoremap('<leader>pf', '<cmd>TSTextobjectPeekDefinitionCode @function.outer<cr>')
+-- nnoremap('<leader>pc', '<cmd>TSTextobjectPeekDefinitionCode @class.outer<cr>')
