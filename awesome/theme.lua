@@ -2,56 +2,74 @@
 -- Default awesome theme --
 ---------------------------
 
-local theme_assets = require('beautiful.theme_assets')
-local xresources = require('beautiful.xresources')
+local theme_assets = require 'beautiful.theme_assets'
+local xresources = require 'beautiful.xresources'
 local dpi = xresources.apply_dpi
 
-local naughty = require('naughty')
-local gears = require('gears')
-local awful = require('awful')
+local naughty = require 'naughty'
+local gears = require 'gears'
+local awful = require 'awful'
 
-local gfs = require('gears.filesystem')
+local gfs = require 'gears.filesystem'
 local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
 theme.font = 'Iosevka Nerd Font Bold 12'
 
+-- Rose Pine Moon theme
+theme.bg_normal = '#232136'
+theme.bg_focus = '#232136'
+theme.bg_urgent = '#232136'
+theme.bg_minimize = '#e0dfe4'
+theme.bg_systray = theme.bg_focus
+
+theme.fg_normal = '#817c9c'
+theme.fg_focus = '#eb6f92'
+theme.fg_urgent = '#ea9a97'
+theme.fg_minimize = '#c4a7e7'
+
+theme.useless_gap = dpi(4)
+theme.border_width = dpi(2)
+theme.border_normal = '#2a273f'
+theme.border_focus = '#3e8fb0'
+theme.border_marked = '#f6c177'
+
 -- Laserwave theme
-theme.bg_normal     = '#27212e'
-theme.bg_focus      = '#27212e'
-theme.bg_urgent     = '#27212e'
-theme.bg_minimize   = '#e0dfe1'
-theme.bg_systray    = theme.bg_focus
+--[[ theme.bg_normal = '#27212e'
+theme.bg_focus = '#27212e'
+theme.bg_urgent = '#27212e'
+theme.bg_minimize = '#e0dfe1'
+theme.bg_systray = theme.bg_focus
 
-theme.fg_normal     = '#91889b'
-theme.fg_focus      = '#eb64b9'
-theme.fg_urgent     = '#ffe261'
-theme.fg_minimize   = '#b381c5'
+theme.fg_normal = '#91889b'
+theme.fg_focus = '#eb64b9'
+theme.fg_urgent = '#ffe261'
+theme.fg_minimize = '#b381c5'
 
-theme.useless_gap   = dpi(4)
-theme.border_width  = dpi(2)
+theme.useless_gap = dpi(4)
+theme.border_width = dpi(2)
 theme.border_normal = '#27212e'
-theme.border_focus  = '#eb64b9'
-theme.border_marked = '#40b4c4'
+theme.border_focus = '#eb64b9'
+theme.border_marked = '#40b4c4' --]]
 
 -- Tokyo Night theme
--- theme.bg_normal = '#24283b'
--- theme.bg_focus = '#24283b'
--- theme.bg_urgent = '#24283b'
--- theme.bg_minimize = '#a9b1d6'
--- theme.bg_systray = theme.bg_focus
+--[[ theme.bg_normal = '#24283b'
+theme.bg_focus = '#24283b'
+theme.bg_urgent = '#24283b'
+theme.bg_minimize = '#a9b1d6'
+theme.bg_systray = theme.bg_focus
 
--- theme.fg_normal = '#a9b1d6'
--- theme.fg_focus = '#f7768e'
--- theme.fg_urgent = '#9ece6a'
--- theme.fg_minimize = '#bb9af7'
+theme.fg_normal = '#a9b1d6'
+theme.fg_focus = '#f7768e'
+theme.fg_urgent = '#9ece6a'
+theme.fg_minimize = '#bb9af7'
 
--- theme.useless_gap = dpi(4)
--- theme.border_width = dpi(2)
--- theme.border_normal = '#1a1b26'
--- theme.border_focus = '#7aa2f7'
--- theme.border_marked = '#ff9e64'
+theme.useless_gap = dpi(4)
+theme.border_width = dpi(2)
+theme.border_normal = '#1a1b26'
+theme.border_focus = '#7aa2f7'
+theme.border_marked = '#ff9e64' --]]
 
 -- There are other variable sets
 -- overriding the default one when
@@ -115,9 +133,9 @@ theme.titlebar_maximized_button_focus_active = themes_path .. 'default/titlebar/
 
 theme.wallpaper = function(s)
   if s.index == 1 then
-    return '/home/smithbm/pictures/retrowave-landscape/retrowave33.jpg'
+    return '/home/smithbm/pictures/sports/warriors_oakland_forever_wide.jpg'
   else
-    return '/home/smithbm/pictures/retrowave-landscape/retrowave33.jpg'
+    return '/home/smithbm/pictures/sports/warriors_oakland_forever_tall.jpg'
   end
 end
 

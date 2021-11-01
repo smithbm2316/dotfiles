@@ -1,0 +1,8 @@
+http://xahlee.info/linux/linux_set_key_repeat_rate.html
+
+Set linux key repeat using `xset`
+
+`xset -q` lists your x settings
+`xset r rate 250 25` -> 250 is the delay, 25 is the rate
+
+`xset m 1` resets mouse acceleration to 1

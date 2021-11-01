@@ -3,8 +3,9 @@
 # ~/.xinitrc
 
 sh -c "~/dotfiles/config/displays.sh"
-xcape -e "Super_L=Escape;Super_R=Return" &
+xcape -e "Super_L=Escape;Super_R=Return;Shift_L=Shift_L|braceleft;Shift_R=Shift_R|braceright" &
 xsetroot -cursor_name arrow &
+xset r 250 25 &
 xss-lock i3lock -- -c 27212e &
 picom -b &
 flameshot &
