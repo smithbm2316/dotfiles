@@ -9,8 +9,3 @@ require('goto-preview').setup {
     nnoremap('q', '<cmd>q<cr>', { buffer = true }, bufnr)
   end,
 }
-
-nnoremap('<leader>pd', [[<cmd>lua require('goto-preview').goto_preview_definition()<cr>]])
-nnoremap('<leader>pi', [[<cmd>lua require('goto-preview').goto_preview_implementation()<cr>]])
-nnoremap('<leader>pr', [[<cmd>lua require('goto-preview').goto_preview_references()<cr>]])
-nnoremap('<leader>pq', [[<cmd>lua require('goto-preview').close_all_win()<cr>]])

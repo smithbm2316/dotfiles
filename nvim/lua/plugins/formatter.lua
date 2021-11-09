@@ -13,13 +13,11 @@ local filetype_configs = {
       }
     end,
   },
-  python = {
+  go = {
     function()
       return {
-        exe = 'yapf',
-        args = {
-          '',
-        },
+        exe = 'gofmt',
+        args = {},
         stdin = true,
       }
     end,
@@ -33,7 +31,7 @@ local prettier_config = {
       exe = 'prettier',
       args = {
         '--stdin-filepath',
-        nv.buf_get_name(0),
+        vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
         '--single-quote',
         '--tab-width 2',
         '--trailing-comma all',
@@ -54,7 +52,7 @@ for _, ft in pairs {
   'vue',
   'html',
   'css',
-  'json',
+  'astro',
 } do
   filetype_configs[ft] = prettier_config
 end
@@ -69,6 +67,7 @@ require('formatter').setup {
 vim.cmd [[
 augroup AutoFormatting
   au!
-  au BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue,*.lua FormatWrite
+  au BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue,*.lua,*.go FormatWrite
+  au BufWritePre *.json %s/'/"/ge
 augroup END
 ]]

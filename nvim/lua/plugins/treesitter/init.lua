@@ -1,13 +1,13 @@
 -- TODO: set up parameter textobjects, so I can swap elements in a lua table back and forth cc TJ's recent stream
 local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
 
-parser_config.astro = {
+--[[ parser_config.astro = {
   install_info = {
     url = 'https://github.com/theHamsta/tree-sitter-html',
     files = { 'src/parser.c', 'src/scanner.cc' },
     branch = 'astro',
   },
-}
+} --]]
 
 require('nvim-treesitter.configs').setup {
   textobjects = {
@@ -23,13 +23,6 @@ require('nvim-treesitter.configs').setup {
         ['il'] = '@loop.inner',
         ['aa'] = '@parameter.outer', -- TODO: add JS/TS custom queries for objects and JSX props
         ['ia'] = '@parameter.inner',
-      },
-    },
-    lsp_interop = {
-      enable = true,
-      border = 'double',
-      peek_definition_code = {
-        ['<leader>gd'] = '@function.outer',
       },
     },
   },
@@ -113,7 +106,3 @@ require('nvim-treesitter.configs').setup {
     'yaml',
   },
 }
-
--- set mappings for lsp peek definition for functions and classes with treesitter
-nnoremap('<leader>pf', '<cmd>TSTextobjectPeekDefinitionCode @function.outer<cr>')
--- nnoremap('<leader>pc', '<cmd>TSTextobjectPeekDefinitionCode @class.outer<cr>')

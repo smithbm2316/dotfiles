@@ -8,7 +8,7 @@ local M = {}
 -- zk cli lsp setup
 configs.zk = {
   default_config = {
-    cmd = { 'zk', 'lsp' },
+    cmd = { 'zk', 'lsp', '--log', '/tmp/zk-lsp.log' },
     filetypes = { 'markdown' },
     root_dir = function()
       return vim.loop.cwd()
@@ -17,10 +17,34 @@ configs.zk = {
   },
 }
 
+configs.zk.index = function()
+  vim.lsp.buf.execute_command {
+    command = 'zk.index',
+    arguments = { vim.api.nvim_buf_get_name(0) },
+  }
+end
+
+configs.zk.new = function(...)
+  vim.lsp.buf_request(0, 'workspace/executeCommand', {
+    command = 'zk.new',
+    arguments = {
+      vim.api.nvim_buf_get_name(0),
+      ...,
+    },
+  }, function(_, _, result)
+    if not (result and result.path) then
+      return
+    end
+    vim.cmd('edit ' .. result.path)
+  end)
+end
+
+vim.cmd [[command! -nargs=0 ZkIndex :lua require'lspconfig'.zk.index()]]
+vim.cmd [[command! -nargs=? ZkNew :lua require'lspconfig'.zk.new(<args>)]]
+
 -- astro lsp setup
 configs.astro_language_server = {
   default_config = {
-    -- os.getenv('HOME') .. '/builds/astro-language-tools/packages/language-server/bin/server.js',
     cmd = { 'astro-ls', '--stdio' },
     filetypes = { 'astro' },
     root_dir = function(fname)
@@ -34,6 +58,28 @@ configs.astro_language_server = {
   },
 }
 
+configs.ls_emmet = {
+  default_config = {
+    filetypes = {
+      'javascript',
+      'typescript',
+      'typescriptreact',
+      'javascriptreact',
+      'html',
+      'css',
+      'sass',
+      'scss',
+      'astro',
+      'vue',
+      'svelte',
+    },
+    cmd = { 'ls_emmet', '--stdio' },
+    root_dir = function(fname)
+      return vim.loop.cwd()
+    end,
+  },
+}
+
 local my_on_attach = function(client, bufnr)
   -- show hover, enter hover menu on second run
   nnoremap('gh', [[<cmd>lua vim.lsp.buf.hover()<cr>]], nil, bufnr)
@@ -41,16 +87,16 @@ local my_on_attach = function(client, bufnr)
   nnoremap('ca', [[<cmd>lua vim.lsp.buf.code_action()<cr>]], nil, bufnr)
   -- rename symbol
   nnoremap('<leader>rs', [[<cmd>lua vim.lsp.buf.rename()<cr>]], nil, bufnr)
-  -- lsp references picker in Telescope
+  -- lsp references
   nnoremap('<leader>lr', [[<cmd>lua require'telescope.builtin'.lsp_references()<cr>]], nil, bufnr)
-  -- lsp symbols pickers in Telescope
+  -- lsp symbols
   nnoremap('<leader>lsw', [[<cmd>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols()<cr>]], nil, bufnr)
   nnoremap('<leader>lsd', [[<cmd>lua require'telescope.builtin'.lsp_dynamic_document_symbols()<cr>]], nil, bufnr)
-  -- lsp diagnostics pickers in Telescope
+  -- lsp diagnostics
   nnoremap('<leader>ldd', [[<cmd>lua require'telescope.builtin'.lsp_workspace_diagnostics()<cr>]], nil, bufnr)
   nnoremap('<leader>ldw', [[<cmd>lua require'telescope.builtin'.lsp_document_diagnostics()<cr>]], nil, bufnr)
   -- lsp definition
-  nnoremap('gd', [[<cmd>lua vim.lsp.buf.definition()<cr>]], nil, bufnr)
+  nnoremap('gD', [[<cmd>lua vim.lsp.buf.definition()<cr>]], nil, bufnr)
   -- TODO: update this mapping with the new nightly breaking change
   -- next diagnostic
   nnoremap('[d', [[<cmd>lua vim.lsp.diagnostic.goto_prev({ popup_opts = { border = "double" } })<cr>]], nil, bufnr)
@@ -66,6 +112,19 @@ local my_on_attach = function(client, bufnr)
     nil,
     bufnr
   )
+  -- zk-cli bindings
+  nnoremap('<leader>zi', [[:ZkIndex<cr>', opts]], nil, bufnr)
+  vnoremap('<leader>zn', [[:'<,'>lua vim.lsp.buf.range_code_action()<cr>', opts]], nil, bufnr)
+  nnoremap('<leader>zn', [[:ZkNew {title = vim.fn.input('Title: ')}<cr>', opts]], nil, bufnr)
+  nnoremap('<leader>zl', [[:ZkNew {dir = 'log'}<cr>', opts]], nil, bufnr)
+
+  if package.loaded['goto-preview'] then
+    -- goto-preview plugin mappings
+    -- TODO: write custom Telescope wrappers for these, we don't need the first two maps otherwise
+    nnoremap('<leader>pr', [[<cmd>lua require('goto-preview').goto_preview_references()<cr>]])
+    nnoremap('<leader>pi', [[<cmd>lua require('goto-preview').goto_preview_implementation()<cr>]])
+    nnoremap('gd', [[<cmd>lua require('goto-preview').goto_preview_definition()<cr>]])
+  end
 
   -- define buffer-local variable for virtual_text toggling
   vim.b.show_virtual_text = true
@@ -73,8 +132,16 @@ end
 
 local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
 local my_capabilities = require('cmp_nvim_lsp').update_capabilities(lsp_capabilities)
+my_capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+lspconfig.ls_emmet.setup {
+  on_attach = my_on_attach,
+  capabilities = my_capabilities,
+}
 
 -- setup language servers
+-- TODO: add user commands similar to vim-go plugin
+-- https://github.com/fatih/vim-go
 local servers = {
   'astro_language_server',
   'bashls',
@@ -83,8 +150,13 @@ local servers = {
   'gopls',
   'graphql',
   'html',
-  'jedi_language_server',
+  'prismals',
+  'pylsp',
+  'svelte',
+  'texlab',
+  'vuels',
   'vimls',
+  'yamlls',
   'zk',
 }
 for _, lsp in ipairs(servers) do
@@ -95,7 +167,12 @@ for _, lsp in ipairs(servers) do
 end
 
 lspconfig.tsserver.setup {
-  filetypes = { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'javascript.jsx', 'typescript.tsx' },
+  filetypes = {
+    'javascript',
+    'typescript',
+    'typescriptreact',
+    'javascriptreact',
+  },
   on_attach = function(client, bufnr)
     my_on_attach(client, bufnr)
     -- disable tsserver from formatting
