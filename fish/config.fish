@@ -12,6 +12,7 @@ if not functions -q fundle
 else # load fundle packages
   fundle plugin 'edc/bass'
   fundle plugin 'lilyball/nix-env.fish'
+  fundle plugin 'wfxr/forgit'
   
   fundle init
 end

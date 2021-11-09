@@ -19,6 +19,7 @@
 	i = init 
 	l = log --oneline
 	cl = clone
+  clb = "!gclb() { git clone --bare $1 .bare; echo 'gitdir: ./.bare' > .git; }; gclb"
   sw = switch
   swp = switch -
   bra = branch -a
