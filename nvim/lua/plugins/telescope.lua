@@ -246,6 +246,17 @@ custom('<leader>vh', 'grep_vim_help', 'live_grep', {
   prompt_title = 'Grep in vim help docs',
 })
 
+-- jump to a buffer
+custom(
+  '<leader>jb',
+  'jump_to_buffer',
+  'buffers',
+  vim.tbl_deep_extend('force', themes.get_dropdown(), {
+    preview = false,
+    prompt_title = 'Jump to buffer',
+  })
+)
+
 -- pickers for zk extension
 ts.zk_notes = function()
   require('telescope').extensions.zk.zk_notes()

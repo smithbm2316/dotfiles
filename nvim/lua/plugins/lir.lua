@@ -1,61 +1,101 @@
-local actions = require('lir.actions')
-local mark = require('lir.mark.actions')
-local clipboard_actions = require('lir.clipboard.actions')
+local actions = require 'lir.actions'
+local mark = require 'lir.mark.actions'
+local clipboard_actions = require 'lir.clipboard.actions'
 local get_context = require('lir.vim').get_context
 
+-- wrapper for creating a new file with nicer mappings
 local function create_file(edit_cmd)
   local ctx = get_context()
   edit_cmd = edit_cmd .. ' '
 
   if vim.w.lir_is_float then
-    nv.feedkeys(':close | :' .. edit_cmd .. ctx.dir, 'n', true)
+    vim.api.nvim_feedkeys(':close | :' .. edit_cmd .. ctx.dir, 'n', true)
   else
-    nv.feedkeys(':keepalt ' .. edit_cmd .. ctx.dir, 'n', true)
+    vim.api.nvim_feedkeys(':keepalt ' .. edit_cmd .. ctx.dir, 'n', true)
   end
 end
 
-local function edit() create_file 'edit' end
-local function v_edit() create_file 'vsplit' end
-local function sp_edit() create_file 'split' end
+-- wrapper for cutting or copying a file without having to manually mark it first
+local function cut_or_copy(action)
+  local ctx = get_context()
+  local marked = ctx:get_marked_items()
+  if #marked == 0 then
+    mark.toggle_mark()
+  end
+  clipboard_actions[action]()
+end
 
-local show_hidden = false
-if vim.fn.getcwd() == vim.fn.expand('$HOME') .. '/dotfiles' then
-  show_hidden = true
+-- Table of wrapper functions for lir actions
+local Wrappers = {}
+Wrappers.edit = function()
+  create_file 'edit'
+end
+Wrappers.vedit = function()
+  create_file 'vsplit'
+end
+Wrappers.sedit = function()
+  create_file 'split'
+end
+Wrappers.cut = function()
+  cut_or_copy 'cut'
+end
+Wrappers.copy = function()
+  cut_or_copy 'copy'
 end
 
 require('lir').setup {
-  show_hidden_files = show_hidden,
+  show_hidden_files = string.find(vim.fn.getcwd(), os.getenv 'HOME' .. '/dotfiles') and true or false,
   devicons_enable = true,
   mappings = {
-    ['l']     = actions.edit,
-    ['<cr>']  = actions.edit,
-    ['s']     = sp_edit,
-    ['v']     = v_edit,
+    ['<cr>'] = actions.edit,
     ['<c-s>'] = actions.split,
     ['<c-v>'] = actions.vsplit,
     ['<c-t>'] = actions.tabedit,
-    ['h']     = actions.up,
-    ['q']     = actions.quit,
-    ['f']     = actions.mkdir,
-    ['e']     = edit,
-    ['r']     = actions.rename,
-    ['C']     = actions.cd,
-    ['Y']     = actions.yank_path,
-    ['.']     = actions.toggle_show_hidden,
-    ['d']     = actions.wipeout,
-    ['y']     = clipboard_actions.copy,
-    ['x']     = clipboard_actions.cut,
-    ['p']     = clipboard_actions.paste,
-    ['m']     = function() mark.toggle_mark(); vim.cmd 'norm! j' end,
+    ['.'] = actions.toggle_show_hidden,
+    l = actions.edit,
+    s = Wrappers.sedit,
+    v = Wrappers.vedit,
+    e = Wrappers.edit,
+    h = actions.up,
+    q = actions.quit,
+    f = actions.mkdir,
+    r = actions.rename,
+    c = actions.cd,
+    Y = actions.yank_path,
+    d = actions.wipeout,
+    y = Wrappers.copy,
+    x = Wrappers.cut,
+    p = clipboard_actions.paste,
+    m = mark.toggle_mark,
   },
   float = {
     winblend = 0,
+    curdir_window = {
+      enable = true,
+      highlight_dirname = true,
+    },
+    win_opts = function()
+      return {
+        border = 'double',
+        width = math.max(42, math.floor(vim.o.columns * 0.25)),
+        height = math.max(10, math.floor(vim.o.lines * 0.25)),
+      }
+    end,
   },
   hide_cursor = true,
 }
 
 -- lir .: list files/directories for current buffer's location
-nv.set_keymap('n', '<leader>l.', [[<cmd>lua require'lir.float'.toggle()<cr>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+  'n',
+  '<leader>lc',
+  [[<cmd>lua require'lir.float'.toggle()<cr>]],
+  { noremap = true, silent = true }
+)
 -- lir files: list files/directories for current project root
-nv.set_keymap('n', '<leader>lf', [[<cmd>lua require'lir.float'.toggle(vim.fn.getcwd())<cr>]], { noremap = true, silent = true })
-
+vim.api.nvim_set_keymap(
+  'n',
+  '<leader>lf',
+  [[<cmd>lua require'lir.float'.toggle(vim.fn.getcwd())<cr>]],
+  { noremap = true, silent = true }
+)

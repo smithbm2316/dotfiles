@@ -122,6 +122,21 @@ maps.toggle_rose_pine_variant = function()
   }
   require('rose-pine.functions').toggle_variant(vim.tbl_keys(colors))
   vim.cmd('hi IndentBlanklineIndent1 blend=nocombine guifg=' .. colors[vim.g.rose_pine_variant])
+
+  -- reload cmp hlgroups
+  local palette = require 'rose-pine.palette'
+  local hl = require('rose-pine.util').highlight
+  local hl_groups = {
+    CmpItemAbbr = { fg = palette.subtle },
+    CmpItemAbbrDeprecated = { fg = palette.highlight_inactive, style = 'strikethrough' },
+    CmpItemAbbrMatch = { fg = palette.iris, style = 'bold' },
+    CmpItemAbbrMatchFuzzy = { fg = palette.foam, style = 'bold' },
+    CmpItemKind = { fg = palette.rose },
+    CmpGhostText = { fg = palette.inactive, style = 'italic' },
+  }
+  for hl_group, color_tbl in pairs(hl_groups) do
+    hl(hl_group, color_tbl)
+  end
 end
 nnoremap('<leader>tt', mapfn 'toggle_rose_pine_variant')
 

@@ -3,6 +3,18 @@ require('zen-mode').setup {
     width = 104,
     backdrop = 0.95,
   },
+  -- callback where you can add custom code when the Zen window opens
+  on_open = function(win)
+    if package.loaded.focus then
+      vim.cmd 'FocusDisable'
+    end
+  end,
+  -- callback where you can add custom code when the Zen window closes
+  on_close = function()
+    if package.loaded.focus then
+      vim.cmd 'FocusEnable'
+    end
+  end,
 }
 
-nv.set_keymap('n', '<leader>z', [[<cmd>ZenMode<cr>]], { noremap = true })
+nnoremap('<leader>tz', '<cmd>ZenMode<cr>')

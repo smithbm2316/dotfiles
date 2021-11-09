@@ -235,6 +235,9 @@ return require('packer').startup(function(use)
   -- hey prime I'm testing harpoon like I promised at VimConf
   use 'theprimeagen/harpoon'
 
+  -- git in neovim
+  use 'TimUntersberger/neogit'
+
   -----------------------------------------------------
   ---
   --- vimscript plugins
@@ -268,6 +271,7 @@ return require('packer').startup(function(use)
   -- color converter for hex to rgb, etc
   use {
     'amadeus/vim-convert-color-to',
+    cmd = 'ConvertColorTo',
     opt = true,
   }
 
@@ -282,6 +286,9 @@ return require('packer').startup(function(use)
 
   -- replace with register
   use 'vim-scripts/ReplaceWithRegister'
+
+  -- golang support
+  use 'fatih/vim-go'
 
   -----------------------------------------------------
   ---
