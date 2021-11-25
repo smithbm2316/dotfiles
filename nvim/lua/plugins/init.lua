@@ -1,27 +1,21 @@
--- TODO: move plugins to after/plugin directory...
--- TODO: apparently that works automatically with lua now??
-
 -- runtime path to current file
-local plugin_config_root = 'plugins.'
-local plugin_configs = vim.fn.globpath('~/dotfiles/nvim/lua/plugins', '*')
-local discard, core_plugin_configs, plugin_config_files = {}, {}, {}
+local core_plugins = vim.fn.globpath('~/dotfiles/nvim/lua/plugins', '*/', false, true)
+local plugins = vim.fn.globpath('~/dotfiles/nvim/lua/plugins', '*.lua', false, true)
+local ignore = { 'inactive', 'opt' }
 
-for match in plugin_configs:gmatch('([%w%d-_.]+)%c') do
-  if match == 'inactive' or match == 'opt' or match == 'init.lua' then
-    table.insert(discard, match)
-  elseif match:sub(-4, -1) == '.lua' then
-    table.insert(plugin_config_files, match:sub(0, -5))
-  else
-    table.insert(core_plugin_configs, match)
+-- load and setup core plugins before all others
+for _, core_path in ipairs(core_plugins) do
+  local core_plugin = core_path:sub(0, -2):gsub('.+/', '')
+  if not vim.tbl_contains(ignore, core_plugin) then
+    require('plugins.' .. core_plugin)
   end
 end
 
--- load and setup core plugins before all others
-for _, plugin in ipairs(core_plugin_configs) do
-  require(plugin_config_root .. plugin)
-end
+-- load all other plugins
+for _, plugin_path in ipairs(plugins) do
+  local plugin = plugin_path:gsub('.+/', ''):sub(0, -5)
 
--- load plugin config files
-for _, plugin in ipairs(plugin_config_files) do
-  require(plugin_config_root .. plugin)
+  if plugin ~= 'init' then
+    require('plugins.' .. plugin)
+  end
 end

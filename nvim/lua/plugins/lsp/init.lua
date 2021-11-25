@@ -5,15 +5,11 @@ local util = require 'lspconfig/util'
 -- functions to hook into
 local M = {}
 
--- zk cli lsp setup
 configs.zk = {
   default_config = {
     cmd = { 'zk', 'lsp', '--log', '/tmp/zk-lsp.log' },
     filetypes = { 'markdown' },
-    root_dir = function()
-      return vim.loop.cwd()
-    end,
-    settings = {},
+    root_dir = util.root_pattern '.zk',
   },
 }
 
@@ -38,7 +34,6 @@ configs.zk.new = function(...)
     vim.cmd('edit ' .. result.path)
   end)
 end
-
 vim.cmd [[command! -nargs=0 ZkIndex :lua require'lspconfig'.zk.index()]]
 vim.cmd [[command! -nargs=? ZkNew :lua require'lspconfig'.zk.new(<args>)]]
 

@@ -1,10 +1,10 @@
 local luapad = {}
 
 luapad.playground_tab = function()
-  vim.cmd('tabnew')
-  local tabwin = nv.tabpage_get_win(0)
-  local scratch = nv.win_get_buf(tabwin)
-  nv.buf_set_option(scratch, 'filetype', 'lua')
+  vim.cmd 'tabnew'
+  local tabwin = vim.api.nvim_tabpage_get_win(0)
+  local scratch = vim.api.nvim_win_get_buf(tabwin)
+  vim.api.nvim_buf_set_option(scratch, 'filetype', 'lua')
 
   local bufname = 'LuapadPlayground'
   if vim.g.luapad_playground_numbers then
@@ -14,11 +14,16 @@ luapad.playground_tab = function()
     vim.g.luapad_playground_numbers = 1
     bufname = bufname .. '1'
   end
-  nv.buf_set_name(scratch, bufname)
+  vim.api.nvim_buf_set_name(scratch, bufname)
   require('luapad').attach()
 end
 
 -- REPL lua
-nv.set_keymap('n', '<leader>rl', "<cmd>lua require('plugins.luapad').playground_tab()<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+  'n',
+  '<leader>rl',
+  "<cmd>lua require('plugins.luapad').playground_tab()<cr>",
+  { noremap = true, silent = true }
+)
 
 return luapad

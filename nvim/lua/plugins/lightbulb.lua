@@ -7,7 +7,7 @@ require('nvim-lightbulb').update_lightbulb {
     enabled = false,
   },
   virtual_text = {
-    enabled = false,
+    enabled = true,
     text = '💡',
     hl_mode = 'replace',
   },

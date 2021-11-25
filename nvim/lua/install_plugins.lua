@@ -8,14 +8,11 @@ return require('packer').startup(function(use)
   ---
   -----------------------------------------------------
   -- the best fuzzy finder :0
-  use {
-    'nvim-telescope/telescope.nvim',
-    -- '~/code/neovim/telescope.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'nvim-lua/popup.nvim',
-    },
-  }
+  use 'nvim-telescope/telescope.nvim'
+  -- use '~/code/neovim/telescope.nvim'
+
+  -- TJ's lua functions that he doesn't wanna write again
+  use 'nvim-lua/plenary.nvim'
 
   -- fzf sorting algorithm for telescope
   use {
@@ -48,6 +45,9 @@ return require('packer').startup(function(use)
     'lewis6991/gitsigns.nvim',
     requires = 'nvim-lua/plenary.nvim',
   }
+
+  -- ui components for neovim!
+  use 'MunifTanjim/nui.nvim'
 
   -- format code with external tools
   use 'mhartington/formatter.nvim'
@@ -90,7 +90,10 @@ return require('packer').startup(function(use)
   use 'nvim-lualine/lualine.nvim'
 
   -- better quickfix window
-  use 'kevinhwang91/nvim-bqf'
+  use {
+    'kevinhwang91/nvim-bqf',
+    disable = true,
+  }
 
   -- show preview of colors for hex, hsl, and rgb values
   use {
@@ -141,16 +144,10 @@ return require('packer').startup(function(use)
   use 'folke/zen-mode.nvim'
 
   -- highlight todos and other style comments
-  use {
-    'folke/todo-comments.nvim',
-    requires = 'nvim-lua/plenary.nvim',
-  }
+  use 'folke/todo-comments.nvim'
 
   -- simple file explorer
-  use {
-    'tamago324/lir.nvim',
-    requires = 'kyazdani42/nvim-web-devicons',
-  }
+  use 'tamago324/lir.nvim'
 
   -- luv docs in neovim
   use 'nanotee/luv-vimdocs'
@@ -163,6 +160,7 @@ return require('packer').startup(function(use)
   use {
     'jose-elias-alvarez/nvim-lsp-ts-utils',
     requires = 'jose-elias-alvarez/null-ls.nvim',
+    disable = true,
   }
 
   -- snippets
@@ -181,7 +179,10 @@ return require('packer').startup(function(use)
   }
 
   -- zk cli wrapper for neovim
-  use 'megalithic/zk.nvim'
+  use {
+    'megalithic/zk.nvim',
+    disable = true,
+  }
 
   -- fun colorscheme
   use 'rose-pine/neovim'
@@ -199,7 +200,10 @@ return require('packer').startup(function(use)
   }
 
   -- project-local notes
-  use 'marcushwz/nvim-workbench'
+  use {
+    'marcushwz/nvim-workbench',
+    disable = true,
+  }
 
   -- add indent line guides to editor
   use 'lukas-reineke/indent-blankline.nvim'
@@ -237,6 +241,15 @@ return require('packer').startup(function(use)
 
   -- git in neovim
   use 'TimUntersberger/neogit'
+
+  -- rename symbol wrapper plugin
+  use {
+    'filipdutescu/renamer.nvim',
+    branch = 'master',
+  }
+
+  -- cmgriffing's biscuts plugin
+  use 'code-biscuits/nvim-biscuits'
 
   -----------------------------------------------------
   ---
@@ -287,8 +300,8 @@ return require('packer').startup(function(use)
   -- replace with register
   use 'vim-scripts/ReplaceWithRegister'
 
-  -- golang support
-  use 'fatih/vim-go'
+  -- switch casing of selected text
+  use 'arthurxavierx/vim-caser'
 
   -----------------------------------------------------
   ---
@@ -300,4 +313,7 @@ return require('packer').startup(function(use)
 
   -- i3wm config
   use 'mboughaba/i3config.vim'
+
+  -- graphql highlighting
+  use 'jparise/vim-graphql'
 end)

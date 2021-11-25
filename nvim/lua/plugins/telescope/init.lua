@@ -25,6 +25,11 @@ local ignore_these = {
   'build/*',
   'yarn.lock',
   'package%-lock.json',
+  '%.svg',
+  '%.png',
+  '%.jpeg',
+  '%.jpg',
+  '%.ico',
 }
 
 local webdev_dash_keywords = {
@@ -165,14 +170,15 @@ require('telescope').setup {
         man = 'man',
       },
     },
+    tldr = {
+      tldr_command = 'tldr',
+    },
   },
 }
 -- require fzf extension for fzf sorting algorithm
 require('telescope').load_extension 'fzf'
 -- require zk extension for zk-cli
-require('telescope').load_extension 'zk'
--- require neoclip extension
--- require'telescope'.load_extension('neoclip')
+-- require('telescope').load_extension 'zk'
 
 -- function for generating keymap for each picker
 local builtin = function(mapping, picker, is_custom)
@@ -196,7 +202,6 @@ end
 builtin('<leader>fb', 'file_browser')
 builtin('<leader>of', 'oldfiles')
 builtin('<leader>fw', 'grep_string')
-builtin('<leader>fj', 'find_files')
 builtin('<leader>gw', 'live_grep') -- grep word
 builtin('<leader>gib', 'current_buffer_fuzzy_find') -- grep in buffer
 builtin('<leader>gl', 'git_commits') -- git log
@@ -212,6 +217,7 @@ builtin('<leader>ca', 'lsp_code_actions')
 
 -- find_files, but don't use ignored patterns
 custom('<leader>fa', 'find_files_all', 'find_files', {
+  file_ignore_patterns = {},
   no_ignore = true,
   hidden = true,
 })
@@ -261,11 +267,11 @@ custom(
 ts.zk_notes = function()
   require('telescope').extensions.zk.zk_notes()
 end
-builtin('<leader>nf', 'zk_notes', true)
+-- builtin('<leader>nf', 'zk_notes', true)
 ts.zk_grep = function()
   require('telescope').extensions.zk.zk_grep()
 end
-builtin('<leader>ng', 'zk_grep', true)
+-- builtin('<leader>ng', 'zk_grep', true)
 
 -- vim-grepper-like picker with grep_string
 ts.ripgrepper = function()
@@ -312,5 +318,56 @@ ts.packer_commands = function(opts)
   }):find()
 end
 nnoremap('<leader>pc', [[<cmd>lua require'plugins.telescope'.packer_commands()<cr>]])
+
+local create_entry_maker = function()
+  local lookup_keys = {
+    ordinal = 2,
+    value = 1,
+    display = 2,
+    filename = 3,
+  }
+
+  local mt_string_entry = {
+    __index = function(t, k)
+      return rawget(t, rawget(lookup_keys, k))
+    end,
+  }
+
+  return function(line)
+    local tmp_table = vim.split(line, '\t')
+    return setmetatable({
+      line,
+      tmp_table[2],
+      tmp_table[1],
+    }, mt_string_entry)
+  end
+end
+
+-- wrapper for find_files/fd, so that when in my wiki directory,
+-- we hook into zk-cli to search notes by title, not the name of the file
+-- cc: https://github.com/megalithic/zk.nvim/blob/main/lua/telescope/_extensions/zk.lua
+ts.find_files = function(opts)
+  opts = opts or {}
+  opts.entry_maker = create_entry_maker()
+
+  if vim.loop.cwd() == (os.getenv 'HOME' .. '/wiki') then
+    pickers.new({}, {
+      prompt_title = 'Find notes',
+      finder = finders.new_oneshot_job({
+        'zk',
+        'list',
+        '-q',
+        '-P',
+        '--format',
+        '{{ abs-path }}\t{{ title }}',
+      }, opts),
+      sorter = conf.generic_sorter {},
+      previewer = conf.file_previewer(opts),
+    }):find()
+  else
+    require('telescope.builtin').find_files()
+  end
+end
+nnoremap('<leader>fj', [[<cmd>lua require'plugins.telescope'.find_files()<cr>]])
 
 return ts

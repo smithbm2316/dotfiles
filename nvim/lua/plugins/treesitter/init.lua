@@ -11,6 +11,7 @@ local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
 
 require('nvim-treesitter.configs').setup {
   textobjects = {
+    disable = { 'markdown' },
     select = {
       enable = true,
       lookahead = true,
@@ -32,9 +33,11 @@ require('nvim-treesitter.configs').setup {
       ['.'] = 'textsubjects-smart',
       [';'] = 'textsubjects-container-outer',
     },
+    disable = { 'markdown' },
   },
   rainbow = {
     enable = true,
+    disable = { 'markdown' },
     extended_mode = true,
     colors = {
       '#eb6f92',
@@ -49,30 +52,34 @@ require('nvim-treesitter.configs').setup {
   },
   playground = {
     enable = true,
+    disable = { 'markdown' },
   },
   query_linter = {
     enable = true,
+    disable = { 'markdown' },
     use_virtual_text = true,
     lint_events = { 'BufWrite', 'CursorHold' },
   },
   -- nvim-ts-context-commentstring setup
   context_commentstring = {
     enable = true,
+    disable = { 'markdown' },
     enable_autocmd = false,
   },
   autopairs = {
     enable = true,
+    disable = { 'markdown' },
   },
   autotag = {
     enable = true,
   },
   highlight = {
     enable = true,
-    disable = { 'astro' },
+    disable = { 'astro', 'markdown' },
   },
   indent = {
     enable = true,
-    disable = { 'astro' },
+    disable = { 'astro', 'markdown' },
   },
   ensure_installed = {
     'bash',
@@ -92,7 +99,6 @@ require('nvim-treesitter.configs').setup {
     'json',
     'jsonc',
     'lua',
-    'nix',
     'python',
     'query',
     'regex',

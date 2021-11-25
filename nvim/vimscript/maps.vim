@@ -6,14 +6,6 @@
 nnoremap go :
 vnoremap go :
 
-" Search Forwards
-nnoremap / /\v
-vnoremap / /\v
-
-" Search Backwards
-nnoremap ? ?\v
-vnoremap ? ?\v
-
 " Substitute Linewise
 nnoremap <leader>sl :s/\v
 vnoremap <leader>sl :s/\v
@@ -21,7 +13,6 @@ vnoremap <leader>sl :s/\v
 " Substitute Globally
 nnoremap <leader>sg :%s/\v
 vnoremap <leader>sg :%s/\v
-
 
 
 

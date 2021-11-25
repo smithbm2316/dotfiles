@@ -68,6 +68,5 @@ vim.cmd [[
 augroup AutoFormatting
   au!
   au BufWritePost *.js,*.jsx,*.ts,*.tsx,*.svelte,*.vue,*.lua,*.go FormatWrite
-  au BufWritePre *.json %s/'/"/ge
 augroup END
 ]]

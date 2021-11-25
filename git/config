@@ -26,6 +26,10 @@
   brd = branch -d
   nb = checkout -b
   stall = stash push -u -m
+  wt = worktree
+  wta = worktree add
+  wtr = worktree remove
+  wtls = worktree list
 [core]
 	excludesFile = ~/.config/git/ignore
 [color]

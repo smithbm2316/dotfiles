@@ -133,6 +133,7 @@ maps.toggle_rose_pine_variant = function()
     CmpItemAbbrMatchFuzzy = { fg = palette.foam, style = 'bold' },
     CmpItemKind = { fg = palette.rose },
     CmpGhostText = { fg = palette.inactive, style = 'italic' },
+    BiscuitColor = { fg = palette.subtle, style = 'italic' },
   }
   for hl_group, color_tbl in pairs(hl_groups) do
     hl(hl_group, color_tbl)
@@ -160,5 +161,19 @@ maps.bufdelete = function()
   end
 end
 nnoremap('<leader>bd', mapfn 'bufdelete')
+
+maps.grep_docs = function()
+  local webdev = { 'javascript', 'typescript', 'html', 'css', 'javascriptreact', 'typescriptreact' }
+  local urls = {}
+  for _, ft in ipairs(webdev) do
+    urls[ft] = 'https://developer.mozilla.org/en-US/search?q=%s'
+  end
+  local current_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  local input = vim.fn.input 'Enter docs query: '
+  local query = urls[current_ft]:format(input)
+  local cmd = vim.fn.has 'mac' == 0 and 'xdg-open ' or 'open '
+  os.execute(cmd .. query)
+end
+nnoremap('<leader>gd', mapfn 'grep_docs')
 
 return maps

@@ -52,7 +52,7 @@ if command -v exa &>/dev/null
   alias l 'exa --icons -a'
   alias ls 'exa --icons'
   alias ll 'exa --icons -l'
-  alias tree 'exa --icons --tree --all'
+  alias tree 'exa --icons --tree --all --ignore-glob "node_modules|.git"'
 else
   alias l 'ls -lA'
   alias ll 'ls -l'

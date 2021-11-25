@@ -1,61 +1,44 @@
--- TODO: WIP fix this and move away from direct global funcs
-local bs = {}
+bs = {}
 
--- quickly print a lua table to :messages
-bs.dump = function(...)
-  print(vim.inspect(...))
-end
-
--- wrapper for nvim_set_keymap with sensible defaults
-bs.keymapper = function(mode, lhs, rhs, override_opts, bufnr)
-  -- set default options
-  local opts = { noremap = true, silent = true }
-  local buf_local = false
-
-  -- if the user wants a buffer_local mapping, take note
-  -- because we have to use nvim_buf_set_keymap instead
-  if override_opts then
-    if override_opts.buffer then
-      -- remove buffer key from override_opts table
-      override_opts.buffer = nil
-      buf_local = true
-    end
-    -- extend the default options with user's overrides
-    vim.tbl_extend('keep', override_opts, opts)
-  end
-
-  -- set a buffer-local mapping
-  if buf_local then
-    vim.api.nvim_buf_set_keymap(bufnr or 0, mode, lhs, rhs, opts)
-    -- set a regular global mapping
-  else
-    vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
-  end
-end
-
--- create functions for all of the different map modes
-local modes = {
-  'n',
-  'i',
-  'v',
-  'c',
-  't',
-  'o',
-  'ic',
+bs.border = {
+  chars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+  style = 'double',
 }
-for _, map_mode in ipairs(modes) do
-  bs[map_mode .. 'noremap'] = function(mode, lhs, rhs, opts, bufnr)
-    bs.keymapper(mode, lhs, rhs, opts, bufnr)
-  end
-end
 
--- toggle two windows between vertical and horizontal splits
-bs.rotate_windows = function()
-  buffers_list = nv.exec('buffers', true)
-  for match in buffers_list:gmatch '.*\n' do
-    -- TODO: extract the buffer info 'a' for all active buffers and save it
-    print(match)
-  end
-end
-
-return bs
+-- rose-pine currently
+bs.colors = {
+  dark = {
+    base = '#232136',
+    surface = '#2a273f',
+    overlay = '#393552',
+    inactive = '#59546d',
+    subtle = '#817c9c',
+    text = '#e0def4',
+    love = '#eb6f92',
+    gold = '#f6c177',
+    rose = '#ea9a97',
+    pine = '#3e8fb0',
+    foam = '#9ccfd8',
+    iris = '#c4a7e7',
+    highlight = '#312f44',
+    highlight_inactive = '#2a283d',
+    highlight_overlay = '#3f3c53',
+  },
+  light = {
+    base = '#faf4ed',
+    surface = '#fffaf3',
+    overlay = '#f2e9de',
+    inactive = '#9893a5',
+    subtle = '#6e6a86',
+    text = '#575279',
+    love = '#b4637a',
+    gold = '#ea9d34',
+    rose = '#d7827e',
+    pine = '#286983',
+    foam = '#56949f',
+    iris = '#907aa9',
+    highlight = '#eee9e6',
+    highlight_inactive = '#f2ede9',
+    highlight_overlay = '#e4dfde',
+  },
+}

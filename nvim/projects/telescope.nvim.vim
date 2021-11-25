@@ -6,4 +6,4 @@ augroup TelescopePluginDev
   au FileType lua setlocal tw=120 fo+=t cc=120
 augroup END
 
-nnoremap <silent><leader>z <cmd>lua require("zen-mode").toggle({ window = { width = 126 } })<cr>
+nnoremap <silent><leader>tz <cmd>lua require("zen-mode").toggle({ window = { width = 126 } })<cr>

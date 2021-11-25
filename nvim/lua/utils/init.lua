@@ -1,12 +1,12 @@
-local map = nv.set_keymap
+local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 utils = {}
 
 -- wrapper for vim.inspect
 utils.print_table = function()
-  local func = vim.fn.input({ prompt = 'Run: ', completion = 'lua'})
+  local func = vim.fn.input { prompt = 'Run: ', completion = 'lua' }
   if not func then
-    local result = nv.exec(string.format('lua %s', func), true)
+    local result = vim.api.nvim_exec(string.format('lua %s', func), true)
     print(vim.inspect(result))
   end
 end
@@ -27,8 +27,8 @@ utils.tbl_to_str = function(tbl)
   return str_tbl
 end
 
-require('utils.log')
-require('utils.luacheck')
+require 'utils.log'
+require 'utils.luacheck'
 
 -- TODO: integrate luacheck linting into Neovim
 -- Telescope Lint (run linting for Telescope development)
