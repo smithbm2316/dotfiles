@@ -4,7 +4,7 @@ require('zk').setup {
   debug = false,
   log = true,
   default_keymaps = false,
-  default_notebook_path = vim.evim.api.nvim_ZK_NOTEBOOK_DIR or '~/notes',
+  default_notebook_path = vim.nvim.api.nvim_ZK_NOTEBOOK_DIR or '~/notes',
   fuzzy_finder = 'telescope', -- or 'telescope'
   link_format = 'wiki', -- or 'wiki'
 }

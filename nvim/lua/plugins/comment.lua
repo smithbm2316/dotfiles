@@ -22,7 +22,7 @@ local config = {
     line = 'cl',
     block = 'cm',
   },
-  pre_hook = function(ctx)
+  pre_hook = function(_) -- ctx
     -- call ts-context-commenstring to update what the comment should be at the
     -- moment (particularly useful in JSX where you have lots of comment types
     -- depending on file location)

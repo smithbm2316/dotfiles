@@ -53,14 +53,14 @@ else
   -- load my ftdetect settings
   require 'ftdetect'
 
-  -- load my UI functions and helpers
-  require 'ui'
-
   -- load various utility functions
   require 'utils'
 
   -- load all of my packer plugins
   require 'install_plugins'
+
+  -- load my UI functions and helpers
+  -- require 'ui'
 
   -- set my colorscheme to the correct variant depending on whether it's between 9am-5pm or not
   local current_hour = tonumber(vim.fn.strftime '%H')

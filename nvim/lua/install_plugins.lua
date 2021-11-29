@@ -10,6 +10,7 @@ return require('packer').startup(function(use)
   -- the best fuzzy finder :0
   use 'nvim-telescope/telescope.nvim'
   -- use '~/code/neovim/telescope.nvim'
+  use '~/code/zk-nvim'
 
   -- TJ's lua functions that he doesn't wanna write again
   use 'nvim-lua/plenary.nvim'

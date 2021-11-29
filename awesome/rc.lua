@@ -534,6 +534,14 @@ globalkeys = gears.table.join(
     group = 'launcher',
   }),
 
+  -- Rofi calc
+  awful.key({ modkey, 'Control' }, 'c', function()
+    awful.spawn 'rofi -show calc -modi calc'
+  end, {
+    description = 'rofi calc',
+    group = 'launcher',
+  }),
+
   -- Rofi Show Open Windows
   awful.key({ altkey }, 'Tab', function()
     awful.spawn 'rofi -show window -icon-theme "Papirus" -show-icons'

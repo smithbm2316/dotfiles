@@ -1,41 +1,9 @@
 local lspconfig = require 'lspconfig'
-local configs = require 'lspconfig/configs'
-local util = require 'lspconfig/util'
+local configs = require 'lspconfig.configs'
+local util = require 'lspconfig.util'
 
 -- functions to hook into
 local M = {}
-
-configs.zk = {
-  default_config = {
-    cmd = { 'zk', 'lsp', '--log', '/tmp/zk-lsp.log' },
-    filetypes = { 'markdown' },
-    root_dir = util.root_pattern '.zk',
-  },
-}
-
-configs.zk.index = function()
-  vim.lsp.buf.execute_command {
-    command = 'zk.index',
-    arguments = { vim.api.nvim_buf_get_name(0) },
-  }
-end
-
-configs.zk.new = function(...)
-  vim.lsp.buf_request(0, 'workspace/executeCommand', {
-    command = 'zk.new',
-    arguments = {
-      vim.api.nvim_buf_get_name(0),
-      ...,
-    },
-  }, function(_, _, result)
-    if not (result and result.path) then
-      return
-    end
-    vim.cmd('edit ' .. result.path)
-  end)
-end
-vim.cmd [[command! -nargs=0 ZkIndex :lua require'lspconfig'.zk.index()]]
-vim.cmd [[command! -nargs=? ZkNew :lua require'lspconfig'.zk.new(<args>)]]
 
 -- astro lsp setup
 configs.astro_language_server = {
@@ -70,7 +38,7 @@ configs.ls_emmet = {
     },
     cmd = { 'ls_emmet', '--stdio' },
     root_dir = function(fname)
-      return vim.loop.cwd()
+      return util.root_pattern('package.json', 'tsconfig.json', 'jsconfig.json', '.git')(fname)
     end,
   },
 }
@@ -108,10 +76,10 @@ local my_on_attach = function(client, bufnr)
     bufnr
   )
   -- zk-cli bindings
-  nnoremap('<leader>zi', [[:ZkIndex<cr>', opts]], nil, bufnr)
-  vnoremap('<leader>zn', [[:'<,'>lua vim.lsp.buf.range_code_action()<cr>', opts]], nil, bufnr)
-  nnoremap('<leader>zn', [[:ZkNew {title = vim.fn.input('Title: ')}<cr>', opts]], nil, bufnr)
-  nnoremap('<leader>zl', [[:ZkNew {dir = 'log'}<cr>', opts]], nil, bufnr)
+  nnoremap('<leader>zi', [[:ZkIndex<cr>]], nil, bufnr)
+  vnoremap('<leader>zn', [[:'<,'>lua vim.lsp.buf.range_code_action()<cr>]], nil, bufnr)
+  nnoremap('<leader>zn', [[:ZkNew {title = vim.fn.input('Title: ')}<cr>]], nil, bufnr)
+  nnoremap('<leader>zl', [[:ZkNew {dir = 'log'}<cr>]], nil, bufnr)
 
   if package.loaded['goto-preview'] then
     -- goto-preview plugin mappings
@@ -152,7 +120,6 @@ local servers = {
   'vuels',
   'vimls',
   'yamlls',
-  'zk',
 }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -160,6 +127,12 @@ for _, lsp in ipairs(servers) do
     capabilities = my_capabilities,
   }
 end
+
+lspconfig.zk.setup {
+  cmd = { 'zk', 'lsp', '--log', '/tmp/zk-lsp.log' },
+  on_attach = my_on_attach,
+  capabilities = my_capabilities,
+}
 
 lspconfig.tsserver.setup {
   filetypes = {
