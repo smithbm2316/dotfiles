@@ -1,4 +1,4 @@
-default_keybindings = false
+default_keybindings = true
 use_nerdfont = true
 audio_cache = true
 volnorm = true
@@ -6,6 +6,8 @@ bitrate = 320
 album_column = true
 cover_max_scale = 2
 gapless = false
+command_key = ":"
+initial_screen = "library"
 
 [saved_state]
 volume = 100
@@ -33,12 +35,11 @@ repeat = true
 "j" = "move down 1"
 "k" = "move up 1"
 "l" = "move right 1"
-"n" = "jump next"
 "o" = "open selected"
 "p" = "playpause"
 "q" = "back"
 "r" = "reload"
-"s" = "focus search"
+"s" = "shuffle"
 "x" = "share current"
 "Space" = "playpause"
 "Enter" = "play"
@@ -53,7 +54,6 @@ repeat = true
 "Shift+k" = "shift up 1"
 "Shift+g" = "move bottom"
 "Shift+l" = "next"
-"Shift+n" = "jump previous"
 "Shift+s" = "save"
 "Shift+u" = "update"
 
@@ -69,7 +69,7 @@ repeat = true
 "Ctrl+p" = "move playing"
 "Ctrl+q" = "focus queue"
 "Ctrl+r" = "repeat"
-"Ctrl+s" = "shuffle"
+"Ctrl+s" = "focus search"
 "Ctrl+u" = "move up 5"
 "Ctrl+v" = "insert"
 "Ctrl+x" = "share selected"
