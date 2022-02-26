@@ -30,6 +30,17 @@ local ignore_these = {
   '%.jpeg',
   '%.jpg',
   '%.ico',
+  '%.webp',
+  '%.avif',
+  '%.heic',
+  '%.mp3',
+  '%.mp4',
+  '%.mkv',
+  '%.mov',
+  '%.wav',
+  '%.flv',
+  '%.avi',
+  '%.webm',
 }
 
 local webdev_dash_keywords = {
@@ -177,8 +188,6 @@ require('telescope').setup {
 }
 -- require fzf extension for fzf sorting algorithm
 require('telescope').load_extension 'fzf'
--- require zk extension for zk-cli
--- require('telescope').load_extension 'zk'
 
 -- function for generating keymap for each picker
 local builtin = function(mapping, picker, is_custom)
@@ -240,6 +249,19 @@ custom('<leader>gid', 'grep_in_dotfiles', 'live_grep', {
   prompt_title = 'grep in dotfiles',
 })
 
+-- use live_grep with case sensitive enabled
+custom('<leader>gW', 'live_grep_case_sensitive', 'live_grep', {
+  prompt_title = 'live_grep case sensitive',
+  vimgrep_arguments = {
+    'rg',
+    '--color=never',
+    '--no-heading',
+    '--with-filename',
+    '--line-number',
+    '--column',
+  },
+})
+
 -- grep inside of neovim config
 custom('<leader>gin', 'grep_in_neovim', 'live_grep', {
   cwd = '~/.config/nvim',
@@ -262,16 +284,6 @@ custom(
     prompt_title = 'Jump to buffer',
   })
 )
-
--- pickers for zk extension
-ts.zk_notes = function()
-  require('telescope').extensions.zk.zk_notes()
-end
--- builtin('<leader>nf', 'zk_notes', true)
-ts.zk_grep = function()
-  require('telescope').extensions.zk.zk_grep()
-end
--- builtin('<leader>ng', 'zk_grep', true)
 
 -- vim-grepper-like picker with grep_string
 ts.ripgrepper = function()
@@ -345,25 +357,15 @@ end
 
 -- wrapper for find_files/fd, so that when in my wiki directory,
 -- we hook into zk-cli to search notes by title, not the name of the file
--- cc: https://github.com/megalithic/zk.nvim/blob/main/lua/telescope/_extensions/zk.lua
 ts.find_files = function(opts)
   opts = opts or {}
   opts.entry_maker = create_entry_maker()
 
   if vim.loop.cwd() == (os.getenv 'HOME' .. '/wiki') then
-    pickers.new({}, {
-      prompt_title = 'Find notes',
-      finder = finders.new_oneshot_job({
-        'zk',
-        'list',
-        '-q',
-        '-P',
-        '--format',
-        '{{ abs-path }}\t{{ title }}',
-      }, opts),
-      sorter = conf.generic_sorter {},
-      previewer = conf.file_previewer(opts),
-    }):find()
+    local has_zk, zk_commands = pcall(require, 'zk.commands')
+    if has_zk then
+      zk_commands.notes()
+    end
   else
     require('telescope.builtin').find_files()
   end

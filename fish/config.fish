@@ -33,6 +33,7 @@ abbr -a nvpack 'cd ~/.local/share/nvim/site/pack/packer/start'
 # `cd -` alias
 abbr -a -- - 'cd -'
 # lazygit
+abbr -a g lazygit
 abbr -a lg lazygit
 # shortcut for `clear` command
 abbr -a cl clear
@@ -177,21 +178,21 @@ function tmns-fzf
 end
 
 # git alias
-function g
-  switch $argv
-    case 'sync'
-      set -l curr_branch (git branch --show-current)
-      set -l def_branch (git branch -r | sed -nr "s/\s*upstream.(.*)/\1/p")
-      git fetch upstream
-      git switch $def_branch
-      git pull
-      git merge upstream/$def_branch
-      git push
-      git switch $curr_branch
-    case '*'
-      git $argv
-  end
-end
+# function g
+#   switch $argv
+#     case 'sync'
+#       set -l curr_branch (git branch --show-current)
+#       set -l def_branch (git branch -r | sed -nr "s/\s*upstream.(.*)/\1/p")
+#       git fetch upstream
+#       git switch $def_branch
+#       git pull
+#       git merge upstream/$def_branch
+#       git push
+#       git switch $curr_branch
+#     case '*'
+#       git $argv
+#   end
+# end
 
 
 

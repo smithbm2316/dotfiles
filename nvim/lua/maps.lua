@@ -115,29 +115,23 @@ end
 inoremap('<c-j>', mapfn 'luasnip_expand_or_jump')
 
 -- switch between light/dark rose-pine theme
-maps.toggle_rose_pine_variant = function()
+maps.toggle_rose_pine_variant = function(theme_variant)
   local colors = {
-    moon = '#312f44',
-    dawn = '#f2e9de',
+    dark = '#312f44',
+    light = '#f2e9de',
   }
-  require('rose-pine.functions').toggle_variant(vim.tbl_keys(colors))
-  vim.cmd('hi IndentBlanklineIndent1 blend=nocombine guifg=' .. colors[vim.g.rose_pine_variant])
+  local background = vim.api.nvim_get_option 'background'
 
-  -- reload cmp hlgroups
-  local palette = require 'rose-pine.palette'
-  local hl = require('rose-pine.util').highlight
-  local hl_groups = {
-    CmpItemAbbr = { fg = palette.subtle },
-    CmpItemAbbrDeprecated = { fg = palette.highlight_inactive, style = 'strikethrough' },
-    CmpItemAbbrMatch = { fg = palette.iris, style = 'bold' },
-    CmpItemAbbrMatchFuzzy = { fg = palette.foam, style = 'bold' },
-    CmpItemKind = { fg = palette.rose },
-    CmpGhostText = { fg = palette.inactive, style = 'italic' },
-    BiscuitColor = { fg = palette.subtle, style = 'italic' },
-  }
-  for hl_group, color_tbl in pairs(hl_groups) do
-    hl(hl_group, color_tbl)
+  if theme_variant then
+    background = theme_variant
+  elseif background == 'light' then
+    background = 'dark'
+  else
+    background = 'light'
   end
+
+  vim.api.nvim_set_option('background', background)
+  vim.cmd('hi IndentBlanklineIndent1 gui=nocombine guifg=' .. colors[background])
 end
 nnoremap('<leader>tt', mapfn 'toggle_rose_pine_variant')
 
@@ -175,5 +169,22 @@ maps.grep_docs = function()
   os.execute(cmd .. query)
 end
 nnoremap('<leader>gd', mapfn 'grep_docs')
+
+maps.open_url_under_cursor = function()
+  local uri = vim.fn.expand '<cWORD>'
+  uri = vim.fn.matchstr(uri, [[https\?:\/\/[A-Za-z0-9-_\.#\/=\?%]\+]])
+  if uri ~= '' then
+    local cmd = vim.fn.has 'mac' == 0 and 'xdg-open ' or 'open '
+    os.execute(cmd .. vim.fn.shellescape(uri, 1))
+  end
+end
+nnoremap('<leader>ou', mapfn 'open_url_under_cursor')
+
+maps.search_devdocs = function()
+  local query = vim.fn.input 'Search DevDocs: '
+  local encodedURL = string.format('open "https://devdocs.io/#q=%s"', query:gsub('%s', '%%20'))
+  os.execute(encodedURL)
+end
+nnoremap('<leader>dd', mapfn 'search_devdocs')
 
 return maps

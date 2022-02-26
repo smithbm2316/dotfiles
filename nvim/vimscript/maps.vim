@@ -57,8 +57,8 @@ nnoremap <silent> <c-q> q:
 vnoremap <silent> <c-q> q:
 
 " quickfix list navigation yay
-nnoremap <silent> <c-n> <cmd>cnext<cr>
-nnoremap <silent> <c-p> <cmd>cprev<cr>
+nnoremap <silent> <leader>qn <cmd>cnext<cr>
+nnoremap <silent> <leader>qp <cmd>cprev<cr>
 
 " make more regular commands center screen too
 nnoremap <silent> n nzz
@@ -88,9 +88,21 @@ nnoremap <silent> <leader>hl <cmd>noh<cr>
 " take the only existing window and split it to the right
 nnoremap <silent> <leader>wr <cmd>vnew \| wincmd r \| wincmd l<cr>
 
+" swap windows and move cursor to other window
+nnoremap <silent> <leader>wl <cmd>wincmd r \| wincmd l<cr>
+
 " swap to left/right window and rotate the split
-nnoremap <silent> <leader>wh <cmd>wincmd h \| wincmd r<cr>
-nnoremap <silent> <leader>wl <cmd>wincmd l \| wincmd r<cr>
+" nnoremap <silent> <leader>wh <cmd>wincmd h \| wincmd r<cr>
+" nnoremap <silent> <leader>wl <cmd>wincmd l \| wincmd r<cr>
 
 " treesitter textobject hinting
 omap <silent> m :<c-u>lua require('tsht').nodes()<cr>
+
+" Shift + J/K moves selected lines down/up in visual mode
+nnoremap <silent> <c-n> :m .+1<CR>==
+nnoremap <silent> <c-p> :m .-2<CR>==
+vnoremap <silent> <c-n> :m '>+1<CR>gv=gv
+vnoremap <silent> <c-p> :m '<-2<CR>gv=gv
+
+" open quickfix list
+nnoremap <silent> <leader>qo <cmd>copen<cr>

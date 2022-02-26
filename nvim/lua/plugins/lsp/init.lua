@@ -6,7 +6,7 @@ local util = require 'lspconfig.util'
 local M = {}
 
 -- astro lsp setup
-configs.astro_language_server = {
+configs.astro_ls = {
   default_config = {
     cmd = { 'astro-ls', '--stdio' },
     filetypes = { 'astro' },
@@ -23,6 +23,7 @@ configs.astro_language_server = {
 
 configs.ls_emmet = {
   default_config = {
+    cmd = { 'ls_emmet', '--stdio' },
     filetypes = {
       'javascript',
       'typescript',
@@ -36,14 +37,14 @@ configs.ls_emmet = {
       'vue',
       'svelte',
     },
-    cmd = { 'ls_emmet', '--stdio' },
     root_dir = function(fname)
       return util.root_pattern('package.json', 'tsconfig.json', 'jsconfig.json', '.git')(fname)
     end,
+    settings = {},
   },
 }
 
-local my_on_attach = function(client, bufnr)
+M.my_on_attach = function(client, bufnr)
   -- show hover, enter hover menu on second run
   nnoremap('gh', [[<cmd>lua vim.lsp.buf.hover()<cr>]], nil, bufnr)
   -- code action
@@ -60,26 +61,15 @@ local my_on_attach = function(client, bufnr)
   nnoremap('<leader>ldw', [[<cmd>lua require'telescope.builtin'.lsp_document_diagnostics()<cr>]], nil, bufnr)
   -- lsp definition
   nnoremap('gD', [[<cmd>lua vim.lsp.buf.definition()<cr>]], nil, bufnr)
-  -- TODO: update this mapping with the new nightly breaking change
   -- next diagnostic
-  nnoremap('[d', [[<cmd>lua vim.lsp.diagnostic.goto_prev({ popup_opts = { border = "double" } })<cr>]], nil, bufnr)
+  nnoremap('[d', [[<cmd>lua vim.diagnostic.goto_prev({ popup_opts = { border = "double" } })<cr>]], nil, bufnr)
   -- prev diagnostic
-  nnoremap(']d', [[<cmd>lua vim.lsp.diagnostic.goto_next({ popup_opts = { border = "double" } })<cr>]], nil, bufnr)
+  nnoremap(']d', [[<cmd>lua vim.diagnostic.goto_next({ popup_opts = { border = "double" } })<cr>]], nil, bufnr)
   -- signature help hover
   nnoremap('<c-s>', [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], nil, bufnr)
   inoremap('<c-s>', [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], nil, bufnr)
   -- show diagnostics on current line in floating window: hover diagnostics for line
-  nnoremap(
-    'gh',
-    [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ popup_opts = { border = "single" } })<cr>]],
-    nil,
-    bufnr
-  )
-  -- zk-cli bindings
-  nnoremap('<leader>zi', [[:ZkIndex<cr>]], nil, bufnr)
-  vnoremap('<leader>zn', [[:'<,'>lua vim.lsp.buf.range_code_action()<cr>]], nil, bufnr)
-  nnoremap('<leader>zn', [[:ZkNew {title = vim.fn.input('Title: ')}<cr>]], nil, bufnr)
-  nnoremap('<leader>zl', [[:ZkNew {dir = 'log'}<cr>]], nil, bufnr)
+  nnoremap('gh', [[<cmd>lua vim.diagnostic.open_float({ popup_opts = { border = "single" } })<cr>]], nil, bufnr)
 
   if package.loaded['goto-preview'] then
     -- goto-preview plugin mappings
@@ -94,24 +84,17 @@ local my_on_attach = function(client, bufnr)
 end
 
 local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-local my_capabilities = require('cmp_nvim_lsp').update_capabilities(lsp_capabilities)
-my_capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-lspconfig.ls_emmet.setup {
-  on_attach = my_on_attach,
-  capabilities = my_capabilities,
-}
+M.my_capabilities = require('cmp_nvim_lsp').update_capabilities(lsp_capabilities)
+M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- setup language servers
 -- TODO: add user commands similar to vim-go plugin
 -- https://github.com/fatih/vim-go
 local servers = {
-  'astro_language_server',
+  'astro_ls',
   'bashls',
-  'cssls',
   'eslint',
   'gopls',
-  'graphql',
   'html',
   'prismals',
   'pylsp',
@@ -123,15 +106,40 @@ local servers = {
 }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
-    on_attach = my_on_attach,
-    capabilities = my_capabilities,
+    on_attach = M.my_on_attach,
+    capabilities = M.my_capabilities,
   }
 end
 
-lspconfig.zk.setup {
-  cmd = { 'zk', 'lsp', '--log', '/tmp/zk-lsp.log' },
-  on_attach = my_on_attach,
-  capabilities = my_capabilities,
+--[[ lspconfig.ls_emmet.setup {
+  capabilities = M.my_capabilities,
+  on_attach = M.my_on_attach,
+} ]]
+
+lspconfig.tailwindcss.setup {
+  capabilities = M.my_capabilities,
+  on_attach = M.my_on_attach,
+  root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.ts'),
+}
+
+lspconfig.cssls.setup {
+  filetypes = { 'css', 'scss' },
+  capabilities = M.my_capabilities,
+  on_attach = M.my_on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  settings = {
+    css = {
+      validate = false,
+    },
+  },
+}
+
+lspconfig.graphql.setup {
+  filetypes = { 'graphql' },
+  capabilities = M.my_capabilities,
+  on_attach = M.my_on_attach,
 }
 
 lspconfig.tsserver.setup {
@@ -142,12 +150,15 @@ lspconfig.tsserver.setup {
     'javascriptreact',
   },
   on_attach = function(client, bufnr)
-    my_on_attach(client, bufnr)
+    M.my_on_attach(client, bufnr)
     -- disable tsserver from formatting
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.document_range_formatting = false
     -- vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()')
   end,
+  flags = {
+    debounce_text_changes = 150,
+  },
   commands = {
     OrganizeImports = {
       function()
@@ -164,8 +175,8 @@ lspconfig.tsserver.setup {
 }
 
 lspconfig.jsonls.setup {
-  on_attach = my_on_attach,
-  capabilities = my_capabilities,
+  on_attach = M.my_on_attach,
+  capabilities = M.my_capabilities,
   settings = {
     json = {
       schemas = {
@@ -231,7 +242,7 @@ local luadev = require('lua-dev').setup {
     },
   },
   lspconfig = {
-    on_attach = my_on_attach,
+    on_attach = M.my_on_attach,
     cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
     settings = {
       Lua = {
@@ -240,6 +251,7 @@ local luadev = require('lua-dev').setup {
             'awesome', -- awesomewm
             'spoon',
             'hs', -- hammerspoon
+            'vim', -- neovim
           },
           -- disable specific diagnostic messages
           disable = {
@@ -261,25 +273,41 @@ lspconfig.sumneko_lua.setup(luadev)
 -- manage lsp diagnostics
 vim.diagnostic.config {
   underline = false,
-  -- virtual_text = {
-  --   severity = { min = vim.diagnostic.severity.WARN },
-  -- },
   virtual_text = false,
+  virtual_lines = true,
   signs = true,
   update_in_insert = false,
 }
 
--- toggle diagnostics virtual_text
+-- toggle diagnostics
 M.toggle_diagnostics = function()
   if vim.b.show_virtual_text then
-    vim.diagnostic.disable()
+    vim.diagnostic.config {
+      underline = false,
+      virtual_text = false,
+      virtual_lines = false,
+      signs = true,
+      update_in_insert = false,
+    }
     vim.b.show_virtual_text = false
   else
-    vim.diagnostic.enable()
+    vim.diagnostic.config {
+      underline = false,
+      virtual_text = false,
+      virtual_lines = true,
+      signs = true,
+      update_in_insert = false,
+    }
     vim.b.show_virtual_text = true
   end
 end
 nnoremap('<leader>td', [[<cmd>lua require'plugins.lsp'.toggle_diagnostics()<cr>]])
+
+-- lsp_lines plugin for diagnostics
+-- local has_lsp_lines, lsp_lines = pcall(require, 'lsp_lines')
+-- if has_lsp_lines then
+--   lsp_lines.register_lsp_virtual_lines()
+-- end
 
 -- define signcolumn lsp diagnostic icons
 local diagnostic_signs = { ' ', ' ', ' ', ' ' }

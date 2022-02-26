@@ -1,17 +1,11 @@
 -- TODO: set up parameter textobjects, so I can swap elements in a lua table back and forth cc TJ's recent stream
-local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-
---[[ parser_config.astro = {
-  install_info = {
-    url = 'https://github.com/theHamsta/tree-sitter-html',
-    files = { 'src/parser.c', 'src/scanner.cc' },
-    branch = 'astro',
-  },
-} --]]
+local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
+ft_to_parser.nunjucks = 'tsx'
+ft_to_parser.liquid = 'tsx'
+ft_to_parser.astro = 'tsx'
 
 require('nvim-treesitter.configs').setup {
   textobjects = {
-    disable = { 'markdown' },
     select = {
       enable = true,
       lookahead = true,
@@ -33,11 +27,9 @@ require('nvim-treesitter.configs').setup {
       ['.'] = 'textsubjects-smart',
       [';'] = 'textsubjects-container-outer',
     },
-    disable = { 'markdown' },
   },
   rainbow = {
     enable = true,
-    disable = { 'markdown' },
     extended_mode = true,
     colors = {
       '#eb6f92',
@@ -52,34 +44,28 @@ require('nvim-treesitter.configs').setup {
   },
   playground = {
     enable = true,
-    disable = { 'markdown' },
   },
   query_linter = {
     enable = true,
-    disable = { 'markdown' },
     use_virtual_text = true,
     lint_events = { 'BufWrite', 'CursorHold' },
   },
   -- nvim-ts-context-commentstring setup
   context_commentstring = {
     enable = true,
-    disable = { 'markdown' },
     enable_autocmd = false,
   },
   autopairs = {
     enable = true,
-    disable = { 'markdown' },
   },
   autotag = {
     enable = true,
   },
   highlight = {
     enable = true,
-    disable = { 'astro', 'markdown' },
   },
   indent = {
     enable = true,
-    disable = { 'astro', 'markdown' },
   },
   ensure_installed = {
     'bash',
@@ -99,6 +85,7 @@ require('nvim-treesitter.configs').setup {
     'json',
     'jsonc',
     'lua',
+    'markdown',
     'python',
     'query',
     'regex',

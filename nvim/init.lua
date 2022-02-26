@@ -63,33 +63,20 @@ else
   -- require 'ui'
 
   -- set my colorscheme to the correct variant depending on whether it's between 9am-5pm or not
-  local current_hour = tonumber(vim.fn.strftime '%H')
-  local is_daytime = current_hour > 9 and current_hour < (12 + 5)
-  vim.g.rose_pine_variant = is_daytime and 'dawn' or 'moon'
-  cmd 'colorscheme rose-pine'
+  -- local current_hour = tonumber(vim.fn.strftime '%H')
+  -- local color_mode = current_hour > 9 and current_hour < (12 + 4) and 'light' or 'dark'
+  local color_mode = 'dark'
+
+  local has_rose_pine, rose_pine = pcall(require, 'rose-pine')
+  if has_rose_pine then
+    rose_pine.setup {
+      dark_variant = 'moon',
+      light_variant = 'dawn',
+    }
+    require('maps').toggle_rose_pine_variant(color_mode)
+    cmd 'colorscheme rose-pine'
+  end
 
   -- load all of my plugin config files
   require 'plugins'
-
-  -- set up highlighting for languages in markdown globally
-  vim.g.markdown_fenced_languages = {
-    'bash',
-    'c',
-    'cpp',
-    'css',
-    'go',
-    'graphql',
-    'html',
-    'js=javascript',
-    'javascript',
-    'lua',
-    'python',
-    'rust',
-    'scss',
-    'sh',
-    'ts=typescript',
-    'typescript',
-    'vim',
-    'zsh',
-  }
 end

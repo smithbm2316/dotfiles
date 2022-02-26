@@ -8,6 +8,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -33,6 +34,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -63,6 +65,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -88,6 +91,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -118,6 +122,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -143,6 +148,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -173,6 +179,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -198,6 +205,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -228,6 +236,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
@@ -254,6 +263,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -284,6 +294,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -309,6 +320,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -339,6 +351,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -364,6 +377,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -394,6 +408,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -419,6 +434,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -449,6 +465,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
@@ -475,6 +492,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -505,6 +523,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -530,6 +549,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -560,6 +580,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -585,6 +606,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -615,6 +637,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"
@@ -640,6 +663,7 @@
           "conditions": [
             {
               "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
                 "^net\\.kovidgoyal\\.kitty$"

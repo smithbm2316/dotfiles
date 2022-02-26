@@ -4,10 +4,10 @@
 module.exports = {
   defaultBrowser: 'Firefox',
   handlers: [
-    {
-      match: /^https?:\/\/meet\.google\.com\/.*$/,
-      browser: 'Vivaldi',
-    },
+    // {
+    //   match: /^https?:\/\/meet\.google\.com\/.*$/,
+    //   browser: 'Google Chrome Canary',
+    // },
     {
       match: /^https?:\/\/zoom\.us\/.*$/,
       browser: 'us.zoom.xos',

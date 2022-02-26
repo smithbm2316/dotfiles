@@ -19,8 +19,8 @@ local config = {
     block = 'cmb',
   },
   opleader = {
-    line = 'cl',
-    block = 'cm',
+    line = 'cm',
+    block = 'cb',
   },
   pre_hook = function(_) -- ctx
     -- call ts-context-commenstring to update what the comment should be at the

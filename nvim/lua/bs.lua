@@ -42,3 +42,15 @@ bs.colors = {
     highlight_overlay = '#e4dfde',
   },
 }
+
+-- temporary hack to ignore the vim.notify message from lspconfig
+-- when opening a markdown file that doesn't have a root directory
+-- of .zk/ or when conditionally launching tailwindcss lsp so that I
+-- don't get it for all my JS/TS projects
+local notify = vim.notify
+vim.notify = function(msg, ...)
+  if msg:match 'Autostart for %w+ failed:' then
+    return
+  end
+  notify(msg, ...)
+end

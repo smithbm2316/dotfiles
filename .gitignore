@@ -42,6 +42,7 @@ ranger/plugins
 spicetify/Backup
 spicetify/CustomApps
 spicetify/Extracted
+spicetify/Themes
 
 # ignore tmux plugins dir
 tmux/*.log
@@ -59,3 +60,9 @@ zsh/.zcompdump
 zsh/zcompdump
 zsh/.zhistory
 zsh/.zsh_history
+
+# ignore emacs packages
+emacs/*
+
+# ignore gitk config
+gitk

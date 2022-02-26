@@ -42,8 +42,8 @@ local webdev_snippets = {
     t ')',
   }),
   snip({
-    trig = 'imdc',
-    dscr = 'import default component',
+    trig = 'imd',
+    dscr = 'import default',
   }, {
     t 'import ',
     r(2),

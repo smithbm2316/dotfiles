@@ -62,14 +62,14 @@ keybinding:
     checkForUpdate: 'U'
     recentRepos: '<enter>'
   files:
-    commitChanges: 'c'
+    commitChanges: 'C'
     commitChangesWithoutHook: 'w' # commit changes without pre-commit hook
     amendLastCommit: 'A'
-    commitChangesWithEditor: 'C'
+    commitChangesWithEditor: 'c'
     ignoreFile: 'i'
     refreshFiles: 'r'
-    stashAllChanges: 's'
-    viewStashOptions: 'S'
+    stashAllChanges: 'S'
+    viewStashOptions: '<c-s>'
     toggleStagedAll: 'a' # stage/unstage all
     viewResetOptions: 'D'
     fetch: 'f'
@@ -118,3 +118,12 @@ keybinding:
     init: 'i'
     update: 'U'
     bulkMenu: 'b'
+customCommands:
+  - key: 's'
+    command: 'git stash push -u -m "{{index .PromptResponses 0}}"'
+    context: 'global'
+    description: 'Stash all files (including untracked)'
+    prompts:
+      - type: 'input'
+        title: 'Description of this stash:'
+        initialValue: ''
