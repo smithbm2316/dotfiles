@@ -93,7 +93,6 @@ M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 local servers = {
   'astro_ls',
   'bashls',
-  'eslint',
   'gopls',
   'html',
   'prismals',
@@ -115,6 +114,15 @@ end
   capabilities = M.my_capabilities,
   on_attach = M.my_on_attach,
 } ]]
+
+lspconfig.eslint.setup {
+  settings = {
+    format = true,
+    rulesCustomizations = {
+      { rule = 'prettier', severity = 'downgrade' },
+    },
+  },
+}
 
 lspconfig.tailwindcss.setup {
   capabilities = M.my_capabilities,

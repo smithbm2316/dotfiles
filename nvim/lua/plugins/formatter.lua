@@ -24,25 +24,11 @@ local filetype_configs = {
   },
 }
 
--- Describes an optimal prettier setup that I like
--- https://github.com/mhartington/formatter.nvim/issues/112#issuecomment-1013462776
-
--- configuration options for prettier
 local prettier_config = {
   function()
     return {
-      exe = 'prettier',
+      exe = 'prettierd',
       args = {
-        -- sets prettier to prioritize local config over global when available
-        '--config-precedence',
-        'prefer-file',
-        -- sets prettier global defaults
-        '--single-quote',
-        '--tab-width 2',
-        '--trailing-comma all',
-        '--jsx-single-quote',
-        -- tells prettier to format the current file
-        '--stdin-filepath',
         vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
       },
       stdin = true,
@@ -61,6 +47,7 @@ for _, ft in pairs {
   'html',
   'css',
   'astro',
+  'json',
 } do
   filetype_configs[ft] = prettier_config
 end

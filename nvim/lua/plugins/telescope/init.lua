@@ -93,9 +93,11 @@ local default_picker_opts = {
   find_files = {
     find_command = { 'rg', '--files', '-L' },
     follow = true,
-    hidden = false,
-    no_ignore = true,
+    hidden = true,
+    no_ignore = false,
   },
+  lsp_code_actions = themes.get_dropdown(),
+  lsp_range_code_actions = themes.get_dropdown(),
 }
 
 -- TELESCOPE CONFIG
@@ -371,5 +373,12 @@ ts.find_files = function(opts)
   end
 end
 nnoremap('<leader>fj', [[<cmd>lua require'plugins.telescope'.find_files()<cr>]])
+
+-- jump to next diangostic suggestion and open the code actions menu
+ts.diagnostics_fix = function()
+  vim.diagnostic.goto_next()
+  require('telescope.builtin').lsp_code_actions()
+end
+nnoremap('<leader>df', [[<cmd>lua require'plugins.telescope'.diagnostics_fix()<cr>]])
 
 return ts

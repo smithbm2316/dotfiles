@@ -18,6 +18,7 @@ set -Ux GOEXEC /usr/local/go/bin
 set -Ux GOBIN $HOME/go/bin
 set -Ux GOPATH $HOME/go
 set -Ux LOCALBIN $HOME/.local/bin
+set -Ux PRETTIERD_DEFAULT_CONFIG $HOME/.config/prettier/.prettierrc
 set -Ux NVIMBIN $HOME/.local/nvim/bin
 set -Ux YARNBIN $HOME/.yarn/bin
 

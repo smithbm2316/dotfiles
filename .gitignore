@@ -2,10 +2,10 @@
 .DS_Store
 
 # ignore widgets for awesomewm
-awesome/awesome-wm-widgets
+awesome/awesome-wm-widgets/*
 
 # ignore plugin directories for fish
-fish/fundle
+fish/fundle/*
 fish/functions/fundle.fish
 fish/fish_variables
 
@@ -17,10 +17,10 @@ gh/*
 hammerspoon/Spoons/*
 
 # ignore karabiner backups
-karabiner/automatic_backups
+karabiner/automatic_backups/*
 
 # ignore AppSupport/ dir for iTerm2
-iTerm2/AppSupport
+iTerm2/AppSupport/*
 
 # ignore state.yml from lazygit
 lazygit/state.yml
@@ -29,20 +29,19 @@ lazygit/state.yml
 ncspot/userstate.*
 
 # neovim: ignore plugins & backups directories
-nvim/plugged
-nvim/plugin
-nvim/backups
-nvim/sessions
+nvim/plugged/*
+nvim/backups/*
+nvim/sessions/*
 nvim/.netrwhist
 
 # ignore ranger plugins
-ranger/plugins
+ranger/plugins/*
 
 # ignore various folders for spicetify
-spicetify/Backup
-spicetify/CustomApps
-spicetify/Extracted
-spicetify/Themes
+spicetify/Backup/*
+spicetify/CustomApps/*
+spicetify/Extracted/*
+spicetify/Themes/*
 
 # ignore tmux plugins dir
 tmux/*.log
