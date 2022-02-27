@@ -117,9 +117,35 @@ end
 
 lspconfig.eslint.setup {
   settings = {
+    codeAction = {
+      disableRuleComment = {
+        enable = true,
+        location = 'separateLine',
+      },
+      showDocumentation = {
+        enable = true,
+      },
+    },
+    codeActionOnSave = {
+      enable = false,
+      mode = 'all',
+    },
     format = true,
+    nodePath = '',
+    onIgnoredFiles = 'off',
+    packageManager = 'npm',
+    quiet = false,
+    -- https://github.com/microsoft/vscode-eslint#settings-options
+    -- rulesCustomizations lets me override Prettier suggestions to
+    -- use a lower severity diagnostic (info)
     rulesCustomizations = {
-      { rule = 'prettier', severity = 'downgrade' },
+      { rule = 'prettier*', severity = 'info' },
+    },
+    run = 'onType',
+    useESLintClass = false,
+    validate = 'on',
+    workingDirectory = {
+      mode = 'location',
     },
   },
 }
