@@ -7,7 +7,7 @@ utils.print_table = function()
   local func = vim.fn.input { prompt = 'Run: ', completion = 'lua' }
   if not func then
     local result = vim.api.nvim_exec(string.format('lua %s', func), true)
-    print(vim.inspect(result))
+    vim.notify(vim.inspect(result), 'debug')
   end
 end
 map('n', '<leader>vi', [[:lua Utils.print_table()<cr>]], opts)

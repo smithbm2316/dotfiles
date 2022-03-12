@@ -12,7 +12,7 @@ luacheck.telescope = function()
     true
   )
 
-  print(test)
+  vim.notify(test, 'info')
 end
 
 return luacheck

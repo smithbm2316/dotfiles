@@ -29,6 +29,7 @@ lazygit/state.yml
 ncspot/userstate.*
 
 # neovim: ignore plugins & backups directories
+nvim/lua/packer/*
 nvim/plugged/*
 nvim/backups/*
 nvim/sessions/*

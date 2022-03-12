@@ -1,6 +1,6 @@
 -- quickly print a lua table to :messages
 _G.dump = function(...)
-  print(vim.inspect(...))
+  vim.notify(vim.inspect(...), 'debug', { timeout = false })
 end
 
 -- wrapper for nvim_set_keymap with sensible defaults
@@ -51,6 +51,6 @@ _G.rotate_windows = function()
   buffers_list = vim.api.nvim_exec('buffers', true)
   for match in buffers_list:gmatch '.*\n' do
     -- TODO: extract the buffer info 'a' for all active buffers and save it
-    print(match)
+    vim.notify(match, 'info')
   end
 end

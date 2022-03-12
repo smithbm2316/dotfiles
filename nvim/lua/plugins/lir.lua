@@ -53,6 +53,7 @@ require('lir').setup {
     ['<c-t>'] = actions.tabedit,
     ['.'] = actions.toggle_show_hidden,
     l = actions.edit,
+    ['<space>'] = actions.edit,
     s = Wrappers.sedit,
     v = Wrappers.vedit,
     e = Wrappers.edit,

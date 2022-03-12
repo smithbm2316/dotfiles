@@ -59,24 +59,10 @@ else
   -- load all of my packer plugins
   require 'install_plugins'
 
-  -- load my UI functions and helpers
-  -- require 'ui'
+  -- load all of my plugin config files
+  require 'plugins'
 
   -- set my colorscheme to the correct variant depending on whether it's between 9am-5pm or not
   -- local current_hour = tonumber(vim.fn.strftime '%H')
   -- local color_mode = current_hour > 9 and current_hour < (12 + 4) and 'light' or 'dark'
-  local color_mode = 'dark'
-
-  local has_rose_pine, rose_pine = pcall(require, 'rose-pine')
-  if has_rose_pine then
-    rose_pine.setup {
-      dark_variant = 'moon',
-      light_variant = 'dawn',
-    }
-    require('maps').toggle_rose_pine_variant(color_mode)
-    cmd 'colorscheme rose-pine'
-  end
-
-  -- load all of my plugin config files
-  require 'plugins'
 end

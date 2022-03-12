@@ -13,18 +13,9 @@ local themes = require 'telescope.themes'
 local conf = require('telescope.config').values
 
 -- files to ignore with `file_ignore_patterns`
-local ignore_these = {
+local always_ignore_these = {
   'node_modules/.*',
-  '.git/.*',
-  '.yarn/.*',
-  '.neuron/*',
-  'fonts/*',
-  'icons/*',
-  'images/*',
-  'dist/*',
-  'build/*',
-  'yarn.lock',
-  'package%-lock.json',
+  '%.git/.*',
   '%.svg',
   '%.png',
   '%.jpeg',
@@ -41,7 +32,23 @@ local ignore_these = {
   '%.flv',
   '%.avi',
   '%.webm',
+  '.env.*',
 }
+
+local ignore_these = vim.tbl_extend('keep', always_ignore_these, {
+  '_site/.*',
+  '_next/.*',
+  'dist/.*',
+  'build/.*',
+  'fonts/.*',
+  'icons/.*',
+  'images/.*',
+  '.env.*',
+  '.yarn/.*',
+  'yarn.lock',
+  'package%-lock.json',
+  '.neuron/.*',
+})
 
 local webdev_dash_keywords = {
   'css',
@@ -228,8 +235,8 @@ builtin('<leader>ca', 'lsp_code_actions')
 
 -- find_files, but don't use ignored patterns
 custom('<leader>fa', 'find_files_all', 'find_files', {
-  file_ignore_patterns = {},
-  no_ignore = true,
+  file_ignore_patterns = always_ignore_these,
+  no_ignore = false,
   hidden = true,
 })
 
@@ -363,11 +370,9 @@ ts.find_files = function(opts)
   opts = opts or {}
   opts.entry_maker = create_entry_maker()
 
-  if vim.loop.cwd() == (os.getenv 'HOME' .. '/wiki') then
-    local has_zk, zk_commands = pcall(require, 'zk.commands')
-    if has_zk then
-      zk_commands.notes()
-    end
+  local has_zk, zk_commands = pcall(require, 'zk.commands')
+  if vim.loop.cwd() == (os.getenv 'HOME' .. '/wiki') and has_zk then
+    zk_commands.get 'ZkNotes'()
   else
     require('telescope.builtin').find_files()
   end

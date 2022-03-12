@@ -3,4 +3,4 @@ require('focus').setup {
   signcolumn = false,
 }
 
-nnoremap('<leader>ft', [[<cmd>FocusToggle<cr>]])
+nnoremap('<leader>tf', [[<cmd>FocusToggle<cr>]])

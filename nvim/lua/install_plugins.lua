@@ -15,11 +15,8 @@ return require('packer').startup {
     use 'nvim-telescope/telescope.nvim'
     -- use '~/code/neovim/telescope.nvim'
 
-    use {
-      'mickael-menu/zk-nvim',
-      branch = 'user-commands',
-    }
-    -- use '~/code/zk-nvim'
+    -- notetaking with golang zk lsp
+    use 'mickael-menu/zk-nvim'
 
     -- TJ's lua functions that he doesn't wanna write again
     use 'nvim-lua/plenary.nvim'
@@ -55,9 +52,6 @@ return require('packer').startup {
       'lewis6991/gitsigns.nvim',
       requires = 'nvim-lua/plenary.nvim',
     }
-
-    -- ui components for neovim!
-    use 'MunifTanjim/nui.nvim'
 
     -- format code with external tools
     use 'mhartington/formatter.nvim'
@@ -113,11 +107,6 @@ return require('packer').startup {
 
     -- i can't remember my keybinds half the time, this should help
     use 'folke/which-key.nvim'
-    -- using this branch til it's fixed in main repo
-    --[[ use {
-      'zeertzjq/which-key.nvim',
-      branch = 'patch-1',
-    } ]]
 
     -- Open a new tab for viewing git diffs for all files in current branch
     use {
@@ -135,19 +124,6 @@ return require('packer').startup {
       },
     }
 
-    -- project-specific configuration
-    use 'windwp/nvim-projectconfig'
-
-    -- view PRs in neovim
-    use {
-      'pwntester/octo.nvim',
-      opt = true,
-      cmd = { 'Octo', 'OctoAddReviewComment', 'OctoAddReviewSuggestion' },
-      config = function()
-        require 'plugins.opt.octo'
-      end,
-    }
-
     -- better session management in neovim
     use 'rmagatti/auto-session'
 
@@ -163,9 +139,6 @@ return require('packer').startup {
     -- simple file explorer
     use 'tamago324/lir.nvim'
 
-    -- luv docs in neovim
-    use 'nanotee/luv-vimdocs'
-
     -- make lua nvim development easier
     use 'folke/lua-dev.nvim'
 
@@ -174,56 +147,16 @@ return require('packer').startup {
     use {
       'jose-elias-alvarez/nvim-lsp-ts-utils',
       requires = 'jose-elias-alvarez/null-ls.nvim',
-      disable = true,
     }
 
     -- snippets
     use 'L3MON4D3/LuaSnip'
 
-    -- for use with neuron zettlekasten manager
-    use {
-      'oberblastmeister/neuron.nvim',
-      requires = {
-        'nvim-lua/popup.nvim',
-        'nvim-lua/plenary.nvim',
-        'nvim-telescope/telescope.nvim',
-      },
-      branch = 'unstable',
-      disable = true,
-    }
-
-    -- zk cli wrapper for neovim
-    use {
-      'megalithic/zk.nvim',
-      disable = true,
-    }
-
-    -- fun colorscheme
+    -- colorscheme
     use 'rose-pine/neovim'
-
-    -- change the color of cursorline/cursor on different modes
-    use {
-      'mvllow/modes.nvim',
-      disable = true,
-    }
-
-    -- lsp diagnostics in quickfix list
-    use {
-      'folke/trouble.nvim',
-      requires = 'kyazdani42/nvim-web-devicons',
-    }
-
-    -- project-local notes
-    use {
-      'marcushwz/nvim-workbench',
-      disable = true,
-    }
 
     -- add indent line guides to editor
     use 'lukas-reineke/indent-blankline.nvim'
-
-    -- semantically select up a level of text to operate on
-    use 'RRethy/nvim-treesitter-textsubjects'
 
     -- rainbow coloring of brackets/curly braces/parenthesis/tags to make finding pairs easier
     use 'p00f/nvim-ts-rainbow'
@@ -234,60 +167,30 @@ return require('packer').startup {
     -- nicer listing of registers
     use 'tversteeg/registers.nvim'
 
-    -- lightbulb icon to display code actions
-    use 'kosayoda/nvim-lightbulb'
-
-    -- Dash.app integration in neovim
-    use {
-      'mrjones2014/dash.nvim',
-      run = 'make install',
-      disable = vim.fn.has 'mac' == 0 and true or false,
-    }
-
-    -- treesitter-based hinting for selecting a textobject in operator-pending mode
-    use 'mfussenegger/nvim-ts-hint-textobject'
-
-    -- nanotee's lua guide reference
-    use 'nanotee/nvim-lua-guide'
-
-    -- hey prime I'm testing harpoon like I promised at VimConf
-    use 'theprimeagen/harpoon'
-
-    -- git in neovim
-    use 'TimUntersberger/neogit'
-
-    -- rename symbol wrapper plugin
-    use {
-      'filipdutescu/renamer.nvim',
-      branch = 'master',
-    }
-
-    -- cmgriffing's biscuts plugin
-    use 'code-biscuits/nvim-biscuits'
+    -- lazygit in neovim
+    use 'kdheepak/lazygit.nvim'
 
     -- treesitter info for my statusline
     use 'SmiteshP/nvim-gps'
 
-    -- better displaying of lsp errors
+    -- better notifications
+    use 'rcarriga/nvim-notify'
+
+    -- mini plugins that do one thing well
+    -- specifically installing for bufremove overrides
     use {
-      'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+      'echasnovski/mini.nvim',
+      branch = 'stable',
     }
+
+    -- better menus for inputs and selects in neovim
+    use 'stevearc/dressing.nvim'
 
     -----------------------------------------------------
     ---
     --- vimscript plugins
     ---
     -----------------------------------------------------
-    -- markdown previewer in firefox
-    use {
-      'iamcco/markdown-preview.nvim',
-      run = 'cd app && yarn install',
-      opt = true,
-      cmd = 'MarkdownPreviewToggle',
-    }
-
-    -- lua reference
-    use 'milisims/nvim-luaref'
 
     -- runs :noh whenever the mouse cursor is moved 
     use 'junegunn/vim-slash'
@@ -330,14 +233,22 @@ return require('packer').startup {
     --- syntax highlighting plugins
     ---
     -----------------------------------------------------
-    -- lua
-    use 'euclidianAce/BetterLua.vim'
-
     -- i3wm config
     use 'mboughaba/i3config.vim'
 
-    -- graphql highlighting
-    use 'jparise/vim-graphql'
+    -----------------------------------------------------
+    ---
+    --- documentation plugins
+    ---
+    -----------------------------------------------------
+    -- luv docs in neovim
+    use 'nanotee/luv-vimdocs'
+
+    -- nanotee's lua guide reference
+    use 'nanotee/nvim-lua-guide'
+
+    -- lua reference
+    use 'milisims/nvim-luaref'
   end,
   config = {
     compile_path = vim.fn.stdpath 'config' .. '/lua/packer/packer_compiled.lua',

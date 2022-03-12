@@ -43,14 +43,12 @@ bs.colors = {
   },
 }
 
--- temporary hack to ignore the vim.notify message from lspconfig
--- when opening a markdown file that doesn't have a root directory
--- of .zk/ or when conditionally launching tailwindcss lsp so that I
--- don't get it for all my JS/TS projects
-local notify = vim.notify
-vim.notify = function(msg, ...)
-  if msg:match 'Autostart for %w+ failed:' then
-    return
+-- hijack vim.notify with nvim-notify
+local has_nvim_notify, nvim_notify = pcall(require, 'notify')
+if has_nvim_notify then
+  vim.notify = function(msg, log_level, opts)
+    local default_opts = { timeout = 500 }
+    opts = opts and vim.tbl_deep_extend('force', default_opts, opts) or default_opts
+    nvim_notify(msg, log_level, opts)
   end
-  notify(msg, ...)
 end

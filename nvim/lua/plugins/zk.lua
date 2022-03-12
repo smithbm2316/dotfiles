@@ -1,23 +1,34 @@
-require('zk').setup {
-  picker = 'telescope',
-  lsp = {
-    config = {
-      cmd = { 'zk', 'lsp', '--log', '/tmp/zk-lsp.log' },
-      name = 'zk',
-      on_attach = function(client, bufnr)
-        require('plugins.lsp').my_on_attach(client, bufnr)
-
-        nnoremap('<leader>zi', [[:ZkIndex<cr>]], nil, bufnr)
-        vnoremap('<leader>zn', [[:'<,'>lua vim.lsp.buf.range_code_action()<cr>]], nil, bufnr)
-        nnoremap('<leader>zn', [[:ZkNew {title = vim.fn.input('Title: ')}<cr>]], nil, bufnr)
-        nnoremap('<leader>zl', [[:ZkNew {dir = 'log'}<cr>]], nil, bufnr)
-      end,
-      capabilities = require('plugins.lsp').my_capabilities,
+local has_zk, zk = pcall(require, 'zk')
+if has_zk then
+  zk.setup {
+    picker = 'telescope',
+    lsp = {
+      config = {
+        cmd = { 'zk', 'lsp', '--log', '/tmp/zk-lsp.log' },
+        name = 'zk',
+        on_attach = function(client, bufnr)
+          require('plugins.lsp').my_on_attach(client, bufnr)
+          vnoremap('<leader>nn', [[:'<,'>lua vim.lsp.buf.range_code_action()<cr>]], nil, bufnr)
+        end,
+        capabilities = require('plugins.lsp').my_capabilities,
+      },
+      auto_attach = {
+        enabled = true,
+        filetypes = { 'markdown' },
+      },
     },
-    auto_attach = {
-      enabled = true,
-      filetypes = { 'markdown' },
-    },
-  },
-  -- commands = {},
-}
+    -- commands = {},
+  }
+  -- create a new note
+  vim.keymap.set({ 'n' }, '<leader>nn', function()
+    vim.ui.input({ prompt = 'Title: ' }, function(input)
+      if input then
+        zk.new {
+          title = input,
+        }
+      end
+    end)
+  end, {
+    silent = true,
+  })
+end

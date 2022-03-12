@@ -1,6 +1,6 @@
 require('zen-mode').setup {
   window = {
-    width = 104,
+    width = 90,
     backdrop = 0.95,
   },
   -- callback where you can add custom code when the Zen window opens

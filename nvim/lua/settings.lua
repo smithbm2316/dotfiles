@@ -50,7 +50,7 @@ o.wildoptions = 'pum'
 opt.shortmess:append 'c'
 
 -- Window options
-o.foldmethod = 'manual'
+o.foldmethod = 'marker'
 o.relativenumber = true
 o.number = true
 o.signcolumn = 'yes' -- make sure this is on for gitsigns.nvim, otherwise the signcolumn changes size constantly

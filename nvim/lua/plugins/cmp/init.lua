@@ -3,11 +3,12 @@ local nvim_cmp = {}
 vim.o.completeopt = 'menuone,noselect'
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
+local has_luasnip, luasnip = pcall(require, 'luasnip')
 
 -- override rose-pine nvim-cmp highlight groups
 nvim_cmp.load_cmp_hlgroups = function()
-  if package.loaded['rose-pine'] then
-    local palette = require 'rose-pine.palette'
+  local has_palette, palette = pcall(require, 'rose-pine.palette')
+  if has_palette then
     local hl_groups = {
       CmpItemAbbr = { fg = palette.subtle },
       CmpItemAbbrDeprecated = { fg = palette.highlight_inactive, style = 'strikethrough' },
@@ -70,28 +71,31 @@ cmp.setup {
     ['<c-u>'] = cmp.mapping.scroll_docs(4),
     ['<c-e>'] = cmp.mapping.complete(),
     ['<c-y>'] = cmp.mapping.close(),
-    ['<c-k>'] = cmp.mapping.confirm {
+    ['<c-k>'] = cmp.mapping(function(fallback)
+      if has_luasnip and luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      elseif cmp.visible() then
+        cmp.confirm {
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        }
+      else
+        fallback()
+      end
+    end, {
+      'i',
+      's',
+    }),
+    --[[ ['<c-k>'] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
-    },
-    ['<tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<c-k>', true, true, true))
-        -- elseif require'luasnip'.expand_or_jumpable() then
-        -- vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<plug>luasnip-expand-or-jump', true, true, true), '')
+    }, function(fallback)
+      if has_luasnip and luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
       else
         fallback()
       end
-    end,
-    ['<s-tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<c-p>', true, true, true), 'n')
-        -- elseif require'luasnip'.jumpable(-1) then
-        -- vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<plug>luasnip-jump-prev', true, true, true), '')
-      else
-        fallback()
-      end
-    end,
+    end), ]]
   },
   sources = {
     -- { name = 'nvim_lua' },

@@ -7,12 +7,16 @@ nnoremap go :
 vnoremap go :
 
 " Substitute Linewise
-nnoremap <leader>sl :s/\v
-vnoremap <leader>sl :s/\v
+nnoremap <leader>sl :s/
+vnoremap <leader>sl :s/
 
 " Substitute Globally
-nnoremap <leader>sg :%s/\v
-vnoremap <leader>sg :%s/\v
+nnoremap <leader>sg :%s/
+vnoremap <leader>sg :%s/
+
+" Substitute Repeat
+nnoremap <leader>sr :@
+vnoremap <leader>sr :@
 
 
 
@@ -98,11 +102,28 @@ nnoremap <silent> <leader>wl <cmd>wincmd r \| wincmd l<cr>
 " treesitter textobject hinting
 omap <silent> m :<c-u>lua require('tsht').nodes()<cr>
 
-" Shift + J/K moves selected lines down/up in visual mode
+" <c-n>/<c-p> moves selected lines down/up in visual mode
 nnoremap <silent> <c-n> :m .+1<CR>==
 nnoremap <silent> <c-p> :m .-2<CR>==
 vnoremap <silent> <c-n> :m '>+1<CR>gv=gv
 vnoremap <silent> <c-p> :m '<-2<CR>gv=gv
 
+" Add function + user command for reviewing a PR
+function ReviewPR()
+  FocusDisable
+  " add command to pull main branch instead of just 'main'
+  DiffviewOpen main
+endfunction
+command ReviewPR call ReviewPR()
+
 " open quickfix list
 nnoremap <silent> <leader>qo <cmd>copen<cr>
+
+" open and close folds
+nnoremap <silent> <leader>fh zA
+nnoremap <silent> <leader>fo zR
+nnoremap <silent> <leader>fc zM
+
+" enter in a new html tag above or below the current line
+nnoremap <silent> <leader>to <cmd>call feedkeys("o<\<C-E>", 'i')<cr>
+nnoremap <silent> <leader>tO <cmd>call feedkeys("O<\<C-E>", 'i')<cr>

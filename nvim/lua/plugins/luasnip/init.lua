@@ -1,4 +1,5 @@
--- luasnip modules
+-- luasnip module imports
+--{{{
 local ls = require 'luasnip'
 local snip = ls.snippet
 local sn = ls.snippet_node
@@ -11,7 +12,11 @@ local d = ls.dynamic_node
 local r = require('luasnip.extras').rep
 local events = require 'luasnip.util.events'
 local types = require 'luasnip.util.types'
+local fmt = require('luasnip.extras.fmt').fmt
+--}}}
 
+-- luasnip config setup
+--{{{
 ls.config.set_config {
   ext_opts = {
     [types.choiceNode] = {
@@ -25,76 +30,205 @@ ls.config.set_config {
       },
     },
   },
+  history = true,
   delete_check_events = 'InsertLeave',
 }
 
 local snippets = {}
+--}}}
 
 -- snippets for web development
 local webdev_snippets = {
-  snip({
-    trig = 'log',
-    name = 'console.log',
-    dscr = 'console.log something out',
-  }, {
-    t 'console.log(',
-    i(0),
-    t ')',
-  }),
-  snip({
-    trig = 'imd',
-    dscr = 'import default',
-  }, {
-    t 'import ',
-    r(2),
-    t " from '@",
-    i(1, 'location'),
-    t '/',
-    i(2, 'component'),
-    t "'",
-  }),
-  snip({
-    trig = 'im',
-    name = 'import',
-    dscr = 'import a component/function from a package',
-  }, {
-    t 'import { ',
-    i(0, 'component'),
-    t ' } ',
-    t "from '",
-    i(1, 'package'),
-    t "'",
-  }),
-  snip({
-    trig = 'require',
-    dscr = 'require statement',
-  }, {
-    t 'const ',
-    d(2, function(nodes)
-      return sn(1, { i(1, nodes[1][1]) })
-    end, { 1 }),
-    t " = require('",
-    i(1, 'ModuleName'),
-    t "');",
-  }),
-  snip({
-    trig = 'logc',
-    dscr = 'colored console.log',
-  }, {
-    t 'console.log(',
-    i(0, 'output'),
-    t ');',
-  }),
-  snip({
-    trig = 'logf',
-    dscr = 'formatted console.log',
-  }, {
-    t 'console.log(`',
-    i(1, 'varName'),
-    t ': ${',
-    i(0, 'var'),
-    t '}`);',
-  }),
+  -- console.log shortcut
+  --{{{
+  snip(
+    {
+      trig = 'log',
+      name = 'console.log',
+      dscr = 'console.log shortcut',
+    },
+    fmt([[console.log({debug})]], {
+      debug = i(0, 'time to figure out this bug 👀'),
+    })
+  ),
+  --}}}
+  -- node.js require() snippet
+  --{{{
+  snip(
+    {
+      trig = 'req',
+      name = 'require()',
+      dscr = 'node.js require import statement',
+    },
+    fmt([[const {importName} = require('{package}')]], {
+      importName = i(0, 'importName'),
+      package = i(1, 'package'),
+    })
+  ),
+  --}}}
+  -- import from node_modules package
+  --{{{
+  snip(
+    {
+      trig = 'im',
+      name = 'import',
+      dscr = 'import a component/function from a package',
+    },
+    fmt([[import {name} from '{path}']], {
+      path = i(1, 'path'),
+      name = i(0, 'name'),
+    })
+  ),
+  --}}}
+  -- insert a function component
+  --{{{
+  snip(
+    {
+      trig = 'fc',
+      name = 'function component',
+      dscr = 'export a function component',
+    },
+    fmt(
+      [[
+  export function {name}({params}) {{
+    {body}
+  }}
+  ]],
+      {
+        name = i(1, 'name'),
+        params = i(2, 'params'),
+        body = i(0, 'new bugs incoming 👀'),
+      }
+    )
+  ),
+  --}}}
+  -- insert an arrow function component
+  --{{{
+  snip(
+    {
+      trig = 'ac',
+      name = 'arrow component',
+      dscr = 'export an arrow function component',
+    },
+    fmt(
+      [[
+  export const {name} = ({params}) => {{
+    {body}
+  }}
+  ]],
+      {
+        name = i(1, 'name'),
+        params = i(2, 'params'),
+        body = i(0, 'new bugs incoming 👀'),
+      }
+    )
+  ),
+  --}}}
+  -- insert a default arrow function component
+  --{{{
+  snip(
+    {
+      trig = 'dac',
+      name = 'default arrow component',
+      dscr = 'export a default arrow function component',
+    },
+    fmt(
+      [[
+  const {name} = ({params}) => {{
+    {body}
+  }}
+
+  export default {exportName}
+  ]],
+      {
+        name = i(1, 'name'),
+        params = i(2, 'params'),
+        body = i(0, 'new bugs incoming 👀'),
+        exportName = r(1),
+      }
+    )
+  ),
+  --}}}
+  -- insert a default function component
+  --{{{
+  snip(
+    {
+      trig = 'dfc',
+      name = 'default function component',
+      dscr = 'export a default function component',
+    },
+    fmt(
+      [[
+  export default function {name}({params}) {{
+    {body}
+  }}
+  ]],
+      {
+        name = i(1, 'name'),
+        params = i(2, 'params'),
+        body = i(0, 'new bugs incoming 👀'),
+      }
+    )
+  ),
+  --}}}
+  -- import a component and its 'links' export in remix
+  --{{{
+  snip(
+    {
+      trig = 'ric',
+      name = 'remix import component',
+      dscr = 'import a component/function from a package with its corresponding links func',
+    },
+    fmt([[import {{ {name}, links as {linksAlias} }} from '{path}']], {
+      path = i(1, 'path'),
+      name = i(2, 'name'),
+      linksAlias = i(0, 'linksAlias'),
+    })
+  ),
+  --}}}
+  -- useState with type annotation
+  --{{{
+  snip(
+    {
+      trig = 'us',
+      name = 'useState',
+      desc = 'useState with type annotation',
+    },
+    fmt([[const [{}, {}] = useState<{}>({})]], {
+      i(1),
+      f(function(args)
+        if args[1][1]:len() > 0 then
+          return 'set' .. args[1][1]:sub(1, 1):upper() .. args[1][1]:sub(2)
+        else
+          return ''
+        end
+      end, 1),
+      i(2),
+      i(0),
+    })
+  ),
+  --}}}
+  -- useEffect with type annotation
+  --{{{
+  snip(
+    {
+      trig = 'ue',
+      name = 'useEffect',
+      desc = 'useEffect with type annotation',
+    },
+    fmt(
+      [[
+    useEffect(() => {{
+      {body}
+    }}, [{deps}])
+    ]],
+      {
+        deps = i(1),
+        body = i(0),
+      }
+    )
+  ),
+  --}}}
 }
 
 snippets.javascript = webdev_snippets
@@ -102,43 +236,104 @@ snippets.javascriptreact = webdev_snippets
 snippets.typescript = webdev_snippets
 snippets.typescriptreact = webdev_snippets
 
--- wrapper for basic lua snippets
-local lua_snippet = function(trig, text)
-  -- set a cmd-line abbreviation for luasnip expansions
-  -- vim.cmd(string.format('cnoreabbrev %s lua %s', trig, text))
-
-  return snip({ trig = trig }, {
-    t { text },
-  })
-end
-
 snippets.lua = {
-  --[[
-  snip({trig='if', wordTrig=true}, {
-    t({'if '}),
-    i(1),
-    t({' then', '\t'}),
-    i(0),
-    t({'', 'end'})
-  }),
-  snip({trig='for', wordTrig=true}, {
-    t({'for '}),
-    i(1),
-    t({' do', '\t'}),
-    i(0),
-    t({'', 'end'})
-  }),
-  --]]
-  lua_snippet('nv', 'vim.api.nvim_'),
-  lua_snippet('nvb', 'vim.api.nvim_buf_'),
-  lua_snippet('nvw', 'vim.api.nvim_win_'),
-  lua_snippet('nvt', 'vim.api.nvim_tabpage_'),
-  lua_snippet('fn', 'vim.fn.'),
-  lua_snippet('diag', 'vim.diagnostic.'),
-  lua_snippet('lsp', 'vim.lsp.'),
-  lua_snippet('opt', 'vim.opt.'),
-  lua_snippet('tbl', 'vim.tbl_'),
+  -- luasnip snippet generator: *i used the luasnip to create the luasnip snippet* - thanos
+  --{{{
+  snip(
+    {
+      trig = 'lsnip',
+      name = 'new luasnip snippet',
+      desc = '*i used the luasnip to create the luasnip snippet* - thanos',
+    },
+    fmt(
+      [[
+  -- {comment}
+  --{{{{{{
+  snip(
+    {{
+      trig = '{trig}',
+      name = '{name}',
+      desc = '{description}',
+    }}, fmt(
+      {snipText},
+      {{
+        {opts}
+      }}
+    )
+  ),
+  --}}}}}}
+  ]],
+      {
+        comment = i(1),
+        trig = i(2),
+        name = i(3),
+        description = i(4),
+        snipText = i(5),
+        opts = i(0),
+      }
+    )
+  ),
+  ---}}}
+  -- protected (pcall) require snippet
+  --{{{
+  snip(
+    {
+      trig = 'preq',
+      name = 'protected require',
+      desc = 'ensure the module is loaded before requiring it',
+    },
+    fmt(
+      [[
+      local has_{name}, {name2} = pcall(require, '{module_name}')
+      if has_{name3} then
+        {name4}.{end_point}
+      end
+      ]],
+      {
+        name = i(1, 'name'),
+        name2 = r(1),
+        module_name = i(2, 'module name'),
+        name3 = r(1),
+        name4 = r(1),
+        end_point = i(0),
+      }
+    )
+  ),
+  --}}}
 }
+
+-- simple text node snippets for lua
+local lua_text_snippets = {
+  nv = 'vim.api.nvim_',
+  nvb = 'vim.api.nvim_buf_',
+  nvw = 'vim.api.nvim_win_',
+  nvt = 'vim.api.nvim_tabpage_',
+  fn = 'vim.fn.',
+  diag = 'vim.diagnostic.',
+  lsp = 'vim.lsp.',
+  opt = 'vim.opt.',
+  tbl = 'vim.tbl_',
+}
+for trig, text in pairs(lua_text_snippets) do
+  snippets.lua[trig] = t(text)
+end
 
 -- load all my snippets :D
 ls.snippets = snippets
+
+-- add keymap to jump back in snippet history
+vim.keymap.set({ 'i', 's' }, '<c-j>', function()
+  if ls.jumpable(-1) then
+    ls.jump(-1)
+  end
+end, {
+  silent = true,
+})
+
+-- add keymap to reload snippets on demand
+vim.keymap.set({ 'n' }, '<leader><leader>rs', function()
+  vim.cmd [[source $XDG_CONFIG_HOME/nvim/lua/plugins/luasnip/init.lua]]
+  vim.notify('Reloaded snippets!', vim.log.levels.INFO)
+end, {
+  silent = true,
+})
