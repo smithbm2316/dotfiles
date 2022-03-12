@@ -34,6 +34,7 @@ set -Ux FZF_DEFAULT_OPTS '--multi --layout=reverse-list --border=rounded --tabst
 set -Ux NEXT_TELEMETRY_DISABLED 1
 set -Ux RANGER_LOAD_DEFAULT_RC FALSE
 set -Ux SRC_ENDPOINT 'https://sourcegraph.com'
+set -Ux ZK_NOTEBOOK_DIR $HOME/wiki
 
 # PATH configuration
 fish_add_path $CARGOBIN

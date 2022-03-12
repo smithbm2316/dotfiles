@@ -6,6 +6,19 @@ gui:
     selectedLineBgColor:
       - black
       - bold
+    activeBorderColor:
+      - white
+      - bold
+    inactiveBorderColor:
+      - green
+    optionsTextColor:
+      - blue
+    selectedRangeBgColor:
+      - black
+    cherryPickedCommitBgColor:
+      - blue
+    cherryPickedCommitFgColor:
+      - cyan
 git:
   pull:
     mode: 'rebase'
@@ -22,11 +35,13 @@ keybinding:
     prevItem: 'k' # go one line up
     nextItem: 'j' # go one line down
     prevPage: ',' # go to next page in list
-    nextPage: '.' # go to previous page in list
+    nextPage: ';' # go to previous page in list
     gotoTop: '<' # go to top of list
     gotoBottom: '>' # go to bottom of list
-    prevBlock: 'h' # goto the previous block / panel
-    nextBlock: 'l' # goto the next block / panel
+    nextTab: ']' # why doesn't this work?
+    prevTab: '['
+    prevBlock: '<c-p>' # goto the previous block / panel
+    nextBlock: '<c-n>' # goto the next block / panel
     nextMatch: 'n'
     prevMatch: 'N'
     optionMenu: '?' # show help menu
@@ -39,22 +54,20 @@ keybinding:
     openFile: 'o'
     scrollUpMain: '<c-u>' # main panel scroll up
     scrollDownMain: '<c-d>' # main panel scroll down
-    executeCustomCommand: ';'
-    executeCustomCommand-alt: ':'
+    executeCustomCommand: ':'
+    # executeCustomCommand-alt: ';'
     createRebaseOptionsMenu: 'm'
     pushFiles: 'P'
     pullFiles: 'p'
     refresh: 'R'
-    createPatchOptionsMenu: '<c-p>'
-    nextTab: ']'
-    prevTab: '['
+    createPatchOptionsMenu: '<c-x>'
     nextScreenMode: '+'
     prevScreenMode: '_'
     undo: 'u'
     redo: '<c-r>'
     filteringMenu: '<c-s>'
     diffingMenu: 'W'
-    diffingMenu-alt: '<c-e>' # deprecated
+    # diffingMenu-alt: '<c-e>' # deprecated
     copyToClipboard: 'y'
     submitEditorText: '<enter>'
     appendNewline: '<tab>'
@@ -62,10 +75,10 @@ keybinding:
     checkForUpdate: 'U'
     recentRepos: '<enter>'
   files:
-    commitChanges: 'C'
+    commitChanges: 'c'
+    commitChangesWithEditor: 'C'
     commitChangesWithoutHook: 'w' # commit changes without pre-commit hook
     amendLastCommit: 'A'
-    commitChangesWithEditor: 'c'
     ignoreFile: 'i'
     refreshFiles: 'r'
     stashAllChanges: 'S'

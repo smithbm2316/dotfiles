@@ -69,6 +69,12 @@ abbr -a ......... ../../../../../../../../
 # nvim
 abbr -a nv 'nvim'
 abbr -a nvs '/usr/bin/nvim'
+# slack-status
+function slack-status
+  cd $HOME/vincit/slack-apps/status-updater
+  node app.js $argv
+  cd -
+end
 
 
 

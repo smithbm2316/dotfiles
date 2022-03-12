@@ -109,18 +109,32 @@ Install:andUse('Seal', {
           hs.osascript.applescriptFromFile 'toggleTheme.applescript'
         end,
       },
+      lunch = {
+        keyword = 'lunch',
+        fn = function()
+          hs.execute('slack-status lunch', true)
+        end,
+      },
+      backToWork = {
+        keyword = 'backToWork',
+        fn = function()
+          hs.execute('slack-status clear', true)
+        end,
+      },
     }
     seal:refreshAllCommands()
   end,
   start = true,
 })
 
--- Keyboard shortcut cheatsheet
--- Install:andUse('KSheet', {
---   hotkeys = {
---     toggle = { cmd_hyper , '/' },
---   },
--- })
+-- TODO: call Amethyst's reset windows after these keybinds
+Install:andUse 'WindowScreenLeftAndRight'
+local WindowScreenLeftAndRight = spoon.WindowScreenLeftAndRight
+WindowScreenLeftAndRight.animationDuration = 0
+WindowScreenLeftAndRight:bindHotkeys {
+  screen_left = { hyper, ',' },
+  screen_right = { hyper, ';' },
+}
 
 -- Close the current tab if the focused app is in the apps_with_tabs list,
 -- otherwise close the currently focused window
@@ -271,17 +285,31 @@ app_keybind({ 'ctrl' }, 'u', {}, 'pageup', 'Dash')
 app_keybind({ 'ctrl' }, 'g', {}, 'home', 'Dash')
 app_keybind({ 'ctrl', 'shift' }, 'g', {}, 'end', 'Dash')
 
+-- scroll in Slack
+app_keybind({ 'ctrl' }, 'd', {}, 'pagedown', 'Slack')
+app_keybind({ 'ctrl' }, 'u', {}, 'pageup', 'Slack')
+app_keybind({ 'ctrl' }, 'e', { 'shift', 'cmd' }, '\\', 'Slack')
+app_keybind({ 'ctrl' }, 'o', { 'cmd' }, '[', 'Slack')
+app_keybind({ 'ctrl' }, 'i', { 'cmd' }, ']', 'Slack')
+
 -- Use hyper+/ to launch Google Chrome Canary's dev tools command palette
 app_keybind(hyper, '/', { 'cmd', 'shift' }, 'p', 'Google Chrome Canary')
 app_keybind(hyper, '/', { 'cmd', 'shift' }, 'p', 'Vivaldi')
 
--- Switch between previous and next conversations in Messages
+-- Switch between previous and next conversations, scroll in Messages
 app_keybind({ 'ctrl' }, 'n', { 'ctrl' }, 'tab', 'Messages')
 app_keybind({ 'ctrl' }, 'p', { 'ctrl', 'shift' }, 'tab', 'Messages')
 app_keybind({ 'ctrl' }, 'r', { 'cmd' }, 'r', 'Messages')
+app_keybind({ 'ctrl' }, 'd', {}, 'pagedown', 'Messages')
+app_keybind({ 'ctrl' }, 'u', {}, 'pageup', 'Messages')
+
+-- Switch between previous and next conversations, scroll in Polypane
+app_keybind({ 'ctrl' }, '[', { 'cmd' }, 'd', 'Polypane')
+app_keybind({ 'cmd' }, 'd', {}, 'pagedown', 'Polypane')
+app_keybind({ 'ctrl' }, 'u', {}, 'pageup', 'Polypane')
 
 -- bind keystroke to mouse button for a specific app
-local app_binds = function(to_mods, to_key, app_name)
+local mouse_app_binds = function(to_mods, to_key, app_name)
   if hs.application.frontmostApplication():name() == app_name then
     hs.eventtap.keyStroke(to_mods, to_key)
   end
@@ -290,38 +318,28 @@ end
 -- mouse button 4 binds
 local mouse_events = hs.eventtap.new({ 14 }, function(event)
   if event:getButtonState(3) then
-    app_binds({}, 'h', 'Figma')
+    mouse_app_binds({}, 'h', 'Figma')
     return true
   elseif event:getButtonState(4) then
-    app_binds({}, 'v', 'Figma')
+    mouse_app_binds({}, 'v', 'Figma')
     return true
   end
   return false
 end)
 mouse_events:start()
 
--- define hammerspoon mode
---[[
-HsMode = hs.hotkey.modal.new(hyper, '`')
--- callbacks for hammerspoon mode
-function HsMode:entered() hs.alert('Hammerspoon time') end
-function HsMode:exited() hs.alert('Back to normal') end
--- allow way to exit from hammerspoon mode easily
-HsMode:bind('', 'escape', function() HsMode:exit() end)
-HsMode:bind('cmd', 'c', function() HsMode:exit() end)
-HsMode:bind(hyper, '`', function() HsMode:exit() end)
-
--- Launch seal
-HsMode:bind('', 'o', function() spoon.Seal:toggle(); HsMode:exit() end)
---]]
-
--- this currently doesn't work, I wish it did
-local usbWatcher = hs.usb.watcher.new(function(data)
-  hs.alert.show(data.productID)
-  if data.productID == 16642 then
-    hs.osascript.applescriptFromFile 'scrollDirectionToggle.applescript'
+-- Open up the AirDrop menu to send a URL to another device
+function airdropper()
+  -- also can use com.apple.messages.ShareExtension for composing imessages
+  local sharer = hs.sharing.newShare 'com.apple.share.AirDrop.send'
+  local link = { hs.sharing.URL(hs.pasteboard.getContents(), false) }
+  if sharer:canShareItems(link) then
+    sharer:shareItems(link)
+  else
+    hs.alert.show 'The URL in your clipboard was not valid'
   end
-end)
+end
+hs.hotkey.bind(cmd_hyper, 'a', nil, airdropper, nil, airdropper)
 
 -- Load plugin to fade in the Hammerspoon logo when reloading configuration
 Install:andUse 'FadeLogo'
