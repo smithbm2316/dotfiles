@@ -315,7 +315,7 @@ local lua_text_snippets = {
   tbl = 'vim.tbl_',
 }
 for trig, text in pairs(lua_text_snippets) do
-  snippets.lua[trig] = t(text)
+  table.insert(snippets.lua, snip({ trig = trig }, { t(text) }))
 end
 
 -- load all my snippets :D
@@ -331,7 +331,7 @@ end, {
 })
 
 -- add keymap to reload snippets on demand
-vim.keymap.set({ 'n' }, '<leader><leader>rs', function()
+vim.keymap.set({ 'n' }, '<leader>rs', function()
   vim.cmd [[source $XDG_CONFIG_HOME/nvim/lua/plugins/luasnip/init.lua]]
   vim.notify('Reloaded snippets!', vim.log.levels.INFO)
 end, {

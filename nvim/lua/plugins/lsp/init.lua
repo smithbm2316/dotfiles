@@ -50,7 +50,7 @@ M.my_on_attach = function(client, bufnr)
   -- code action
   nnoremap('ca', [[<cmd>lua vim.lsp.buf.code_action()<cr>]], nil, bufnr)
   -- rename symbol
-  nnoremap('<leader>rs', [[<cmd>lua vim.lsp.buf.rename()<cr>]], nil, bufnr)
+  nnoremap('<leader>rn', [[<cmd>lua vim.lsp.buf.rename()<cr>]], nil, bufnr)
   -- lsp references
   nnoremap('<leader>lr', [[<cmd>lua require'telescope.builtin'.lsp_references()<cr>]], nil, bufnr)
   -- lsp symbols

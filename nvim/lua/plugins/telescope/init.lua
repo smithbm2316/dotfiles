@@ -165,34 +165,6 @@ require('telescope').setup {
       override_file_sorter = true,
       case_mode = 'smart_case',
     },
-    dash = {
-      -- debounce while typing, in milliseconds
-      debounce = 0,
-      file_type_keywords = {
-        TelescopePrompt = false,
-        terminal = false,
-        packer = false,
-        -- a table of strings will search on multiple keywords
-        html = { 'html', 'htmle', 'htmlhead' },
-        css = { 'css', 'cssmedia' },
-        scss = { 'css', 'scss' },
-        javascript = webdev_dash_keywords,
-        typescript = webdev_dash_keywords,
-        typescriptreact = webdev_dash_keywords,
-        javascriptreact = webdev_dash_keywords,
-        svelte = webdev_dash_keywords,
-        vue = webdev_dash_keywords,
-        bash = 'bash',
-        fish = 'fish',
-        lua = { 'lua', 'neovim', 'lspconfig', 'nvimts', 'hammer' },
-        go = 'go',
-        vim = 'vim',
-        man = 'man',
-      },
-    },
-    tldr = {
-      tldr_command = 'tldr',
-    },
   },
 }
 -- require fzf extension for fzf sorting algorithm
@@ -228,7 +200,7 @@ builtin('<leader>gh', 'help_tags')
 builtin('<leader>gm', 'man_pages')
 builtin('<leader>bl', 'buffers')
 builtin('<leader>ts', 'builtin')
-builtin('<leader>rp', 'reloader')
+builtin('<leader>rm', 'reloader')
 builtin('<leader>tp', 'resume') -- telescope previous
 builtin('<leader>ps', 'lsp_dynamic_workspace_symbols') -- project symbols
 builtin('<leader>ca', 'lsp_code_actions')

@@ -4,7 +4,7 @@ local cond = require 'nvim-autopairs.conds'
 
 npairs.setup {
   disable_filetype = { 'TelescopePrompt', 'markdown' },
-  ignored_next_char = '[%w%.]',
+  ignored_next_char = string.gsub([[ [%w%%%'%[%"%.] ]], '%s+', ''),
   pairs_map = {
     ["'"] = "'",
     ['"'] = '"',
@@ -16,13 +16,14 @@ npairs.setup {
 }
 
 -- disable quote pairs in lisp and vimscript
-vim.cmd [[
-  augroup AutopairsFiletypeCmds
-    au!
-    au FileType lisp lua require'nvim-autopairs'.remove_rule("'")
-    au FileType vim lua require'nvim-autopairs'.remove_rule('"')
-  augroup END
-]]
+vim.api.nvim_create_augroup('AutopairsFiletypeCmds', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'lisp', 'vim' },
+  group = 'AutopairsFiletypeCmds',
+  callback = function()
+    require('nvim-autopairs').remove_rule [["]]
+  end,
+})
 
 -- If you want insert `(` after select function or method item
 local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
