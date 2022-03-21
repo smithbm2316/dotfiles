@@ -65,11 +65,11 @@ M.my_on_attach = function(client, bufnr)
   nnoremap('[d', [[<cmd>lua vim.diagnostic.goto_prev({ popup_opts = { border = "double" } })<cr>]], nil, bufnr)
   -- prev diagnostic
   nnoremap(']d', [[<cmd>lua vim.diagnostic.goto_next({ popup_opts = { border = "double" } })<cr>]], nil, bufnr)
-  -- signature help hover
-  nnoremap('<c-s>', [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], nil, bufnr)
-  inoremap('<c-s>', [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], nil, bufnr)
+  -- hover help
+  nnoremap('<c-s>', [[<cmd>lua vim.lsp.buf.hover()<cr>]], nil, bufnr)
+  inoremap('<c-s>', [[<cmd>lua vim.lsp.buf.hover()<cr>]], nil, bufnr)
   -- show diagnostics on current line in floating window: hover diagnostics for line
-  nnoremap('gh', [[<cmd>lua vim.diagnostic.open_float({ popup_opts = { border = "single" } })<cr>]], nil, bufnr)
+  nnoremap('<leader>hd', [[<cmd>lua vim.diagnostic.open_float({ popup_opts = { border = "single" } })<cr>]], nil, bufnr)
 
   if package.loaded['goto-preview'] then
     -- goto-preview plugin mappings
@@ -308,10 +308,11 @@ lspconfig.sumneko_lua.setup(luadev)
 vim.diagnostic.config {
   underline = false,
   virtual_text = false,
-  virtual_lines = true,
+  virtual_lines = false,
   signs = true,
   update_in_insert = false,
 }
+vim.b.show_virtual_text = false
 
 -- toggle diagnostics
 M.toggle_diagnostics = function()
@@ -324,15 +325,19 @@ M.toggle_diagnostics = function()
       update_in_insert = false,
     }
     vim.b.show_virtual_text = false
+    vim.notify('Virtual Text off', 'info')
   else
     vim.diagnostic.config {
       underline = false,
-      virtual_text = false,
+      virtual_text = {
+        severity = { vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR },
+      },
       virtual_lines = true,
       signs = true,
       update_in_insert = false,
     }
     vim.b.show_virtual_text = true
+    vim.notify('Virtual Text on', 'info')
   end
 end
 nnoremap('<leader>td', [[<cmd>lua require'plugins.lsp'.toggle_diagnostics()<cr>]])
