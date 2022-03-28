@@ -48,7 +48,7 @@ local webdev_snippets = {
       dscr = 'console.log shortcut',
     },
     fmt([[console.log({debug})]], {
-      debug = i(0, 'time to figure out this bug 👀'),
+      debug = i(0),
     })
   ),
   --}}}
@@ -61,8 +61,8 @@ local webdev_snippets = {
       dscr = 'node.js require import statement',
     },
     fmt([[const {importName} = require('{package}')]], {
-      importName = i(0, 'importName'),
-      package = i(1, 'package'),
+      importName = i(0),
+      package = i(1),
     })
   ),
   --}}}
@@ -75,8 +75,8 @@ local webdev_snippets = {
       dscr = 'import a component/function from a package',
     },
     fmt([[import {name} from '{path}']], {
-      path = i(1, 'path'),
-      name = i(0, 'name'),
+      path = i(1),
+      name = i(0),
     })
   ),
   --}}}
@@ -95,9 +95,9 @@ local webdev_snippets = {
   }}
   ]],
       {
-        name = i(1, 'name'),
-        params = i(2, 'params'),
-        body = i(0, 'new bugs incoming 👀'),
+        name = i(1),
+        params = i(2),
+        body = i(0),
       }
     )
   ),
@@ -117,9 +117,9 @@ local webdev_snippets = {
   }}
   ]],
       {
-        name = i(1, 'name'),
-        params = i(2, 'params'),
-        body = i(0, 'new bugs incoming 👀'),
+        name = i(1),
+        params = i(2),
+        body = i(0),
       }
     )
   ),
@@ -141,9 +141,9 @@ local webdev_snippets = {
   export default {exportName}
   ]],
       {
-        name = i(1, 'name'),
-        params = i(2, 'params'),
-        body = i(0, 'new bugs incoming 👀'),
+        name = i(1),
+        params = i(2),
+        body = i(0),
         exportName = r(1),
       }
     )
@@ -164,9 +164,9 @@ local webdev_snippets = {
   }}
   ]],
       {
-        name = i(1, 'name'),
-        params = i(2, 'params'),
-        body = i(0, 'new bugs incoming 👀'),
+        name = i(1),
+        params = i(2),
+        body = i(0),
       }
     )
   ),
@@ -180,9 +180,9 @@ local webdev_snippets = {
       dscr = 'import a component/function from a package with its corresponding links func',
     },
     fmt([[import {{ {name}, links as {linksAlias} }} from '{path}']], {
-      path = i(1, 'path'),
-      name = i(2, 'name'),
-      linksAlias = i(0, 'linksAlias'),
+      path = i(1),
+      name = i(2),
+      linksAlias = i(0),
     })
   ),
   --}}}
@@ -231,12 +231,7 @@ local webdev_snippets = {
   --}}}
 }
 
-snippets.javascript = webdev_snippets
-snippets.javascriptreact = webdev_snippets
-snippets.typescript = webdev_snippets
-snippets.typescriptreact = webdev_snippets
-
-snippets.lua = {
+local lua_snippets = {
   -- luasnip snippet generator: *i used the luasnip to create the luasnip snippet* - thanos
   --{{{
   snip(
@@ -290,9 +285,9 @@ snippets.lua = {
       end
       ]],
       {
-        name = i(1, 'name'),
+        name = i(1),
         name2 = r(1),
-        module_name = i(2, 'module name'),
+        module_name = i(2),
         name3 = r(1),
         name4 = r(1),
         end_point = i(0),
@@ -315,20 +310,14 @@ local lua_text_snippets = {
   tbl = 'vim.tbl_',
 }
 for trig, text in pairs(lua_text_snippets) do
-  table.insert(snippets.lua, snip({ trig = trig }, { t(text) }))
+  table.insert(lua_snippets, snip({ trig = trig }, { t(text) }))
 end
 
--- load all my snippets :D
-ls.snippets = snippets
-
--- add keymap to jump back in snippet history
-vim.keymap.set({ 'i', 's' }, '<c-j>', function()
-  if ls.jumpable(-1) then
-    ls.jump(-1)
-  end
-end, {
-  silent = true,
-})
+-- add snippets to luasnip
+for _, ft in ipairs { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact' } do
+  ls.add_snippets(ft, webdev_snippets)
+end
+ls.add_snippets('lua', lua_snippets)
 
 -- add keymap to reload snippets on demand
 vim.keymap.set({ 'n' }, '<leader>rs', function()

@@ -75,7 +75,9 @@ function slack-status
   node app.js $argv
   cd -
 end
-
+# current work project quick shortcuts
+abbr -a sb 'cd ~/vincit/scout-us/backend'
+abbr -a sf 'cd ~/vincit/scout-us/web'
 
 
 ##################################################

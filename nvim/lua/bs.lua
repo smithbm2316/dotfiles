@@ -49,6 +49,7 @@ if has_nvim_notify then
   vim.notify = function(msg, log_level, opts)
     local default_opts = { timeout = 500 }
     opts = opts and vim.tbl_deep_extend('force', default_opts, opts) or default_opts
+    log_level = log_level or 'debug'
     nvim_notify(msg, log_level, opts)
   end
 end

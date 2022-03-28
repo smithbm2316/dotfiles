@@ -37,13 +37,6 @@ if has_dressing then
       enabled = true,
       -- Priority list of preferred vim.select implementations
       backend = { 'builtin', 'telescope' },
-      -- Options for telescope selector
-      telescope = {
-        -- can be 'dropdown', 'cursor', or 'ivy'
-        -- or you can use a configuration directly:
-        -- theme = require('telescope.themes').get_ivy({...})
-        theme = 'dropdown',
-      },
       -- Options for built-in selector
       builtin = {
         -- These are passed to nvim_open_win

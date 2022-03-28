@@ -4,6 +4,9 @@ vim.o.completeopt = 'menuone,noselect'
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
 local has_luasnip, luasnip = pcall(require, 'luasnip')
+if not has_luasnip then
+  vim.fn.error('Luasnip not found', vim.log.levels.ERROR)
+end
 
 -- override rose-pine nvim-cmp highlight groups
 nvim_cmp.load_cmp_hlgroups = function()
@@ -34,6 +37,7 @@ cmp.setup {
       require('luasnip').lsp_expand(args.body)
     end,
   },
+  preselect = false,
   -- Neat trick for showing the exact LSP server that the completion comes from
   -- https://github.com/rebelot/dotfiles/blob/master/nvim/lua/plugins/cmp.lua
   formatting = {
@@ -71,10 +75,8 @@ cmp.setup {
     ['<c-u>'] = cmp.mapping.scroll_docs(4),
     ['<c-e>'] = cmp.mapping.complete(),
     ['<c-y>'] = cmp.mapping.close(),
-    ['<c-k>'] = cmp.mapping(function(fallback)
-      if has_luasnip and luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      elseif cmp.visible() then
+    ['<c-l>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
         cmp.confirm {
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,
@@ -86,30 +88,42 @@ cmp.setup {
       'i',
       's',
     }),
-    --[[ ['<c-k>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    }, function(fallback)
-      if has_luasnip and luasnip.expand_or_jumpable() then
+    ['<c-k>'] = cmp.mapping(function(fallback)
+      if luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
       else
         fallback()
       end
-    end), ]]
+    end, {
+      'i',
+      's',
+    }),
+    ['<c-j>'] = cmp.mapping(function(fallback)
+      if luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, {
+      'i',
+      's',
+    }),
   },
   sources = {
     -- { name = 'nvim_lua' },
+    { name = 'luasnip' },
     { name = 'nvim_lsp' },
     { name = 'path' },
-    { name = 'luasnip' },
     {
       name = 'buffer',
       keyword_length = 4,
-      max_item_count = 12,
+      max_item_count = 10,
     },
   },
+  view = {
+    entries = 'custom',
+  },
   experimental = {
-    native_menu = false,
     ghost_text = {
       hl_group = 'CmpGhostText',
     },
