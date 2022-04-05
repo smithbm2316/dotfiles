@@ -200,32 +200,32 @@ builtin('<leader>ps', 'lsp_dynamic_workspace_symbols', 'Project symbols')
 builtin('<leader>ca', 'lsp_code_actions', 'Code actions')
 
 -- find_files, but don't use ignored patterns
-custom('<leader>fa', 'find_files', {
+custom('<leader>fa', 'find_files', 'Find files all', {
   file_ignore_patterns = always_ignore_these,
   no_ignore = false,
   hidden = true,
-}, 'Find files all')
+})
 
 -- find in dotfiles
-custom('<leader>fd', 'find_files', {
+custom('<leader>fd', 'find_files', 'Find in dotfiles', {
   cwd = '~/dotfiles',
   prompt_title = 'files in dotfiles',
-}, 'Find in dotfiles')
+})
 
 -- find in neovim config
-custom('<leader>fn', 'find_files', {
+custom('<leader>fn', 'find_files', 'Find neovim files', {
   cwd = '~/dotfiles/nvim',
   prompt_title = 'files in neovim config',
-}, 'Find neovim files')
+})
 
 -- grep inside of dotfiles
-custom('<leader>gid', 'live_grep', {
+custom('<leader>gid', 'live_grep', 'Grep in dotfiles', {
   cwd = '~/dotfiles',
   prompt_title = 'grep in dotfiles',
-}, 'Grep in dotfiles')
+})
 
 -- use live_grep with case sensitive enabled
-custom('<leader>gW', 'live_grep', {
+custom('<leader>gW', 'live_grep', 'Live grep case sensitive', {
   prompt_title = 'live_grep case sensitive',
   vimgrep_arguments = {
     'rg',
@@ -235,29 +235,29 @@ custom('<leader>gW', 'live_grep', {
     '--line-number',
     '--column',
   },
-}, 'Live grep case sensitive')
+})
 
 -- grep inside of neovim config
-custom('<leader>gin', 'live_grep', {
+custom('<leader>gin', 'live_grep', 'Grep in neovim files', {
   cwd = '~/.config/nvim',
   prompt_title = 'grep in neovim config',
-}, 'Grep in neovim files')
+})
 
 -- grep inside of vim help docs
-custom('<leader>vh', 'live_grep', {
+custom('<leader>vh', 'live_grep', 'Grep in vim help', {
   cwd = os.getenv 'VIMRUNTIME' .. '/doc',
   prompt_title = 'Grep in vim help docs',
-}, 'Grep in vim help')
+})
 
 -- jump to a buffer
 custom(
   '<leader>jb',
   'buffers',
+  'Jump to buffer',
   vim.tbl_deep_extend('force', themes.get_dropdown(), {
     preview = false,
     prompt_title = 'Jump to buffer',
-  }),
-  'Jump to buffer'
+  })
 )
 
 -- vim-grepper-like picker with grep_string
