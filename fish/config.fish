@@ -78,6 +78,7 @@ end
 # current work project quick shortcuts
 abbr -a sb 'cd ~/vincit/scout-us/backend'
 abbr -a sf 'cd ~/vincit/scout-us/web'
+abbr -a inspectdb "pgcli -h 'localhost' -p '15432' -U 'user' -d 'scout'"
 
 
 ##################################################
@@ -185,23 +186,16 @@ function tmns-fzf
   tmux display-popup -E "new-session -c (fd -E 'Library' --base-directory $HOME | fzf)"
 end
 
-# git alias
-# function g
-#   switch $argv
-#     case 'sync'
-#       set -l curr_branch (git branch --show-current)
-#       set -l def_branch (git branch -r | sed -nr "s/\s*upstream.(.*)/\1/p")
-#       git fetch upstream
-#       git switch $def_branch
-#       git pull
-#       git merge upstream/$def_branch
-#       git push
-#       git switch $curr_branch
-#     case '*'
-#       git $argv
-#   end
-# end
-
+# hard reset and wipe all docker containers and volumes
+# https://stackoverflow.com/questions/34658836/docker-is-in-volume-in-use-but-there-arent-any-docker-containers#42116347
+function docker-hardreset
+  docker stop (docker ps -aq)
+  docker rm (docker ps -aq)
+  docker network prune -f
+  docker rmi -f (docker images --filter dangling=true -qa)
+  docker volume rm (docker volume ls --filter dangling=true -q)
+  docker rmi -f (docker images -qa)
+end
 
 
 ##################################################

@@ -30,6 +30,7 @@
   wta = worktree add
   wtr = worktree remove
   wtls = worktree list
+  ri = rebase -i
 [core]
 	excludesFile = ~/.config/git/ignore
   editor = nvim
