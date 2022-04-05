@@ -1,59 +1,132 @@
 local maps = {}
--- helper fn to get full rhs of mappings for this module
-local mapfn = function(fn)
-  return [[<cmd>lua require'maps'.]] .. fn .. [[()<cr>]]
-end
-
 -- TODO: add mapping for visual mode macro running
 -- cc: https://www.hillelwayne.com/vim-macro-trickz/
 
-maps.source_filetype = function()
+-- Basic mappings
+--{{{
+-- run a :command
+local nosilent = { silent = false }
+nnoremap('go', ':', 'Command-line mode', nosilent)
+vnoremap('go', ':', 'Command-line mode', nosilent)
+
+-- Substitute Linewise
+nnoremap('<leader>sl', ':s/', 'Linewise search', nosilent)
+vnoremap('<leader>sl', ':s/', 'Linewise search', nosilent)
+
+-- Substitute Globally
+nnoremap('<leader>sg', ':%s/', 'Global buffer search', nosilent)
+vnoremap('<leader>sg', ':%s/', 'Global buffer search', nosilent)
+
+-- unbind in normal mode { / } jumping
+nnoremap('{', '<nop>')
+nnoremap('}', '<nop>')
+
+-- make gu toggle between upper and lower case instead of just upper
+nnoremap('gu', 'g~', 'Toggle case', nosilent)
+vnoremap('gu', 'g~', 'Toggle case', nosilent)
+
+-- swap to alternate file
+nnoremap('ga', '<c-^>', 'Swap to alt file', nosilent)
+vnoremap('ga', '<c-^>', 'Swap to alt file', nosilent)
+
+-- replace currently selected text with default register without yanking it
+vnoremap('p', '"_dP', nil, nosilent)
+
+-- repeat last macro
+nnoremap('<c-m>', '@@', 'Repeat last macro', nosilent)
+vnoremap('<c-m>', '@@', 'Repeat last macro', nosilent)
+
+-- repeat last :command
+nnoremap('gx', '@:', 'Repeat last command', nosilent)
+vnoremap('gx', '@:', 'Repeat last command', nosilent)
+
+-- remap q: to be easier to use, less work for your poor left pinky
+nnoremap('<c-q>', 'q:', 'Open cmdline window', nosilent)
+vnoremap('<c-q>', 'q:', 'Open cmdline window', nosilent)
+
+-- quickfix list navigation yay
+nnoremap('<leader>qn', '<cmd>cnext<cr>', 'Next item in qf list')
+nnoremap('<leader>qp', '<cmd>cprev<cr>', 'Prev item in qf list')
+nnoremap('<leader>qd', function()
+  vim.ui.input({ prompt = 'Quickfix do: ' }, function(do_cmd)
+    if do_cmd then
+      vim.cmd('cfdo ' .. do_cmd)
+    end
+  end)
+end, 'Exec cmd for all items in qf list')
+
+-- make more regular commands center screen too
+nnoremap('n', 'nzz')
+nnoremap('N', 'Nzz')
+nnoremap('g;', 'g;zz')
+nnoremap('gi', 'zzgi')
+
+-- make c/C change command send text to black hole register, i didn't want
+-- it anyways if I changed it probably
+nnoremap('c', '"_c')
+nnoremap('C', '"_C')
+
+-- make <c-v> paste in insert and command-line mode too
+inoremap('<c-v>', '<c-r>+', 'Paste with <c-v>', nosilent)
+cnoremap('<c-v>', '<c-r>+', 'Paste with <c-v>', nosilent)
+
+-- turn off search highlighting after finishing a search (nohlsearch)
+nnoremap('<leader>hl', '<cmd>noh<cr>', 'Turn off search hl')
+
+-- take the only existing window and split it to the right
+nnoremap('<leader>wr', [[<cmd>vnew | wincmd r | wincmd l<cr>]], 'Split 1 window to right')
+
+-- swap windows and move cursor to other window
+nnoremap('<leader>wl', [[<cmd>wincmd r | wincmd l<cr>]], 'Swap windows and move cursor')
+
+-- <c-n>/<c-p> moves selected lines down/up in visual mode
+nnoremap('<c-n>', '<cmd>m.+1<cr>==')
+nnoremap('<c-p>', '<cmd>m.-2<cr>==')
+vnoremap('<c-n>', '<cmd>m>+1<cr>gv=gv')
+vnoremap('<c-p>', '<cmd>m<-2<cr>gv=gv')
+
+-- quit all forcefully
+nnoremap('<leader>qf', '<cmd>qall!<cr>', 'Force quit all buffers')
+
+-- folds management
+nnoremap('<leader>fh', 'zA', 'Toggle current fold')
+nnoremap('<leader>fo', 'zR', 'Open all folds')
+nnoremap('<leader>fc', 'zM', 'Close all folds')
+
+-- Add function + user command for reviewing a PR
+vim.api.nvim_add_user_command('ReviewPR', 'lua vim.cmd("FocusDisable"); vim.cmd("DiffviewOpen main")', {})
+
+-- open quickfix list
+nnoremap('<leader>qo', '<cmd>copen<cr>', 'Open qflist')
+
+-- enter in a new html tag above or below the current line
+nnoremap('<leader>it', [[<cmd>call feedkeys("o<\<C-E>",', ''i')<cr>]])
+nnoremap('<leader>iT', [[<cmd>call feedkeys("O<\<C-E>",', ''i')<cr>]])
+---}}}
+
+-- Function mappings
+--{{{
+-- Source Here: Reload current buffer if it is a vim or lua file
+nnoremap('<leader>sh', function()
   local ft = vim.api.nvim_buf_get_option(0, 'filetype')
-  if ft == 'lua' or ft == 'vim' then
+  if ft == 'vim' then
     vim.cmd 'source %'
-    vim.notify(ft .. ' file reloaded!', 'info')
+    vim.notify('vim file reloaded!', 'info')
+  elseif ft == 'lua' then
+    vim.cmd 'luafile %'
+    vim.notify('lua file reloaded!', 'info')
   else
     vim.notify('Not a lua or vim file', 'info')
   end
-end
--- Source Here: Reload current buffer if it is a vim or lua file
-nnoremap('<leader>sh', mapfn 'source_filetype')
+end, 'Source Here (reload current file)')
 
 -- Color picker wrapper
-maps.convert_color_to = function()
+nnoremap('<leader>cc', function()
   vim.cmd(string.format('ConvertColorTo %s', vim.fn.input 'Convert to: '))
-end
-nnoremap('<leader>cc', mapfn 'convert_color_to')
-
--- turn terminal to normal mode with escape if it's not a lazygit terminal
-maps.remap_term_escape = function()
-  if vim.fn.bufname():match 'lazygit' ~= 'lazygit' then
-    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<c-\><c-n>]], { noremap = true, silent = true })
-  end
-end
-vim.api.nvim_exec(
-  [[
-  augroup RemapTermEscapeUnlessLazygit
-    au!
-    au TermOpen * lua require('maps').remap_term_escape()
-  augroup END
-]],
-  false
-)
-
--- toggle relativenumber on/off for all windows
-maps.toggle_numbers = function(buf_win_or_tab)
-  local command = buf_win_or_tab or 'windo set '
-  if vim.api.nvim_win_get_option(0, 'relativenumber') then
-    vim.cmd(command .. 'norelativenumber')
-  else
-    vim.cmd(command .. 'relativenumber')
-  end
-end
-nnoremap('<leader>tn', mapfn 'toggle_numbers')
+end, 'Convert color')
 
 -- toggle wrapping
-maps.toggle_wrap = function()
+nnoremap('<leader>tw', function()
   if vim.api.nvim_win_get_option(0, 'linebreak') then
     vim.api.nvim_win_set_option(0, 'linebreak', false)
     vim.api.nvim_win_set_option(0, 'wrap', false)
@@ -63,19 +136,17 @@ maps.toggle_wrap = function()
     vim.api.nvim_win_set_option(0, 'wrap', true)
     vim.notify('wrapping on', 'info')
   end
-end
-nnoremap('<leader>tw', mapfn 'toggle_wrap')
+end, 'Toggle line wrapping')
 
-maps.quit_session = function()
+nnoremap('<leader>qa', function()
   vim.cmd [[
     DeleteSession
     qall
   ]]
-end
-nnoremap('<leader>qa', mapfn 'quit_session')
+end, 'Quit session')
 
 -- change a split between horizontal and vertical
-maps.change_split_direction = function()
+nnoremap('<leader>ws', function()
   local a = vim.api
   local windows = a.nvim_tabpage_list_wins(0)
 
@@ -95,15 +166,67 @@ maps.change_split_direction = function()
     cmd_mapping = a.nvim_replace_termcodes('<c-w>L', true, false, true)
   end
   a.nvim_feedkeys(cmd_mapping, 'n', false)
-end
-nnoremap('<leader>ws', mapfn 'change_split_direction')
+end, 'Swap split between horizontal and vertical')
 
--- send expression under cursor as a query to Dash.app on macOS
-maps.show_dash_docs = function()
-  os.execute('open dash://' .. vim.fn.expand '<cexpr>')
-end
-nnoremap('<leader>sd', mapfn 'show_dash_docs')
+-- use 'helpgrep' to grep through vim's help docs
+nnoremap('<leader>hg', function()
+  local pattern = vim.fn.input 'Pattern to search help docs for: '
+  vim.cmd('helpgrep ' .. pattern)
+end, 'Grep the help menu')
 
+nnoremap('<leader>mdn', function()
+  local webdev = { 'javascript', 'typescript', 'html', 'css', 'javascriptreact', 'typescriptreact' }
+  local urls = {}
+  for _, ft in ipairs(webdev) do
+    urls[ft] = 'https://developer.mozilla.org/en-US/search?q=%s'
+  end
+  local current_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  local input = vim.fn.input 'Enter docs query: '
+  local query = urls[current_ft]:format(input)
+  local cmd = vim.fn.has 'mac' == 0 and 'xdg-open ' or 'open '
+  os.execute(cmd .. query)
+end, 'Search MDN docs')
+
+nnoremap('<leader>ou', function()
+  local uri = vim.fn.expand '<cWORD>'
+  uri = vim.fn.matchstr(uri, [[https\?:\/\/[A-Za-z0-9-_\.#\/=\?%]\+]])
+  if uri ~= '' then
+    local cmd = vim.fn.has 'mac' == 0 and 'xdg-open ' or 'open '
+    os.execute(cmd .. vim.fn.shellescape(uri, 1))
+  end
+end, 'Open url in browser')
+
+-- search dev docs
+nnoremap('<leader>dd', function()
+  local query = vim.fn.input 'Search DevDocs: '
+  local encodedURL = string.format('open "https://devdocs.io/#q=%s"', query:gsub('%s', '%%20'))
+  os.execute(encodedURL)
+end, 'Search DevDocs')
+--}}}
+
+-- toggle copilot on/off
+nnoremap('<leader>tc', function()
+  local cmd = 'Copilot '
+  if vim.g.copilot_enabled == 1 or vim.g.copilot_enabled == nil then
+    cmd = cmd .. 'disable'
+  else
+    cmd = cmd .. 'enable'
+  end
+  vim.cmd(cmd)
+  vim.notify(cmd .. 'd', 'info')
+end, 'Toggle Copilot')
+
+-- toggle relativenumber on/off for all windows
+nnoremap('<leader>tn', function()
+  if vim.api.nvim_win_get_option(0, 'relativenumber') then
+    vim.cmd 'windo set norelativenumber'
+  else
+    vim.cmd 'windo set relativenumber'
+  end
+end, 'Toggle relative line numbers')
+
+-- mappings that require an external function
+--{{{
 -- switch between light/dark rose-pine theme
 maps.toggle_rose_pine_variant = function(theme_variant)
   local colors = {
@@ -123,55 +246,24 @@ maps.toggle_rose_pine_variant = function(theme_variant)
   vim.api.nvim_set_option('background', background)
   vim.cmd('hi IndentBlanklineIndent1 gui=nocombine guifg=' .. colors[background])
 end
-nnoremap('<leader>tt', mapfn 'toggle_rose_pine_variant')
+nnoremap('<leader>tt', function()
+  maps.toggle_rose_pine_variant()
+end, 'Toggle color mode')
 
--- use 'helpgrep' to grep through vim's help docs
-maps.helpgrep = function()
-  local pattern = vim.fn.input 'Pattern to search help docs for: '
-  vim.cmd('helpgrep ' .. pattern)
-end
-nnoremap('<leader>hg', mapfn 'helpgrep')
-
-maps.grep_docs = function()
-  local webdev = { 'javascript', 'typescript', 'html', 'css', 'javascriptreact', 'typescriptreact' }
-  local urls = {}
-  for _, ft in ipairs(webdev) do
-    urls[ft] = 'https://developer.mozilla.org/en-US/search?q=%s'
-  end
-  local current_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-  local input = vim.fn.input 'Enter docs query: '
-  local query = urls[current_ft]:format(input)
-  local cmd = vim.fn.has 'mac' == 0 and 'xdg-open ' or 'open '
-  os.execute(cmd .. query)
-end
-nnoremap('<leader>gd', mapfn 'grep_docs')
-
-maps.open_url_under_cursor = function()
-  local uri = vim.fn.expand '<cWORD>'
-  uri = vim.fn.matchstr(uri, [[https\?:\/\/[A-Za-z0-9-_\.#\/=\?%]\+]])
-  if uri ~= '' then
-    local cmd = vim.fn.has 'mac' == 0 and 'xdg-open ' or 'open '
-    os.execute(cmd .. vim.fn.shellescape(uri, 1))
+-- turn terminal to normal mode with escape if it's not a lazygit terminal
+maps.remap_term_escape = function()
+  if vim.fn.bufname():match 'lazygit' ~= 'lazygit' then
+    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<c-\><c-n>]], { noremap = true, '', silent = true })
   end
 end
-nnoremap('<leader>ou', mapfn 'open_url_under_cursor')
-
-maps.search_devdocs = function()
-  local query = vim.fn.input 'Search DevDocs: '
-  local encodedURL = string.format('open "https://devdocs.io/#q=%s"', query:gsub('%s', '%%20'))
-  os.execute(encodedURL)
-end
-nnoremap('<leader>dd', mapfn 'search_devdocs')
-
-maps.quit_force = function()
-  local answer = vim.fn.input({
-    prompt = 'Force quit neovim? ',
-    cancelreturn = 'n',
-  }):lower()
-  if answer == '' then
-    vim.cmd 'qa!'
-  end
-end
-nnoremap('<leader>qf', mapfn 'quit_force')
+vim.api.nvim_exec(
+  [[
+  augroup RemapTermEscapeUnlessLazygit
+    au!
+    au TermOpen * lua require('maps').remap_term_escape()
+  augroup END
+]],
+  false
+)
 
 return maps

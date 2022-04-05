@@ -8,6 +8,7 @@ return require('packer').startup {
     --- lua plugins :D
     ---
     -----------------------------------------------------
+    --{{{
     -- impatient speeds up loading times with caching
     use 'lewis6991/impatient.nvim'
 
@@ -39,6 +40,7 @@ return require('packer').startup {
       requires = {
         'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-nvim-lua',
         'hrsh7th/cmp-path',
         'saadparwaiz1/cmp_luasnip',
       },
@@ -109,20 +111,7 @@ return require('packer').startup {
     use 'folke/which-key.nvim'
 
     -- Open a new tab for viewing git diffs for all files in current branch
-    use {
-      'sindrets/diffview.nvim',
-      opt = true,
-      config = function()
-        require 'plugins.opt.diffview'
-      end,
-      cmd = {
-        'DiffviewOpen',
-        'DiffviewClose',
-        'DiffviewFocusFiles',
-        'DiffviewToggleFiles',
-        'DiffviewRefresh',
-      },
-    }
+    use 'sindrets/diffview.nvim'
 
     -- better session management in neovim
     use 'rmagatti/auto-session'
@@ -138,9 +127,6 @@ return require('packer').startup {
 
     -- simple file explorer
     use 'tamago324/lir.nvim'
-
-    -- make lua nvim development easier
-    use 'folke/lua-dev.nvim'
 
     -- better tsserver support
     -- language server for linting/formatting
@@ -168,7 +154,7 @@ return require('packer').startup {
     use 'tversteeg/registers.nvim'
 
     -- lazygit in neovim
-    use 'kdheepak/lazygit.nvim'
+    -- use 'kdheepak/lazygit.nvim'
 
     -- treesitter info for my statusline
     use 'SmiteshP/nvim-gps'
@@ -186,11 +172,39 @@ return require('packer').startup {
     -- better menus for inputs and selects in neovim
     use 'stevearc/dressing.nvim'
 
+    -- magit inside of neovim
+    use 'TimUntersberger/neogit'
+
+    -- select from a list of URLs in the current file
+    -- use '~/code/urlview.nvim'
+    use 'axieax/urlview.nvim'
+
+    -- handle git diffs in neovim
+    use 'akinsho/git-conflict.nvim'
+
+    -- status info for lsp
+    use 'nvim-lua/lsp-status.nvim'
+
+    -- lua development with types
+    use 'folke/lua-dev.nvim'
+
+    --}}}
     -----------------------------------------------------
     ---
     --- vimscript plugins
     ---
     -----------------------------------------------------
+    --{{{
+
+    -- copilot *not* in vscode??
+    use {
+      'github/copilot.vim',
+      opt = true,
+      cmd = 'Copilot',
+      setup = function()
+        vim.g.copilot_enabled = 0
+      end,
+    }
 
     -- runs :noh whenever the mouse cursor is moved 
     use 'junegunn/vim-slash'
@@ -249,6 +263,7 @@ return require('packer').startup {
 
     -- lua reference
     use 'milisims/nvim-luaref'
+    --}}}
   end,
   config = {
     compile_path = vim.fn.stdpath 'config' .. '/lua/packer/packer_compiled.lua',

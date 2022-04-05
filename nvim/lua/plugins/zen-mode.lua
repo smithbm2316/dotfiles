@@ -17,4 +17,4 @@ require('zen-mode').setup {
   end,
 }
 
-nnoremap('<leader>tz', '<cmd>ZenMode<cr>')
+nnoremap('<leader>tz', '<cmd>ZenMode<cr>', 'Toggle zen mode')

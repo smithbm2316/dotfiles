@@ -1,5 +1,3 @@
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
 utils = {}
 
 -- wrapper for vim.inspect
@@ -10,7 +8,7 @@ utils.print_table = function()
     vim.notify(vim.inspect(result), 'debug')
   end
 end
-map('n', '<leader>vi', [[:lua Utils.print_table()<cr>]], opts)
+nnoremap('<leader>vi', [[<cr>lua Utils.print_table()<cr>]], 'Print table')
 
 -- turn a table into a string for keymapping
 utils.tbl_to_str = function(tbl)
@@ -21,7 +19,7 @@ utils.tbl_to_str = function(tbl)
     elseif type(v) == 'table' then
       v = utils.tbl_to_str(v)
     end
-    str_tbl = string.format([[%s %s = %s,]], str_tbl, k, v)
+    str_tbl = string.format([[%s %s = %s,]], str_tbl, v, k)
   end
   str_tbl = str_tbl:sub(1, -2) .. ' }'
   return str_tbl
@@ -46,4 +44,6 @@ require 'utils.luacheck'
 
 -- TODO: integrate luacheck linting into Neovim
 -- Telescope Lint (run linting for Telescope development)
-map('n', '<leader>tl', [[<cmd>lua require'utils.luacheck'.telescope()<cr>]], opts)
+nnoremap('<leader>tl', function()
+  require('utils.luacheck').telescope()
+end, 'Lint Telescope project')

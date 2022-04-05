@@ -16,7 +16,7 @@ local opt = vim.opt
 o.autoindent = true
 o.expandtab = true
 opt.formatoptions:remove '2tac'
-opt.formatoptions:append 'jnrql'
+opt.formatoptions:append 'jnrqlo'
 o.shiftwidth = 2
 o.smartindent = true
 o.softtabstop = 2
@@ -37,11 +37,11 @@ o.mouse = 'n'
 o.nrformats = ''
 o.path = '.,,'
 o.showmode = false
-o.showtabline = 1
+o.showtabline = 0
 o.smartcase = true
 o.splitbelow = true
 o.splitright = true
-o.swapfile = true
+o.swapfile = false
 o.updatetime = 2000
 o.wildignore = '*/node_modules/*,*/.git/*,DS_Store,*/venv/*,*/__pycache__/*,*.pyc'
 o.wildmenu = true
@@ -59,6 +59,21 @@ o.wrap = false
 -- Autocmds
 vim.cmd 'au! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
 
--- colorscheme global defaults
-o.background = 'dark'
-o.termguicolors = true
+-- disable builtin plugins i don't need
+vim.g.loaded_gzip = 1
+vim.g.loaded_zip = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_tar = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_getscript = 1
+vim.g.loaded_getscriptPlugin = 1
+vim.g.loaded_vimball = 1
+vim.g.loaded_vimballPlugin = 1
+vim.g.loaded_2html_plugin = 1
+-- vim.g.loaded_matchit = 1
+vim.g.loaded_matchparen = 1
+vim.g.loaded_logiPat = 1
+vim.g.loaded_rrhelper = 1
+--[[ vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrwSettings = 1 ]]

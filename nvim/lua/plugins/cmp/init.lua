@@ -3,10 +3,6 @@ local nvim_cmp = {}
 vim.o.completeopt = 'menuone,noselect'
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
-local has_luasnip, luasnip = pcall(require, 'luasnip')
-if not has_luasnip then
-  vim.fn.error('Luasnip not found', vim.log.levels.ERROR)
-end
 
 -- override rose-pine nvim-cmp highlight groups
 nvim_cmp.load_cmp_hlgroups = function()
@@ -75,7 +71,7 @@ cmp.setup {
     ['<c-u>'] = cmp.mapping.scroll_docs(4),
     ['<c-e>'] = cmp.mapping.complete(),
     ['<c-y>'] = cmp.mapping.close(),
-    ['<c-l>'] = cmp.mapping(function(fallback)
+    ['<c-k>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.confirm {
           behavior = cmp.ConfirmBehavior.Replace,
@@ -88,31 +84,11 @@ cmp.setup {
       'i',
       's',
     }),
-    ['<c-k>'] = cmp.mapping(function(fallback)
-      if luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, {
-      'i',
-      's',
-    }),
-    ['<c-j>'] = cmp.mapping(function(fallback)
-      if luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, {
-      'i',
-      's',
-    }),
   },
   sources = {
     -- { name = 'nvim_lua' },
-    { name = 'luasnip' },
     { name = 'nvim_lsp' },
+    { name = 'luasnip' },
     { name = 'path' },
     {
       name = 'buffer',

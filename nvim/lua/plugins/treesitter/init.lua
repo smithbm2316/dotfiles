@@ -2,7 +2,7 @@
 local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
 ft_to_parser.nunjucks = 'tsx'
 ft_to_parser.liquid = 'tsx'
-ft_to_parser.astro = 'tsx'
+-- ft_to_parser.astro = 'tsx'
 
 require('nvim-treesitter.configs').setup {
   textobjects = {

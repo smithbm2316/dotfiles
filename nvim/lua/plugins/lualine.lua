@@ -9,7 +9,7 @@ local harpoon_status = function()
   return ''
 end
 
-local gps = require 'nvim-gps'
+--[[ local gps = require 'nvim-gps'
 gps.setup {
 
   icons = {
@@ -90,7 +90,7 @@ gps.setup {
 
   -- indicator used when context is hits depth limit
   depth_limit_indicator = '..',
-}
+} ]]
 
 require('lualine').setup {
   options = {
@@ -138,6 +138,7 @@ require('lualine').setup {
         harpoon_status,
         color = 'HarpoonWindow',
       },
+      { require('lsp-status').status() },
       {
         'diagnostics',
         sources = { 'nvim_diagnostic' },
@@ -169,12 +170,14 @@ require('lualine').setup {
     lualine_b = {},
     lualine_c = {},
     lualine_x = {
-      {
+      --[[ {
         gps.get_location,
         cond = gps.is_available,
-      },
+      }, ]]
     },
     lualine_y = {},
     lualine_z = {},
   },
 }
+
+vim.o.showtabline = 0

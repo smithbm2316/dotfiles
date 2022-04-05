@@ -8,7 +8,7 @@ if has_zk then
         name = 'zk',
         on_attach = function(client, bufnr)
           require('plugins.lsp').my_on_attach(client, bufnr)
-          vnoremap('<leader>nn', [[:'<,'>lua vim.lsp.buf.range_code_action()<cr>]], nil, bufnr)
+          vnoremap('<leader>nn', [[:'<,'>lua vim.lsp.buf.range_code_action()<cr>]], nil, { buffer = bufnr })
         end,
         capabilities = require('plugins.lsp').my_capabilities,
       },
@@ -20,7 +20,7 @@ if has_zk then
     -- commands = {},
   }
   -- create a new note
-  vim.keymap.set({ 'n' }, '<leader>nn', function()
+  nnoremap('<leader>nn', function()
     vim.ui.input({ prompt = 'Title: ' }, function(input)
       if input then
         zk.new {
@@ -28,7 +28,5 @@ if has_zk then
         }
       end
     end)
-  end, {
-    silent = true,
-  })
+  end)
 end

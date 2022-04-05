@@ -1,3 +1,8 @@
+local ok, formatter = pcall(require, 'formatter')
+if not ok then
+  return
+end
+
 -- configuration options for stylua
 local filetype_configs = {
   lua = {
@@ -52,16 +57,32 @@ for _, ft in pairs {
   filetype_configs[ft] = prettier_config
 end
 
--- require formatter.nvim
-require('formatter').setup {
+-- setup formatter
+formatter.setup {
   logging = false,
   filetype = filetype_configs,
 }
 
 -- call formatter.nvim automatically on save
-vim.cmd [[
-augroup AutoFormatting
-  au!
-  au BufWritePost *.js,*.mjs,*.cjs,*.jsx,*.ts,*.tsx,*.svelte,*.vue,*.json,*.lua,*.go FormatWrite
-augroup END
-]]
+create_augroup('AutoFormatting', {
+  {
+    events = 'BufWritePost',
+    pattern = {
+      '*.js',
+      '*.mjs',
+      '*.cjs',
+      '*.jsx',
+      '*.ts',
+      '*.tsx',
+      '*.svelte',
+      '*.vue',
+      '*.json',
+      '*.lua',
+      '*.go',
+    },
+    command = 'FormatWrite',
+  },
+})
+nnoremap('<leader>tF', function()
+  _G.BS_toggle_augroup 'AutoFormatting'
+end, 'Toggle auto-formatting')

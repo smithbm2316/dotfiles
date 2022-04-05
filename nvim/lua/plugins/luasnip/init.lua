@@ -9,10 +9,12 @@ local i = ls.insert_node
 local f = ls.function_node
 local c = ls.choice_node
 local d = ls.dynamic_node
-local r = require('luasnip.extras').rep
+local r = ls.restore_node
+local rep = require('luasnip.extras').rep
 local events = require 'luasnip.util.events'
 local types = require 'luasnip.util.types'
 local fmt = require('luasnip.extras.fmt').fmt
+local ai = require 'luasnip.nodes.absolute_indexer'
 --}}}
 
 -- luasnip config setup
@@ -21,21 +23,56 @@ ls.config.set_config {
   ext_opts = {
     [types.choiceNode] = {
       active = {
-        virt_text = { { '', 'LspDiagnosticsSignHint' } }, -- ●
+        virt_text = { { '●', 'DiagnosticHint' } },
       },
     },
     [types.insertNode] = {
       active = {
-        virt_text = { { '', 'LspDiagnosticsSignWarning' } },
+        virt_text = { { '', 'DiagnosticWarn' } },
       },
     },
   },
   history = true,
   delete_check_events = 'InsertLeave',
+  update_events = 'TextChanged,TextChangedI',
+  ft_func = require('luasnip.extras.filetype_functions').from_cursor,
 }
-
-local snippets = {}
 --}}}
+
+-- luasnip helpers
+-- insert an extra insert node for a type annotation if the current filetype matches
+--{{{
+local add_ts_type = function(position, type_pattern, show_annotation_choice_first)
+  return d(position, function()
+    local ft = vim.api.nvim_buf_get_option(0, 'ft')
+
+    if ft:match 'typescript' then
+      -- generate the type annotation insert node based upon the position of the
+      -- `|` character (where the cursor should be)
+      local text_nodes = vim.split(type_pattern, '|')
+      local choices = {
+        {
+          t(text_nodes[1]),
+          i(1),
+          t(text_nodes[2]),
+        },
+      }
+
+      -- decide whether the type annotation insert node should be the first
+      -- or second choice node
+      if show_annotation_choice_first then
+        table.insert(choices, t '')
+      else
+        table.insert(choices, 1, t '')
+      end
+
+      return sn(nil, c(1, choices))
+    else
+      return sn(nil, t '')
+    end
+  end)
+end
+---}}}
 
 -- snippets for web development
 local webdev_snippets = {
@@ -76,7 +113,11 @@ local webdev_snippets = {
     },
     fmt([[import {name} from '{path}']], {
       path = i(1),
-      name = i(0),
+      name = c(2, {
+        sn(nil, { t '{ ', t ' }' }, i(1)),
+        i(1),
+        sn(nil, { t 'type { ', t ' }' }, i(1)),
+      }),
     })
   ),
   --}}}
@@ -86,17 +127,23 @@ local webdev_snippets = {
     {
       trig = 'fc',
       name = 'function component',
-      dscr = 'export a function component',
+      dscr = 'insert a function component',
     },
     fmt(
       [[
-  export function {name}({params}) {{
+  {export}function {name}({params}){return_type} {{
     {body}
   }}
   ]],
       {
-        name = i(1),
-        params = i(2),
+        export = c(1, {
+          t 'export default ',
+          t 'export ',
+          t '',
+        }),
+        name = i(2),
+        params = i(3),
+        return_type = i(4),
         body = i(0),
       }
     )
@@ -112,60 +159,26 @@ local webdev_snippets = {
     },
     fmt(
       [[
-  export const {name} = ({params}) => {{
+  const {name} = ({params}){return_type} => {{
     {body}
   }}
+  {export}
   ]],
       {
         name = i(1),
         params = i(2),
-        body = i(0),
-      }
-    )
-  ),
-  --}}}
-  -- insert a default arrow function component
-  --{{{
-  snip(
-    {
-      trig = 'dac',
-      name = 'default arrow component',
-      dscr = 'export a default arrow function component',
-    },
-    fmt(
-      [[
-  const {name} = ({params}) => {{
-    {body}
-  }}
-
-  export default {exportName}
-  ]],
-      {
-        name = i(1),
-        params = i(2),
-        body = i(0),
-        exportName = r(1),
-      }
-    )
-  ),
-  --}}}
-  -- insert a default function component
-  --{{{
-  snip(
-    {
-      trig = 'dfc',
-      name = 'default function component',
-      dscr = 'export a default function component',
-    },
-    fmt(
-      [[
-  export default function {name}({params}) {{
-    {body}
-  }}
-  ]],
-      {
-        name = i(1),
-        params = i(2),
+        return_type = i(3),
+        export = d(4, function(args)
+          return sn(
+            nil,
+            c(1, {
+              t('export default ' .. args[1][1]),
+              t '',
+            })
+          )
+        end, {
+          1,
+        }),
         body = i(0),
       }
     )
@@ -194,27 +207,30 @@ local webdev_snippets = {
       name = 'useState',
       desc = 'useState with type annotation',
     },
-    fmt([[const [{}, {}] = useState<{}>({})]], {
-      i(1),
-      f(function(args)
+    fmt([[const [{state}, {setState}] = useState{type_annotation}({initial_value})]], {
+      state = i(1),
+      setState = f(function(args)
         if args[1][1]:len() > 0 then
           return 'set' .. args[1][1]:sub(1, 1):upper() .. args[1][1]:sub(2)
         else
           return ''
         end
       end, 1),
-      i(2),
-      i(0),
+      type_annotation = add_ts_type(2, '<|>', true),
+      initial_value = i(0),
     })
   ),
   --}}}
   -- useEffect with type annotation
+  -- add the ability to auto-import this from React in your file,
+  -- probably using LSP capabilities somehow. Maybe run the helper
+  -- func from nvim-ts-lsp-utils or nvim-cmp that imports automatically
   --{{{
   snip(
     {
       trig = 'ue',
       name = 'useEffect',
-      desc = 'useEffect with type annotation',
+      desc = 'useEffect',
     },
     fmt(
       [[
@@ -279,17 +295,15 @@ local lua_snippets = {
     },
     fmt(
       [[
-      local has_{name}, {name2} = pcall(require, '{module_name}')
-      if has_{name3} then
-        {name4}.{end_point}
+      local ok, {var_name} = pcall(require, '{module_name}')
+      if not ok then
+        return
       end
+      {end_point}
       ]],
       {
-        name = i(1),
-        name2 = r(1),
-        module_name = i(2),
-        name3 = r(1),
-        name4 = r(1),
+        module_name = i(1),
+        var_name = c(2, { rep(1), i(nil) }),
         end_point = i(0),
       }
     )
@@ -314,15 +328,36 @@ for trig, text in pairs(lua_text_snippets) do
 end
 
 -- add snippets to luasnip
-for _, ft in ipairs { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact' } do
-  ls.add_snippets(ft, webdev_snippets)
+for _, ft in ipairs { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'astro' } do
+  ls.add_snippets(ft, webdev_snippets, {
+    key = ft,
+  })
 end
-ls.add_snippets('lua', lua_snippets)
+ls.add_snippets('lua', lua_snippets, {
+  key = 'lua',
+})
+-- why do we use a key here: https://github.com/L3MON4D3/LuaSnip/issues/81#issuecomment-1073301357
 
 -- add keymap to reload snippets on demand
-vim.keymap.set({ 'n' }, '<leader>rs', function()
-  vim.cmd [[source $XDG_CONFIG_HOME/nvim/lua/plugins/luasnip/init.lua]]
-  vim.notify('Reloaded snippets!', vim.log.levels.INFO)
-end, {
-  silent = true,
-})
+nnoremap('<leader>rs', function()
+  vim.cmd [[luafile $XDG_CONFIG_HOME/nvim/lua/plugins/luasnip/init.lua]]
+  vim.notify('Reloaded snippets!', 'info')
+end, 'Reload Luasnip Snippets')
+-- select next choice node
+inoremap('<c-j>', function()
+  if ls.choice_active() then
+    ls.change_choice(1)
+  end
+end, 'Choose next Luasnip choice node')
+-- jump to next snippet point
+inoremap('<c-l>', function()
+  if ls.expand_or_jumpable() then
+    ls.expand_or_jump()
+  end
+end, 'Expand or jump to next Luasnip node')
+-- jump to previous snippet point
+inoremap('<c-h>', function()
+  if ls.jumpable(-1) then
+    ls.jump(-1)
+  end
+end, 'Jump to previous Luasnip node')

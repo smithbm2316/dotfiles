@@ -44,12 +44,39 @@ bs.colors = {
 }
 
 -- hijack vim.notify with nvim-notify
-local has_nvim_notify, nvim_notify = pcall(require, 'notify')
-if has_nvim_notify then
-  vim.notify = function(msg, log_level, opts)
-    local default_opts = { timeout = 500 }
-    opts = opts and vim.tbl_deep_extend('force', default_opts, opts) or default_opts
-    log_level = log_level or 'debug'
-    nvim_notify(msg, log_level, opts)
-  end
+local ok, nvim_notify = pcall(require, 'notify')
+if not ok then
+  print 'nvim-notify not loaded'
+  return
 end
+
+-- termguicolors needs to be set for nvim-notify
+vim.opt.background = 'dark'
+vim.opt.termguicolors = true
+
+nvim_notify.setup {
+  timeout = 3000,
+  background_colour = 'Normal',
+}
+
+-- override default vim.notify behavior with plugin
+vim.notify = function(msg, log_level, opts)
+  log_level = log_level or 'debug'
+
+  -- auto-convert tables to string interpretation so we can print it
+  if type(msg) == 'table' then
+    msg = vim.inspect(msg)
+  end
+  nvim_notify(msg, log_level, opts)
+end
+
+-- load telescope extension
+local has_telescope, telescope = pcall(require, 'telescope')
+if has_telescope then
+  telescope.load_extension 'notify'
+end
+
+-- clear any active notifications
+nnoremap('<leader>nc', function()
+  nvim_notify.dismiss { pending = true }
+end, 'Notification clear')

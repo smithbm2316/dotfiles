@@ -1,7 +1,3 @@
--- TODO: write a wrapper for custom functions
--- TODO: why isn't telescope finding neuron or web-devicons files??
--- My module to export functions from
-local ts = {}
 -- Telescope stuff I need to import for configuration
 local actions = require 'telescope.actions'
 local action_state = require 'telescope.actions.state'
@@ -171,67 +167,65 @@ require('telescope').setup {
 require('telescope').load_extension 'fzf'
 
 -- function for generating keymap for each picker
-local builtin = function(mapping, picker, is_custom)
-  local module = is_custom and 'plugins.telescope' or 'telescope.builtin'
-  local rhs = string.format([[<cmd>lua require'%s'.%s()<cr>]], module, picker)
-  nnoremap(mapping, rhs)
+local builtin = function(lhs, picker, label)
+  nnoremap(lhs, function()
+    require('telescope.builtin')[picker]()
+  end, label)
 end
 
-local custom = function(mapping, picker_name, builtin_name, opts)
+local custom = function(lhs, picker, label, opts)
   opts = opts or {}
-  ts[picker_name] = function()
-    require('telescope.builtin')[builtin_name](opts)
-  end
-  local rhs = string.format([[<cmd>lua require'plugins.telescope'.%s()<cr>]], picker_name)
-  nnoremap(mapping, rhs)
+  nnoremap(lhs, function()
+    require('telescope.builtin')[picker](opts)
+  end, label)
 end
 
 -- my telescope builtins mappings
 -- TODO: move some of my lspconfig mappings to use telescope's lsp pickers instead
 -- i.e. references and definition
-builtin('<leader>fb', 'file_browser')
-builtin('<leader>of', 'oldfiles')
-builtin('<leader>fw', 'grep_string')
-builtin('<leader>gw', 'live_grep') -- grep word
-builtin('<leader>gib', 'current_buffer_fuzzy_find') -- grep in buffer
-builtin('<leader>gl', 'git_commits') -- git log
-builtin('<leader>gb', 'git_branches')
-builtin('<leader>gh', 'help_tags')
-builtin('<leader>gm', 'man_pages')
-builtin('<leader>bl', 'buffers')
-builtin('<leader>ts', 'builtin')
-builtin('<leader>rm', 'reloader')
-builtin('<leader>tp', 'resume') -- telescope previous
-builtin('<leader>ps', 'lsp_dynamic_workspace_symbols') -- project symbols
-builtin('<leader>ca', 'lsp_code_actions')
+-- builtin('<leader>fb', 'file_browser') no longer in telescope core
+builtin('<leader>of', 'oldfiles', 'Oldfiles')
+builtin('<leader>fw', 'grep_string', 'Grep string')
+builtin('<leader>gw', 'live_grep', 'Live grep')
+builtin('<leader>/', 'current_buffer_fuzzy_find', 'Fuzzy find in buffer')
+builtin('<leader>gl', 'git_commits', 'Git commits') -- git log
+builtin('<leader>gb', 'git_branches', 'Git branches')
+builtin('<leader>gh', 'help_tags', 'Help tags')
+builtin('<leader>gm', 'man_pages', 'Man pages')
+builtin('<leader>bl', 'buffers', 'List buffers')
+builtin('<leader>ts', 'builtin', 'Telescope pickers')
+builtin('<leader>rm', 'reloader', 'Reload module')
+builtin('<leader>tp', 'resume', 'Previous telescope picker')
+builtin('<leader>ps', 'lsp_dynamic_workspace_symbols', 'Project symbols')
+builtin('<leader>ca', 'lsp_code_actions', 'Code actions')
 
 -- find_files, but don't use ignored patterns
-custom('<leader>fa', 'find_files_all', 'find_files', {
+custom('<leader>fa', 'find_files', {
   file_ignore_patterns = always_ignore_these,
   no_ignore = false,
   hidden = true,
-})
+}, 'Find files all')
 
 -- find in dotfiles
-custom('<leader>fd', 'find_dotfiles', 'find_files', {
+custom('<leader>fd', 'find_files', {
   cwd = '~/dotfiles',
   prompt_title = 'files in dotfiles',
-})
+}, 'Find in dotfiles')
 
 -- find in neovim config
-custom('<leader>fn', 'find_neovim', 'find_files', {
+custom('<leader>fn', 'find_files', {
   cwd = '~/dotfiles/nvim',
   prompt_title = 'files in neovim config',
-})
+}, 'Find neovim files')
 
 -- grep inside of dotfiles
-custom('<leader>gid', 'grep_in_dotfiles', 'live_grep', {
+custom('<leader>gid', 'live_grep', {
   cwd = '~/dotfiles',
   prompt_title = 'grep in dotfiles',
-})
+}, 'Grep in dotfiles')
 
 -- use live_grep with case sensitive enabled
-custom('<leader>gW', 'live_grep_case_sensitive', 'live_grep', {
+custom('<leader>gW', 'live_grep', {
   prompt_title = 'live_grep case sensitive',
   vimgrep_arguments = {
     'rg',
@@ -241,45 +235,44 @@ custom('<leader>gW', 'live_grep_case_sensitive', 'live_grep', {
     '--line-number',
     '--column',
   },
-})
+}, 'Live grep case sensitive')
 
 -- grep inside of neovim config
-custom('<leader>gin', 'grep_in_neovim', 'live_grep', {
+custom('<leader>gin', 'live_grep', {
   cwd = '~/.config/nvim',
   prompt_title = 'grep in neovim config',
-})
+}, 'Grep in neovim files')
 
 -- grep inside of vim help docs
-custom('<leader>vh', 'grep_vim_help', 'live_grep', {
+custom('<leader>vh', 'live_grep', {
   cwd = os.getenv 'VIMRUNTIME' .. '/doc',
   prompt_title = 'Grep in vim help docs',
-})
+}, 'Grep in vim help')
 
 -- jump to a buffer
 custom(
   '<leader>jb',
-  'jump_to_buffer',
   'buffers',
   vim.tbl_deep_extend('force', themes.get_dropdown(), {
     preview = false,
     prompt_title = 'Jump to buffer',
-  })
+  }),
+  'Jump to buffer'
 )
 
 -- vim-grepper-like picker with grep_string
-ts.ripgrepper = function()
+nnoremap('<leader>rg', function()
   require('telescope.builtin').grep_string {
     prompt_title = 'ripgrepper',
     search = vim.fn.input 'ripgrepper > ',
     search_dirs = { '$PWD' },
     use_regex = true,
   }
-end
-builtin('<leader>rg', 'ripgrepper', true)
+end, 'Ripgrepper')
 
 -- custom telescope picker to execute a packer.nvim command
 -- https://github.com/nvim-telescope/telescope.nvim/blob/master/developers.md#guide-to-your-first-picker
-ts.packer_commands = function(opts)
+nnoremap('<leader>pc', function()
   local packer_commands = {
     'Clean',
     'Compile',
@@ -291,9 +284,8 @@ ts.packer_commands = function(opts)
     'Update',
   }
   local dropdown = themes.get_dropdown()
-  opts = opts and vim.tbl_deep_extend('keep', opts, dropdown) or dropdown
 
-  pickers.new(opts, {
+  pickers.new(dropdown, {
     prompt_title = 'Run a packer.nvim command',
     finder = finders.new_table(packer_commands),
     sorter = sorters.get_generic_fuzzy_sorter(),
@@ -309,53 +301,25 @@ ts.packer_commands = function(opts)
     end,
     previewer = nil,
   }):find()
-end
-nnoremap('<leader>pc', [[<cmd>lua require'plugins.telescope'.packer_commands()<cr>]])
-
-local create_entry_maker = function()
-  local lookup_keys = {
-    ordinal = 2,
-    value = 1,
-    display = 2,
-    filename = 3,
-  }
-
-  local mt_string_entry = {
-    __index = function(t, k)
-      return rawget(t, rawget(lookup_keys, k))
-    end,
-  }
-
-  return function(line)
-    local tmp_table = vim.split(line, '\t')
-    return setmetatable({
-      line,
-      tmp_table[2],
-      tmp_table[1],
-    }, mt_string_entry)
-  end
-end
+end, 'Packer command picker')
 
 -- wrapper for find_files/fd, so that when in my wiki directory,
 -- we hook into zk-cli to search notes by title, not the name of the file
-ts.find_files = function(opts)
-  opts = opts or {}
-  opts.entry_maker = create_entry_maker()
-
-  local has_zk, zk_commands = pcall(require, 'zk.commands')
-  if vim.loop.cwd() == (os.getenv 'HOME' .. '/wiki') and has_zk then
-    zk_commands.get 'ZkNotes'()
+nnoremap('<leader>fj', function()
+  if vim.loop.cwd() == (os.getenv 'HOME' .. '/wiki') then
+    local ok, zk_commands = pcall(require, 'zk.commands')
+    if ok then
+      zk_commands.get 'ZkNotes'()
+    else
+      vim.notify 'Zk plugin not found'
+    end
   else
     require('telescope.builtin').find_files()
   end
-end
-nnoremap('<leader>fj', [[<cmd>lua require'plugins.telescope'.find_files()<cr>]])
+end, 'Find files')
 
 -- jump to next diangostic suggestion and open the code actions menu
-ts.diagnostics_fix = function()
+nnoremap('<leader>df', function()
   vim.diagnostic.goto_next()
   require('telescope.builtin').lsp_code_actions()
-end
-nnoremap('<leader>df', [[<cmd>lua require'plugins.telescope'.diagnostics_fix()<cr>]])
-
-return ts
+end, 'Diagnostics fix')

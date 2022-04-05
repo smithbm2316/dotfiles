@@ -3,11 +3,6 @@ local core_plugins = vim.fn.globpath('~/dotfiles/nvim/lua/plugins', '*/', false,
 local plugins = vim.fn.globpath('~/dotfiles/nvim/lua/plugins', '*.lua', false, true)
 local ignore = { 'inactive', 'opt' }
 
--- load impatient.nvim and compiled packer output before everything else
-require 'impatient'
-require('impatient').enable_profile()
-require 'packer/packer_compiled'
-
 -- load and setup core plugins before all others
 for _, core_path in ipairs(core_plugins) do
   local core_plugin = core_path:sub(0, -2):gsub('.+/', '')

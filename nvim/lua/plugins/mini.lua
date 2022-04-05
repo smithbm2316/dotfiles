@@ -4,5 +4,5 @@ if has_minibuf then
   minibuf.setup {
     set_vim_settings = true,
   }
-  vim.keymap.set({ 'n' }, '<leader>bd', minibuf.delete, { silent = true })
+  nnoremap('<leader>bd', minibuf.delete)
 end
