@@ -127,14 +127,39 @@ Install:andUse('Seal', {
   start = true,
 })
 
--- TODO: call Amethyst's reset windows after these keybinds
-Install:andUse 'WindowScreenLeftAndRight'
-local WindowScreenLeftAndRight = spoon.WindowScreenLeftAndRight
-WindowScreenLeftAndRight.animationDuration = 0
-WindowScreenLeftAndRight:bindHotkeys {
-  screen_left = { hyper, ',' },
-  screen_right = { hyper, ';' },
-}
+local function moveCurrentWindowToScreen()
+  local currentWin = hs.window.focusedWindow()
+  local currentScreen = hs.screen.mainScreen()
+  local primaryScreen = hs.screen.primaryScreen()
+
+  if not currentWin or not currentScreen or not screens then
+    return
+  end
+
+  local _savedInfo = {
+    fc = nil,
+    duration = nil,
+  }
+  _savedInfo.fc = hs.window.setFrameCorrectness
+  _savedInfo.duration = hs.window.animationDuration
+  hs.window.setFrameCorrectness = currentWin.use_frame_correctness
+  if currentWin.animationDuration ~= nil then
+    hs.window.animationDuration = _savedInfo.animationDuration
+  end
+
+  -- this actually does the screen swapping
+  if currentScreen:id() == primaryScreen:id() then
+    currentWin:moveOneScreenWest()
+  else
+    currentWin:moveOneScreenEast()
+  end
+
+  hs.window.setFrameCorrectness = _savedInfo.fc
+  if currentWin.animationDuration ~= nil then
+    hs.window.animationDuration = _savedInfo.duration
+  end
+end
+hs.hotkey.bind(hyper, 'm', nil, moveCurrentWindowToScreen)
 
 -- Close the current tab if the focused app is in the apps_with_tabs list,
 -- otherwise close the currently focused window
