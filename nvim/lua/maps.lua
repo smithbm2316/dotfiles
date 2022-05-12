@@ -4,8 +4,16 @@ local maps = {}
 
 -- Basic mappings
 --{{{
--- run a :command
 local nosilent = { silent = false }
+
+--
+-- https://www.reddit.com/r/vim/comments/a8mp8z/comment/ecc0aw4
+nnoremap('j', [[v:count > 1 ? "m'" . v:count . 'j' : 'gj']], nil, { expr = true })
+nnoremap('k', [[v:count > 1 ? "m'" . v:count . 'k' : 'gk']], nil, { expr = true })
+nnoremap('gj', '<Down>')
+nnoremap('gk', '<Up>')
+
+-- run a :command
 nnoremap('go', ':', 'Command-line mode', nosilent)
 vnoremap('go', ':', 'Command-line mode', nosilent)
 
@@ -48,7 +56,7 @@ vnoremap('<c-q>', 'q:', 'Open cmdline window', nosilent)
 nnoremap('<leader>qn', '<cmd>cnext<cr>', 'Next item in qf list')
 nnoremap('<leader>qp', '<cmd>cprev<cr>', 'Prev item in qf list')
 nnoremap('<leader>qd', function()
-  vim.ui.input({ prompt = 'Quickfix do: ' }, function(do_cmd)
+  vim.ui.input({ prompt = 'Quickfix do: ', completion = 'command' }, function(do_cmd)
     if do_cmd then
       vim.cmd('cfdo ' .. do_cmd)
     end
@@ -94,14 +102,14 @@ nnoremap('<leader>fo', 'zR', 'Open all folds')
 nnoremap('<leader>fc', 'zM', 'Close all folds')
 
 -- Add function + user command for reviewing a PR
-vim.api.nvim_add_user_command('ReviewPR', 'lua vim.cmd("FocusDisable"); vim.cmd("DiffviewOpen main")', {})
+vim.api.nvim_create_user_command('ReviewPR', 'lua vim.cmd("FocusDisable"); vim.cmd("DiffviewOpen main")', {})
 
 -- open quickfix list
 nnoremap('<leader>qo', '<cmd>copen<cr>', 'Open qflist')
 
 -- enter in a new html tag above or below the current line
-nnoremap('<leader>it', [[<cmd>call feedkeys("o<\<C-E>",', ''i')<cr>]])
-nnoremap('<leader>iT', [[<cmd>call feedkeys("O<\<C-E>",', ''i')<cr>]])
+-- nnoremap('<leader>it', [[<cmd>call feedkeys("o<\<C-E>",', ''i')<cr>]])
+-- nnoremap('<leader>iT', [[<cmd>call feedkeys("O<\<C-E>",', ''i')<cr>]])
 ---}}}
 
 -- Function mappings
@@ -127,12 +135,10 @@ end, 'Convert color')
 
 -- toggle wrapping
 nnoremap('<leader>tw', function()
-  if vim.api.nvim_win_get_option(0, 'linebreak') then
-    vim.api.nvim_win_set_option(0, 'linebreak', false)
+  if vim.api.nvim_win_get_option(0, 'wrap') then
     vim.api.nvim_win_set_option(0, 'wrap', false)
     vim.notify('wrapping off', 'info')
   else
-    vim.api.nvim_win_set_option(0, 'linebreak', true)
     vim.api.nvim_win_set_option(0, 'wrap', true)
     vim.notify('wrapping on', 'info')
   end
@@ -225,6 +231,47 @@ nnoremap('<leader>tn', function()
   end
 end, 'Toggle relative line numbers')
 
+-- view go documentation for a specified function
+nnoremap('<leader>gd', function()
+  vim.ui.input({ prompt = 'Keyword to search with `go doc`', completion = 'go' }, function(input)
+    local Job = require 'plenary.job'
+    local go_doc_lines = Job
+      :new({
+        command = 'go',
+        args = { 'doc', input },
+        cwd = '.',
+        on_exit = function(j, return_val)
+          return return_val and j:result() or nil
+        end,
+      })
+      :sync()
+    local lines = vim.o.lines
+    local columns = vim.o.columns
+    local bufnr = vim.api.nvim_create_buf(true, true)
+    local height = vim.fn.float2nr(lines * 0.5)
+    local width = vim.fn.float2nr(columns * 0.5)
+    local horizontal = vim.fn.float2nr((columns - width) / 2)
+    local vertical = vim.fn.float2nr((lines - height) / 2)
+    local opts = {
+      relative = 'editor',
+      row = vertical,
+      col = horizontal,
+      width = width,
+      height = height,
+      style = 'minimal',
+      border = 'shadow',
+    }
+    vim.api.nvim_buf_set_lines(bufnr, 1, -1, true, go_doc_lines)
+    vim.api.nvim_buf_set_option(bufnr, 'ft', 'go')
+    vim.api.nvim_buf_set_name(bufnr, 'go doc')
+    nnoremap('q', function()
+      vim.cmd 'q'
+      vim.api.nvim_buf_delete(bufnr, { force = true })
+    end, nil, { buffer = bufnr })
+    vim.api.nvim_open_win(bufnr, true, opts)
+  end)
+end, 'go doc viewer')
+
 -- mappings that require an external function
 --{{{
 -- switch between light/dark rose-pine theme
@@ -251,19 +298,16 @@ nnoremap('<leader>tt', function()
 end, 'Toggle color mode')
 
 -- turn terminal to normal mode with escape if it's not a lazygit terminal
-maps.remap_term_escape = function()
-  if vim.fn.bufname():match 'lazygit' ~= 'lazygit' then
-    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<c-\><c-n>]], { noremap = true, '', silent = true })
-  end
-end
-vim.api.nvim_exec(
-  [[
-  augroup RemapTermEscapeUnlessLazygit
-    au!
-    au TermOpen * lua require('maps').remap_term_escape()
-  augroup END
-]],
-  false
-)
+create_augroup('RemapTermEscapeUnlessLazygit', {
+  {
+    events = 'TermOpen',
+    pattern = '*',
+    callback = function()
+      if vim.fn.expand '%:t' ~= 'lazygit' then
+        tnoremap('<esc>', [[<c-\><c-n>]], 'Escape term', { buffer = 0 })
+      end
+    end,
+  },
+})
 
 return maps

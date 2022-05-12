@@ -5,28 +5,32 @@ local cmp = require 'cmp'
 local lspkind = require 'lspkind'
 
 -- override rose-pine nvim-cmp highlight groups
-nvim_cmp.load_cmp_hlgroups = function()
-  local has_palette, palette = pcall(require, 'rose-pine.palette')
-  if has_palette then
-    local hl_groups = {
-      CmpItemAbbr = { fg = palette.subtle },
-      CmpItemAbbrDeprecated = { fg = palette.highlight_inactive, style = 'strikethrough' },
-      CmpItemAbbrMatch = { fg = palette.iris, style = 'bold' },
-      CmpItemAbbrMatchFuzzy = { fg = palette.foam, style = 'bold' },
-      CmpItemKind = { fg = palette.rose },
-      CmpGhostText = { fg = palette.inactive, style = 'italic' },
-    }
-    for hl_group, color_tbl in pairs(hl_groups) do
-      utils.hl(hl_group, color_tbl)
-    end
-  end
+local rose_pine_installed, palette = pcall(require, 'rose-pine.palette')
+if not rose_pine_installed then
+  return
 end
-nvim_cmp.load_cmp_hlgroups()
+local hl_groups = {
+  CmpItemAbbr = { fg = palette.subtle },
+  CmpItemAbbrDeprecated = { fg = palette.highlight_inactive, style = 'strikethrough' },
+  CmpItemAbbrMatch = { fg = palette.iris, style = 'bold' },
+  CmpItemAbbrMatchFuzzy = { fg = palette.foam, style = 'bold' },
+  CmpItemKind = { fg = palette.rose },
+  CmpGhostText = { fg = palette.highlight_med, style = 'italic' },
+}
+for hl_group, color_tbl in pairs(hl_groups) do
+  Utils.hl(hl_group, color_tbl)
+end
 
 -- setup nvim-cmp
 cmp.setup {
-  documentation = {
-    border = 'double',
+  --[[ completion = {
+    -- autocomplete = false,
+    keyword_length = 3,
+  }, ]]
+  window = {
+    documentation = {
+      border = 'double',
+    },
   },
   snippet = {
     expand = function(args)
@@ -77,8 +81,6 @@ cmp.setup {
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         }
-      else
-        fallback()
       end
     end, {
       'i',
@@ -87,14 +89,15 @@ cmp.setup {
   },
   sources = {
     -- { name = 'nvim_lua' },
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+    -- { name = 'copilot' },
+    { name = 'nvim_lsp', max_item_count = 30, keyword_length = 3 },
+    { name = 'luasnip', max_item_count = 5 },
     { name = 'path' },
-    {
+    --[[ {
       name = 'buffer',
       keyword_length = 4,
-      max_item_count = 10,
-    },
+      max_item_count = 5,
+    }, ]]
   },
   view = {
     entries = 'custom',

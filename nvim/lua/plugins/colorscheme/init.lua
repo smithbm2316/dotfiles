@@ -4,8 +4,9 @@ if not ok then
 end
 
 -- set my colorscheme to the correct variant depending on whether it's between 9am-5pm or not
-local current_hour = tonumber(vim.fn.strftime '%H')
-vim.g.color_mode = current_hour >= 9 and current_hour <= (12 + 5) and 'light' or 'dark'
+-- local current_hour = tonumber(vim.fn.strftime '%H')
+-- vim.g.color_mode = current_hour >= 9 and current_hour <= (12 + 5) and 'light' or 'dark'
+vim.g.color_mode = 'dark'
 
 rose_pine.setup {
   dark_variant = 'moon',

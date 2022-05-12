@@ -1,3 +1,6 @@
+-- override plugin's default setting of creating a FloatTitle link to FloatBorder hl_group
+vim.cmd 'highlight! default link FloatTitle DiagnosticHint'
+
 local has_dressing, dressing = pcall(require, 'dressing')
 if has_dressing then
   dressing.setup {
@@ -10,7 +13,7 @@ if has_dressing then
       insert_only = false,
       -- These are passed to nvim_open_win
       -- anchor = 'NW',
-      border = 'double',
+      border = 'shadow',
       -- 'editor' and 'win' will default to being centered
       relative = 'editor',
       -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
@@ -23,7 +26,7 @@ if has_dressing then
       -- Window transparency (0-100)
       winblend = 0,
       -- Change default highlight groups (see :help winhl)
-      -- winhighlight = '',
+      winhighlight = 'FloatBorder:DiagnosticHint',
       --[[ override = function(conf)
       -- This is the config that will be passed to nvim_open_win.
       -- Change values here to customize the layout
@@ -36,18 +39,18 @@ if has_dressing then
       -- Set to false to disable the vim.ui.select implementation
       enabled = true,
       -- Priority list of preferred vim.select implementations
-      backend = { 'builtin', 'telescope' },
+      backend = { 'telescope', 'builtin' },
       -- Options for built-in selector
       builtin = {
         -- These are passed to nvim_open_win
         -- anchor = 'NW',
-        border = 'double',
+        border = 'shadow',
         -- 'editor' and 'win' will default to being centered
         relative = 'editor',
         -- Window transparency (0-100)
         winblend = 0,
         -- Change default highlight groups (see :help winhl)
-        -- winhighlight = '',
+        winhighlight = 'FloatBorder:DiagnosticHint',
         -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
         -- the min_ and max_ options can be a list of mixed types.
         -- max_width = {140, 0.8} means "the lesser of 140 columns or 80% of total"

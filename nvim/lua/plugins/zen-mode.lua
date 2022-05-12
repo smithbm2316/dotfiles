@@ -1,18 +1,20 @@
 require('zen-mode').setup {
   window = {
-    width = 90,
+    width = 100,
     backdrop = 0.95,
   },
   -- callback where you can add custom code when the Zen window opens
-  on_open = function(win)
-    if package.loaded.focus then
-      vim.cmd 'FocusDisable'
+  on_open = function()
+    local has_focus, focus = pcall(require, 'focus')
+    if has_focus then
+      focus.focus_disable()
     end
   end,
   -- callback where you can add custom code when the Zen window closes
   on_close = function()
-    if package.loaded.focus then
-      vim.cmd 'FocusEnable'
+    local has_focus, focus = pcall(require, 'focus')
+    if has_focus then
+      focus.focus_enable()
     end
   end,
 }

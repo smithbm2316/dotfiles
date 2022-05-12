@@ -1,20 +1,5 @@
 -------------------------------
 -------------------------------
------ Print table wrapper -----
--------------------------------
--------------------------------
--- quickly print a lua table to :messages
-_G.dump = function(obj, use_notify)
-  if use_notify then
-    vim.notify(vim.inspect(obj), 'debug', { timeout = false })
-  else
-    print(vim.inspect(obj))
-  end
-  return obj
-end
-
--------------------------------
--------------------------------
 ----- Keymapping wrappers -----
 -------------------------------
 -------------------------------
@@ -139,15 +124,40 @@ _G.create_augroup = function(group, aucmds)
   end
 end
 
--- helper function to toggle an augroup on/off
-_G.BS_toggle_augroup = function(group)
+---helper function to toggle an augroup on/off
+---@param group string name of autogroup to toggle
+---@param show_notify boolean if true don't show notification (default false)
+_G.BS_toggle_augroup = function(group, show_notify)
   if _G.BSAugroups[group].enabled then
     _G.BSAugroups[group].enabled = false
     vim.api.nvim_del_augroup_by_name(group)
-    vim.notify('Disabled ' .. group)
+    if not show_notify then
+      vim.notify('Disabled ' .. group)
+    end
   else
     _G.BSAugroups[group].enabled = true
-    create_aucmds(group, _G.BSAugroups[group].aucmds)
+    create_augroup(group, _G.BSAugroups[group].aucmds)
+    if not show_notify then
+      vim.notify('Disabled ' .. group)
+    end
     vim.notify('Enabled ' .. group)
   end
+end
+
+-- load vim.notify override handler from config file
+require 'plugins.manual.notify'
+
+-------------------------------
+-------------------------------
+----- Print table wrapper -----
+-------------------------------
+-------------------------------
+-- quickly print a lua table to :messages
+_G.dump = function(obj, use_notify)
+  if use_notify then
+    vim.notify(obj, 'debug', { timeout = false })
+  else
+    print(vim.inspect(obj))
+  end
+  return obj
 end

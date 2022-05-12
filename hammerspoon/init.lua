@@ -147,6 +147,8 @@ hs.hotkey.bind(hyper, 'c', nil, function()
     'Safari',
     'Google Chrome Canary',
     'Sizzy',
+    'Polypane',
+    'Brave Browser',
   }
   local current_app = hs.application.frontmostApplication()
 
@@ -292,10 +294,6 @@ app_keybind({ 'ctrl' }, 'e', { 'shift', 'cmd' }, '\\', 'Slack')
 app_keybind({ 'ctrl' }, 'o', { 'cmd' }, '[', 'Slack')
 app_keybind({ 'ctrl' }, 'i', { 'cmd' }, ']', 'Slack')
 
--- Use hyper+/ to launch Google Chrome Canary's dev tools command palette
-app_keybind(hyper, '/', { 'cmd', 'shift' }, 'p', 'Google Chrome Canary')
-app_keybind(hyper, '/', { 'cmd', 'shift' }, 'p', 'Vivaldi')
-
 -- Switch between previous and next conversations, scroll in Messages
 app_keybind({ 'ctrl' }, 'n', { 'ctrl' }, 'tab', 'Messages')
 app_keybind({ 'ctrl' }, 'p', { 'ctrl', 'shift' }, 'tab', 'Messages')
@@ -307,6 +305,14 @@ app_keybind({ 'ctrl' }, 'u', {}, 'pageup', 'Messages')
 app_keybind({ 'ctrl' }, '[', { 'cmd' }, 'd', 'Polypane')
 app_keybind({ 'cmd' }, 'd', {}, 'pagedown', 'Polypane')
 app_keybind({ 'ctrl' }, 'u', {}, 'pageup', 'Polypane')
+
+-- Sizzy
+-- Open the command palette/butler in Sizzy
+-- app_keybind('ctrl', 'h', 'alt', 'b', 'Sizzy')
+app_keybind('cmd', 'd', {}, 'pagedown', 'Sizzy')
+app_keybind('ctrl', 'u', {}, 'pageup', 'Sizzy')
+app_keybind('ctrl', 'n', {}, 'down', 'Sizzy')
+app_keybind('ctrl', 'p', {}, 'up', 'Sizzy')
 
 -- bind keystroke to mouse button for a specific app
 local mouse_app_binds = function(to_mods, to_key, app_name)

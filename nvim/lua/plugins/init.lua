@@ -1,7 +1,7 @@
 -- runtime path to current file
 local core_plugins = vim.fn.globpath('~/dotfiles/nvim/lua/plugins', '*/', false, true)
 local plugins = vim.fn.globpath('~/dotfiles/nvim/lua/plugins', '*.lua', false, true)
-local ignore = { 'inactive', 'opt' }
+local ignore = { 'inactive', 'opt', 'manual' }
 
 -- load and setup core plugins before all others
 for _, core_path in ipairs(core_plugins) do

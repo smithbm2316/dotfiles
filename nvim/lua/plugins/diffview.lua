@@ -39,8 +39,12 @@ diffview.setup {
     },
   },
   hooks = {
-    view_opened = function(view)
-      require('focus').focus_disable()
+    view_opened = function()
+      local has_focus, focus = pcall(require, 'focus')
+      if has_focus then
+        focus.focus_disable()
+      end
+
       local windows = vim.api.nvim_tabpage_list_wins(0)
       local win_width = vim.api.nvim_list_uis()[1].width
 
@@ -49,10 +53,10 @@ diffview.setup {
       vim.api.nvim_win_set_width(windows[3], (win_width - 30) / 2)
     end,
     view_closed = function()
-      require('focus').focus_enable()
+      local has_focus, focus = pcall(require, 'focus')
+      if has_focus then
+        focus.focus_enable()
+      end
     end,
   },
 }
-
-nnoremap('<leader>gd', '<cmd>DiffviewOpen<cr>', 'Open git diff viewer')
-nnoremap('<leader>gD', '<cmd>DiffviewClose<cr>', 'Close git diff viewer')

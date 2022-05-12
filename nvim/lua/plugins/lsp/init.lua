@@ -5,8 +5,38 @@ local util = require 'lspconfig.util'
 -- functions to hook into
 local M = {}
 
-local status = require 'plugins.lsp.status'
-status.activate()
+-- manage lsp diagnostics
+vim.diagnostic.config {
+  underline = false,
+  virtual_text = false,
+  virtual_lines = false,
+  signs = {
+    severity = { min = vim.diagnostic.severity.WARN },
+  },
+  update_in_insert = false,
+  float = {
+    header = 'Diagnostic',
+    source = 'always',
+    format = function(diagnostic)
+      if diagnostic.code then
+        return string.format('[%s]\n%s', diagnostic.code, diagnostic.message)
+      else
+        return diagnostic.message
+      end
+    end,
+  },
+}
+
+-- toggle diagnostics
+nnoremap('<leader>td', function()
+  if vim.b.show_diagnostics then
+    vim.diagnostic.hide()
+    vim.b.show_diagnostics = false
+  else
+    vim.diagnostic.show()
+    vim.b.show_diagnostics = true
+  end
+end, nil, 'Toggle diagnostics')
 
 -- lsp renamer function that provides extra information
 M.lsp_rename = function()
@@ -14,16 +44,16 @@ M.lsp_rename = function()
   vim.ui.input({
     prompt = 'LSP Rename: ',
     default = curr_name,
-  }, function(value)
-    if value then
+  }, function(new_name)
+    if new_name then
       local lsp_params = vim.lsp.util.make_position_params()
 
-      if not value or #value == 0 or curr_name == value then
+      if not new_name or #new_name == 0 or curr_name == new_name then
         return
       end
 
       -- request lsp rename
-      lsp_params.newName = value
+      lsp_params.newName = new_name
       vim.lsp.buf_request(0, 'textDocument/rename', lsp_params, function(_, res, ctx, _)
         if not res then
           return
@@ -68,18 +98,36 @@ end
 
 -- close signature_help on following events
 vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = 'rounded',
+  border = 'shadow',
   close_events = { 'CursorMoved', 'BufHidden', 'InsertCharPre' },
 })
+-- handle hover
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = 'shadow',
+})
 
-M.my_on_attach = function(client, bufnr)
+--- Go to a specific diagnostic message in a particular direction
+---@param direction string value can be 'prev' or 'next', direction in which message to show
+---@param shouldGoToAny boolean if false (default), only go to errors and warnings, otherwise go to any message
+function goto_diagnostic_msg(direction, shouldGoToAny)
+  vim.diagnostic['goto_' .. direction] {
+    float = true,
+    wrap = true,
+    severity = {
+      min = shouldGoToAny and vim.diagnostic.severity.HINT or vim.diagnostic.severity.WARN,
+    },
+  }
+  vim.wo.linebreak = true
+end
+
+M.my_on_attach = function(
+  _, -- client
+  bufnr
+)
   local bufnr_opts = { buffer = bufnr }
 
   -- show hover
   nnoremap('gh', function()
-    vim.lsp.buf.hover()
-  end, 'Hover lsp docs', bufnr_opts)
-  inoremap('<c-h>', function()
     vim.lsp.buf.hover()
   end, 'Hover lsp docs', bufnr_opts)
 
@@ -118,16 +166,29 @@ M.my_on_attach = function(client, bufnr)
   end, 'Lsp document diagnostics', bufnr_opts)
 
   -- lsp definition
-  nnoremap('gD', [[<cmd>lua vim.lsp.buf.definition()<cr>]], 'Goto lsp definition', bufnr_opts)
+  nnoremap('gd', function()
+    vim.lsp.buf.definition()
+  end, 'Goto lsp definition', bufnr_opts)
+
+  -- lsp type definition
+  nnoremap('gt', function()
+    vim.lsp.buf.type_definition()
+  end, 'Goto lsp type definition', bufnr_opts)
 
   -- prev diagnostic
   nnoremap('<leader>dp', function()
-    vim.diagnostic.goto_prev { popup_bufnr_opts = { border = 'double' } }
+    goto_diagnostic_msg 'prev'
+  end, 'Previous diagnostic', bufnr_opts)
+  nnoremap('<leader>dP', function()
+    goto_diagnostic_msg('prev', true)
   end, 'Previous diagnostic', bufnr_opts)
 
   -- next diagnostic
   nnoremap('<leader>dn', function()
-    vim.diagnostic.goto_next { popup_bufnr_opts = { border = 'double' } }
+    goto_diagnostic_msg 'next'
+  end, 'Next diagnostic', bufnr_opts)
+  nnoremap('<leader>dN', function()
+    goto_diagnostic_msg 'next'
   end, 'Next diagnostic', bufnr_opts)
 
   -- show diagnostics on current line in floating window: hover diagnostics for line
@@ -144,38 +205,45 @@ M.my_on_attach = function(client, bufnr)
     nnoremap('<leader>pi', function()
       require('goto-preview').goto_preview_implementation()
     end, 'Preview lsp implementations', bufnr_opts)
-    nnoremap('gd', function()
+    nnoremap('gD', function()
       require('goto-preview').goto_preview_definition()
     end, 'Preview lsp definition', bufnr_opts)
   end
 
-  -- define buffer-local variable for virtual_text toggling
-  vim.b.show_virtual_text = true
-
-  -- show status
-  status.on_attach(client)
+  -- define buffer-local variable for toggling diangostic buffer decorations
+  vim.b.show_diagnostics = true
 end
 
 M.my_capabilities = vim.lsp.protocol.make_client_capabilities()
-M.my_capabilities = vim.tbl_deep_extend('keep', M.my_capabilities, require('lsp-status').capabilities)
 M.my_capabilities = require('cmp_nvim_lsp').update_capabilities(M.my_capabilities)
 M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- astro lsp setup
-if not configs.astro_ls then
-  -- local astro_ls_path = vim.loop.cwd() .. '/node_modules/@astrojs/language-server/bin/nodeServer.js'
-  local cmd = { 'astro-ls', '--stdio' }
-  configs.astro_ls = {
+if not configs.astro then
+  local astro_ls_path = vim.loop.cwd() .. '/node_modules/@astrojs/language-server/bin/nodeServer.js'
+  -- use global installation if project-local version is unavailable
+  if vim.fn.filereadable(astro_ls_path) == 0 then
+    astro_ls_path = 'astro-ls'
+  end
+
+  configs.astro = {
     default_config = {
-      cmd = cmd,
+      cmd = { astro_ls_path, '--stdio' },
       filetypes = { 'astro' },
-      root_dir = lspconfig.util.find_node_modules_ancestor,
+      root_dir = util.root_pattern('package.json', 'tsconfig.json', 'jsconfig.json', '.git'),
+      docs = {
+        description = 'https://github.com/withastro/language-tools',
+        root_dir = [[root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")]],
+      },
+      init_options = {
+        configuration = {
+          astro = {
+            enabled = true,
+          },
+        },
+      },
       settings = {},
     },
-  }
-  lspconfig.astro_ls.setup {
-    cmd = cmd,
-    on_attach = M.my_on_attach,
   }
 end
 
@@ -183,25 +251,91 @@ end
 -- TODO: add user commands similar to vim-go plugin
 -- https://github.com/fatih/vim-go
 local servers = {
-  'bashls',
-  'gopls',
-  'html',
-  'prismals',
-  'pylsp',
-  'svelte',
-  'texlab',
-  'vuels',
-  'vimls',
-  'yamlls',
+  astro = {},
+  bashls = {},
+  gopls = {
+    settings = {
+      gopls = {
+        analyses = {
+          httpresponse = true,
+          loopclosure = true,
+          nilfunc = true,
+          nilness = true,
+          printf = true,
+          shadow = true,
+          unusedparams = true,
+        },
+        staticcheck = false,
+      },
+    },
+    commands = {
+      -- imports all packages used but not defined into the file
+      GoImportAll = {
+        function()
+          local params = vim.lsp.util.make_range_params()
+          params.context = { only = { 'source.organizeImports' } }
+          local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1000)
+          for _, res in pairs(result or {}) do
+            for _, r in pairs(res.result or {}) do
+              if r.edit then
+                vim.lsp.util.apply_workspace_edit(r.edit, 'UTF-8')
+              else
+                vim.lsp.buf.execute_command(r.command)
+              end
+            end
+          end
+        end,
+        description = 'Import all used packages into the file',
+      },
+    },
+  },
+  stylelint_lsp = {
+    filetypes = { 'css', 'scss', 'sass' },
+    --[[ settings = {
+      stylelintplus = {
+
+      },
+    }, ]]
+  },
+  html = {},
+  prismals = {},
+  pylsp = {},
+  svelte = {},
+  texlab = {},
+  vuels = {},
+  vimls = {},
+  yamlls = {},
 }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+
+for server, config in pairs(servers) do
+  lspconfig[server].setup(vim.tbl_deep_extend('force', {
     on_attach = M.my_on_attach,
     capabilities = M.my_capabilities,
-  }
+  }, config))
 end
 
+lspconfig.denols.setup {
+  on_attach = M.my_on_attach,
+  capabilities = M.my_capabilities,
+  root_dir = util.root_pattern('deno.json', 'deno.jsonc'),
+  settings = {
+    enabled = true,
+    lint = true,
+    unstable = false,
+  },
+}
+
 lspconfig.eslint.setup {
+  autostart = true,
+  root_dir = util.root_pattern(
+    '.eslintrc',
+    '.eslintrc.js',
+    '.eslintrc.cjs',
+    '.eslintrc.yaml',
+    '.eslintrc.yml',
+    '.eslintrc.json',
+    'package.json'
+  ),
   settings = {
     codeAction = {
       disableRuleComment = {
@@ -236,21 +370,30 @@ lspconfig.eslint.setup {
   },
 }
 
---[[ lspconfig.tailwindcss.setup {
+--[[ local null_ls = require 'null-ls'
+null_ls.setup {
+  sources = {
+    null_ls.builtins.diagnostics.eslint_d, -- eslint or eslint_d
+    null_ls.builtins.code_actions.eslint_d, -- eslint or eslint_d
+    -- null_ls.builtins.formatting.prettier -- prettier, eslint, eslint_d, or prettierd
+  },
+} ]]
+
+lspconfig.tailwindcss.setup {
   capabilities = M.my_capabilities,
   on_attach = M.my_on_attach,
   root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.ts'),
-} ]]
-
-lspconfig.cssls.setup {
-  filetypes = { 'css', 'scss' },
-  capabilities = M.my_capabilities,
-  on_attach = M.my_on_attach,
-  flags = {
-    debounce_text_changes = 150,
-  },
   settings = {
-    css = {
+    tailwindCSS = {
+      lint = {
+        cssConflict = 'warning',
+        invalidApply = 'warning',
+        invalidConfigPath = 'warning',
+        invalidScreen = 'warning',
+        invalidTailwindDirective = 'warning',
+        invalidVariant = 'warning',
+        recommendedVariantOrder = 'warning',
+      },
       validate = false,
     },
   },
@@ -270,6 +413,19 @@ lspconfig.tsserver.setup {
     'javascriptreact',
   },
   on_attach = function(client, bufnr)
+    -- if it's marked as a deno file, then detach tsserver from the buffer
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    if #lines > 0 and lines[1]:find ' nvim:deno' ~= nil then
+      local clients = vim.lsp.get_active_clients()
+      for id, client in ipairs(clients) do
+        if client.name == 'tsserver' then
+          vim.lsp.buf_detach_client(bufnr, id)
+        end
+      end
+
+      return
+    end
+
     local has_ts_utils, ts_utils = pcall(require, 'nvim-lsp-ts-utils')
     if has_ts_utils then
       ts_utils.setup {
@@ -327,9 +483,6 @@ lspconfig.tsserver.setup {
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.document_range_formatting = false
   end,
-  flags = {
-    debounce_text_changes = 150,
-  },
   commands = {
     OrganizeImports = {
       function()
@@ -343,6 +496,7 @@ lspconfig.tsserver.setup {
       description = 'Organize Imports',
     },
   },
+  root_dir = util.root_pattern('package.json', 'tsconfig.json', 'jsconfig.json'),
 }
 
 lspconfig.jsonls.setup {
@@ -390,6 +544,13 @@ lspconfig.jsonls.setup {
             'stylelint.config.json',
           },
           url = 'http://json.schemastore.org/stylelintrc.json',
+        },
+        {
+          fileMatch = {
+            'deno.json',
+            'deno.jsonc',
+          },
+          url = 'https://cdn.deno.land/deno/versions/v1.20.5/raw/cli/schemas/config-file.v1.json',
         },
       },
     },
@@ -464,54 +625,8 @@ local luadev = require('lua-dev').setup {
 }
 lspconfig.sumneko_lua.setup(luadev)
 
--- manage lsp diagnostics
-vim.diagnostic.config {
-  underline = false,
-  virtual_text = false,
-  virtual_lines = false,
-  signs = true,
-  update_in_insert = false,
-}
-vim.b.show_virtual_text = false
-
--- toggle diagnostics
-M.toggle_diagnostics = function()
-  if vim.b.show_virtual_text then
-    vim.diagnostic.config {
-      underline = false,
-      virtual_text = false,
-      virtual_lines = false,
-      signs = true,
-      update_in_insert = false,
-    }
-    vim.b.show_virtual_text = false
-    vim.notify('Virtual Text off', 'info')
-  else
-    vim.diagnostic.config {
-      underline = false,
-      virtual_text = {
-        severity = { vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR },
-      },
-      virtual_lines = true,
-      signs = true,
-      update_in_insert = false,
-    }
-    vim.b.show_virtual_text = true
-    vim.notify('Virtual Text on', 'info')
-  end
-end
-nnoremap('<leader>td', function()
-  M.toggle_diagnostics()
-end, nil, 'Toggle diagnostics')
-
--- lsp_lines plugin for diagnostics
--- local has_lsp_lines, lsp_lines = pcall(require, 'lsp_lines')
--- if has_lsp_lines then
---   lsp_lines.register_lsp_virtual_lines()
--- end
-
 -- define signcolumn lsp diagnostic icons
-local diagnostic_signs = { ' ', ' ', ' ', ' ' }
+local diagnostic_signs = { ' ', ' ', ' ', ' ' }
 local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Hint', 'Information' }
 local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Hint', 'Info' }
 

@@ -1,8 +1,12 @@
 -- TODO: set up parameter textobjects, so I can swap elements in a lua table back and forth cc TJ's recent stream
+local ok = pcall(require, 'nvim-treesitter')
+if not ok then
+  return
+end
+
 local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
 ft_to_parser.nunjucks = 'tsx'
 ft_to_parser.liquid = 'tsx'
--- ft_to_parser.astro = 'tsx'
 
 require('nvim-treesitter.configs').setup {
   textobjects = {
@@ -79,8 +83,12 @@ require('nvim-treesitter.configs').setup {
   },
   indent = {
     enable = true,
+    -- https://github.com/nvim-treesitter/nvim-treesitter/issues/2369
+    -- waiting on this issue with indents to be resolved from nvim-treesitter
+    disable = { 'go' },
   },
   ensure_installed = {
+    'astro',
     'bash',
     'c',
     'cmake',
@@ -99,6 +107,7 @@ require('nvim-treesitter.configs').setup {
     'jsonc',
     'lua',
     'markdown',
+    'prisma',
     'python',
     'query',
     'regex',

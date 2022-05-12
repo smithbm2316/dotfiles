@@ -10,6 +10,8 @@ local conf = require('telescope.config').values
 
 -- files to ignore with `file_ignore_patterns`
 local always_ignore_these = {
+  'yarn.lock',
+  'package%-lock.json',
   'node_modules/.*',
   '%.git/.*',
   '%.svg',
@@ -29,6 +31,7 @@ local always_ignore_these = {
   '%.avi',
   '%.webm',
   '.env.*',
+  '%.db',
 }
 
 local ignore_these = vim.tbl_extend('keep', always_ignore_these, {
@@ -41,8 +44,6 @@ local ignore_these = vim.tbl_extend('keep', always_ignore_these, {
   'images/.*',
   '.env.*',
   '.yarn/.*',
-  'yarn.lock',
-  'package%-lock.json',
   '.neuron/.*',
 })
 
@@ -202,7 +203,7 @@ builtin('<leader>ca', 'lsp_code_actions', 'Code actions')
 -- find_files, but don't use ignored patterns
 custom('<leader>fa', 'find_files', 'Find files all', {
   file_ignore_patterns = always_ignore_these,
-  no_ignore = false,
+  no_ignore = true,
   hidden = true,
 })
 

@@ -40,7 +40,11 @@ ls.config.set_config {
 --}}}
 
 -- luasnip helpers
--- insert an extra insert node for a type annotation if the current filetype matches
+--- insert an extra insert node for a type annotation if the current filetype matches
+---@param position number the luasnip jump-node to use
+---@param type_pattern string the pattern to insert for a type, use a `|` to show where the cursor should end up
+---@param show_annotation_choice_first boolean whether the annotation should be the first choice in the choice node
+---@return nil
 --{{{
 local add_ts_type = function(position, type_pattern, show_annotation_choice_first)
   return d(position, function()
@@ -113,10 +117,11 @@ local webdev_snippets = {
     },
     fmt([[import {name} from '{path}']], {
       path = i(1),
+      -- name = i(0),
       name = c(2, {
-        sn(nil, { t '{ ', t ' }' }, i(1)),
-        i(1),
-        sn(nil, { t 'type { ', t ' }' }, i(1)),
+        sn(nil, { t '{ ', i(1), t ' }' }),
+        i(nil),
+        sn(nil, { t 'type { ', i(1), t ' }' }),
       }),
     })
   ),
@@ -243,6 +248,19 @@ local webdev_snippets = {
         body = i(0),
       }
     )
+  ),
+  --}}}
+  -- className attribute for easy Tailwind usage
+  --{{{
+  snip(
+    {
+      trig = 'cn',
+      name = 'className',
+      desc = 'Insert className attribute',
+    },
+    fmt([[className='{}']], {
+      i(0),
+    })
   ),
   --}}}
 }

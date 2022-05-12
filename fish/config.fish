@@ -58,6 +58,7 @@ else
   alias l 'ls -lA'
   alias ll 'ls -l'
 end
+alias ss "ssh -p 23231 hunk-of-junk.local"
 # .. commands
 abbr -a ... ../../
 abbr -a .... ../../../
@@ -76,9 +77,9 @@ function slack-status
   cd -
 end
 # current work project quick shortcuts
-abbr -a sb 'cd ~/vincit/scout-us/backend'
-abbr -a sf 'cd ~/vincit/scout-us/web'
-abbr -a inspectdb "pgcli -h 'localhost' -p '15432' -U 'user' -d 'scout'"
+if test -f ~/dotfiles/fish/projects/scout.fish
+  source ~/dotfiles/fish/projects/scout.fish
+end
 
 
 ##################################################
@@ -89,11 +90,13 @@ abbr -a inspectdb "pgcli -h 'localhost' -p '15432' -U 'user' -d 'scout'"
 # cd and dots
 function c
   cd (fd -t d --color=never . $HOME | fzf --preview='tree -L 1 -I {}')
-  ls -a
+  ls -A
 end
 function dots
   set -l fileloc (fd -t f --color=never . $HOME/dotfiles | fzf --preview='head -80 {}')
-  $EDITOR $fileloc -c 'cd ~/dotfiles'
+  if test $fileloc
+    $EDITOR $fileloc -c 'cd ~/dotfiles'
+  end
 end
 function f
   set -l file_to_open (fzf --preview='head -80 {}')
@@ -127,15 +130,24 @@ function js
   if test -f 'yarn.lock' && test -f 'package-lock.json'
     echo 'Found both yarn.lock and package-lock.json. Use yarn or npm?'
     read pkgman
-    eval "$pkgman run $argv"
+    eval "$pkgman $argv"
   else if test -f 'yarn.lock'
-    yarn run $argv
+    yarn $argv
   else if test -f 'package-lock.json'
-    npm run $argv
+    npm $argv
   else
     echo 'No npm or yarn project found'
   end
 end
+
+# js run ...
+abbr -a jr 'js run'
+alias jrd="js run dev"
+alias jrb="js run build"
+alias jri="js install"
+alias jrl="js run lint"
+alias jrs="js run start"
+# alias jrv="js run validate"
 
 # make tmux easier to use
 alias tmls='tmux ls'

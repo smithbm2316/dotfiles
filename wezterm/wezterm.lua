@@ -1,23 +1,23 @@
 local wezterm = require 'wezterm'
 
 return {
-  font = wezterm.font {
-    family = 'JetBrains Mono',
-    weight = 'Medium',
+  font = wezterm.font_with_fallback {
+    { family = 'JetBrains Mono', weight = 'Medium' },
+    'Symbols Nerd Font Mono',
   },
   font_size = 17.0,
   font_shaper = 'Harfbuzz',
   line_height = 1.2,
   hide_tab_bar_if_only_one_tab = true,
-  -- term = 'wezterm',
-  term = 'xterm-256color',
+  -- ensures that tmux-copy mode works properly, saves selection to system clipboard
+  term = 'wezterm',
   window_close_confirmation = 'NeverPrompt',
   window_decorations = 'TITLE | RESIZE',
   window_padding = {
-    left = 4,
-    right = 4,
-    top = 4,
-    bottom = 4,
+    left = 6,
+    right = 6,
+    top = 6,
+    bottom = 6,
   },
   text_background_opacity = 1.0,
   window_background_opacity = 1.0,

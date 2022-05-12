@@ -1,7 +1,7 @@
-utils = {}
+_G.Utils = {}
 
 -- wrapper for vim.inspect
-utils.print_table = function()
+Utils.print_table = function()
   local func = vim.fn.input { prompt = 'Run: ', completion = 'lua' }
   if not func then
     local result = vim.api.nvim_exec(string.format('lua %s', func), true)
@@ -11,7 +11,7 @@ end
 nnoremap('<leader>vi', [[<cr>lua Utils.print_table()<cr>]], 'Print table')
 
 -- turn a table into a string for keymapping
-utils.tbl_to_str = function(tbl)
+Utils.tbl_to_str = function(tbl)
   local str_tbl = '{ '
   for k, v in pairs(tbl) do
     if type(v) == 'string' then
@@ -25,7 +25,7 @@ utils.tbl_to_str = function(tbl)
   return str_tbl
 end
 
-utils.hl = function(group, color)
+Utils.hl = function(group, color)
   local style = color.style and 'gui=' .. color.style or 'gui=NONE'
   local fg = color.fg and 'guifg=' .. color.fg or 'guifg=NONE'
   local bg = color.bg and 'guibg=' .. color.bg or 'guibg=NONE'
@@ -47,3 +47,5 @@ require 'utils.luacheck'
 nnoremap('<leader>tl', function()
   require('utils.luacheck').telescope()
 end, 'Lint Telescope project')
+
+return Utils

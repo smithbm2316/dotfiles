@@ -8,79 +8,122 @@ return require('packer').startup {
     --- lua plugins :D
     ---
     -----------------------------------------------------
-    --{{{
-    -- impatient speeds up loading times with caching
-    use 'lewis6991/impatient.nvim'
-
-    -- the best fuzzy finder :0
-    use 'nvim-telescope/telescope.nvim'
-    -- use '~/code/neovim/telescope.nvim'
-
-    -- notetaking with golang zk lsp
-    use 'mickael-menu/zk-nvim'
-
-    -- TJ's lua functions that he doesn't wanna write again
-    use 'nvim-lua/plenary.nvim'
-
-    -- fzf sorting algorithm for telescope
-    use {
-      'nvim-telescope/telescope-fzf-native.nvim',
-      run = 'make',
-    }
-
-    -- easier configuration for built-in neovim lsp
-    use 'neovim/nvim-lspconfig'
-
-    -- use icons in the completion menus for lsp suggestions
-    use 'onsails/lspkind-nvim'
-
-    -- auto-completion plugin
-    use {
-      'hrsh7th/nvim-cmp',
-      requires = {
-        'hrsh7th/cmp-buffer',
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-nvim-lua',
-        'hrsh7th/cmp-path',
-        'saadparwaiz1/cmp_luasnip',
-      },
-    }
-
-    -- autopairs but better
-    use 'windwp/nvim-autopairs'
-
-    -- gitgutter lua replacement
-    use {
-      'lewis6991/gitsigns.nvim',
-      requires = 'nvim-lua/plenary.nvim',
-    }
-
-    -- format code with external tools
-    use 'mhartington/formatter.nvim'
-
-    -- highlight and indent and textobject all the things
-    use {
-      'nvim-treesitter/nvim-treesitter',
-      run = ':TSUpdate',
+    -- copilot, but in lua??
+    --[[ use {
+      'zbirenbaum/copilot.lua',
+      event = { 'VimEnter' },
+      config = function()
+        vim.defer_fn(function()
+          require('copilot').setup {
+            ft_disable = { 'markdown', 'txt', 'TelescopePrompt', 'help', 'DiffviewFiles' },
+          }
+        end, 100)
+      end,
     }
     use {
-      'nvim-treesitter/playground',
-      opt = true,
-      cmd = 'TSPlaygroundToggle',
-    }
+      'zbirenbaum/copilot-cmp',
+      after = { 'copilot.lua', 'nvim-cmp' },
+    } ]]
+
+    -- export my current set of buffers to vsc*de for when i need a real debugger or need to use the
+    -- typescript translator extension
+    use 'elijahmanor/export-to-vscode.nvim'
+
+    -- reverse J using treesitter now
+    use 'AckslD/nvim-trevJ.lua'
+
+    -- lsp server progress indicator
+    use 'j-hui/fidget.nvim'
+
+    -- annotation generator
+    use 'danymat/neogen'
+
+    -- lua development with types
+    use 'folke/lua-dev.nvim'
+
+    -- handle git diffs in neovim
+    use 'akinsho/git-conflict.nvim'
+
+    -- select from a list of URLs in the current file
+    -- use '~/code/urlview.nvim'
+    use 'axieax/urlview.nvim'
+
+    -- magit inside of neovim
+    use 'TimUntersberger/neogit'
+
+    -- better menus for inputs and selects in neovim
+    use 'stevearc/dressing.nvim'
+
+    -- mini plugins that do one thing well
+    -- specifically installing for bufremove overrides
     use {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-      requires = 'nvim-treesitter/nvim-treesitter',
+      'echasnovski/mini.nvim',
+      branch = 'stable',
     }
 
-    -- tpope/vim-commentary lua replacement
-    use 'numToStr/Comment.nvim'
+    -- better notifications
+    use 'rcarriga/nvim-notify'
 
-    -- add plugin that uses treesitter to figure out what the commentstring should be
-    use 'JoosepAlviste/nvim-ts-context-commentstring'
+    -- treesitter info for my statusline
+    use 'SmiteshP/nvim-gps'
 
-    -- pretty icons for nerd fonts
-    use 'kyazdani42/nvim-web-devicons'
+    -- nicer listing of registers
+    use 'tversteeg/registers.nvim'
+
+    -- nice way of managing split focusing
+    use 'beauwilliams/focus.nvim'
+
+    -- rainbow coloring of brackets/curly braces/parenthesis/tags to make finding pairs easier
+    use 'p00f/nvim-ts-rainbow'
+
+    -- add indent line guides to editor
+    use 'lukas-reineke/indent-blankline.nvim'
+
+    -- colorscheme
+    use 'rose-pine/neovim'
+
+    -- snippets
+    use 'L3MON4D3/LuaSnip'
+
+    -- language server for linting/formatting
+    -- better tsserver support
+    use {
+      'jose-elias-alvarez/nvim-lsp-ts-utils',
+      requires = 'jose-elias-alvarez/null-ls.nvim',
+    }
+
+    -- simple file explorer
+    use 'tamago324/lir.nvim'
+
+    -- folke plugins
+    -- centerpad, but much better (uses a floating window!!)
+    use 'folke/zen-mode.nvim'
+    -- i can't remember my keybinds half the time, this should help
+    use 'folke/which-key.nvim'
+
+    -- preview window for lsp references/definitions/implementations
+    use 'rmagatti/goto-preview'
+
+    -- better session management in neovim
+    use 'rmagatti/auto-session'
+
+    -- Open a new tab for viewing git diffs for all files in current branch
+    use 'sindrets/diffview.nvim'
+
+    -- show preview of colors for hex, hsl, and rgb values
+    use {
+      -- 'norcalli/nvim-colorizer.lua',
+      -- use the fork until norcalli merges the PR
+      'DarwinSenior/nvim-colorizer.lua',
+    }
+
+    -- better quickfix window
+    use {
+      'kevinhwang91/nvim-bqf',
+    }
+
+    -- nice and easy to use statusline
+    use 'nvim-lualine/lualine.nvim'
 
     -- replacement for alvan/vim-closetag and AndrewRadev/tagalong.vim
     use {
@@ -92,113 +135,89 @@ return require('packer').startup {
       end,
     }
 
-    -- nice and easy to use statusline
-    use 'nvim-lualine/lualine.nvim'
+    -- pretty icons for nerd fonts
+    use 'kyazdani42/nvim-web-devicons'
 
-    -- better quickfix window
+    -- add plugin that uses treesitter to figure out what the commentstring should be
+    use 'JoosepAlviste/nvim-ts-context-commentstring'
+
+    -- tpope/vim-commentary lua replacement
+    use 'numToStr/Comment.nvim'
+
+    -- highlight and indent and textobject all the things
     use {
-      'kevinhwang91/nvim-bqf',
+      'nvim-treesitter/nvim-treesitter',
+      run = ':TSUpdate',
+    }
+    use {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      requires = 'nvim-treesitter/nvim-treesitter',
+    }
+    use {
+      'nvim-treesitter/playground',
+      opt = true,
+      cmd = 'TSPlaygroundToggle',
     }
 
-    -- show preview of colors for hex, hsl, and rgb values
+    -- format code with external tools
+    use 'mhartington/formatter.nvim'
+
+    -- gitgutter lua replacement
     use {
-      -- 'norcalli/nvim-colorizer.lua',
-      -- use the fork until norcalli merges the PR
-      'DarwinSenior/nvim-colorizer.lua',
+      'lewis6991/gitsigns.nvim',
+      requires = 'nvim-lua/plenary.nvim',
     }
 
-    -- i can't remember my keybinds half the time, this should help
-    use 'folke/which-key.nvim'
+    -- autopairs but better
+    use 'windwp/nvim-autopairs'
 
-    -- Open a new tab for viewing git diffs for all files in current branch
-    use 'sindrets/diffview.nvim'
-
-    -- better session management in neovim
-    use 'rmagatti/auto-session'
-
-    -- preview window for lsp references/definitions/implementations
-    use 'rmagatti/goto-preview'
-
-    -- centerpad, but much better (uses a floating window!!)
-    use 'folke/zen-mode.nvim'
-
-    -- highlight todos and other style comments
-    use 'folke/todo-comments.nvim'
-
-    -- simple file explorer
-    use 'tamago324/lir.nvim'
-
-    -- better tsserver support
-    -- language server for linting/formatting
+    -- auto-completion plugin
     use {
-      'jose-elias-alvarez/nvim-lsp-ts-utils',
-      requires = 'jose-elias-alvarez/null-ls.nvim',
+      'hrsh7th/nvim-cmp',
+      requires = {
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-path',
+        'saadparwaiz1/cmp_luasnip',
+        -- 'hrsh7th/cmp-buffer',
+        -- 'hrsh7th/cmp-nvim-lua',
+      },
     }
 
-    -- snippets
-    use 'L3MON4D3/LuaSnip'
+    -- use icons in the completion menus for lsp suggestions
+    use 'onsails/lspkind-nvim'
 
-    -- colorscheme
-    use 'rose-pine/neovim'
+    -- easier configuration for built-in neovim lsp
+    use 'neovim/nvim-lspconfig'
 
-    -- add indent line guides to editor
-    use 'lukas-reineke/indent-blankline.nvim'
-
-    -- rainbow coloring of brackets/curly braces/parenthesis/tags to make finding pairs easier
-    use 'p00f/nvim-ts-rainbow'
-
-    -- nice way of managing split focusing
-    use 'beauwilliams/focus.nvim'
-
-    -- nicer listing of registers
-    use 'tversteeg/registers.nvim'
-
-    -- lazygit in neovim
-    -- use 'kdheepak/lazygit.nvim'
-
-    -- treesitter info for my statusline
-    use 'SmiteshP/nvim-gps'
-
-    -- better notifications
-    use 'rcarriga/nvim-notify'
-
-    -- mini plugins that do one thing well
-    -- specifically installing for bufremove overrides
+    -- fzf sorting algorithm for telescope
     use {
-      'echasnovski/mini.nvim',
-      branch = 'stable',
+      'nvim-telescope/telescope-fzf-native.nvim',
+      run = 'make',
     }
 
-    -- better menus for inputs and selects in neovim
-    use 'stevearc/dressing.nvim'
+    -- TJ's lua functions that he doesn't wanna write again
+    use 'nvim-lua/plenary.nvim'
 
-    -- magit inside of neovim
-    use 'TimUntersberger/neogit'
+    -- notetaking with golang zk lsp
+    use 'mickael-menu/zk-nvim'
 
-    -- select from a list of URLs in the current file
-    -- use '~/code/urlview.nvim'
-    use 'axieax/urlview.nvim'
+    -- the best fuzzy finder :0
+    -- use '~/code/neovim/telescope.nvim'
+    use 'nvim-telescope/telescope.nvim'
 
-    -- handle git diffs in neovim
-    use 'akinsho/git-conflict.nvim'
+    -- impatient speeds up loading times with caching
+    use 'lewis6991/impatient.nvim'
 
-    -- status info for lsp
-    use 'nvim-lua/lsp-status.nvim'
-
-    -- lua development with types
-    use 'folke/lua-dev.nvim'
-
-    --}}}
     -----------------------------------------------------
     ---
     --- vimscript plugins
     ---
     -----------------------------------------------------
-    --{{{
 
     -- copilot *not* in vscode??
     use {
       'github/copilot.vim',
+      disable = true,
       opt = true,
       cmd = 'Copilot',
       setup = function()
@@ -263,7 +282,6 @@ return require('packer').startup {
 
     -- lua reference
     use 'milisims/nvim-luaref'
-    --}}}
   end,
   config = {
     compile_path = vim.fn.stdpath 'config' .. '/lua/packer/packer_compiled.lua',

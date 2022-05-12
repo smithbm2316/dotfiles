@@ -1,63 +1,60 @@
--- lazygit options, cuz they don't work in packer config ???
-vim.g.lazygit_floating_window_winblend = 1
-vim.g.lazygit_floating_window_use_plenary = 1
-vim.g.lazygit_floating_window_scaling_factor = 1
-vim.g.lazygit_use_neovim_remote = 0
-
--- Aliases for Lua API functions
-local o = vim.o
-local opt = vim.opt
-
--- Enable syntax highlighting and filetype plugins
--- vim.cmd 'syntax enable'
--- vim.cmd 'filetype plugin on'
-
--- Buffer options
-o.autoindent = true
-o.expandtab = true
-opt.formatoptions:remove '2tac'
-opt.formatoptions:append 'jnrqlo'
-o.shiftwidth = 2
-o.smartindent = true
-o.softtabstop = 2
-o.tabstop = 2
+-- Buffer-local options
+vim.o.autoindent = true
+vim.o.expandtab = true
+vim.opt.formatoptions:remove '2ac' -- t
+vim.opt.formatoptions:append 'jnrqlo'
+vim.o.textwidth = 100
+vim.o.shiftwidth = 2
+vim.o.smartindent = true
+vim.o.softtabstop = 2
+vim.o.tabstop = 2
 
 -- Global options
-o.cursorline = true
-o.errorbells = false
-o.exrc = true
-o.hidden = true
-o.ignorecase = true
-o.inccommand = 'split'
-o.incsearch = true
-o.keywordprg = ':help'
-o.laststatus = 2
-o.lazyredraw = true
-o.mouse = 'n'
-o.nrformats = ''
-o.path = '.,,'
-o.showmode = false
-o.showtabline = 0
-o.smartcase = true
-o.splitbelow = true
-o.splitright = true
-o.swapfile = false
-o.updatetime = 2000
-o.wildignore = '*/node_modules/*,*/.git/*,DS_Store,*/venv/*,*/__pycache__/*,*.pyc'
-o.wildmenu = true
-o.wildmode = 'full'
-o.wildoptions = 'pum'
-opt.shortmess:append 'c'
+vim.o.background = 'dark'
+vim.o.cursorline = true
+vim.o.errorbells = false
+vim.o.exrc = true
+vim.o.hidden = true
+vim.o.ignorecase = true
+vim.o.inccommand = 'split'
+vim.o.incsearch = true
+vim.o.keywordprg = ':help'
+vim.o.laststatus = 2
+vim.o.lazyredraw = true
+vim.o.mouse = 'n'
+vim.o.nrformats = ''
+vim.o.path = '.,,'
+vim.o.showmode = false
+vim.o.showtabline = 0
+vim.o.smartcase = true
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.swapfile = false
+vim.o.termguicolors = true
+vim.o.updatetime = 2000
+vim.o.wildignore = '*/node_modules/*,*/.git/*,DS_Store,*/venv/*,*/__pycache__/*,*.pyc'
+vim.o.wildmenu = true
+vim.o.wildmode = 'full'
+vim.o.wildoptions = 'pum'
+vim.opt.shortmess:append 'c'
 
--- Window options
-o.foldmethod = 'marker'
-o.relativenumber = true
-o.number = true
-o.signcolumn = 'yes' -- make sure this is on for gitsigns.nvim, otherwise the signcolumn changes size constantly
-o.wrap = false
+-- Window-local options
+vim.o.breakindent = true
+vim.o.foldmethod = 'marker'
+vim.o.linebreak = true
+vim.o.relativenumber = true
+vim.o.number = true
+vim.o.signcolumn = 'yes' -- make sure this is on for gitsigns.nvim, otherwise the signcolumn changes size constantly
+vim.o.wrap = true
 
 -- Autocmds
-vim.cmd 'au! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
+-- highlight yank for a brief second for visual feedback
+vim.api.nvim_create_autocmd('TextYankPost', {
+  pattern = '*',
+  callback = function()
+    vim.highlight.on_yank { on_visual = false }
+  end,
+})
 
 -- disable builtin plugins i don't need
 vim.g.loaded_gzip = 1
@@ -70,10 +67,10 @@ vim.g.loaded_getscriptPlugin = 1
 vim.g.loaded_vimball = 1
 vim.g.loaded_vimballPlugin = 1
 vim.g.loaded_2html_plugin = 1
--- vim.g.loaded_matchit = 1
-vim.g.loaded_matchparen = 1
 vim.g.loaded_logiPat = 1
 vim.g.loaded_rrhelper = 1
---[[ vim.g.loaded_netrw = 1
+vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_netrwSettings = 1 ]]
+vim.g.loaded_netrwSettings = 1
+-- vim.g.loaded_matchit = 1
+-- vim.g.loaded_matchparen = 1

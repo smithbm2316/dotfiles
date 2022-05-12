@@ -47,8 +47,6 @@ for _, ft in pairs {
   'javascriptreact',
   'typescript',
   'typescriptreact',
-  'svelte',
-  'vue',
   'html',
   'css',
   'astro',
@@ -64,7 +62,28 @@ formatter.setup {
 }
 
 -- call formatter.nvim automatically on save
-create_augroup('AutoFormatting', {
+create_augroup('AutoFormattingLua', {
+  {
+    events = 'BufWritePost',
+    pattern = {
+      '*.lua',
+    },
+    command = 'FormatWrite',
+  },
+})
+create_augroup('AutoFormattingGolang', {
+  {
+    events = 'BufWritePre',
+    pattern = {
+      '*.go',
+    },
+    callback = function()
+      vim.cmd 'GoImportAll'
+      vim.lsp.buf.formatting_sync()
+    end,
+  },
+})
+create_augroup('AutoFormattingWebDev', {
   {
     events = 'BufWritePost',
     pattern = {
@@ -74,15 +93,52 @@ create_augroup('AutoFormatting', {
       '*.jsx',
       '*.ts',
       '*.tsx',
-      '*.svelte',
-      '*.vue',
       '*.json',
-      '*.lua',
-      '*.go',
     },
     command = 'FormatWrite',
   },
 })
-nnoremap('<leader>tF', function()
-  _G.BS_toggle_augroup 'AutoFormatting'
-end, 'Toggle auto-formatting')
+
+-- toggle auto-formatting per language
+nnoremap('<leader>tfw', function()
+  _G.BS_toggle_augroup('AutoFormattingWebDev', true)
+end, 'Toggle auto-formatting WebDev')
+
+nnoremap('<leader>tfl', function()
+  _G.BS_toggle_augroup('AutoFormattingLua', true)
+end, 'Toggle auto-formatting Lua')
+
+nnoremap('<leader>tfg', function()
+  _G.BS_toggle_augroup('AutoFormattingGolang', true)
+end, 'Toggle auto-formatting Go')
+
+-- if we are in a Deno project, don't use prettier for formatting
+if vim.fn.glob('deno.json*'):len() > 0 then
+  _G.BS_toggle_augroup('AutoFormattingWebDev', true)
+  create_augroup('AutoFormattingDeno', {
+    {
+      events = 'BufWritePre',
+      pattern = {
+        '*.js',
+        '*.mjs',
+        '*.cjs',
+        '*.jsx',
+        '*.ts',
+        '*.tsx',
+        '*.json',
+      },
+      callback = vim.lsp.buf.formatting_sync,
+    },
+  })
+end
+
+-- auto formatting for Prisma schema files
+create_augroup('AutoFormattingPrisma', {
+  {
+    events = 'BufWritePre',
+    pattern = {
+      '*.prisma',
+    },
+    callback = vim.lsp.buf.formatting_sync,
+  },
+})
