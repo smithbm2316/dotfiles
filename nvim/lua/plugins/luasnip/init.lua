@@ -263,6 +263,19 @@ local webdev_snippets = {
     })
   ),
   --}}}
+  -- console.dir an object with infinite depth for command line viewing
+  --{{{
+  snip(
+    {
+      trig = 'co',
+      name = 'Console.Object',
+      desc = 'console.dir(obj, { depth: Infinity })',
+    },
+    fmt([[console.dir({}, {{ depth: Infinity }})]], {
+      i(1),
+    })
+  ),
+  --}}}
 }
 
 local lua_snippets = {

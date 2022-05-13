@@ -76,10 +76,49 @@ function slack-status
   node app.js $argv
   cd -
 end
+
 # current work project quick shortcuts
-if test -f ~/dotfiles/fish/projects/scout.fish
-  source ~/dotfiles/fish/projects/scout.fish
+function scout -a cmd nested_cmd
+  switch $cmd
+    case 'cd'
+      switch $nested_cmd
+        case 'w'
+          cd ~/vincit/scout-us/web
+        case 'f'
+          cd ~/vincit/scout-us/web
+        case 'b'
+          cd ~/vincit/scout-us/backend
+        case 's'
+          cd ~/vincit/scout-us/backend
+        case '*'
+          echo 'Invalid usage of `scout cd`, options: web, back'
+      end
+    case 'db'
+      switch $nested_cmd
+        case 'reset'
+          echo 'Are you sure you want to reset the database?'
+          read confirmResetDB
+          if test $confirmResetDB = 'yes'
+            ~/vincit/scripts/db-reset.sh
+          else
+            echo "Cancelled! We won't reset the database"
+          end
+        case 'bootstrap'
+          echo 'Are you sure you want to bootstrap the database?'
+          read confirmBootstrapDB
+          if test $confirmBootstrapDB = 'yes'
+            ~/vincit/scripts/db-bootstrap.sh
+          else
+            echo "Cancelled! We won't bootstrap the database"
+          end
+        case '*'
+          ~/vincit/scripts/db-connect.sh
+      end
+    case '*'
+      echo 'Invalid usage of `scout`, options: db, cd'
+  end
 end
+
 
 
 ##################################################

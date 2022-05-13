@@ -159,7 +159,7 @@ local function moveCurrentWindowToScreen()
     hs.window.animationDuration = _savedInfo.duration
   end
 end
-hs.hotkey.bind(hyper, 'm', nil, moveCurrentWindowToScreen)
+hs.hotkey.bind(cmd_hyper, 'm', nil, moveCurrentWindowToScreen)
 
 -- Close the current tab if the focused app is in the apps_with_tabs list,
 -- otherwise close the currently focused window
