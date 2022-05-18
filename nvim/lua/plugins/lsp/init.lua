@@ -480,8 +480,8 @@ lspconfig.tsserver.setup {
     end
     M.my_on_attach(client, bufnr)
     -- disable tsserver from formatting
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    client.server_capabilities.document_formatting = false
+    client.server_capabilities.document_range_formatting = false
   end,
   commands = {
     OrganizeImports = {
