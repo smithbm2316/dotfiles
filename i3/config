@@ -8,23 +8,26 @@ set $down j
 set $up k
 set $right l
 floating_modifier $mod
+set $term kitty
+set $primary_display HDMI-0
+set $alt_display eDP-1-1
 
 # -------------------------------------------------- THEME
-set $bgFocused #27212e
-set $bgUnfocused #382f47
-set $textFocused #ffffff
-set $textUnfocused #716385
-set $borderFocused #eb64b9
-set $borderUnfocused #382f47
-set $borderUrgent #ffe261
-set $bgUrgent #ffe261
-set $textUrgent #ffe261
-set $indicatorFocused #b381c5
-set $textInactiveWorkspace #74dfc4
-set $barSeparator #40b4c4
-set $powderBlue #b4dce7
-set $oldLavender #91889b
-font pango:Ubuntu Nerd Font 14
+set $bgFocused #232126
+set $bgUnfocused #312f44
+set $textFocused #e0def4
+set $textUnfocused #817c9c 
+set $borderFocused #3e8fb0
+set $borderUnfocused #312f44
+set $borderUrgent #eb6f92
+set $bgUrgent #eb6f92
+set $textUrgent #eb6f92
+set $indicatorFocused #c4a7e7
+set $textInactiveWorkspace #9ccfd8
+set $barSeparator #ea9a97
+set $powderBlue #3e8fb0
+set $oldLavender #817c9c
+font pango:BlexMono Nerd Font Mono:style=Medium 11
 
 # -------------------------------------------------- POWER OPTIONS
 bindsym $mod+q mode "$mode_system"
@@ -34,7 +37,7 @@ mode "$mode_system" {
   bindsym s exec --no-startup-id i3lock -c "#382f47" -i "/home/smithbm/Pictures/retrowave-landscape/retrowave1.png" && systemctl suspend, mode "default"
   bindsym e exec i3-msg exit, mode "default"
   bindsym ctrl+r exec reboot, mode "default"
-  bindsym p exec shutdown 1, mode "default"
+  bindsym ctrl+s exec shutdown "+0", mode "default"
   #i3help reload the configuration file
   bindsym c reload, mode "default"
   #i3help restart i3 inplace
@@ -44,6 +47,8 @@ mode "$mode_system" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
 }
+#i3help restart i3 inplace
+bindsym $mod+ctrl+r restart, mode "default"
 
 # -------------------------------------------------- SWITCH FOCUS
 bindsym $mod+$left focus left
@@ -64,137 +69,101 @@ bindsym $mod+s split v
 bindsym $mod+f fullscreen toggle
 popup_during_fullscreen smart
 
-bindsym $mod+Control+s sticky toggle
+bindsym $mod+ctrl+s sticky toggle
 # cycle layouts
 bindsym $mod+w layout toggle splith tabbed
-bindsym $mod+z floating toggle
+bindsym $mod+ctrl+f floating toggle
 # swap focus between floating and non-floating windows
 bindsym $mod+space focus mode_toggle
 # focus urgent
 bindsym $mod+u [urgent="latest"] focus
-# focus adult (parent)
-bindsym $mod+a focus parent
+# focus parent
+bindsym $mod+p focus parent
 # focus young one (child)
 bindsym $mod+y focus child
 
 # -------------------------------------------------- WORKSPACE MOVEMENT
-bindsym $mod+ctrl+n move workspace to output up
-bindsym $mod+n focus output up
-bindsym $mod+p workspace back_and_forth
+bindsym $mod+ctrl+m move workspace to output left
+bindsym $mod+m focus output left
+bindsym $mod+a workspace back_and_forth
+bindsym $mod+semicolon workspace next
+bindsym $mod+comma workspace prev
+bindsym $mod+ctrl+semicolon move container to workspace next, workspace next, mode "default"
+bindsym $mod+ctrl+comma move container to workspace prev, workspace prev, mode "default"
 
 # -------------------------------------------------- PULSEAUDIO CONTROLS
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym $mod+XF86AudioMute exec pactl set-sink-volume @DEFAULT_SINK@ 50%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioNext exec playerctl next
+bindsym $mod+F11 exec xrandr --output $alt_display --brightness 0.6
+bindsym $mod+F12 exec xrandr --output $alt_display --brightness 1.0
+bindsym $mod+ctrl+a exec ~/dotfiles/scripts/airpods.sh
 
 # -------------------------------------------------- WORKSPACES
+set $wsMisc "0:misc"
 set $wsDev "1:dev"
 set $wsWeb "2:web"
-set $wsShare "3:share"
+set $wsMessages "3:messages"
 set $wsVibes "4:vibes"
-set $wsMessages "5:messages"
-set $wsTasks "6:tasks"
-set $wsUCI "7:uci"
-set $wsApp "8:app"
-set $wsID "9:id"
-set $wsHax "10:hax"
-set $wsEmail "11:email"
-set $wsNotes "12:notes"
+set $wsNotes "5:notes"
 
 # -------------------------------------------------- WORKSPACE RESTRICTIONS
-workspace $wsVibes output HDMI-A-0
-workspace $wsMessages output HDMI-A-0
-workspace $wsID output HDMI-A-0
-workspace $wsApp output HDMI-A-0
-workspace $wsWeb output DisplayPort-0
-workspace $wsDev output DisplayPort-0
-workspace $wsTasks output DisplayPort-0
-workspace $wsEmail output DisplayPort-0
+workspace_layout tabbed
+workspace $wsMisc output $alt_display
+workspace $wsWeb output $primary_display
+workspace $wsDev output $primary_display
+workspace $wsMessages output $primary_display
+workspace $wsVibes output $primary_display
 
 # -------------------------------------------------- SWITCH TO WORKSPACE
-set $chooseWorkspace go to: (d)ev/(w)eb/(s)hare/(v)ibes/(m)essages/(t)asks/(u)ci/(a)pp/(i)d/(h)ax
-bindsym $mod+g mode "$chooseWorkspace"
-mode "$chooseWorkspace" {
-  bindsym d workspace $wsDev, mode "default"
-  bindsym w workspace $wsWeb, mode "default"
-  bindsym s workspace $wsShare, mode "default"
-  bindsym v workspace $wsVibes, mode "default"
-  bindsym m workspace $wsMessages, mode "default"
-  bindsym t workspace $wsTasks, mode "default"
-  bindsym u workspace $wsUCI, mode "default"
-  bindsym a workspace $wsApp, mode "default"
-  bindsym i workspace $wsID, mode "default"
-  bindsym h workspace $wsHax, mode "default"
-  bindsym e workspace $wsEmail, mode "default"
-  bindsym n workspace $wsNotes, mode "default"
-
-  # exit system mode: "Enter" or "Escape"
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
-}
+bindsym $mod+0 workspace $wsMisc, mode "default"
+bindsym $mod+1 workspace $wsDev, mode "default"
+bindsym $mod+2 workspace $wsWeb, mode "default"
+bindsym $mod+3 workspace $wsMessages, mode "default"
+bindsym $mod+4 workspace $wsVibes, mode "default"
+bindsym $mod+5 workspace $wsNotes, mode "default"
 
 # -------------------------------------------------- MOVE WINDOW TO WORKSPACE
-set $moveToWorkspace move to: (d)ev/(w)eb/(s)hare/(v)ibes/(m)essages/(t)asks/(u)ci/(a)pp/(i)d/(h)ax
-bindsym $mod+m mode "$moveToWorkspace"
-mode "$moveToWorkspace" {
-  # move to workspace but don't follow window
-  bindsym Shift+d move container to workspace $wsDev, mode "default"
-  bindsym Shift+w move container to workspace $wsWeb, mode "default"
-  bindsym Shift+s move container to workspace $wsShare, mode "default"
-  bindsym Shift+v move container to workspace $wsVibes, mode "default"
-  bindsym Shift+m move container to workspace $wsMessages, mode "default"
-  bindsym Shift+t move container to workspace $wsTasks, mode "default"
-  bindsym Shift+u move container to workspace $wsUCI, mode "default"
-  bindsym Shift+a move container to workspace $wsApp, mode "default"
-  bindsym Shift+i move container to workspace $wsID, mode "default"
-  bindsym Shift+h move container to workspace $wsHax, mode "default"
-  bindsym Shift+e move container to workspace $wsEmail, mode "default"
-  bindsym Shift+n move container to workspace $wsNotes, mode "default"
+bindsym $mod+ctrl+0 move container to workspace $wsMisc, workspace $wsMisc, mode "default"
+bindsym $mod+ctrl+1 move container to workspace $wsDev, workspace $wsDev, mode "default"
+bindsym $mod+ctrl+2 move container to workspace $wsWeb, workspace $wsWeb, mode "default"
+bindsym $mod+ctrl+3 move container to workspace $wsMessages, workspace $wsMessages, mode "default"
+bindsym $mod+ctrl+4 move container to workspace $wsVibes, workspace $wsVibes, mode "default"
+bindsym $mod+ctrl+5 move container to workspace $wsNotes, workspace $wsNotes, mode "default"
 
-  # move to workspace and follow that window
-  bindsym d move container to workspace $wsDev; workspace $wsDev; mode "default"
-  bindsym w move container to workspace $wsWeb; workspace $wsWeb; mode "default"
-  bindsym s move container to workspace $wsShare; workspace $wsShare; mode "default"
-  bindsym v move container to workspace $wsVibes; workspace $wsVibes; mode "default"
-  bindsym m move container to workspace $wsMessages; workspace $wsMessages; mode "default"
-  bindsym t move container to workspace $wsTasks; workspace $wsTasks; mode "default"
-  bindsym u move container to workspace $wsUCI; workspace $wsUCI; mode "default"
-  bindsym a move container to workspace $wsApp; workspace $wsApp; mode "default"
-  bindsym i move container to workspace $wsID; workspace $wsID; mode "default"
-  bindsym h move container to workspace $wsHax; workspace $wsHax; mode "default"
-  bindsym e move container to workspace $wsEmail; workspace $wsEmail; mode "default"
-  bindsym n move container to workspace $wsNotes; workspace $wsNotes; mode "default"
-
-  # exit system mode: "Enter" or "Escape"
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
-}
+bindsym $mod+shift+0 move container to workspace $wsMisc, mode "default"
+bindsym $mod+shift+1 move container to workspace $wsDev, mode "default"
+bindsym $mod+shift+2 move container to workspace $wsWeb, mode "default"
+bindsym $mod+shift+3 move container to workspace $wsMessages, mode "default"
+bindsym $mod+shift+4 move container to workspace $wsVibes, mode "default"
+bindsym $mod+shift+5 move container to workspace $wsNotes, mode "default"
 
 # -------------------------------------------------- MISCELLANEOUS KEYBINDS
 # Focus follows the mouse!
-focus_follows_mouse yes
-mouse_warping none
+focus_follows_mouse no
+mouse_warping output
 # When launching a new app, focus should go to it
 focus_on_window_activation focus
 #i3help start a terminal
-bindsym $mod+t exec kitty
+bindsym $mod+t exec $term
 # kill focused window
-bindsym $mod+c kill
+bindsym $mod+ctrl+c kill
 #i3help Rofi launcher
-bindsym $mod+slash exec rofi -show drun -icon-theme "Papirus" -show-icons
+bindsym $mod+o exec rofi -show drun -icon-theme "Papirus" -show-icons
 #i3help Rofi open windows
 bindsym $alt+Tab exec rofi -show window -icon-theme "Papirus" -show-icons
 # Rofi run program
-bindsym $mod+ctrl+slash exec rofi -show run
+bindsym $mod+ctrl+o exec rofi -show run
 #i3help Emoji picker
 bindsym $mod+ctrl+e exec splatmoji copy
 # Screenshot
 bindsym Print exec flameshot gui
 bindsym $mod+Print exec flameshot screen --clipboard
-bindsym $mod+Ctrl+Print exec flameshot full --clipboard
+bindsym $mod+ctrl+Print exec flameshot full --clipboard
 
 # -------------------------------------------------- RESIZE MODE
 mode "resize" {
@@ -231,63 +200,9 @@ client.background       $bgUnfocused
 default_border pixel 2
 default_floating_border pixel 4
 
-# -------------------------------------------------- I3 BAR
-bar {
-  status_command i3status -c ~/.config/i3/i3status.conf
-  font pango:Iosevka Nerd Font Medium 12
-  position top
-  strip_workspace_numbers yes
-  bindsym button_4 nop
-  bindsym button_5 nop
-  colors {
-    background $bgFocused
-    statusline $textFocused
-    separator $barSeparator
-    # Workspace indicator border           background   text
-    focused_workspace     $bgFocused       $bgFocused   $borderFocused
-    active_workspace      $borderUnfocused $bgUnfocused $textInactiveWorkspace
-    inactive_workspace    $borderUnfocused $bgUnfocused $textUnfocused
-    urgent_workspace      $borderUrgent    $bgUnfocused $textUrgent
-  }
-}
-
-# -------------------------------------------------- APP SHORTCUTS
-set $openSomething "open:"
-bindsym $mod+o mode $openSomething
-mode $openSomething {
-  bindsym b exec vieb, mode "default"
-  bindsym Shift+f exec /opt/firefox-dev/firefox, mode "default"
-  bindsym f exec thunar, mode "default"
-  bindsym o exec obs, mode "default"
-  bindsym v exec spotify, mode "default"
-  bindsym s exec slack, mode "default"
-  bindsym d exec discord, mode "default"
-  bindsym t workspace $wsTasks, exec alacritty --class "tasks", mode "default"
-  bindsym c exec galculator, mode "default"
-  bindsym n exec /home/smithbm/AppImages/./Obsidian.AppImage, mode "default"
-
-  # iD tech pulse + ultipro
-  bindsym i workspace $wsID; exec firefox "https://ew43.ultipro.com/Login.aspx" "https://admin.idtech.com"; mode "default"
-  # localhost 3000 for development
-  bindsym l workspace $wsApp; exec /opt/firefox-dev/firefox --new-window "http://localhost:3000" --devtools; mode "default"
-  bindsym u workspace $wsShare; exec firefox --new-window "https://uci.zoom.us/join"; exec alacritty --class "floating_alacritty" --command nvim ~/Documents/uci-meetings.md; mode "default"
-
-  # Flatpak apps
-  bindsym p exec flatpak run com.getpostman.Postman, mode "default"
-  bindsym Shift+p exec flatpak run com.jetbrains.PyCharm-Community, mode "default"
-  bindsym z exec flatpak run us.zoom.Zoom, mode "default"
-
-  # Rofi run
-  bindsym r exec rofi -show run -icon-them "Papirus" -show-icons, mode "default"
-
-  # exit system mode: "Enter" or "Escape"
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
-}
-
-bindsym $mod+b exec firefox
-
 # -------------------------------------------------- SCRATCHPAD
+bindsym $mod+n scratchpad show
+bindsym $mod+ctrl+n move scratchpad
 
 # -------------------------------------------------- DEFAULT WORKSPACES
 # Spotify is annoying and doesn't work with regular "assign"
@@ -295,43 +210,40 @@ for_window [class="Spotify"] move to workspace $wsVibes
 assign [class="ncspot"] $wsVibes
 assign [class="Slack"] $wsMessages 
 assign [class="discord"] $wsMessages 
-assign [class="jetbrains-pycharm-ce"] $wsShare
-assign [class="Postman"] $wsHax
-assign [class="Geary"] $wsEmail
-assign [class="obsidian"] $wsNotes
 
 # -------------------------------------------------- APP EXCEPTIONS
-for_window [class="zoom"] floating enable
-for_window [class="Alacritty" instance="^tasks$"] move to workspace $wsTasks
-for_window [class="Galculator"] floating enable
+# Zoom meetings
+for_window [class="zoom\s?"] floating enable
+for_window [class="zoom\s?"] resize set 800 600
+for_window [class="zoom\s?"] move position center
 
 # -------------------------------------------------- SCRATCHPADS
 # terminal scratchpad
-bindsym $mod+ctrl+t [class="Alacritty" instance="^scratchpad$"] scratchpad show; [class="Alacritty" instance="^scratchpad$"] move position center
-for_window [class="Alacritty" instance="^scratchpad$"] floating enable
-for_window [class="Alacritty" instance="^scratchpad$"] resize set 800 600
-for_window [class="Alacritty" instance="^scratchpad$"] move scratchpad
-# obs scratchpad
-bindsym $mod+ctrl+o [class="^obs$"] scratchpad show; [class="^obs$"] move position center
-for_window [class="^obs$"] floating enable
-for_window [class="^obs$"] resize set 1600 900
-for_window [class="^obs$"] move scratchpad
+bindsym $mod+ctrl+t [class=$term title="^scratchpad$"] scratchpad show
+bindsym $mod+shift+t exec $term --title "scratchpad"
+for_window [class=$term title="^scratchpad$"] floating enable
+for_window [class=$term title="^scratchpad$"] move scratchpad
+for_window [class=$term title="^scratchpad$"] resize set 800 600
+for_window [class=$term title="^scratchpad$"] move position center
 
 # -------------------------------------------------- AUTOSTART
-exec ~/dotfiles/config/displays.sh
-exec picom
+exec ~/dotfiles/config/vincit.sh
+# exec picom
 exec nitrogen --restore
 exec xsetroot -cursor_name left_ptr
+exec xset r rate 250 25 &
+exec bluetoothctl disconnect E8:85:4B:4A:82:86; bluetoothctl block E8:85:4B:4A:82:86 &
 exec dunst
 exec flameshot
-exec pactl exit
+exec 1password
+exec_always --no-startup-id $HOME/dotfiles/polybar/launch.sh
 
 # start up scratchpad instances
-exec --no-startup-id alacritty --class "scratchpad"
+exec --no-startup-id kitty --title "scratchpad"
 
 # programs to use on startup
 # exec --no-startup-id i3-msg workspace $wsWeb; exec firefox
-
+# exec --no-startup-id i3-msg workspace $wsDev; exec kitty
+# exec --no-startup-id i3-msg workspace $wsMisc; exec brave-browser
+# exec --no-startup-id i3-msg workspace $wsDev; exec slack
 # exec --no-startup-id i3-msg workspace $wsVibes; exec spotify
-# exec --no-startup-id i3-msg workspace $wsDev; exec alacritty
-# exec --no-startup-id i3-msg workspace $wsWeb; exec firefox

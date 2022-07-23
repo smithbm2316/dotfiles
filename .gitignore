@@ -26,6 +26,10 @@ iTerm2/AppSupport/*
 # ignore state.yml from lazygit
 lazygit/state.yml
 
+# ignore everything in the litecli folder except the config file
+litecli/*
+!litecli/config
+
 # ignore userstate.toml from ncspot
 ncspot/userstate.*
 

@@ -34,6 +34,7 @@
 [core]
 	excludesFile = ~/.config/git/ignore
   editor = nvim
+  pager = delta
 [color]
 	ui = auto
 [init]
@@ -44,3 +45,14 @@
 	rebase = true
 [advice]
 	addIgnoredFile = false
+[interactive]
+  diffFilter = delta --color-only
+[merge]
+  conflictstyle = diff3
+[diff]
+  colorMoved = default
+[delta]
+  navigate = true
+  light = false
+  side-by-side = false
+  line-numbers = true

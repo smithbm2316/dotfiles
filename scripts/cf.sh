@@ -21,7 +21,7 @@ if [[ $# -lt 2 ]]; then
   cf_help_menu
   exit
 elif [[ "$2" == 'dots' ]]; then
-  cmd_end="--ignore='config|cronjobs|scripts' -t $XDG_CONFIG_HOME dotfiles"
+  cmd_end="--ignore='config|cronjobs|scripts|user-dirs.dirs' -t $XDG_CONFIG_HOME dotfiles"
   rootdir="cd ~"
 elif [[ "$2" == 'cron' ]]; then
   cmd_end="-t /etc/cron.daily cronjobs"

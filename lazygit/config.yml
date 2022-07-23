@@ -23,6 +23,9 @@ git:
   pull:
     mode: 'rebase'
   autoFetch: true
+  paging:
+    colorArg: 'always'
+    pager: delta --dark --paging=never
 confirmOnQuit: false
 reporting: 'off'
 keybinding:

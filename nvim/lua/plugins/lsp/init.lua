@@ -113,9 +113,9 @@ function goto_diagnostic_msg(direction, shouldGoToAny)
   vim.diagnostic['goto_' .. direction] {
     float = true,
     wrap = true,
-    severity = {
-      min = shouldGoToAny and vim.diagnostic.severity.HINT or vim.diagnostic.severity.WARN,
-    },
+    severity = not shouldGoToAny and {
+      min = vim.diagnostic.severity.WARN,
+    } or nil,
   }
   vim.wo.linebreak = true
 end
@@ -188,7 +188,7 @@ M.my_on_attach = function(
     goto_diagnostic_msg 'next'
   end, 'Next diagnostic', bufnr_opts)
   nnoremap('<leader>dN', function()
-    goto_diagnostic_msg 'next'
+    goto_diagnostic_msg('next', true)
   end, 'Next diagnostic', bufnr_opts)
 
   -- show diagnostics on current line in floating window: hover diagnostics for line
@@ -300,6 +300,9 @@ local servers = {
   html = {},
   prismals = {},
   pylsp = {},
+  sqls = {
+    root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
+  },
   svelte = {},
   texlab = {},
   vuels = {},
@@ -318,6 +321,7 @@ lspconfig.denols.setup {
   on_attach = M.my_on_attach,
   capabilities = M.my_capabilities,
   root_dir = util.root_pattern('deno.json', 'deno.jsonc'),
+  single_file_support = false,
   settings = {
     enabled = true,
     lint = true,
@@ -414,7 +418,7 @@ lspconfig.tsserver.setup {
   },
   on_attach = function(client, bufnr)
     -- if it's marked as a deno file, then detach tsserver from the buffer
-    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    --[[ local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
     if #lines > 0 and lines[1]:find ' nvim:deno' ~= nil then
       local clients = vim.lsp.get_active_clients()
       for id, client in ipairs(clients) do
@@ -424,7 +428,7 @@ lspconfig.tsserver.setup {
       end
 
       return
-    end
+    end ]]
 
     local has_ts_utils, ts_utils = pcall(require, 'nvim-lsp-ts-utils')
     if has_ts_utils then
@@ -496,7 +500,14 @@ lspconfig.tsserver.setup {
       description = 'Organize Imports',
     },
   },
-  root_dir = util.root_pattern('package.json', 'tsconfig.json', 'jsconfig.json'),
+  root_dir = function(filename, bufnr)
+    -- if we find a deno config file before a package.json or tsconfig.json, then don't attach this
+    -- server because this is a deno project
+    if util.root_pattern('deno.json', 'deno.jsonc')(filename) then
+      return nil
+    end
+    return util.root_pattern('package.json', 'tsconfig.json')(filename)
+  end,
 }
 
 lspconfig.jsonls.setup {
@@ -557,11 +568,6 @@ lspconfig.jsonls.setup {
   },
 }
 
--- sumneko_lua setup, using lua-dev plugin for better lua docs
-local sumneko_root_path = vim.env.HOME .. '/builds/lua-language-server'
-local system_name = vim.fn.has 'Linux' == 1 and 'Linux' or 'macOS'
-local sumneko_binary = sumneko_root_path .. '/bin/' .. system_name .. '/lua-language-server'
-
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
@@ -569,8 +575,9 @@ table.insert(runtime_path, 'lua/?/init.lua')
 local library_files = vim.api.nvim_get_runtime_file('', true)
 -- add local nvim config to enable goto definitions, etc
 table.insert(library_files, vim.env.XDG_CONFIG_HOME .. 'nvim/lua')
--- load hammerspoon runtime files if in dotfiles/hammerspoon/init.lua
-if vim.fn.expand '%:p' == (vim.env.HOME .. '/dotfiles/hammerspoon/init.lua') then
+
+-- load hammerspoon runtime files if in dotfiles/hammerspoon/init.lua and on OSX
+if vim.fn.has 'mac' == 1 and vim.fn.expand '%:p' == (vim.env.HOME .. '/dotfiles/hammerspoon/init.lua') then
   table.insert(library_files, '/Applications/Hammerspoon.app/Contents/Resources/extensions/hs')
 end
 
@@ -582,7 +589,7 @@ local luadev = require('lua-dev').setup {
   },
   lspconfig = {
     on_attach = M.my_on_attach,
-    cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
+    cmd = { 'lua-language-server' },
     settings = {
       Lua = {
         runtime = {

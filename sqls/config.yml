@@ -1,0 +1,8 @@
+lowercaseKeywords: true
+connections:
+  - alias: in-what-for-wordle-we-live
+    driver: sqlite3
+    dataSourceName: file:/Users/smithbm/code/in-what-for-wordle-we-live/db/data.db
+  - alias: prisma-in-what-for-wordle-we-live
+    driver: sqlite3
+    dataSourceName: file:/Users/smithbm/code/in-what-for-wordle-we-live/prisma/data.db

@@ -67,8 +67,8 @@ Install:andUse('Seal', {
       -- '/Applications/Xcode.app/Contents',
       -- '/usr/local/Cellar',
       '/System/Applications',
-      -- '/System/Library/PreferencePanes',
-      -- '~/Library/PreferencePanes',
+      '/System/Library/PreferencePanes',
+      '~/Library/PreferencePanes',
     }
     seal.plugins.apps:restart()
     -- define my own custom actions
@@ -109,16 +109,16 @@ Install:andUse('Seal', {
           hs.osascript.applescriptFromFile 'toggleTheme.applescript'
         end,
       },
-      lunch = {
+      slackLunch = {
         keyword = 'lunch',
         fn = function()
           hs.execute('slack-status lunch', true)
         end,
       },
-      backToWork = {
+      slackBack = {
         keyword = 'backToWork',
         fn = function()
-          hs.execute('slack-status clear', true)
+          hs.execute('slack-status back', true)
         end,
       },
     }
@@ -371,6 +371,27 @@ function airdropper()
   end
 end
 hs.hotkey.bind(cmd_hyper, 'a', nil, airdropper, nil, airdropper)
+
+--[[ local AppLauncher = {}
+AppLauncher.__index = AppLauncher
+AppLauncher.modifiers = hyper
+AppLauncher.apps = {
+  b = 'Brave Browser',
+  f = 'Firefox',
+  n = 'Obsidian',
+  s = 'Slack',
+  t = 'WezTerm',
+  y = 'Messages',
+}
+
+for key, app in pairs(AppLauncher.apps) do
+  hs.hotkey.bind(AppLauncher.modifiers, key, function()
+    local appFound = hs.application.find(app)
+    if appFound then
+      appFound:focusedWindow():focus()
+    end
+  end)
+end ]]
 
 -- Load plugin to fade in the Hammerspoon logo when reloading configuration
 Install:andUse 'FadeLogo'

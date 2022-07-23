@@ -8,29 +8,18 @@ return require('packer').startup {
     --- lua plugins :D
     ---
     -----------------------------------------------------
-    -- copilot, but in lua??
-    --[[ use {
-      'zbirenbaum/copilot.lua',
-      event = { 'VimEnter' },
-      config = function()
-        vim.defer_fn(function()
-          require('copilot').setup {
-            ft_disable = { 'markdown', 'txt', 'TelescopePrompt', 'help', 'DiffviewFiles' },
-          }
-        end, 100)
-      end,
-    }
-    use {
-      'zbirenbaum/copilot-cmp',
-      after = { 'copilot.lua', 'nvim-cmp' },
-    } ]]
+    -- markdown preview in floating buffer, courtesy of glow
+    use 'ellisonleao/glow.nvim'
+
+    -- paste to your heart's content
+    -- use 'hrsh7th/nvim-pasta'
 
     -- export my current set of buffers to vsc*de for when i need a real debugger or need to use the
     -- typescript translator extension
-    use 'elijahmanor/export-to-vscode.nvim'
+    -- use 'elijahmanor/export-to-vscode.nvim'
 
     -- reverse J using treesitter now
-    use 'AckslD/nvim-trevJ.lua'
+    -- use 'AckslD/nvim-trevJ.lua'
 
     -- lsp server progress indicator
     use 'j-hui/fidget.nvim'
@@ -42,11 +31,10 @@ return require('packer').startup {
     use 'folke/lua-dev.nvim'
 
     -- handle git diffs in neovim
-    use 'akinsho/git-conflict.nvim'
+    -- use 'akinsho/git-conflict.nvim'
 
     -- select from a list of URLs in the current file
-    -- use '~/code/urlview.nvim'
-    use 'axieax/urlview.nvim'
+    -- use 'axieax/urlview.nvim'
 
     -- magit inside of neovim
     use 'TimUntersberger/neogit'
@@ -65,7 +53,7 @@ return require('packer').startup {
     use 'rcarriga/nvim-notify'
 
     -- treesitter info for my statusline
-    use 'SmiteshP/nvim-gps'
+    -- use 'SmiteshP/nvim-gps'
 
     -- nicer listing of registers
     use 'tversteeg/registers.nvim'
@@ -108,7 +96,14 @@ return require('packer').startup {
     use 'rmagatti/auto-session'
 
     -- Open a new tab for viewing git diffs for all files in current branch
-    use 'sindrets/diffview.nvim'
+    use {
+      'sindrets/diffview.nvim',
+      opt = true,
+      cmd = { 'DiffviewOpen', 'DiffviewFiles' },
+      config = function()
+        require 'plugins.opt.diffview'
+      end,
+    }
 
     -- show preview of colors for hex, hsl, and rgb values
     use {
@@ -126,23 +121,19 @@ return require('packer').startup {
     use 'nvim-lualine/lualine.nvim'
 
     -- replacement for alvan/vim-closetag and AndrewRadev/tagalong.vim
-    use {
-      'windwp/nvim-ts-autotag',
-      opt = true,
-      ft = { 'html', 'javascript', 'javascriptreact', 'svelte', 'typescript', 'typescriptreact', 'vue' },
-      config = function()
-        require 'plugins.opt.autotag'
-      end,
-    }
+    use 'windwp/nvim-ts-autotag'
 
     -- pretty icons for nerd fonts
     use 'kyazdani42/nvim-web-devicons'
 
     -- add plugin that uses treesitter to figure out what the commentstring should be
-    use 'JoosepAlviste/nvim-ts-context-commentstring'
+    -- use 'JoosepAlviste/nvim-ts-context-commentstring'
 
     -- tpope/vim-commentary lua replacement
-    use 'numToStr/Comment.nvim'
+    use {
+      'numToStr/Comment.nvim',
+      branch = 'jsx',
+    }
 
     -- highlight and indent and textobject all the things
     use {
@@ -213,17 +204,11 @@ return require('packer').startup {
     --- vimscript plugins
     ---
     -----------------------------------------------------
+    -- manage DBs in vim
+    use 'tpope/vim-dadbod'
 
-    -- copilot *not* in vscode??
-    use {
-      'github/copilot.vim',
-      disable = true,
-      opt = true,
-      cmd = 'Copilot',
-      setup = function()
-        vim.g.copilot_enabled = 0
-      end,
-    }
+    -- manage DBs in vim
+    use 'kristijanhusak/vim-dadbod-ui'
 
     -- runs :noh whenever the mouse cursor is moved 
     use 'junegunn/vim-slash'
@@ -233,6 +218,9 @@ return require('packer').startup {
       'dkarter/bullets.vim',
       opt = true,
       ft = { 'markdown', 'text', 'latex', 'tex', 'gitcommit' },
+      config = function()
+        vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
+      end,
     }
 
     -- tpope's blessings to vimmers everywhere
@@ -268,6 +256,9 @@ return require('packer').startup {
     -----------------------------------------------------
     -- i3wm config
     use 'mboughaba/i3config.vim'
+
+    -- kmonad config
+    use 'kmonad/kmonad-vim'
 
     -----------------------------------------------------
     ---

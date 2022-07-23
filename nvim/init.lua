@@ -30,13 +30,17 @@ else
   end
 
   -- load impatient.nvim and compiled packer output before everything else
-  local ok, impatient = pcall(require, 'impatient')
-  if not ok then
+  local impatient_ok, impatient = pcall(require, 'impatient')
+  if impatient_ok then
+    impatient.enable_profile()
+  else
     print "couldn't load impatient.nvim"
-    return
   end
-  impatient.enable_profile()
-  require 'packer/packer_compiled'
+
+  local packer_compiled_ok = pcall(require, 'packer/packer_compiled')
+  if packer_compiled_ok then
+    require 'packer/packer_compiled'
+  end
 
   -- load my vim settings
   require 'settings'

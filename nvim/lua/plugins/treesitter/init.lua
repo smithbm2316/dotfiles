@@ -4,12 +4,13 @@ if not ok then
   return
 end
 
-local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
+--[[ local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
 ft_to_parser.nunjucks = 'tsx'
-ft_to_parser.liquid = 'tsx'
+ft_to_parser.liquid = 'tsx' ]]
 
 require('nvim-treesitter.configs').setup {
   textobjects = {
+    enable = true,
     select = {
       enable = true,
       lookahead = true,
@@ -34,7 +35,7 @@ require('nvim-treesitter.configs').setup {
   },
   rainbow = {
     enable = true,
-    extended_mode = true,
+    extended_mode = false,
     colors = {
       '#eb6f92',
       '#f6c177',
@@ -44,7 +45,7 @@ require('nvim-treesitter.configs').setup {
       '#c4a7e7',
       '#817c9c',
     },
-    -- max_file_lines = nil,
+    max_file_lines = nil,
   },
   playground = {
     enable = true,

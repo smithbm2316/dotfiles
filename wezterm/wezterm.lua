@@ -2,10 +2,10 @@ local wezterm = require 'wezterm'
 
 return {
   font = wezterm.font_with_fallback {
-    { family = 'JetBrains Mono', weight = 'Medium' },
+    { family = 'IBM Plex Mono', weight = 'Medium' },
     'Symbols Nerd Font Mono',
   },
-  font_size = 17.0,
+  font_size = 12.0,
   font_shaper = 'Harfbuzz',
   line_height = 1.2,
   hide_tab_bar_if_only_one_tab = true,

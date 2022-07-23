@@ -1,3 +1,23 @@
-# vim: filetype=sh
-# https://openfolder.sh/macos-migrations-with-brewfile
-# set up a Brewfile for dependencies to install automatically on MacOS
+# vim: ft=sh
+brew "bat"
+brew "cloc"
+brew "curlie"
+brew "datasette"
+brew "exa"
+brew "fd"
+brew "fish"
+brew "fzf"
+brew "gh"
+brew "git-delta"
+brew "jq"
+brew "luv"
+brew "ncspot"
+brew "pandoc"
+brew "ripgrep"
+brew "stow"
+brew "streamlink"
+brew "stylua"
+brew "tldr"
+brew "tmux"
+brew "youtube-dl"
+brew "zk"

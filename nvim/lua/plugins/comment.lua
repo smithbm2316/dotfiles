@@ -22,7 +22,7 @@ local config = {
     line = 'cl',
     block = 'cm',
   },
-  pre_hook = function(ctx)
+  --[[ pre_hook = function(ctx)
     -- call ts-context-commentstring to update what the comment should be at the
     -- moment (particularly useful in JSX where you have lots of comment types
     -- depending on file location)
@@ -37,7 +37,7 @@ local config = {
       key = ctx.ctype == comment_utils.ctype.line and '__default' or '__multiline',
       location = location,
     }
-  end,
+  end, ]]
   post_hook = nil,
 }
 

@@ -41,6 +41,26 @@ local prettier_config = {
   end,
 }
 
+local dprint_config = {
+  function()
+    local args = {
+      'fmt',
+    }
+    local local_config = vim.fn.glob '.dprint.json'
+
+    if local_config == '' then
+      table.insert(args, '--config')
+      table.insert(args, vim.env.XDG_CONFIG_HOME .. 'dprint/dprint.json')
+    end
+
+    return {
+      exe = 'dprint',
+      args = args,
+      stdin = false,
+    }
+  end,
+}
+
 -- add a prettier_config for all js/ts/vue/svelte filetypes
 for _, ft in pairs {
   'javascript',
@@ -79,7 +99,7 @@ create_augroup('AutoFormattingGolang', {
     },
     callback = function()
       vim.cmd 'GoImportAll'
-      vim.lsp.buf.formatting_sync()
+      vim.lsp.buf.format { async = false }
     end,
   },
 })
@@ -127,7 +147,9 @@ if vim.fn.glob('deno.json*'):len() > 0 then
         '*.tsx',
         '*.json',
       },
-      callback = vim.lsp.buf.formatting_sync,
+      callback = function()
+        vim.lsp.buf.format { async = false }
+      end,
     },
   })
 end
@@ -139,6 +161,8 @@ create_augroup('AutoFormattingPrisma', {
     pattern = {
       '*.prisma',
     },
-    callback = vim.lsp.buf.formatting_sync,
+    callback = function()
+      vim.lsp.buf.format { async = false }
+    end,
   },
 })

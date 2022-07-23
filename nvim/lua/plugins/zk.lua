@@ -25,7 +25,7 @@ zk.setup {
                 if tags then
                   -- if we have tags, parse them and insert them to the end of the file
                   local content = '\n'
-                  for tag in tags:gmatch '%w+' do
+                  for tag in tags:gmatch '[%w-_]+' do
                     content = string.format('%s#%s ', content, tag)
                   end
                   zk.new {

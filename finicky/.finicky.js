@@ -14,7 +14,7 @@ module.exports = {
     },
     {
       match: /^https?:\/\/localhost:.*$/,
-      browser: 'Firefox Developer Edition',
+      browser: 'Brave Browser',
     },
     {
       match: /^https?:\/\/.*intra\.vincit\.fi\/.*$/,

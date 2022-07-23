@@ -126,7 +126,7 @@ row_limit = 1000
 max_field_width = 500
 
 # Skip intro on startup and goodbye on exit
-less_chatty = False
+less_chatty = True
 
 # Postgres prompt
 # \t - Current date and time

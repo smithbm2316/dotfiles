@@ -3,7 +3,7 @@ if not ok then
   return
 end
 
-local cb = require('diffview.config').diffview_callback
+local actions = pcall(require, 'diffview.actions')
 -- use ` instead of - for deletions
 vim.opt.fillchars:append 'diff:`'
 
@@ -14,28 +14,24 @@ diffview.setup {
   file_panel = {
     width = 30,
     listing_style = 'list',
-    -- tree_options = {
-    --   flatten_dirs = true,
-    --   folder_statuses = 'only_folded',
-    -- },
   },
   key_bindings = {
     view = {
-      ['<tab>'] = cb 'select_next_entry',
-      ['<c-tab>'] = cb 'select_prev_entry',
-      ['<leader>ff'] = cb 'focus_files',
-      ['<leader>sf'] = cb 'toggle_files',
+      ['<tab>'] = actions.select_next_entry,
+      ['<c-tab>'] = actions.select_prev_entry,
+      ['<leader>ff'] = actions.focus_files,
+      ['<leader>sf'] = actions.toggle_files,
     },
     file_panel = {
-      ['j'] = cb 'next_entry',
-      ['k'] = cb 'prev_entry',
-      ['<cr>'] = cb 'select_entry',
-      ['o'] = cb 'select_entry',
-      ['r'] = cb 'refresh_files',
-      ['<tab>'] = cb 'select_next_entry',
-      ['<c-tab>'] = cb 'select_prev_entry',
-      ['<leader>ff'] = cb 'focus_files',
-      ['<leader>sf'] = cb 'toggle_files',
+      ['j'] = actions.next_entry,
+      ['k'] = actions.prev_entry,
+      ['<cr>'] = actions.select_entry,
+      ['o'] = actions.select_entry,
+      ['r'] = actions.refresh_files,
+      ['<tab>'] = actions.select_next_entry,
+      ['<c-tab>'] = actions.select_prev_entry,
+      ['<leader>ff'] = actions.focus_files,
+      ['<leader>sf'] = actions.toggle_files,
     },
   },
   hooks = {

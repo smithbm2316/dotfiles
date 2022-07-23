@@ -88,10 +88,10 @@ nnoremap('<leader>wr', [[<cmd>vnew | wincmd r | wincmd l<cr>]], 'Split 1 window 
 nnoremap('<leader>wl', [[<cmd>wincmd r | wincmd l<cr>]], 'Swap windows and move cursor')
 
 -- <c-n>/<c-p> moves selected lines down/up in visual mode
-nnoremap('<c-n>', '<cmd>m.+1<cr>==')
+--[[ nnoremap('<c-n>', '<cmd>m.+1<cr>==')
 nnoremap('<c-p>', '<cmd>m.-2<cr>==')
 vnoremap('<c-n>', '<cmd>m>+1<cr>gv=gv')
-vnoremap('<c-p>', '<cmd>m<-2<cr>gv=gv')
+vnoremap('<c-p>', '<cmd>m<-2<cr>gv=gv') ]]
 
 -- quit all forcefully
 nnoremap('<leader>qf', '<cmd>qall!<cr>', 'Force quit all buffers')

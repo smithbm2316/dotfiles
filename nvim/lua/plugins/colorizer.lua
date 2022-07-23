@@ -1,4 +1,16 @@
-require'colorizer'.setup ({ '*' }, {
+local ok, colorizer = pcall(require, 'colorizer')
+if not ok then
+  return
+end
+
+-- Ignore certain filetypes that will cause issues, otherwise highlight everywhere!
+colorizer.setup({
+  '*',
+  '!TelescopePrompt',
+  '!help',
+  '!harpoon',
+  '!DiffviewFiles',
+}, {
   RGB = true,
   RRGGBB = true,
   RRGGBBAA = true,

@@ -34,9 +34,6 @@ abbr -a nvpack 'cd ~/.local/share/nvim/site/pack/packer/start'
 abbr -a -- - 'cd -'
 # lazygit
 abbr -a g lazygit
-abbr -a lg lazygit
-# shortcut for `clear` command
-abbr -a cl clear
 # mv and cp and mkdir improvements
 abbr -a mv 'mv -iv'
 abbr -a cp 'cp -iv'
@@ -47,18 +44,22 @@ function mkd; mkdir -pv $argv[1] && cd $argv[1]; end
 abbr -a yeet 'rm -rf'
 # stow helper for dotfiles and cronjobs
 alias cf "$HOME/dotfiles/scripts/cf.sh"
-alias stowdots "$HOME/dotfiles/scripts/stowdots.fish"
+# pr review helper
+alias prr "$HOME/dotfiles/scripts/prr.fish"
 # ls/exa aliases
 if command -v exa &>/dev/null
-  alias l 'exa --icons -a'
+  alias l 'exa --icons -la'
   alias ls 'exa --icons'
-  alias ll 'exa --icons -l'
+  alias lsa 'exa --icons -a'
   alias tree 'exa --icons --tree --all --ignore-glob "node_modules|.git"'
 else
   alias l 'ls -lA'
-  alias ll 'ls -l'
+  alias lsa 'ls -A'
 end
 alias ss "ssh -p 23231 hunk-of-junk.local"
+alias ytdl youtube-dl
+# pactl
+alias setvol50 "pactl set-sink-volume @DEFAULT_SINK@ 50%"
 # .. commands
 abbr -a ... ../../
 abbr -a .... ../../../
@@ -69,56 +70,12 @@ abbr -a ........ ../../../../../../../
 abbr -a ......... ../../../../../../../../
 # nvim
 abbr -a nv 'nvim'
-abbr -a nvs '/usr/bin/nvim'
-# slack-status
-function slack-status
-  cd $HOME/vincit/slack-apps/status-updater
-  node app.js $argv
-  cd -
-end
+abbr -a pgnv 'pgrep nvim'
 
 # current work project quick shortcuts
-function scout -a cmd nested_cmd
-  switch $cmd
-    case 'cd'
-      switch $nested_cmd
-        case 'w'
-          cd ~/vincit/scout-us/web
-        case 'f'
-          cd ~/vincit/scout-us/web
-        case 'b'
-          cd ~/vincit/scout-us/backend
-        case 's'
-          cd ~/vincit/scout-us/backend
-        case '*'
-          echo 'Invalid usage of `scout cd`, options: web, back'
-      end
-    case 'db'
-      switch $nested_cmd
-        case 'reset'
-          echo 'Are you sure you want to reset the database?'
-          read confirmResetDB
-          if test $confirmResetDB = 'yes'
-            ~/vincit/scripts/db-reset.sh
-          else
-            echo "Cancelled! We won't reset the database"
-          end
-        case 'bootstrap'
-          echo 'Are you sure you want to bootstrap the database?'
-          read confirmBootstrapDB
-          if test $confirmBootstrapDB = 'yes'
-            ~/vincit/scripts/db-bootstrap.sh
-          else
-            echo "Cancelled! We won't bootstrap the database"
-          end
-        case '*'
-          ~/vincit/scripts/db-connect.sh
-      end
-    case '*'
-      echo 'Invalid usage of `scout`, options: db, cd'
-  end
+for project_file in (/usr/bin/ls $HOME/dotfiles/fish/projects | xargs);
+  source $HOME/dotfiles/fish/projects/$project_file
 end
-
 
 
 ##################################################
@@ -127,10 +84,10 @@ end
 #
 ##################################################
 # cd and dots
-function c
-  cd (fd -t d --color=never . $HOME | fzf --preview='tree -L 1 -I {}')
-  ls -A
-end
+# function c
+#  cd (fd -t d --color=never . $HOME | fzf --preview='tree -L 1 -I {}')
+#  ls -A
+# end
 function dots
   set -l fileloc (fd -t f --color=never . $HOME/dotfiles | fzf --preview='head -80 {}')
   if test $fileloc
@@ -187,6 +144,9 @@ alias jri="js install"
 alias jrl="js run lint"
 alias jrs="js run start"
 # alias jrv="js run validate"
+function dt
+  deno task -q $argv
+end
 
 # make tmux easier to use
 alias tmls='tmux ls'
@@ -248,6 +208,21 @@ function docker-hardreset
   docker rmi -f (docker images -qa)
 end
 
+# delete an entry from my $PATH
+function deleteFromPath
+  # This only uses the first argument
+  # if you want more, use a for-loop
+  # Or you might want to error `if set -q argv[2]`
+  # The "--" here is to protect from arguments or $PATH components that start with "-"
+  set -l index (contains -i -- $argv[1] $PATH)
+  # If the contains call fails, it returns nothing, so $index will have no elements
+  # (all variables in fish are lists)
+  if set -q index[1]
+    set -e PATH[$index]
+  else
+    return 1
+  end
+end
 
 ##################################################
 #
@@ -342,3 +317,7 @@ end
 if test -z (pgrep ssh-agent | string collect)
   eval (ssh-agent -c)
 end
+
+set -Ux EDITOR nvim
+set -Ux VISUAL nvim
+set -Ux SUDO_EDITOR "nvim -u NORC"
