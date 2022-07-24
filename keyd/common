@@ -1,0 +1,5 @@
+capslock = overload(meta, esc)
+enter    = overload(meta, enter)
+leftshift = overload(shift, {)
+rightshift = overload(shift, })
+esc = playpause
