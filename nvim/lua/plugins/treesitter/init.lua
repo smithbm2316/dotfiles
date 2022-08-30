@@ -98,14 +98,17 @@ require('nvim-treesitter.configs').setup {
     'css',
     'dockerfile',
     'fish',
+    'elm',
     'go',
     'gomod',
     'graphql',
     'html',
+    'http',
     'javascript',
     'jsdoc',
     'json',
     'jsonc',
+    'latex',
     'lua',
     'markdown',
     'prisma',
@@ -113,12 +116,16 @@ require('nvim-treesitter.configs').setup {
     'query',
     'regex',
     'scss',
+    'sql',
     'svelte',
     'toml',
     'tsx',
     'typescript',
     'vim',
     'vue',
-    'yaml',
+    -- 'yaml', this currently is breaking the Telescope previewer
   },
 }
+
+-- require submodule of context
+pcall(require, 'plugins.treesitter.context')

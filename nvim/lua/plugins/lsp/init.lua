@@ -1,5 +1,4 @@
 local lspconfig = require 'lspconfig'
-local configs = require 'lspconfig.configs'
 local util = require 'lspconfig.util'
 
 -- functions to hook into
@@ -208,6 +207,9 @@ M.my_on_attach = function(
     nnoremap('gD', function()
       require('goto-preview').goto_preview_definition()
     end, 'Preview lsp definition', bufnr_opts)
+    nnoremap('<leader>pt', function()
+      require('goto-preview').goto_preview_type_definition()
+    end, 'Preview type definition', bufnr_opts)
   end
 
   -- define buffer-local variable for toggling diangostic buffer decorations
@@ -218,41 +220,68 @@ M.my_capabilities = vim.lsp.protocol.make_client_capabilities()
 M.my_capabilities = require('cmp_nvim_lsp').update_capabilities(M.my_capabilities)
 M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
--- astro lsp setup
-if not configs.astro then
-  local astro_ls_path = vim.loop.cwd() .. '/node_modules/@astrojs/language-server/bin/nodeServer.js'
-  -- use global installation if project-local version is unavailable
-  if vim.fn.filereadable(astro_ls_path) == 0 then
-    astro_ls_path = 'astro-ls'
-  end
-
-  configs.astro = {
-    default_config = {
-      cmd = { astro_ls_path, '--stdio' },
-      filetypes = { 'astro' },
-      root_dir = util.root_pattern('package.json', 'tsconfig.json', 'jsconfig.json', '.git'),
-      docs = {
-        description = 'https://github.com/withastro/language-tools',
-        root_dir = [[root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")]],
-      },
-      init_options = {
-        configuration = {
-          astro = {
-            enabled = true,
-          },
-        },
-      },
-      settings = {},
-    },
-  }
-end
-
 -- setup language servers
 -- TODO: add user commands similar to vim-go plugin
 -- https://github.com/fatih/vim-go
 local servers = {
-  astro = {},
+  astro = {
+    root_dir = util.root_pattern('astro.config.js', 'astro.config.ts', 'astro.config.mjs', 'astro.config.cjs'),
+  },
   bashls = {},
+  denols = {
+    root_dir = util.root_pattern('deno.json', 'deno.jsonc'),
+    single_file_support = false,
+    settings = {
+      enabled = true,
+      lint = true,
+      unstable = false,
+    },
+  },
+  eslint = {
+    autostart = true,
+    filetypes = { 'astro', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte' },
+    root_dir = util.root_pattern(
+      '.eslintrc',
+      '.eslintrc.js',
+      '.eslintrc.cjs',
+      '.eslintrc.yaml',
+      '.eslintrc.yml',
+      '.eslintrc.json',
+      'package.json'
+    ),
+    settings = {
+      codeAction = {
+        disableRuleComment = {
+          enable = true,
+          location = 'separateLine',
+        },
+        showDocumentation = {
+          enable = true,
+        },
+      },
+      codeActionOnSave = {
+        enable = false,
+        mode = 'all',
+      },
+      format = true,
+      nodePath = '',
+      onIgnoredFiles = 'off',
+      packageManager = 'npm',
+      quiet = false,
+      -- https://github.com/microsoft/vscode-eslint#settings-options
+      -- rulesCustomizations lets me override Prettier suggestions to
+      -- use a lower severity diagnostic (info)
+      rulesCustomizations = {
+        { rule = 'prettier*', severity = 'info' },
+      },
+      run = 'onType',
+      useESLintClass = false,
+      validate = 'on',
+      workingDirectory = {
+        mode = 'location',
+      },
+    },
+  },
   gopls = {
     settings = {
       gopls = {
@@ -289,21 +318,41 @@ local servers = {
       },
     },
   },
-  stylelint_lsp = {
-    filetypes = { 'css', 'scss', 'sass' },
-    --[[ settings = {
-      stylelintplus = {
-
-      },
-    }, ]]
+  graphql = {
+    filetypes = { 'graphql' },
   },
   html = {},
   prismals = {},
   pylsp = {},
-  sqls = {
+  --[[ sqls = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
+  }, ]]
+  stylelint_lsp = {
+    filetypes = { 'css', 'scss', 'sass' },
+    --[[ settings = {
+      stylelintplus = {
+      },
+    }, ]]
   },
   svelte = {},
+  tailwindcss = {
+    root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.cjs'),
+    settings = {
+      tailwindCSS = {
+        classAttributes = { 'class', 'className', 'classList' },
+        lint = {
+          cssConflict = 'warning',
+          invalidApply = 'warning',
+          invalidConfigPath = 'warning',
+          invalidScreen = 'warning',
+          invalidTailwindDirective = 'warning',
+          invalidVariant = 'warning',
+          recommendedVariantOrder = 'warning',
+        },
+        validate = false,
+      },
+    },
+  },
   texlab = {},
   vuels = {},
   vimls = {},
@@ -317,63 +366,6 @@ for server, config in pairs(servers) do
   }, config))
 end
 
-lspconfig.denols.setup {
-  on_attach = M.my_on_attach,
-  capabilities = M.my_capabilities,
-  root_dir = util.root_pattern('deno.json', 'deno.jsonc'),
-  single_file_support = false,
-  settings = {
-    enabled = true,
-    lint = true,
-    unstable = false,
-  },
-}
-
-lspconfig.eslint.setup {
-  autostart = true,
-  root_dir = util.root_pattern(
-    '.eslintrc',
-    '.eslintrc.js',
-    '.eslintrc.cjs',
-    '.eslintrc.yaml',
-    '.eslintrc.yml',
-    '.eslintrc.json',
-    'package.json'
-  ),
-  settings = {
-    codeAction = {
-      disableRuleComment = {
-        enable = true,
-        location = 'separateLine',
-      },
-      showDocumentation = {
-        enable = true,
-      },
-    },
-    codeActionOnSave = {
-      enable = false,
-      mode = 'all',
-    },
-    format = true,
-    nodePath = '',
-    onIgnoredFiles = 'off',
-    packageManager = 'npm',
-    quiet = false,
-    -- https://github.com/microsoft/vscode-eslint#settings-options
-    -- rulesCustomizations lets me override Prettier suggestions to
-    -- use a lower severity diagnostic (info)
-    rulesCustomizations = {
-      { rule = 'prettier*', severity = 'info' },
-    },
-    run = 'onType',
-    useESLintClass = false,
-    validate = 'on',
-    workingDirectory = {
-      mode = 'location',
-    },
-  },
-}
-
 --[[ local null_ls = require 'null-ls'
 null_ls.setup {
   sources = {
@@ -382,32 +374,6 @@ null_ls.setup {
     -- null_ls.builtins.formatting.prettier -- prettier, eslint, eslint_d, or prettierd
   },
 } ]]
-
-lspconfig.tailwindcss.setup {
-  capabilities = M.my_capabilities,
-  on_attach = M.my_on_attach,
-  root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.ts'),
-  settings = {
-    tailwindCSS = {
-      lint = {
-        cssConflict = 'warning',
-        invalidApply = 'warning',
-        invalidConfigPath = 'warning',
-        invalidScreen = 'warning',
-        invalidTailwindDirective = 'warning',
-        invalidVariant = 'warning',
-        recommendedVariantOrder = 'warning',
-      },
-      validate = false,
-    },
-  },
-}
-
-lspconfig.graphql.setup {
-  filetypes = { 'graphql' },
-  capabilities = M.my_capabilities,
-  on_attach = M.my_on_attach,
-}
 
 lspconfig.tsserver.setup {
   filetypes = {
@@ -500,7 +466,7 @@ lspconfig.tsserver.setup {
       description = 'Organize Imports',
     },
   },
-  root_dir = function(filename, bufnr)
+  root_dir = function(filename)
     -- if we find a deno config file before a package.json or tsconfig.json, then don't attach this
     -- server because this is a deno project
     if util.root_pattern('deno.json', 'deno.jsonc')(filename) then

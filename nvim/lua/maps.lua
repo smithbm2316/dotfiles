@@ -147,7 +147,7 @@ end, 'Toggle line wrapping')
 nnoremap('<leader>qa', function()
   vim.cmd [[
     DeleteSession
-    qall
+    qall!
   ]]
 end, 'Quit session')
 

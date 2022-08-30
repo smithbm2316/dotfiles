@@ -5,6 +5,7 @@ end
 
 autotag.setup {
   filetypes = {
+    'astro',
     'html',
     'javascript',
     'javascriptreact',

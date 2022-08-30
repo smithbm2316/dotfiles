@@ -7,6 +7,7 @@ end
 colorizer.setup({
   '*',
   '!TelescopePrompt',
+  '!TelescopeResults',
   '!help',
   '!harpoon',
   '!DiffviewFiles',

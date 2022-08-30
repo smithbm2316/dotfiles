@@ -1,1 +1,1 @@
-nnoremap('<leader>pt', '<Plug>PlenaryTestFile', 'Plenary run current test file')
+nnoremap('<leader>pT', '<Plug>PlenaryTestFile', 'Plenary run current test file')

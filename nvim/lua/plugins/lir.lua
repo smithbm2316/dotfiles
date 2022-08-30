@@ -20,7 +20,7 @@ local function cut_or_copy(action)
   local ctx = get_context()
   local marked = ctx:get_marked_items()
   if #marked == 0 then
-    mark.toggle_mark()
+    mark.toggle_mark 'n'
   end
   clipboard_actions[action]()
 end
@@ -76,10 +76,14 @@ require('lir').setup {
       highlight_dirname = true,
     },
     win_opts = function()
+      local width = math.max(42, math.floor(vim.o.columns * 0.25))
+      local height = math.max(10, math.floor(vim.o.lines * 0.25))
+
       return {
-        border = 'double',
-        width = math.max(42, math.floor(vim.o.columns * 0.25)),
-        height = math.max(10, math.floor(vim.o.lines * 0.25)),
+        relative = 'editor',
+        border = 'shadow',
+        width = width,
+        height = height,
       }
     end,
   },

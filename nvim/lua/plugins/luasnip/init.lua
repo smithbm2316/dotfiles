@@ -117,12 +117,24 @@ local webdev_snippets = {
     },
     fmt([[import {name} from '{path}']], {
       path = i(1),
-      -- name = i(0),
       name = c(2, {
         sn(nil, { t '{ ', i(1), t ' }' }),
-        i(nil),
         sn(nil, { t 'type { ', i(1), t ' }' }),
       }),
+    })
+  ),
+  --}}}
+  -- import default export from node_modules package
+  --{{{
+  snip(
+    {
+      trig = 'imd',
+      name = 'import default export',
+      dscr = 'import a default export from a package',
+    },
+    fmt([[import {name} from '{path}']], {
+      path = i(1),
+      name = rep(0),
     })
   ),
   --}}}

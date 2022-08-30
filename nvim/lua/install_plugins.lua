@@ -8,18 +8,14 @@ return require('packer').startup {
     --- lua plugins :D
     ---
     -----------------------------------------------------
+    -- see the current function/class's context
+    use 'nvim-treesitter/nvim-treesitter-context'
+
     -- markdown preview in floating buffer, courtesy of glow
     use 'ellisonleao/glow.nvim'
 
     -- paste to your heart's content
     -- use 'hrsh7th/nvim-pasta'
-
-    -- export my current set of buffers to vsc*de for when i need a real debugger or need to use the
-    -- typescript translator extension
-    -- use 'elijahmanor/export-to-vscode.nvim'
-
-    -- reverse J using treesitter now
-    -- use 'AckslD/nvim-trevJ.lua'
 
     -- lsp server progress indicator
     use 'j-hui/fidget.nvim'
@@ -27,14 +23,8 @@ return require('packer').startup {
     -- annotation generator
     use 'danymat/neogen'
 
-    -- lua development with types
-    use 'folke/lua-dev.nvim'
-
     -- handle git diffs in neovim
     -- use 'akinsho/git-conflict.nvim'
-
-    -- select from a list of URLs in the current file
-    -- use 'axieax/urlview.nvim'
 
     -- magit inside of neovim
     use 'TimUntersberger/neogit'
@@ -51,9 +41,6 @@ return require('packer').startup {
 
     -- better notifications
     use 'rcarriga/nvim-notify'
-
-    -- treesitter info for my statusline
-    -- use 'SmiteshP/nvim-gps'
 
     -- nicer listing of registers
     use 'tversteeg/registers.nvim'
@@ -88,6 +75,10 @@ return require('packer').startup {
     use 'folke/zen-mode.nvim'
     -- i can't remember my keybinds half the time, this should help
     use 'folke/which-key.nvim'
+    -- lua development with types
+    use 'folke/lua-dev.nvim'
+    -- run lsp server for whole project or just the file
+    use 'folke/trouble.nvim'
 
     -- preview window for lsp references/definitions/implementations
     use 'rmagatti/goto-preview'
@@ -146,8 +137,6 @@ return require('packer').startup {
     }
     use {
       'nvim-treesitter/playground',
-      opt = true,
-      cmd = 'TSPlaygroundToggle',
     }
 
     -- format code with external tools
@@ -216,8 +205,6 @@ return require('packer').startup {
     -- for automatic list bulleting when writing markdown or plaintext
     use {
       'dkarter/bullets.vim',
-      opt = true,
-      ft = { 'markdown', 'text', 'latex', 'tex', 'gitcommit' },
       config = function()
         vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
       end,

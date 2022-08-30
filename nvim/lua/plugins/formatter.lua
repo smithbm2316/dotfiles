@@ -113,7 +113,9 @@ create_augroup('AutoFormattingWebDev', {
       '*.jsx',
       '*.ts',
       '*.tsx',
+      '*.astro',
       '*.json',
+      '*.jsonc',
     },
     command = 'FormatWrite',
   },
@@ -145,7 +147,6 @@ if vim.fn.glob('deno.json*'):len() > 0 then
         '*.jsx',
         '*.ts',
         '*.tsx',
-        '*.json',
       },
       callback = function()
         vim.lsp.buf.format { async = false }
@@ -166,3 +167,19 @@ create_augroup('AutoFormattingPrisma', {
     end,
   },
 })
+
+-- auto formatting for JSON files
+--[[
+create_augroup('AutoFormattingJSON', {
+  {
+    events = 'BufWritePre',
+    pattern = {
+      '*.json',
+      '*.jsonc',
+    },
+    callback = function()
+      vim.lsp.buf.format { async = false }
+    end,
+  },
+})
+--]]

@@ -10,8 +10,8 @@ local conf = require('telescope.config').values
 
 -- files to ignore with `file_ignore_patterns`
 local always_ignore_these = {
-  'yarn.lock',
-  'package%-lock.json',
+  'yarn%.lock',
+  'package%-lock%.json',
   'node_modules/.*',
   '%.git/.*',
   '%.svg',
@@ -34,7 +34,29 @@ local always_ignore_these = {
   '%.db',
 }
 
-local ignore_these = vim.tbl_extend('keep', always_ignore_these, {
+local ignore_these = {
+  'yarn%.lock',
+  'package%-lock%.json',
+  'node_modules/.*',
+  '%.git/.*',
+  '%.svg',
+  '%.png',
+  '%.jpeg',
+  '%.jpg',
+  '%.ico',
+  '%.webp',
+  '%.avif',
+  '%.heic',
+  '%.mp3',
+  '%.mp4',
+  '%.mkv',
+  '%.mov',
+  '%.wav',
+  '%.flv',
+  '%.avi',
+  '%.webm',
+  '.env.*',
+  '%.db',
   '_site/.*',
   '_next/.*',
   'dist/.*',
@@ -45,7 +67,9 @@ local ignore_these = vim.tbl_extend('keep', always_ignore_these, {
   '.env.*',
   '.yarn/.*',
   '.neuron/.*',
-})
+  'graphql%.schema%.json',
+  'schema%.json',
+}
 
 local webdev_dash_keywords = {
   'css',
@@ -286,22 +310,24 @@ nnoremap('<leader>pc', function()
   }
   local dropdown = themes.get_dropdown()
 
-  pickers.new(dropdown, {
-    prompt_title = 'Run a packer.nvim command',
-    finder = finders.new_table(packer_commands),
-    sorter = sorters.get_generic_fuzzy_sorter(),
-    attach_mappings = function(prompt_bufnr)
-      actions.select_default:replace(function()
-        local cmd = action_state.get_selected_entry()
-        actions.close(prompt_bufnr)
-        if cmd then
-          vim.cmd('Packer' .. cmd[1])
-        end
-      end)
-      return true
-    end,
-    previewer = nil,
-  }):find()
+  pickers
+    .new(dropdown, {
+      prompt_title = 'Run a packer.nvim command',
+      finder = finders.new_table(packer_commands),
+      sorter = sorters.get_generic_fuzzy_sorter(),
+      attach_mappings = function(prompt_bufnr)
+        actions.select_default:replace(function()
+          local cmd = action_state.get_selected_entry()
+          actions.close(prompt_bufnr)
+          if cmd then
+            vim.cmd('Packer' .. cmd[1])
+          end
+        end)
+        return true
+      end,
+      previewer = nil,
+    })
+    :find()
 end, 'Packer command picker')
 
 -- wrapper for find_files/fd, so that when in my wiki directory,

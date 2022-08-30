@@ -71,11 +71,19 @@ abbr -a ......... ../../../../../../../../
 # nvim
 abbr -a nv 'nvim'
 abbr -a pgnv 'pgrep nvim'
+# do all of the homebrew things please and update neovim nightly
+alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew doctor'
+# set an alias for docker-compose depending on the operating system
+if test (uname -s) = 'Linux'
+  abbr -a dcu 'docker compose up'
+else
+  abbr -a dcu 'docker-compose up'
+end
 
 # current work project quick shortcuts
-for project_file in (/usr/bin/ls $HOME/dotfiles/fish/projects | xargs);
-  source $HOME/dotfiles/fish/projects/$project_file
-end
+# for project_file in (/usr/bin/ls $HOME/dotfiles/fish/projects | xargs);
+#   source $HOME/dotfiles/fish/projects/$project_file
+# end
 
 
 ##################################################
@@ -121,12 +129,16 @@ function shl
   end
 end
 
-# for running npm or yarn scripts without remembering which package manager i'm using
+# for running npm or yarn or pnpm scripts without remembering which package manager i'm using
 function js
   if test -f 'yarn.lock' && test -f 'package-lock.json'
-    echo 'Found both yarn.lock and package-lock.json. Use yarn or npm?'
-    read pkgman
-    eval "$pkgman $argv"
+    echo 'Found multiple lockfiles, try using the specific package manager that you want instead.'
+  else if test -f 'yarn.lock' && test -f 'pnpm-lock.yaml'
+    echo 'Found multiple lockfiles, try using the specific package manager that you want instead.'
+  else if test -f 'package-lock.json' && test -f 'pnpm-lock.yaml' 
+    echo 'Found multiple lockfiles, try using the specific package manager that you want instead.'
+  else if test -f 'pnpm-lock.yaml'
+    pnpm $argv
   else if test -f 'yarn.lock'
     yarn $argv
   else if test -f 'package-lock.json'
@@ -262,6 +274,20 @@ set fish_cursor_visual block
 
 ##################################################
 #
+# load command completions for personal deno
+# scripts
+#
+##################################################
+if command -v wk &>/dev/null
+  source (wk completions fish | psub)
+end
+
+
+
+
+
+##################################################
+#
 # os-specific settings
 #
 ##################################################
@@ -270,7 +296,7 @@ set fish_cursor_visual block
 if test (uname -s) = 'Linux'
   # setup keychain settings if not in tmux
   if test -z $TMUX && status --is-interactive
-    # SHELL=/usr/bin/fish keychain --eval --quiet -Q id_ed25519_gh | source
+    SHELL=/usr/bin/fish /usr/bin/keychain --eval --quiet -Q gl_vincit gh_vincit gh_personal | source
   end
 
   # Debian settings
@@ -289,9 +315,6 @@ else if test (uname -s) = 'Darwin'
   if test -z $TMUX && status --is-interactive
     SHELL=/usr/bin/fish /usr/local/bin/keychain --eval --quiet -Q gl_vincit gh_vincit gh_personal | source
   end
-
-  # do all of the homebrew things please and update neovim nightly
-  alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew reinstall neovim; brew doctor'
 
 	# update $PATH to use gnu coreutils and commands instead of bsd defaults
 	set -p PATH /usr/local/opt/gnu-sed/libexec/gnubin
