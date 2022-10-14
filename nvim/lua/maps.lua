@@ -25,13 +25,15 @@ vnoremap('<leader>sl', ':s/', 'Linewise search', nosilent)
 nnoremap('<leader>sg', ':%s/', 'Global buffer search', nosilent)
 vnoremap('<leader>sg', ':%s/', 'Global buffer search', nosilent)
 
--- unbind in normal mode { / } jumping
-nnoremap('{', '<nop>')
-nnoremap('}', '<nop>')
-
 -- make gu toggle between upper and lower case instead of just upper
-nnoremap('gu', 'g~', 'Toggle case', nosilent)
-vnoremap('gu', 'g~', 'Toggle case', nosilent)
+nnoremap('gl', 'gu', 'Lowercase', nosilent)
+vnoremap('gl', 'gu', 'Lowercase', nosilent)
+nnoremap('gL', 'g~', 'Toggle case', nosilent)
+vnoremap('gL', 'g~', 'Toggle case', nosilent)
+nnoremap('gu', 'gU', 'Uppercase', nosilent)
+vnoremap('gu', 'gU', 'Uppercase', nosilent)
+nnoremap('gU', 'g~', 'Toggle case', nosilent)
+vnoremap('gU', 'g~', 'Toggle case', nosilent)
 
 -- swap to alternate file
 nnoremap('ga', '<c-^>', 'Swap to alt file', nosilent)
@@ -68,6 +70,14 @@ nnoremap('n', 'nzz')
 nnoremap('N', 'Nzz')
 nnoremap('g;', 'g;zz')
 nnoremap('gi', 'zzgi')
+nnoremap('<c-d>', '<c-d>zz')
+nnoremap('<c-u>', '<c-u>zz')
+nnoremap('<c-f>', '<c-f>zz')
+nnoremap('<c-b>', '<c-b>zz')
+nnoremap('{', '<nop>')
+nnoremap('}', '<nop>')
+nnoremap('(', '(zz')
+nnoremap(')', ')zz')
 
 -- make c/C change command send text to black hole register, i didn't want
 -- it anyways if I changed it probably
@@ -119,12 +129,12 @@ nnoremap('<leader>sh', function()
   local ft = vim.api.nvim_buf_get_option(0, 'filetype')
   if ft == 'vim' then
     vim.cmd 'source %'
-    vim.notify('vim file reloaded!', 'info')
+    vim.notify('vim file reloaded!', vim.log.levels.INFO)
   elseif ft == 'lua' then
     vim.cmd 'luafile %'
-    vim.notify('lua file reloaded!', 'info')
+    vim.notify('lua file reloaded!', vim.log.levels.INFO)
   else
-    vim.notify('Not a lua or vim file', 'info')
+    vim.notify('Not a lua or vim file', vim.log.levels.INFO)
   end
 end, 'Source Here (reload current file)')
 
@@ -137,10 +147,10 @@ end, 'Convert color')
 nnoremap('<leader>tw', function()
   if vim.api.nvim_win_get_option(0, 'wrap') then
     vim.api.nvim_win_set_option(0, 'wrap', false)
-    vim.notify('wrapping off', 'info')
+    vim.notify('wrapping off', vim.log.levels.INFO)
   else
     vim.api.nvim_win_set_option(0, 'wrap', true)
-    vim.notify('wrapping on', 'info')
+    vim.notify('wrapping on', vim.log.levels.INFO)
   end
 end, 'Toggle line wrapping')
 
@@ -157,7 +167,7 @@ nnoremap('<leader>ws', function()
   local windows = a.nvim_tabpage_list_wins(0)
 
   if #windows ~= 2 then
-    vim.notify('Only works for 2 splits', 'error')
+    vim.notify('Only works for 2 splits', vim.log.levels.ERROR)
     return
   end
 
@@ -219,7 +229,7 @@ nnoremap('<leader>tc', function()
     cmd = cmd .. 'enable'
   end
   vim.cmd(cmd)
-  vim.notify(cmd .. 'd', 'info')
+  vim.notify(cmd .. 'd', vim.log.levels.INFO)
 end, 'Toggle Copilot')
 
 -- toggle relativenumber on/off for all windows
@@ -235,16 +245,14 @@ end, 'Toggle relative line numbers')
 nnoremap('<leader>gd', function()
   vim.ui.input({ prompt = 'Keyword to search with `go doc`', completion = 'go' }, function(input)
     local Job = require 'plenary.job'
-    local go_doc_lines = Job
-      :new({
-        command = 'go',
-        args = { 'doc', input },
-        cwd = '.',
-        on_exit = function(j, return_val)
-          return return_val and j:result() or nil
-        end,
-      })
-      :sync()
+    local go_doc_lines = Job:new({
+      command = 'go',
+      args = { 'doc', input },
+      cwd = '.',
+      on_exit = function(j, return_val)
+        return return_val and j:result() or nil
+      end,
+    }):sync()
     local lines = vim.o.lines
     local columns = vim.o.columns
     local bufnr = vim.api.nvim_create_buf(true, true)

@@ -88,10 +88,6 @@ local webdev_dash_keywords = {
 }
 
 local default_picker_opts = {
-  file_browser = {
-    prompt_title = 'working directory',
-    selection_strategy = 'row',
-  },
   grep_string = {
     prompt_title = 'word under cursor',
   },
@@ -208,7 +204,6 @@ end
 -- my telescope builtins mappings
 -- TODO: move some of my lspconfig mappings to use telescope's lsp pickers instead
 -- i.e. references and definition
--- builtin('<leader>fb', 'file_browser') no longer in telescope core
 builtin('<leader>of', 'oldfiles', 'Oldfiles')
 builtin('<leader>fw', 'grep_string', 'Grep string')
 builtin('<leader>gw', 'live_grep', 'Live grep')

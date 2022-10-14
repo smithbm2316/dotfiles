@@ -45,6 +45,7 @@ if test (uname -s) = 'Linux'
   set -Ux HOMEBREW_PREFIX /home/linuxbrew/.linuxbrew
   set -Ux HOMEBREW_REPOSITORY /home/linuxbrew/.linuxbrew/Homebrew
   fish_add_path -a /home/linuxbrew/.linuxbrew/bin
+  fish_add_path -a /home/linuxbrew/.linuxbrew/sbin
 end
 
 # PATH configuration

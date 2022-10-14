@@ -71,6 +71,8 @@ for _, ft in pairs {
   'css',
   'astro',
   'json',
+  'svelte',
+  'vue',
 } do
   filetype_configs[ft] = prettier_config
 end
@@ -116,6 +118,8 @@ create_augroup('AutoFormattingWebDev', {
       '*.astro',
       '*.json',
       '*.jsonc',
+      '*.svelte',
+      '*.vue',
     },
     command = 'FormatWrite',
   },

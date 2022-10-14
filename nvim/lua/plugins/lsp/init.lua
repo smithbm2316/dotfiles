@@ -327,29 +327,41 @@ local servers = {
   --[[ sqls = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
-  stylelint_lsp = {
+  cssls = {},
+  --[[ stylelint_lsp = {
     filetypes = { 'css', 'scss', 'sass' },
-    --[[ settings = {
-      stylelintplus = {
-      },
-    }, ]]
-  },
+  }, ]]
   svelte = {},
   tailwindcss = {
     root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.cjs'),
     settings = {
       tailwindCSS = {
-        classAttributes = { 'class', 'className', 'classList' },
+        classAttributes = { 'class', 'className' },
+        codeActions = true,
+        colorDecorators = true,
+        emmetCompletions = false,
+        hovers = true,
+        rootFontSize = 16,
+        showPixelEquivalents = true,
+        suggestions = true,
+        validate = true,
         lint = {
           cssConflict = 'warning',
-          invalidApply = 'warning',
-          invalidConfigPath = 'warning',
-          invalidScreen = 'warning',
-          invalidTailwindDirective = 'warning',
-          invalidVariant = 'warning',
+          invalidApply = 'error',
+          invalidScreen = 'error',
+          invalidVariant = 'error',
+          invalidConfigPath = 'error',
+          invalidTailwindDirective = 'error',
           recommendedVariantOrder = 'warning',
         },
-        validate = false,
+        experimental = {
+          classRegex = {
+            -- https://github.com/tailwindlabs/tailwindcss/issues/7553#issuecomment-917271069
+            { '/\\*tw\\*/ ([^;]*);', "'([^']*)'" },
+            { '/\\*tw\\*/ ([^;]*);', '"([^"]*)"' },
+            { '/\\*tw\\*/ ([^;]*);', '`([^`]*)`' },
+          },
+        },
       },
     },
   },
@@ -547,56 +559,62 @@ if vim.fn.has 'mac' == 1 and vim.fn.expand '%:p' == (vim.env.HOME .. '/dotfiles/
   table.insert(library_files, '/Applications/Hammerspoon.app/Contents/Resources/extensions/hs')
 end
 
-local luadev = require('lua-dev').setup {
+local luadev_ok, luadev = pcall(require, 'lua-dev')
+if not luadev_ok then
+  return
+end
+
+luadev.setup {
   library = {
-    vimruntime = false,
+    enabled = true,
+    runtime = true,
     types = true,
-    plugins = vim.loop.cwd():match(vim.env.HOME .. '/dotfiles/nvim') and true or false,
+    plugins = true,
   },
-  lspconfig = {
-    on_attach = M.my_on_attach,
-    cmd = { 'lua-language-server' },
-    settings = {
-      Lua = {
-        runtime = {
-          -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-          version = 'LuaJIT',
-          -- Setup your lua path
-          path = runtime_path,
+}
+
+lspconfig.sumneko_lua.setup {
+  on_attach = M.my_on_attach,
+  cmd = { 'lua-language-server' },
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Setup your lua path
+        path = runtime_path,
+      },
+      completion = {
+        callSnippet = 'Disable',
+        keywordSnippet = 'Disable',
+      },
+      diagnostics = {
+        globals = {
+          'awesome', -- awesomewm
+          'spoon', -- hammerspoon
+          'hs', -- hammerspoon
+          'package', -- neovim
+          'vim', -- neovim
+          'describe', -- lua testing
+          'it', -- lua testing
+          'before_each', -- lua testing
+          'after_each', -- lua testing
         },
-        completion = {
-          callSnippet = 'Disable',
-          keywordSnippet = 'Disable',
+        -- disable specific diagnostic messages
+        disable = {
+          'lowercase-global',
         },
-        diagnostics = {
-          globals = {
-            'awesome', -- awesomewm
-            'spoon', -- hammerspoon
-            'hs', -- hammerspoon
-            'package', -- neovim
-            'vim', -- neovim
-            'describe', -- lua testing
-            'it', -- lua testing
-            'before_each', -- lua testing
-            'after_each', -- lua testing
-          },
-          -- disable specific diagnostic messages
-          disable = {
-            'lowercase-global',
-          },
-        },
-        workspace = {
-          library = library_files,
-        },
-        -- Do not send telemetry data containing a randomized but unique identifier
-        telemetry = {
-          enable = false,
-        },
+      },
+      workspace = {
+        library = library_files,
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
       },
     },
   },
 }
-lspconfig.sumneko_lua.setup(luadev)
 
 -- define signcolumn lsp diagnostic icons
 local diagnostic_signs = { ' ', ' ', ' ', ' ' }

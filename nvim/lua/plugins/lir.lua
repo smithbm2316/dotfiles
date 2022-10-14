@@ -1,3 +1,8 @@
+local ok, lir = pcall(require, 'lir')
+if not ok then
+  return
+end
+
 local actions = require 'lir.actions'
 local mark = require 'lir.mark.actions'
 local clipboard_actions = require 'lir.clipboard.actions'
@@ -43,7 +48,7 @@ Wrappers.copy = function()
   cut_or_copy 'copy'
 end
 
-require('lir').setup {
+lir.setup {
   show_hidden_files = string.find(vim.fn.getcwd(), os.getenv 'HOME' .. '/dotfiles') and true or false,
   devicons_enable = true,
   mappings = {
@@ -91,16 +96,6 @@ require('lir').setup {
 }
 
 -- lir .: list files/directories for current buffer's location
-vim.api.nvim_set_keymap(
-  'n',
-  '<leader>lc',
-  [[<cmd>lua require'lir.float'.toggle()<cr>]],
-  { noremap = true, silent = true }
-)
+nnoremap('<leader>lc', [[<cmd>lua require'lir.float'.toggle()<cr>]])
 -- lir files: list files/directories for current project root
-vim.api.nvim_set_keymap(
-  'n',
-  '<leader>lf',
-  [[<cmd>lua require'lir.float'.toggle(vim.fn.getcwd())<cr>]],
-  { noremap = true, silent = true }
-)
+nnoremap('<leader>lf', [[<cmd>lua require'lir.float'.toggle(vim.fn.getcwd())<cr>]])

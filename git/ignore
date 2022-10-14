@@ -8,3 +8,4 @@ node_modules/
 _site/
 .jira.d/
 .dprint.json
+tsconfig.tsbuildinfo

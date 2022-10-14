@@ -4,9 +4,9 @@ if not ok then
   return
 end
 
---[[ local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
+local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
 ft_to_parser.nunjucks = 'tsx'
-ft_to_parser.liquid = 'tsx' ]]
+ft_to_parser.liquid = 'tsx'
 
 require('nvim-treesitter.configs').setup {
   textobjects = {
@@ -34,7 +34,7 @@ require('nvim-treesitter.configs').setup {
     },
   },
   rainbow = {
-    enable = true,
+    enable = false,
     extended_mode = false,
     colors = {
       '#eb6f92',
@@ -57,7 +57,7 @@ require('nvim-treesitter.configs').setup {
   },
   -- nvim-ts-context-commentstring setup
   context_commentstring = {
-    enable = true,
+    enable = false,
     enable_autocmd = false,
     config = {
       javascript = {
@@ -86,19 +86,15 @@ require('nvim-treesitter.configs').setup {
     enable = true,
     -- https://github.com/nvim-treesitter/nvim-treesitter/issues/2369
     -- waiting on this issue with indents to be resolved from nvim-treesitter
-    disable = { 'go' },
+    disable = { 'go', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
   },
   ensure_installed = {
     'astro',
     'bash',
-    'c',
-    'cmake',
     'comment',
-    'cpp',
     'css',
     'dockerfile',
     'fish',
-    'elm',
     'go',
     'gomod',
     'graphql',
@@ -108,7 +104,6 @@ require('nvim-treesitter.configs').setup {
     'jsdoc',
     'json',
     'jsonc',
-    'latex',
     'lua',
     'markdown',
     'prisma',
@@ -117,12 +112,11 @@ require('nvim-treesitter.configs').setup {
     'regex',
     'scss',
     'sql',
-    'svelte',
+    'teal',
     'toml',
     'tsx',
     'typescript',
     'vim',
-    'vue',
     -- 'yaml', this currently is breaking the Telescope previewer
   },
 }

@@ -87,7 +87,7 @@ _G.rotate_windows = function()
   buffers_list = vim.api.nvim_exec('buffers', true)
   for match in buffers_list:gmatch '.*\n' do
     -- TODO: extract the buffer info 'a' for all active buffers and save it
-    vim.notify(match, 'info')
+    vim.notify(match, vim.log.levels.INFO)
   end
 end
 
@@ -145,7 +145,7 @@ _G.BS_toggle_augroup = function(group, show_notify)
 end
 
 -- load vim.notify override handler from config file
-require 'plugins.manual.notify'
+require 'plugins.manual.notifier'
 
 -------------------------------
 -------------------------------
@@ -155,7 +155,7 @@ require 'plugins.manual.notify'
 -- quickly print a lua table to :messages
 _G.dump = function(obj, use_notify)
   if use_notify then
-    vim.notify(obj, 'debug', { timeout = false })
+    vim.notify(obj, vim.log.levels.DEBUG, { timeout = false })
   else
     print(vim.inspect(obj))
   end

@@ -71,6 +71,7 @@ abbr -a ......... ../../../../../../../../
 # nvim
 abbr -a nv 'nvim'
 abbr -a pgnv 'pgrep nvim'
+abbr -a nvgui 'neovide --multigrid'
 # do all of the homebrew things please and update neovim nightly
 alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew doctor'
 # set an alias for docker-compose depending on the operating system
@@ -147,14 +148,15 @@ function js
     echo 'No npm or yarn project found'
   end
 end
+abbr -a pnpx 'pnpm dlx'
 
 # js run ...
 abbr -a jr 'js run'
-alias jrd="js run dev"
-alias jrb="js run build"
-alias jri="js install"
-alias jrl="js run lint"
-alias jrs="js run start"
+alias jrd='js run dev'
+alias jrb='js run build'
+alias jri='js install'
+alias jrl='js run lint'
+alias jrs='js run start'
 # alias jrv="js run validate"
 function dt
   deno task -q $argv
@@ -344,3 +346,8 @@ end
 set -Ux EDITOR nvim
 set -Ux VISUAL nvim
 set -Ux SUDO_EDITOR "nvim -u NORC"
+
+# pnpm
+set -gx PNPM_HOME "/home/smithbm/.local/share/pnpm"
+set -gx PATH "$PNPM_HOME" $PATH
+# pnpm end

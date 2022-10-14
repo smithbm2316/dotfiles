@@ -27,26 +27,9 @@ set $textInactiveWorkspace #9ccfd8
 set $barSeparator #ea9a97
 set $powderBlue #3e8fb0
 set $oldLavender #817c9c
-font pango:BlexMono Nerd Font Mono:style=Medium 11
+font pango:BlexMono Nerd Font Mono:style=Medium 12
 
 # -------------------------------------------------- POWER OPTIONS
-bindsym $mod+q mode "$mode_system"
-set $mode_system (l)ock, (e)xit, (s)uspend, (r)eboot, (p)ower down, (c)onfig, (r)estart
-mode "$mode_system" {
-  bindsym l exec --no-startup-id i3lock -c "#382f47" -i "/home/smithbm/Pictures/retrowave-landscape/retrowave1.png", mode "default"
-  bindsym s exec --no-startup-id i3lock -c "#382f47" -i "/home/smithbm/Pictures/retrowave-landscape/retrowave1.png" && systemctl suspend, mode "default"
-  bindsym e exec i3-msg exit, mode "default"
-  bindsym ctrl+r exec reboot, mode "default"
-  bindsym ctrl+s exec shutdown "+0", mode "default"
-  #i3help reload the configuration file
-  bindsym c reload, mode "default"
-  #i3help restart i3 inplace
-  bindsym r restart, mode "default"
-
-  # exit system mode: "Enter" or "Escape"
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
-}
 #i3help restart i3 inplace
 bindsym $mod+ctrl+r restart, mode "default"
 
@@ -151,19 +134,23 @@ focus_on_window_activation focus
 #i3help start a terminal
 bindsym $mod+t exec $term
 # kill focused window
-bindsym $mod+ctrl+c kill
-#i3help Rofi launcher
-bindsym $mod+o exec rofi -show drun -icon-theme "Papirus" -show-icons
+bindsym $mod+c kill
+#i3help Rofi application launcher
+bindsym $mod+o exec --no-startup-id ~/dotfiles/rofi/rofi.sh drun
+#i3help Rofi cli program launcher
+bindsym $mod+q exec --no-startup-id ~/dotfiles/rofi/rofi.sh powermenu
+#i3help Rofi run program
+bindsym $mod+ctrl+o exec --no-startup-id ~/dotfiles/rofi/rofi.sh run
 #i3help Rofi open windows
-bindsym $alt+Tab exec rofi -show window -icon-theme "Papirus" -show-icons
-# Rofi run program
-bindsym $mod+ctrl+o exec rofi -show run
-#i3help Emoji picker
-bindsym $mod+ctrl+e exec splatmoji copy
+bindsym $alt+Tab exec --no-startup-id ~/dotfiles/rofi/rofi.sh window
+#i3help Rofi calculator with qalc
+bindsym $mod+g exec --no-startup-id ~/dotfiles/rofi/rofi.sh calc
+#i3help Rofi Emoji picker
+bindsym $mod+ctrl+e exec --no-startup-id ~/dotfiles/rofi/rofi.sh emoji
 # Screenshot
-bindsym Print exec flameshot gui
+bindsym Print exec flameshot gui -c -s
+bindsym ctrl+Print exec flameshot gui
 bindsym $mod+Print exec flameshot screen --clipboard
-bindsym $mod+ctrl+Print exec flameshot full --clipboard
 
 # -------------------------------------------------- RESIZE MODE
 mode "resize" {
@@ -201,49 +188,56 @@ default_border pixel 2
 default_floating_border pixel 4
 
 # -------------------------------------------------- SCRATCHPAD
-bindsym $mod+n scratchpad show
-bindsym $mod+ctrl+n move scratchpad
+bindsym $mod+ctrl+t [class=$term title="^scratchpad$"] scratchpad show
+bindsym $mod+shift+t exec $term --title "scratchpad"
 
 # -------------------------------------------------- DEFAULT WORKSPACES
+# Dev
+assign [class="^brave-browser$"] $wsDev
+assign [class="^Brave-browser$"] $wsDev
+# Web
+assign [class="^firefox$"] $wsWeb
+# Messaging
+assign [class="^slack$"] $wsMessages 
+assign [class="^Slack$"] $wsMessages 
+assign [class="^discord$"] $wsMessages 
+# Vibes
 # Spotify is annoying and doesn't work with regular "assign"
-for_window [class="Spotify"] move to workspace $wsVibes
-assign [class="ncspot"] $wsVibes
-assign [class="Slack"] $wsMessages 
-assign [class="discord"] $wsMessages 
+for_window [class="^Spotify$"] move to workspace $wsVibes
+assign [class="^ncspot$"] $wsVibes
+assign [title="^ncspot$"] $wsVibes
+assign [class="^obs$"] $wsVibes
+# Notes
+assign [class="^obsidian$"] $wsNotes 
 
 # -------------------------------------------------- APP EXCEPTIONS
 # Zoom meetings
-for_window [class="zoom\s?"] floating enable
-for_window [class="zoom\s?"] resize set 800 600
-for_window [class="zoom\s?"] move position center
-
-# -------------------------------------------------- SCRATCHPADS
+for_window [class="zoom\s?"] floating enable, resize set 800 600, move position center
+for_window [class="^blueman-manager$"] floating enable, resize set 800 600, move position center
+for_window [class="^Blueman-manager$"] floating enable, resize set 800 600, move position center
 # terminal scratchpad
-bindsym $mod+ctrl+t [class=$term title="^scratchpad$"] scratchpad show
-bindsym $mod+shift+t exec $term --title "scratchpad"
-for_window [class=$term title="^scratchpad$"] floating enable
-for_window [class=$term title="^scratchpad$"] move scratchpad
-for_window [class=$term title="^scratchpad$"] resize set 800 600
-for_window [class=$term title="^scratchpad$"] move position center
+for_window [class=$term title="^scratchpad$"] floating enable, resize set 800 600, move position center, move scratchpad
 
 # -------------------------------------------------- AUTOSTART
 exec ~/dotfiles/config/vincit.sh
-# exec picom
+exec picom
 exec nitrogen --restore
 exec xsetroot -cursor_name left_ptr
 exec xset r rate 250 25 &
 exec bluetoothctl disconnect E8:85:4B:4A:82:86; bluetoothctl block E8:85:4B:4A:82:86 &
 exec dunst
 exec flameshot
-exec 1password
+exec nm-applet
+exec blueman-applet
 exec_always --no-startup-id $HOME/dotfiles/polybar/launch.sh
 
 # start up scratchpad instances
 exec --no-startup-id kitty --title "scratchpad"
 
 # programs to use on startup
-# exec --no-startup-id i3-msg workspace $wsWeb; exec firefox
 # exec --no-startup-id i3-msg workspace $wsDev; exec kitty
-# exec --no-startup-id i3-msg workspace $wsMisc; exec brave-browser
-# exec --no-startup-id i3-msg workspace $wsDev; exec slack
+# exec --no-startup-id i3-msg workspace $wsDev; exec brave-browser
+# exec --no-startup-id i3-msg workspace $wsWeb; exec firefox
+# exec --no-startup-id i3-msg workspace $wsMessages; exec slack
 # exec --no-startup-id i3-msg workspace $wsVibes; exec spotify
+exec --no-startup-id i3-msg workspace $wsDev; exec 1password

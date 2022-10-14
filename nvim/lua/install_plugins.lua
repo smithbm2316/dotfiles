@@ -1,36 +1,60 @@
 return require('packer').startup {
   function(use)
     -- *i used the packer.nvim to manage the packer.nvim* - thanos
-    use 'wbthomason/packer.nvim'
+    use { 'wbthomason/packer.nvim' }
 
     -----------------------------------------------------
     ---
     --- lua plugins :D
     ---
     -----------------------------------------------------
+    -- vim.notify handler
+    use {
+      'vigoux/notifier.nvim',
+    }
+
     -- see the current function/class's context
-    use 'nvim-treesitter/nvim-treesitter-context'
+    use {
+      'nvim-treesitter/nvim-treesitter-context',
+    }
 
     -- markdown preview in floating buffer, courtesy of glow
-    use 'ellisonleao/glow.nvim'
+    use {
+      'ellisonleao/glow.nvim',
+    }
 
     -- paste to your heart's content
-    -- use 'hrsh7th/nvim-pasta'
+    use {
+      'hrsh7th/nvim-pasta',
+      disable = true,
+    }
 
     -- lsp server progress indicator
-    use 'j-hui/fidget.nvim'
+    use {
+      'j-hui/fidget.nvim',
+      disable = true,
+    }
 
     -- annotation generator
-    use 'danymat/neogen'
+    use {
+      'danymat/neogen',
+    }
 
     -- handle git diffs in neovim
-    -- use 'akinsho/git-conflict.nvim'
+    use {
+      'akinsho/git-conflict.nvim',
+      disable = true,
+    }
 
     -- magit inside of neovim
-    use 'TimUntersberger/neogit'
+    use {
+      'TimUntersberger/neogit',
+    }
 
     -- better menus for inputs and selects in neovim
-    use 'stevearc/dressing.nvim'
+    use {
+      'stevearc/dressing.nvim',
+    }
 
     -- mini plugins that do one thing well
     -- specifically installing for bufremove overrides
@@ -40,25 +64,39 @@ return require('packer').startup {
     }
 
     -- better notifications
-    use 'rcarriga/nvim-notify'
+    use {
+      'rcarriga/nvim-notify',
+      disable = true,
+    }
 
     -- nicer listing of registers
-    use 'tversteeg/registers.nvim'
+    use {
+      'tversteeg/registers.nvim',
+      disable = true,
+    }
 
     -- nice way of managing split focusing
-    use 'beauwilliams/focus.nvim'
+    use {
+      'beauwilliams/focus.nvim',
+    }
 
     -- rainbow coloring of brackets/curly braces/parenthesis/tags to make finding pairs easier
-    use 'p00f/nvim-ts-rainbow'
+    -- use { 'p00f/nvim-ts-rainbow' }
 
     -- add indent line guides to editor
-    use 'lukas-reineke/indent-blankline.nvim'
+    use {
+      'lukas-reineke/indent-blankline.nvim',
+    }
 
     -- colorscheme
-    use 'rose-pine/neovim'
+    use {
+      'rose-pine/neovim',
+    }
 
     -- snippets
-    use 'L3MON4D3/LuaSnip'
+    use {
+      'L3MON4D3/LuaSnip',
+    }
 
     -- language server for linting/formatting
     -- better tsserver support
@@ -68,39 +106,50 @@ return require('packer').startup {
     }
 
     -- simple file explorer
-    use 'tamago324/lir.nvim'
+    use {
+      'tamago324/lir.nvim',
+    }
 
     -- folke plugins
     -- centerpad, but much better (uses a floating window!!)
-    use 'folke/zen-mode.nvim'
+    use {
+      'folke/zen-mode.nvim',
+    }
     -- i can't remember my keybinds half the time, this should help
-    use 'folke/which-key.nvim'
+    use {
+      'folke/which-key.nvim',
+    }
     -- lua development with types
-    use 'folke/lua-dev.nvim'
+    use {
+      'folke/lua-dev.nvim',
+    }
     -- run lsp server for whole project or just the file
-    use 'folke/trouble.nvim'
+    use {
+      'folke/trouble.nvim',
+    }
 
     -- preview window for lsp references/definitions/implementations
-    use 'rmagatti/goto-preview'
+    use {
+      'rmagatti/goto-preview',
+    }
 
     -- better session management in neovim
-    use 'rmagatti/auto-session'
+    use {
+      'rmagatti/auto-session',
+    }
 
     -- Open a new tab for viewing git diffs for all files in current branch
     use {
       'sindrets/diffview.nvim',
-      opt = true,
-      cmd = { 'DiffviewOpen', 'DiffviewFiles' },
-      config = function()
-        require 'plugins.opt.diffview'
-      end,
     }
 
     -- show preview of colors for hex, hsl, and rgb values
     use {
       -- 'norcalli/nvim-colorizer.lua',
       -- use the fork until norcalli merges the PR
-      'DarwinSenior/nvim-colorizer.lua',
+      -- 'DarwinSenior/nvim-colorizer.lua',
+      -- NvChad project has re-written this with no external dependencies!
+      'NvChad/nvim-colorizer.lua',
     }
 
     -- better quickfix window
@@ -109,16 +158,22 @@ return require('packer').startup {
     }
 
     -- nice and easy to use statusline
-    use 'nvim-lualine/lualine.nvim'
+    use {
+      'nvim-lualine/lualine.nvim',
+    }
 
     -- replacement for alvan/vim-closetag and AndrewRadev/tagalong.vim
-    use 'windwp/nvim-ts-autotag'
+    use {
+      'windwp/nvim-ts-autotag',
+    }
 
     -- pretty icons for nerd fonts
-    use 'kyazdani42/nvim-web-devicons'
+    use {
+      'kyazdani42/nvim-web-devicons',
+    }
 
     -- add plugin that uses treesitter to figure out what the commentstring should be
-    -- use 'JoosepAlviste/nvim-ts-context-commentstring'
+    -- use { 'JoosepAlviste/nvim-ts-context-commentstring' }
 
     -- tpope/vim-commentary lua replacement
     use {
@@ -140,7 +195,9 @@ return require('packer').startup {
     }
 
     -- format code with external tools
-    use 'mhartington/formatter.nvim'
+    use {
+      'mhartington/formatter.nvim',
+    }
 
     -- gitgutter lua replacement
     use {
@@ -149,7 +206,9 @@ return require('packer').startup {
     }
 
     -- autopairs but better
-    use 'windwp/nvim-autopairs'
+    use {
+      'windwp/nvim-autopairs',
+    }
 
     -- auto-completion plugin
     use {
@@ -164,29 +223,41 @@ return require('packer').startup {
     }
 
     -- use icons in the completion menus for lsp suggestions
-    use 'onsails/lspkind-nvim'
+    use {
+      'onsails/lspkind-nvim',
+    }
 
     -- easier configuration for built-in neovim lsp
-    use 'neovim/nvim-lspconfig'
+    use {
+      'neovim/nvim-lspconfig',
+    }
+
+    -- TJ's lua functions that he doesn't wanna write again
+    use {
+      'nvim-lua/plenary.nvim',
+    }
+
+    -- notetaking with golang zk lsp
+    use {
+      'mickael-menu/zk-nvim',
+    }
+
+    -- the best fuzzy finder :0
+    use {
+      'nvim-telescope/telescope.nvim',
+    }
 
     -- fzf sorting algorithm for telescope
     use {
       'nvim-telescope/telescope-fzf-native.nvim',
+      requires = 'nvim-telescope/telescope.nvim',
       run = 'make',
     }
 
-    -- TJ's lua functions that he doesn't wanna write again
-    use 'nvim-lua/plenary.nvim'
-
-    -- notetaking with golang zk lsp
-    use 'mickael-menu/zk-nvim'
-
-    -- the best fuzzy finder :0
-    -- use '~/code/neovim/telescope.nvim'
-    use 'nvim-telescope/telescope.nvim'
-
     -- impatient speeds up loading times with caching
-    use 'lewis6991/impatient.nvim'
+    use {
+      'lewis6991/impatient.nvim',
+    }
 
     -----------------------------------------------------
     ---
@@ -194,13 +265,19 @@ return require('packer').startup {
     ---
     -----------------------------------------------------
     -- manage DBs in vim
-    use 'tpope/vim-dadbod'
+    use {
+      'tpope/vim-dadbod',
+    }
 
     -- manage DBs in vim
-    use 'kristijanhusak/vim-dadbod-ui'
+    use {
+      'kristijanhusak/vim-dadbod-ui',
+    }
 
     -- runs :noh whenever the mouse cursor is moved 
-    use 'junegunn/vim-slash'
+    use {
+      'junegunn/vim-slash',
+    }
 
     -- for automatic list bulleting when writing markdown or plaintext
     use {
@@ -211,8 +288,12 @@ return require('packer').startup {
     }
 
     -- tpope's blessings to vimmers everywhere
-    use 'tpope/vim-surround'
-    use 'tpope/vim-repeat'
+    use {
+      'tpope/vim-surround',
+    }
+    use {
+      'tpope/vim-repeat',
+    }
 
     -- color converter for hex to rgb, etc
     use {
@@ -222,19 +303,29 @@ return require('packer').startup {
     }
 
     -- blur the lines between vim and tmux
-    use 'christoomey/vim-tmux-navigator'
+    use {
+      'christoomey/vim-tmux-navigator',
+    }
 
     -- extra operator function for sorting over a textobject or visual range
-    use 'christoomey/vim-sort-motion'
+    use {
+      'christoomey/vim-sort-motion',
+    }
 
     -- extra text object for copy/pasting to the system clipboard, its soo good
-    use 'christoomey/vim-system-copy'
+    use {
+      'christoomey/vim-system-copy',
+    }
 
     -- replace with register
-    use 'vim-scripts/ReplaceWithRegister'
+    use {
+      'vim-scripts/ReplaceWithRegister',
+    }
 
     -- switch casing of selected text
-    use 'arthurxavierx/vim-caser'
+    use {
+      'arthurxavierx/vim-caser',
+    }
 
     -----------------------------------------------------
     ---
@@ -242,10 +333,19 @@ return require('packer').startup {
     ---
     -----------------------------------------------------
     -- i3wm config
-    use 'mboughaba/i3config.vim'
+    use {
+      'mboughaba/i3config.vim',
+    }
 
     -- kmonad config
-    use 'kmonad/kmonad-vim'
+    use {
+      'kmonad/kmonad-vim',
+    }
+
+    -- rasi filetype
+    use {
+      'Fymyte/rasi.vim',
+    }
 
     -----------------------------------------------------
     ---
@@ -253,13 +353,19 @@ return require('packer').startup {
     ---
     -----------------------------------------------------
     -- luv docs in neovim
-    use 'nanotee/luv-vimdocs'
+    use {
+      'nanotee/luv-vimdocs',
+    }
 
     -- nanotee's lua guide reference
-    use 'nanotee/nvim-lua-guide'
+    use {
+      'nanotee/nvim-lua-guide',
+    }
 
     -- lua reference
-    use 'milisims/nvim-luaref'
+    use {
+      'milisims/nvim-luaref',
+    }
   end,
   config = {
     compile_path = vim.fn.stdpath 'config' .. '/lua/packer/packer_compiled.lua',

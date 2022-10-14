@@ -91,7 +91,14 @@ cmp.setup {
     -- { name = 'nvim_lua' },
     -- { name = 'copilot' },
     -- { name = 'nvim_lsp', max_item_count = 30, keyword_length = 3 },
-    { name = 'nvim_lsp', keyword_length = 3 },
+    {
+      name = 'nvim_lsp',
+      keyword_length = 3,
+      max_item_count = 50,
+      --[[ entry_filter = function(entry, ctx)
+        return
+      end, ]]
+    },
     { name = 'luasnip', max_item_count = 5 },
     { name = 'path' },
     --[[ {

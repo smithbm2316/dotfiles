@@ -1,9 +1,13 @@
-local ok, diffview = pcall(require, 'diffview')
-if not ok then
+local diffview_ok, diffview = pcall(require, 'diffview')
+if not diffview_ok then
   return
 end
 
-local actions = pcall(require, 'diffview.actions')
+local actions_ok, actions = pcall(require, 'diffview.actions')
+if not actions_ok then
+  return
+end
+
 -- use ` instead of - for deletions
 vim.opt.fillchars:append 'diff:`'
 
@@ -12,13 +16,20 @@ diffview.setup {
   enhanced_diff_hl = true,
   use_icons = true,
   file_panel = {
-    width = 30,
-    listing_style = 'list',
+    win_config = {
+      type = 'float',
+      position = 'top',
+      height = 70,
+      relative = 'editor',
+    },
+    listing_style = 'tree',
   },
   key_bindings = {
     view = {
       ['<tab>'] = actions.select_next_entry,
       ['<c-tab>'] = actions.select_prev_entry,
+      ['<c-n>'] = actions.select_next_entry,
+      ['<c-p>'] = actions.select_prev_entry,
       ['<leader>ff'] = actions.focus_files,
       ['<leader>sf'] = actions.toggle_files,
     },
@@ -30,6 +41,8 @@ diffview.setup {
       ['r'] = actions.refresh_files,
       ['<tab>'] = actions.select_next_entry,
       ['<c-tab>'] = actions.select_prev_entry,
+      ['<c-n>'] = actions.select_next_entry,
+      ['<c-p>'] = actions.select_prev_entry,
       ['<leader>ff'] = actions.focus_files,
       ['<leader>sf'] = actions.toggle_files,
     },

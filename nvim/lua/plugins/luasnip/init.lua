@@ -115,7 +115,7 @@ local webdev_snippets = {
       name = 'import',
       dscr = 'import a component/function from a package',
     },
-    fmt([[import {name} from '{path}']], {
+    fmt([[import {name} from '{path}';]], {
       path = i(1),
       name = c(2, {
         sn(nil, { t '{ ', i(1), t ' }' }),
@@ -132,9 +132,9 @@ local webdev_snippets = {
       name = 'import default export',
       dscr = 'import a default export from a package',
     },
-    fmt([[import {name} from '{path}']], {
+    fmt([[import {name} from '{path}';]], {
       path = i(1),
-      name = rep(0),
+      name = i(0),
     })
   ),
   --}}}
@@ -384,7 +384,7 @@ ls.add_snippets('lua', lua_snippets, {
 -- add keymap to reload snippets on demand
 nnoremap('<leader>rs', function()
   vim.cmd [[luafile $XDG_CONFIG_HOME/nvim/lua/plugins/luasnip/init.lua]]
-  vim.notify('Reloaded snippets!', 'info')
+  vim.notify('Reloaded snippets!', vim.log.levels.INFO)
 end, 'Reload Luasnip Snippets')
 -- select next choice node
 inoremap('<c-j>', function()
