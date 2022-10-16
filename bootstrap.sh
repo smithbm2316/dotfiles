@@ -92,6 +92,7 @@ dnf_packages() {
     lxappearance \
     mozilla-openh264 \
     NetworkManager \
+    NetworkManager-tui \
     NetworkManager-wifi \
     nitrogen \
     papirus-icon-theme \
@@ -155,9 +156,6 @@ mkdir -pv ~/builds
 cd ~/builds || exit
 
 if [ "$(command -v dnf)" ]; then
-  # apparently git isn't installed by default?? make sure it is please
-  dnf install -y git dnf-plugins-core
-
   programming_languages
   homebrew
 
