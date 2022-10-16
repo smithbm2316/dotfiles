@@ -559,12 +559,12 @@ if vim.fn.has 'mac' == 1 and vim.fn.expand '%:p' == (vim.env.HOME .. '/dotfiles/
   table.insert(library_files, '/Applications/Hammerspoon.app/Contents/Resources/extensions/hs')
 end
 
-local luadev_ok, luadev = pcall(require, 'lua-dev')
-if not luadev_ok then
+local neodev_ok, neodev = pcall(require, 'neodev')
+if not neodev_ok then
   return
 end
 
-luadev.setup {
+neodev.setup {
   library = {
     enabled = true,
     runtime = true,

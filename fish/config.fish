@@ -33,7 +33,7 @@ abbr -a nvpack 'cd ~/.local/share/nvim/site/pack/packer/start'
 # `cd -` alias
 abbr -a -- - 'cd -'
 # lazygit
-abbr -a g lazygit
+abbr -a lg lazygit
 # mv and cp and mkdir improvements
 abbr -a mv 'mv -iv'
 abbr -a cp 'cp -iv'
@@ -351,3 +351,5 @@ set -Ux SUDO_EDITOR "nvim -u NORC"
 set -gx PNPM_HOME "/home/smithbm/.local/share/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end
+
+set -gx GOPATH $HOME/go; set -gx GOROOT $HOME/.go; set -gx PATH $GOPATH/bin $PATH; # g-install: do NOT edit, see https://github.com/stefanmaric/g

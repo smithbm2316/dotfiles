@@ -121,7 +121,7 @@ return require('packer').startup {
     }
     -- lua development with types
     use {
-      'folke/lua-dev.nvim',
+      'folke/neodev.nvim',
     }
     -- run lsp server for whole project or just the file
     use {

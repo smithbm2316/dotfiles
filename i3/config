@@ -221,7 +221,7 @@ for_window [class=$term title="^scratchpad$"] floating enable, resize set 800 60
 # -------------------------------------------------- AUTOSTART
 exec ~/dotfiles/config/vincit.sh
 exec picom
-exec nitrogen --restore
+# exec nitrogen --restore
 exec xsetroot -cursor_name left_ptr
 exec xset r rate 250 25 &
 exec bluetoothctl disconnect E8:85:4B:4A:82:86; bluetoothctl block E8:85:4B:4A:82:86 &
