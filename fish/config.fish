@@ -11,7 +11,6 @@ if not functions -q fundle
   eval (curl -sfL https://git.io/fundle-install)
 else # load fundle packages
   fundle plugin 'edc/bass'
-  fundle plugin 'lilyball/nix-env.fish'
   fundle plugin 'wfxr/forgit'
   
   fundle init
@@ -28,12 +27,11 @@ end
 abbr -a vcam 'sudo modprobe v4l2loopback video_nr=7 card_label="OBS Virtual Cam"'
 # Source fish
 abbr -a sosh 'source ~/dotfiles/fish/config.fish'
-# shortcut to get to packer plugins directory
-abbr -a nvpack 'cd ~/.local/share/nvim/site/pack/packer/start'
 # `cd -` alias
 abbr -a -- - 'cd -'
 # lazygit
 abbr -a lg lazygit
+alias comet "$HOME/dotfiles/scripts/comet.sh"
 # mv and cp and mkdir improvements
 abbr -a mv 'mv -iv'
 abbr -a cp 'cp -iv'
@@ -72,6 +70,7 @@ abbr -a ......... ../../../../../../../../
 abbr -a nv 'nvim'
 abbr -a pgnv 'pgrep nvim'
 abbr -a nvgui 'neovide --multigrid'
+abbr -a nvpack 'cd ~/.local/share/nvim/site/pack/packer/start'
 # do all of the homebrew things please and update neovim nightly
 alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew doctor'
 # set an alias for docker-compose depending on the operating system
@@ -81,22 +80,12 @@ else
   abbr -a dcu 'docker-compose up'
 end
 
-# current work project quick shortcuts
-# for project_file in (/usr/bin/ls $HOME/dotfiles/fish/projects | xargs);
-#   source $HOME/dotfiles/fish/projects/$project_file
-# end
-
-
 ##################################################
 #
 # function aliases
 #
 ##################################################
-# cd and dots
-# function c
-#  cd (fd -t d --color=never . $HOME | fzf --preview='tree -L 1 -I {}')
-#  ls -A
-# end
+# dots
 function dots
   set -l fileloc (fd -t f --color=never . $HOME/dotfiles | fzf --preview='head -80 {}')
   if test $fileloc
@@ -237,25 +226,6 @@ function deleteFromPath
     return 1
   end
 end
-
-##################################################
-#
-# bash utilities wrapped as functions with bass
-#
-##################################################
-function luaver
-  if test -s ~/.luaver/luaver
-    bass source ~/.luaver/luaver --no-use ';' luaver $argv
-  end
-end
-
-# install n for managing nodejs/npm if it's not already installed
-# and set the environment variable for it
-# https://github.com/mklement0/n-install
-if test ! -d ~/n
-  curl -L https://git.io/n-install | bash -s -- -n
-end
-set -x N_PREFIX "$HOME/n"; contains "$N_PREFIX/bin" $PATH; or set -a PATH "$N_PREFIX/bin"
 
 
 

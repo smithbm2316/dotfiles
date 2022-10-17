@@ -18,13 +18,13 @@ uptime="$(uptime -p | sed -e 's/up //g')"
 host=$(hostname)
 
 # Options
-shutdown=' Shutdown'
-reboot=' Reboot'
-lock=' Lock'
-suspend=' Suspend'
-logout=' Logout'
-yes=' Yes'
-no=' No'
+shutdown='⏻ Shutdown'
+reboot=' Reboot'
+lock=' Lock'
+suspend=' Suspend'
+logout=' Logout'
+yes=' Yes'
+no='ﰸ No'
 
 # Rofi CMD
 rofi_cmd() {
@@ -91,20 +91,12 @@ case ${chosen} in
     run_cmd --reboot
       ;;
   "$lock")
-    if [[ -x '/usr/bin/betterlockscreen' ]]; then
-      betterlockscreen -l
-    elif [[ -x '/usr/bin/i3lock' ]]; then
-      i3lock -c "#382f47"
-    fi
+    i3lock -c "#382f47"
       ;;
   "$suspend")
     playerctl pause
     amixer set Master mute
-    if [[ -x '/usr/bin/betterlockscreen' ]]; then
-      betterlockscreen -l
-    elif [[ -x '/usr/bin/i3lock' ]]; then
-      i3lock -c "#382f47"
-    fi
+    i3lock -c "#382f47"
     systemctl suspend
       ;;
   "$logout")

@@ -138,13 +138,13 @@ bindsym $mod+c kill
 #i3help Rofi application launcher
 bindsym $mod+o exec --no-startup-id ~/dotfiles/rofi/rofi.sh drun
 #i3help Rofi cli program launcher
-bindsym $mod+q exec --no-startup-id ~/dotfiles/rofi/rofi.sh powermenu
+bindsym $mod+ctrl+p exec --no-startup-id ~/dotfiles/rofi/rofi.sh powermenu
 #i3help Rofi run program
 bindsym $mod+ctrl+o exec --no-startup-id ~/dotfiles/rofi/rofi.sh run
 #i3help Rofi open windows
 bindsym $alt+Tab exec --no-startup-id ~/dotfiles/rofi/rofi.sh window
 #i3help Rofi calculator with qalc
-bindsym $mod+g exec --no-startup-id ~/dotfiles/rofi/rofi.sh calc
+bindsym $mod+q exec --no-startup-id ~/dotfiles/rofi/rofi.sh calc
 #i3help Rofi Emoji picker
 bindsym $mod+ctrl+e exec --no-startup-id ~/dotfiles/rofi/rofi.sh emoji
 # Screenshot
@@ -217,27 +217,31 @@ for_window [class="^blueman-manager$"] floating enable, resize set 800 600, move
 for_window [class="^Blueman-manager$"] floating enable, resize set 800 600, move position center
 # terminal scratchpad
 for_window [class=$term title="^scratchpad$"] floating enable, resize set 800 600, move position center, move scratchpad
+# move all floating windows to center automatically, except windows with the WM_TITLE of "scratchpad"
+for_window [floating title="^(?!scratchpad).*$"] move position center
 
 # -------------------------------------------------- AUTOSTART
+# exec bluetoothctl disconnect E8:85:4B:4A:82:86; bluetoothctl block E8:85:4B:4A:82:86 &
 exec ~/dotfiles/config/vincit.sh
 exec picom
-# exec nitrogen --restore
+exec dunst
+exec nitrogen --restore
 exec xsetroot -cursor_name left_ptr
 exec xset r rate 250 25 &
-exec bluetoothctl disconnect E8:85:4B:4A:82:86; bluetoothctl block E8:85:4B:4A:82:86 &
-exec dunst
 exec flameshot
 exec nm-applet
 exec blueman-applet
+exec imwheel
+exec pasystray
 exec_always --no-startup-id $HOME/dotfiles/polybar/launch.sh
 
-# start up scratchpad instances
-exec --no-startup-id kitty --title "scratchpad"
-
 # programs to use on startup
-# exec --no-startup-id i3-msg workspace $wsDev; exec kitty
-# exec --no-startup-id i3-msg workspace $wsDev; exec brave-browser
-# exec --no-startup-id i3-msg workspace $wsWeb; exec firefox
-# exec --no-startup-id i3-msg workspace $wsMessages; exec slack
+exec --no-startup-id i3-msg workspace $wsDev; exec kitty
+exec --no-startup-id i3-msg workspace $wsDev; exec brave-browser
+exec --no-startup-id i3-msg workspace $wsWeb; exec firefox
+exec --no-startup-id i3-msg workspace $wsMessages; exec slack
 # exec --no-startup-id i3-msg workspace $wsVibes; exec spotify
 exec --no-startup-id i3-msg workspace $wsDev; exec 1password
+
+# start up scratchpad instances
+# exec --no-startup-id kitty --title "scratchpad"

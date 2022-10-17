@@ -9,8 +9,8 @@ cf_help_menu() {
   echo ""
   echo "  cf [FLAGS] PACKAGE"
   echo ""
-  printf "\t -i|--install\t add the symlinks for the given package\n"
-  printf "\t -c|--clean\t clean out the symlinks for the given package\n"
+  printf "\t -i|--install\t add the symlinks for the given package (cron, dots)\n"
+  printf "\t -c|--clean\t clean out the symlinks for the given package (cron, dots)\n"
   printf "\t -h|--help\t show the help menu\n"
 }
 
@@ -21,7 +21,13 @@ if [[ $# -lt 2 ]]; then
   cf_help_menu
   exit
 elif [[ "$2" == 'dots' ]]; then
-  cmd_end="--ignore='config|cronjobs|scripts|user-dirs.dirs' -t $XDG_CONFIG_HOME dotfiles"
+  # if the XDG_CONFIG_HOME shell variable is not set yet, default to $HOME/.config since that's
+  # almost certainly what we wanted anyways
+  target_dir="$XDG_CONFIG_HOME"
+  if [[ -z "$target_dir" ]]; then
+    target_dir="$HOME/.config"
+  fi
+  cmd_end="--ignore='bootstrap|config|cronjobs|scripts' -t $target_dir dotfiles"
   rootdir="cd ~"
 elif [[ "$2" == 'cron' ]]; then
   cmd_end="-t /etc/cron.daily cronjobs"
@@ -42,6 +48,7 @@ if [[ "$1" == '-i' || "$1" == '--install' ]]; then
 
   if [[ -z "$stow_files" || "$stow_files" == 'y' ]]; then
     eval "$cmd_start -v $cmd_end"
+    ln -s ~/dotfiles/imwheel/imwheelrc ~/.imwheelrc
     echo 'files stowed!'
   else
     echo 'files were not stowed'

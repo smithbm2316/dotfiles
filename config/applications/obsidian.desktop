@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Obsidian
-Exec=/usr/local/bin/obsidian
+Exec=/home/smithbm/appimages/obsidian.AppImage
 Icon=/usr/share/icons/Papirus-Dark/32x32/apps/obsidian.svg
 Terminal=false
 Type=Application

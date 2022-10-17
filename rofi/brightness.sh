@@ -29,15 +29,15 @@ mesg="Device: ${card}, Level: $level"
 # Options
 layout=`cat ${theme} | grep 'USE_ICON' | cut -d'=' -f2`
 if [[ "$layout" == 'NO' ]]; then
-	option_1=" Increase"
-	option_2=" Optimal"
-	option_3=" Decrease"
-	option_4=" Settings"
+	option_1=" Increase"
+	option_2=" Optimal"
+	option_3=" Decrease"
+	option_4=" Settings"
 else
-	option_1=""
-	option_2=""
-	option_3=""
-	option_4=""
+	option_1=""
+	option_2=""
+	option_3=""
+	option_4=""
 fi
 
 # Rofi CMD

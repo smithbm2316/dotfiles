@@ -20,6 +20,8 @@ set -Ux GOEXEC /usr/local/go/bin
 set -Ux GOBIN $HOME/go/bin
 set -Ux GOPATH $HOME/go
 set -Ux LOCALBIN $HOME/.local/bin
+set -Ux N_PREFIX "$HOME/n"
+set -Ux NBIN "$N_PREFIX/bin"
 set -Ux PRETTIERD_DEFAULT_CONFIG $HOME/.config/prettier/.prettierrc
 set -Ux NVIMBIN $HOME/.local/nvim/bin
 set -Ux YARNBIN $HOME/.yarn/bin
@@ -35,6 +37,7 @@ set -Ux I3_BLOCKLETS $XDG_CONFIG_HOME/i3/blocklets
 set -Ux CALIBRE_USE_DARK_PALETTE 1
 set -Ux FZF_DEFAULT_COMMAND "fd -t f --color=never"
 set -Ux FZF_DEFAULT_OPTS '--multi --layout=reverse-list --border=rounded --tabstop=2 --bind ctrl-d:page-down,ctrl-u:page-up'
+set -Ux HOMEBREW_NO_ANALYTICS 1
 set -Ux NEXT_TELEMETRY_DISABLED 1
 set -Ux RANGER_LOAD_DEFAULT_RC FALSE
 set -Ux SRC_ENDPOINT 'https://sourcegraph.com'
@@ -55,5 +58,6 @@ fish_add_path -a $DENOBIN
 fish_add_path -a $GOBIN
 fish_add_path -a $GOEXEC
 fish_add_path -a $LOCALBIN
+fish_add_path -a $NBIN
 fish_add_path -a $NVIMBIN
 fish_add_path -a $YARNBIN
