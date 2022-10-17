@@ -217,7 +217,7 @@ M.my_on_attach = function(
 end
 
 M.my_capabilities = vim.lsp.protocol.make_client_capabilities()
-M.my_capabilities = require('cmp_nvim_lsp').update_capabilities(M.my_capabilities)
+M.my_capabilities = require('cmp_nvim_lsp').default_capabilities(M.my_capabilities)
 M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- setup language servers
