@@ -310,7 +310,7 @@ if [ "$(command -v dnf)" ]; then
     # tree-sitter-cli to complile the Teal Treesitter binary in Neovim
     tree-sitter-cli \
     # yarn
-    yarn
+    yarn \
     # pnpm
     pnpm
 
