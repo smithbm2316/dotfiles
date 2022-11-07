@@ -16,6 +16,9 @@ else # load fundle packages
   fundle init
 end
 
+# load nodenv
+eval "$(nodenv init -)"
+
 
 
 ##################################################

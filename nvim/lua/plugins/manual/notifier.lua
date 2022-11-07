@@ -6,6 +6,15 @@ end
 notifier.setup {
   -- Ignore message from LSP servers with this name
   ignore_messages = {},
+  -- set width
+  status_width = function()
+    local cols = vim.o.columns
+    if cols > 120 then
+      return math.floor(cols / 4)
+    else
+      return math.floor(cols / 3)
+    end
+  end,
   -- Order of the components to draw from top to bottom (first nvim notifications, then lsp)
   components = {
     -- Nvim notifications (vim.notify and such)

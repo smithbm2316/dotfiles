@@ -39,6 +39,7 @@ set -Ux FZF_DEFAULT_COMMAND "fd -t f --color=never"
 set -Ux FZF_DEFAULT_OPTS '--multi --layout=reverse-list --border=rounded --tabstop=2 --bind ctrl-d:page-down,ctrl-u:page-up'
 set -Ux HOMEBREW_NO_ANALYTICS 1
 set -Ux NEXT_TELEMETRY_DISABLED 1
+set -Ux NI_CONFIG_FILE "$XDG_CONFIG_HOME/ni/nirc"
 set -Ux RANGER_LOAD_DEFAULT_RC FALSE
 set -Ux SRC_ENDPOINT 'https://sourcegraph.com'
 set -Ux ZK_NOTEBOOK_DIR $HOME/wiki

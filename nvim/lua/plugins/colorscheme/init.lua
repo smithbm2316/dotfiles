@@ -3,34 +3,16 @@ if not ok then
   return
 end
 
--- set my colorscheme to the correct variant depending on whether it's between 9am-5pm or not
--- local current_hour = tonumber(vim.fn.strftime '%H')
--- vim.g.color_mode = current_hour >= 9 and current_hour <= (12 + 5) and 'light' or 'dark'
-vim.g.color_mode = 'dark'
+vim.opt.background = 'dark'
 
 rose_pine.setup {
   dark_variant = 'moon',
-  light_variant = 'dawn',
+  highlight_groups = {
+    IndentBlanklineChar = { fg = 'surface' },
+    -- this seems to fix the issue with highlighting TSX/JSX component names in markup
+    -- https://github.com/nvim-treesitter/playground/issues/94#issuecomment-1251134196
+    ['@constructor'] = { fg = 'foam' },
+  },
 }
-
-require('maps').toggle_rose_pine_variant(vim.g.color_mode)
+vim.cmd [[colorscheme tokyonight-moon]]
 vim.cmd [[colorscheme rose-pine]]
-
-local blend = require('rose-pine.util').blend
-local highlight = require('rose-pine.util').highlight
-local palette = require 'rose-pine.palette'
-
-local diffs = {
-  DiffAdd = { bg = blend('foam', palette.base, 0.15) },
-  -- DiffChange = { bg = palette.surface },
-  DiffChange = { bg = blend('rose', palette.base, 0.2) },
-  DiffDelete = { bg = blend('love', palette.base, 0.15) },
-  DiffText = { bg = blend('rose', palette.base, 0.2) },
-  diffAdded = { link = 'DiffAdd' },
-  diffChanged = { link = 'DiffChange' },
-  diffRemoved = { link = 'DiffDelete' },
-}
-
-for diffGroup, color in pairs(diffs) do
-  highlight(diffGroup, color)
-end

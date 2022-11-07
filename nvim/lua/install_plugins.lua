@@ -88,11 +88,6 @@ return require('packer').startup {
       'lukas-reineke/indent-blankline.nvim',
     }
 
-    -- colorscheme
-    use {
-      'rose-pine/neovim',
-    }
-
     -- snippets
     use {
       'L3MON4D3/LuaSnip',
@@ -246,17 +241,33 @@ return require('packer').startup {
     use {
       'nvim-telescope/telescope.nvim',
     }
-
     -- fzf sorting algorithm for telescope
     use {
       'nvim-telescope/telescope-fzf-native.nvim',
       requires = 'nvim-telescope/telescope.nvim',
       run = 'make',
     }
+    -- file browser with telescope
+    use {
+      'nvim-telescope/telescope-file-browser.nvim',
+      requires = 'nvim-telescope/telescope.nvim',
+    }
 
     -- impatient speeds up loading times with caching
     use {
       'lewis6991/impatient.nvim',
+    }
+
+    -----------------------------------------------------
+    ---
+    --- vimscript plugins
+    ---
+    -----------------------------------------------------
+    use {
+      'rose-pine/neovim',
+    }
+    use {
+      'folke/tokyonight.nvim',
     }
 
     -----------------------------------------------------
@@ -298,8 +309,6 @@ return require('packer').startup {
     -- color converter for hex to rgb, etc
     use {
       'amadeus/vim-convert-color-to',
-      cmd = 'ConvertColorTo',
-      opt = true,
     }
 
     -- blur the lines between vim and tmux

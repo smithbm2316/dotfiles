@@ -4,23 +4,6 @@ vim.o.completeopt = 'menuone,noselect'
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
 
--- override rose-pine nvim-cmp highlight groups
-local rose_pine_installed, palette = pcall(require, 'rose-pine.palette')
-if not rose_pine_installed then
-  return
-end
-local hl_groups = {
-  CmpItemAbbr = { fg = palette.subtle },
-  CmpItemAbbrDeprecated = { fg = palette.highlight_inactive, style = 'strikethrough' },
-  CmpItemAbbrMatch = { fg = palette.iris, style = 'bold' },
-  CmpItemAbbrMatchFuzzy = { fg = palette.foam, style = 'bold' },
-  CmpItemKind = { fg = palette.rose },
-  CmpGhostText = { fg = palette.highlight_med, style = 'italic' },
-}
-for hl_group, color_tbl in pairs(hl_groups) do
-  Utils.hl(hl_group, color_tbl)
-end
-
 -- setup nvim-cmp
 cmp.setup {
   --[[ completion = {
@@ -93,8 +76,8 @@ cmp.setup {
     -- { name = 'nvim_lsp', max_item_count = 30, keyword_length = 3 },
     {
       name = 'nvim_lsp',
-      keyword_length = 3,
-      max_item_count = 50,
+      -- keyword_length = 3,
+      max_item_count = 75,
       --[[ entry_filter = function(entry, ctx)
         return
       end, ]]

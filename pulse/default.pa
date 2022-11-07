@@ -1,0 +1,3 @@
+# https://unix.stackexchange.com/questions/370439/how-to-autoconnect-bluetooth-headphone-in-fedora-25
+# automatically switch to newly-connected devices
+load-module module-switch-on-connect

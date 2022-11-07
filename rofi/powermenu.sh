@@ -72,6 +72,8 @@ run_cmd() {
 				bspc quit
 			elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
 				i3-msg exit
+			elif [[ "$DESKTOP_SESSION" == 'sway' ]]; then
+				swaymsg 'exit'
 			elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
 				qdbus org.kde.ksmserver /KSMServer logout 0 0 0
 			fi
@@ -91,12 +93,11 @@ case ${chosen} in
     run_cmd --reboot
       ;;
   "$lock")
-    i3lock -c "#382f47"
+    i3lock -c "#000000"
       ;;
   "$suspend")
     playerctl pause
     amixer set Master mute
-    i3lock -c "#382f47"
     systemctl suspend
       ;;
   "$logout")

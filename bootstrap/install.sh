@@ -3,19 +3,24 @@
 USER_OS=$(awk -F = '$1=="ID" { print $2 ;}' /etc/os-release)
 echo "This is a $USER_OS Linux system"
 
-# emptty() {
-#   cd ~/builds || exit
-#   git clone https://github.com/tvrzna/emptty
-#   cd emptty || exit
-#   make
-#   make build
-#   make install
-#   make install-pam-fedora
-#   make install-manual
-#   make install-config
-#   make install-systemd
-#   systemctl enable emptty.service
-# }
+emptty() {
+  sudo dnf install pam \
+   pam-devel \
+   libX11 \
+   libX11-devel \
+   gcc
+  cd ~/builds || exit
+  git clone https://github.com/tvrzna/emptty
+  cd emptty || exit
+  make
+  sudo make build
+  sudo make install
+  sudo make install-pam-fedora
+  sudo make install-manual
+  sudo make install-config
+  sudo make install-systemd
+  sudo systemctl enable emptty.service
+}
 
 # install lua 5.1, luajit, and luarocks
 lua() {
@@ -70,11 +75,13 @@ programming_languages() {
 
   # rust/rustup/cargo
   
-  # nodejs/npm with 'tj/n' version manager
-  if [ ! -d "$HOME/n" ]; then
-    curl -L https://git.io/n-install | /bin/bash -s -- -n
+  # nodejs/npm with 'nodenv' version manager
+  if [ ! -d "$HOME/.nodenv" ]; then
+    # install node & nodenv if not already here
+    # we need a system-wide node version from homebrew, so that we can globally install npm binaries
+    # like language servers, yarn/pnpm, etc down below and have them persist across versions
+    brew install node nodenv
   fi
-  eval "$HOME/n/bin/n lts"
 
   # deno
   curl -fsSL https://deno.land/install.sh | sh
@@ -85,9 +92,18 @@ programming_languages() {
 
 # packages
 dnf_packages() {
+  # https://docs.fedoraproject.org/en-US/quick-docs/setup_rpmfusion/
+  # free rpm repos
   sudo dnf install -y \
-    arc-theme \
+      "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
+  # nonfree rpm repos
+  sudo dnf install -y \
+    "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+
+  sudo dnf install -y \
+    battray \
     blueman \
+    discord \
     dunst \
     flameshot \
     gstreamer1-plugin-openh264 \
@@ -99,6 +115,7 @@ dnf_packages() {
     NetworkManager \
     NetworkManager-tui \
     NetworkManager-wifi \
+    mpv \
     nitrogen \
     papirus-icon-theme \
     pavucontrol \
@@ -106,14 +123,15 @@ dnf_packages() {
     picom \
     pip \
     playerctl \
-    polybar \
     python3 \
+    python3-xlib \
     qalculate \
     rofi \
     vim \
     xclip \
     xdotool \
     xev \
+    xinput \
     xprop \
     xset \
     xsetroot
@@ -126,13 +144,6 @@ dnf_packages() {
 }
 
 spotify() {
-  # https://docs.fedoraproject.org/en-US/quick-docs/setup_rpmfusion/
-  # free rpm repos
-  sudo dnf install \
-      https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-  # nonfree rpm repos
-  sudo dnf install \
-    https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
   sudo dnf install lpf-spotify-client -y
   # logout after adding yourself to the proper usermod group
   lpf update
@@ -173,6 +184,13 @@ brave_browser() {
   sudo dnf install 1password -y
 }
 
+# https://zoom.us/support/download
+zoom() {
+  cd ~/downloads || exit
+  wget https://zoom.us/client/latest/zoom_x86_64.rpm
+  sudo dnf install -y zoom_x86_64.rpm
+}
+
 # https://www.starkandwayne.com/blog/how-to-download-the-latest-release-from-github/
 # $1=repo, $2=test_keyword
 gh_release_latest() {
@@ -196,14 +214,31 @@ neovim() {
 }
 
 keyd() {
-  dnf install python3 python3-xlib
+  sudo dnf install python3 python3-xlib
   cd ~/builds || exit
   git clone https://github.com/rvaiya/keyd
   cd keyd || exit
-  make && make install
+  make && sudo make install
   rm -rf /etc/keyd
   ln -s /home/smithbm/dotfiles/keyd /etc/keyd
   systemctl enable keyd && systemctl start keyd
+}
+
+warpd() {
+  sudo dnf install libXi-devel \
+    libXinerama-devel \
+    libXft-devel \
+    libXfixes-devel \
+    libXtst-devel \
+    libX11-devel \
+    cairo-devel \
+    libxkbcommon-devel \
+    libwayland-client \
+    wayland-devel
+  cd ~/builds || exit
+  git clone https://github.com/rvaiya/warpd
+  cd warpd || exit
+  make && sudo make install
 }
 
 # https://charm.sh
@@ -225,11 +260,10 @@ mkdir -pv ~/builds
 cd ~/builds || exit
 
 if [ "$(command -v dnf)" ]; then
-  # programming_languages
   homebrew
-
-  dnf_packages
   homebrew_packages
+  dnf_packages
+  programming_languages
 
   neovim
 
@@ -244,30 +278,41 @@ if [ "$(command -v dnf)" ]; then
 
   # luacheck
   sudo luarocks install luacheck
-  # teal
+  # teal and cyan (teal build system)
   sudo luarocks install tl
+  sudo luarocks install cyan
 
   # ------------------------------------------------------------
-  # NODE/NPM/YARN PACKAGES
+  # NODE/NPM/YARN/PNPM PACKAGES
   # ------------------------------------------------------------
-  # yarn and pnpm
-  npm i -g yarn pnpm
-
-  # language servers for neovim (lsp)
-  npm i -g \
-    vscode-langservers-extracted \
-    bash-language-server \
-    typescript typescript-language-server \
-    vim-language-server \
-    @tailwindcss/language-server \
+  # global npm packages
+  # make sure to use the system version of node in order to install the global binaries here
+  # https://github.com/nodenv/nodenv/issues/183
+  NODENV_VERSION=system npm i -g \
+    # language servers for neovim (lsp)
     @astrojs/language-server \
-    graphql-language-service-cli \
     @prisma/language-server \
+    @tailwindcss/language-server \
+    bash-language-server \
+    graphql \
+    graphql-language-service-cli \
     stylelint-lsp \
-    yaml-language-server
-
-  # install tree-sitter-cli to complile the Teal Treesitter binary in Neovim
-  npm i -g tree-sitter-cli
+    tree-sitter-cli \
+    typescript \
+    typescript-language-server \
+    vim-language-server \
+    vscode-langservers-extracted \
+    yaml-language-server \
+    # prettier daemon
+    @fsouza/prettierd \
+    # rustywind for tailwind formatting
+    rustywind \
+    # tree-sitter-cli to complile the Teal Treesitter binary in Neovim
+    tree-sitter-cli \
+    # yarn
+    yarn
+    # pnpm
+    pnpm
 
   # sqls
   go install github.com/lighttiger2505/sqls@latest
@@ -286,6 +331,12 @@ if [ "$(command -v dnf)" ]; then
 
   # teal language server
   sudo luarocks install --dev teal-language-server
+
+  # marksman markdown server
+  mkdir ~/.local/bin
+  marksman_appimage=$(gh_release_latest 'artempyanykh/marksman' 'marksman-linux')
+  chmod +x "$marksman_appimage"
+  mv -v "$marksman_appimage" "$HOME/.local/bin/marksman"
 
   # vscodium
   rpmkeys --import https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
@@ -331,6 +382,8 @@ if [ "$(command -v dnf)" ]; then
   sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
   sudo systemctl start docker
   sudo docker run hello-world
+  sudo groupadd docker
+  sudo usermod -aG docker "$USER" # give my user docker permissions, logout to take effect
 
   # ------------------------------------------------------------
   # FONTS
@@ -350,6 +403,26 @@ if [ "$(command -v dnf)" ]; then
   mkdir -pv ~/.local/share/fonts/Inter
   unzip -d ~/.local/share/fonts/Inter "$inter_zipfile"
   rm "$inter_zipfile"
+
+  # GTK THEME
+  # rose pine moon
+  mkdir -pv ~/.themes
+  mkdir -pv ~/.icons
+  # gtk3 theme
+  rose_pine_gtk3=$(gh_release_latest 'rose-pine/gtk' 'gtk3.tar.gz')
+  tar zxvf "$rose_pine_gtk3"
+  mv "$rose_pine_gtk3/rose-pine-moon-gtk" ~/.themes
+  rm -rf gtk3
+  # gtk4 theme
+  rose_pine_gtk4=$(gh_release_latest 'rose-pine/gtk' 'gtk4.tar.gz')
+  tar zxvf "$rose_pine_gtk4"
+  mv "$rose_pine_gtk4/rose-pine-moon.css" "$XDG_CONFIG_HOME/gtk-4.0/gtk.css"
+  rm -rf gtk4
+  # icons
+  rose_pine_icons=$(gh_release_latest 'rose-pine/gtk' 'rose-pine-moon-icons.tar.gz')
+  tar zxvf "$rose_pine_icons"
+  mv "$rose_pine_icons/rose-pine-moon-icons" ~/.icons
+  rm -rf icons
 
   # elif [ "$(command -v apt)"  ]; then
   # elif [ "$(uname -s)" = "Darwin" ]; then

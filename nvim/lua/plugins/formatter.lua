@@ -29,11 +29,24 @@ local filetype_configs = {
   },
 }
 
+local rustywind = {
+  function()
+    return {
+      exe = 'rustywind',
+      args = {
+        '--stdin',
+        vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
+      },
+    }
+  end,
+}
+
 local prettier_config = {
   function()
     return {
       exe = 'prettierd',
       args = {
+        '--plugin-search-dir=.',
         vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
       },
       stdin = true,
@@ -79,7 +92,7 @@ end
 
 -- setup formatter
 formatter.setup {
-  logging = false,
+  log_level = vim.log.levels.WARN,
   filetype = filetype_configs,
 }
 

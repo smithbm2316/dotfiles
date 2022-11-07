@@ -283,26 +283,12 @@ end, 'go doc viewer')
 -- mappings that require an external function
 --{{{
 -- switch between light/dark rose-pine theme
-maps.toggle_rose_pine_variant = function(theme_variant)
-  local colors = {
-    dark = '#312f44',
-    light = '#f2e9de',
-  }
-  local background = vim.api.nvim_get_option 'background'
-
-  if theme_variant then
-    background = theme_variant
-  elseif background == 'light' then
-    background = 'dark'
-  else
-    background = 'light'
-  end
-
-  vim.api.nvim_set_option('background', background)
-  vim.cmd('hi IndentBlanklineIndent1 gui=nocombine guifg=' .. colors[background])
-end
 nnoremap('<leader>tt', function()
-  maps.toggle_rose_pine_variant()
+  if vim.opt.background:get() == 'dark' then
+    vim.opt.background = 'light'
+  else
+    vim.opt.background = 'dark'
+  end
 end, 'Toggle color mode')
 
 -- turn terminal to normal mode with escape if it's not a lazygit terminal

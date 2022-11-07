@@ -4,6 +4,9 @@ local util = require 'lspconfig.util'
 -- functions to hook into
 local M = {}
 
+-- ~/.local/state/nvim/lsp.log
+vim.lsp.set_log_level(vim.log.levels.WARN)
+
 -- manage lsp diagnostics
 vim.diagnostic.config {
   underline = false,
@@ -228,6 +231,7 @@ local servers = {
     root_dir = util.root_pattern('astro.config.js', 'astro.config.ts', 'astro.config.mjs', 'astro.config.cjs'),
   },
   bashls = {},
+  cssls = {},
   denols = {
     root_dir = util.root_pattern('deno.json', 'deno.jsonc'),
     single_file_support = false,
@@ -322,14 +326,14 @@ local servers = {
     filetypes = { 'graphql' },
   },
   html = {},
+  marksman = {},
   prismals = {},
   pylsp = {},
   --[[ sqls = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
-  cssls = {},
   --[[ stylelint_lsp = {
-    filetypes = { 'css', 'scss', 'sass' },
+    filetypes = { 'css', 'scss', 'sass', 'astro' },
   }, ]]
   svelte = {},
   tailwindcss = {
@@ -356,12 +360,17 @@ local servers = {
         },
         experimental = {
           classRegex = {
+            { 'cva\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
+          },
+        },
+        --[[ experimental = {
+          classRegex = {
             -- https://github.com/tailwindlabs/tailwindcss/issues/7553#issuecomment-917271069
             { '/\\*tw\\*/ ([^;]*);', "'([^']*)'" },
             { '/\\*tw\\*/ ([^;]*);', '"([^"]*)"' },
             { '/\\*tw\\*/ ([^;]*);', '`([^`]*)`' },
           },
-        },
+        }, ]]
       },
     },
   },

@@ -20,6 +20,10 @@ hammerspoon/Spoons/*
 # ignore karabiner backups
 karabiner/automatic_backups/*
 
+# ignore all but keyd conf
+keyd/app.log
+keyd/app.lock
+
 # ignore AppSupport/ dir for iTerm2
 iTerm2/AppSupport/*
 

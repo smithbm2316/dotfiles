@@ -182,10 +182,23 @@ require('telescope').setup {
       override_file_sorter = true,
       case_mode = 'smart_case',
     },
+    file_browser = {
+      -- theme = 'ivy',
+      -- disables netrw and use telescope-file-browser in its place
+      theme = nil,
+      hijack_netrw = false,
+      -- mappings = {},
+    },
   },
 }
--- require fzf extension for fzf sorting algorithm
+
 require('telescope').load_extension 'fzf'
+require('telescope').load_extension 'file_browser'
+nnoremap('<leader>fb', function()
+  require('telescope').extensions.file_browser.file_browser {
+    preview = true,
+  }
+end, 'Telescope file browser')
 
 -- function for generating keymap for each picker
 local builtin = function(lhs, picker, label)

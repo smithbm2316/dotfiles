@@ -106,6 +106,7 @@ require('nvim-treesitter.configs').setup {
     'jsonc',
     'lua',
     'markdown',
+    'markdown_inline',
     'prisma',
     'python',
     'query',

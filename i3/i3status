@@ -1,0 +1,33 @@
+general {
+  output_format = "i3bar"
+  colors = true
+  interval = 2
+  markup = pango
+}
+
+order += "volume master"
+order += "memory"
+order += "cpu_usage"
+order += "tztime local"
+
+tztime local {
+  format = "  %a %b %d, %I:%M%P"
+}
+
+cpu_usage {
+  format = "<span foreground='#b381c5'>  %usage</span>"
+  degraded_threshold = 75
+  format_above_degraded_threshold = "<span foreground='#f95e94'>  %usage</span>"
+}
+
+memory {
+  format = "<span foreground='#f97e72'>  %percentage_used</span>"
+  format_degraded = "<span foreground='#f95e94'>   %percentage_used</span>"
+  threshold_degraded = "10%"
+}
+
+volume master {
+  format = "<span foreground='#3e8fb0'>♪: %volume</span>"
+  format_muted = "♪: muted (%volume)"
+  device = "default"
+}

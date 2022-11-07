@@ -9,8 +9,10 @@ set $up k
 set $right l
 floating_modifier $mod
 set $term kitty
-set $primary_display HDMI-0
-set $alt_display eDP-1-1
+set $primary_display DP-1
+set $alt_display eDP-1
+# set up displays early
+exec --no-startup-id ~/dotfiles/config/vincit.sh
 
 # -------------------------------------------------- THEME
 set $bgFocused #232126
@@ -27,11 +29,60 @@ set $textInactiveWorkspace #9ccfd8
 set $barSeparator #ea9a97
 set $powderBlue #3e8fb0
 set $oldLavender #817c9c
-font pango:BlexMono Nerd Font Mono:style=Medium 12
+font pango:BlexMono Nerd Font Mono:style=Medium 11
+
+# ------------------------------------------------- SWAY OUTPUTS
+# output $alt_display {
+#   mode 1920x1080@144Hz
+#   pos 0 0
+#   bg ~/pictures/retrowave-car-overlooking-city.jpeg fill
+# }
+# output $primary_display {
+#   mode 1920x1080@120Hz
+#   pos 1920 0
+#   adaptive_sync on
+#   bg ~/pictures/retrowave-car-overlooking-city.jpeg fill
+# }
+
+# i3bar/swaybar
+bar {
+  status_command i3status --config ~/dotfiles/i3/i3status
+  # gaps 0
+  # pango_markup enabled
+  # status_edge_padding 4
+  # status_padding 4
+  # icon_theme Papirus
+  binding_mode_indicator yes
+  mode dock
+  position top
+  strip_workspace_name no
+  strip_workspace_numbers no
+  workspace_buttons yes
+  tray_padding 4
+  tray_output primary
+  colors {
+    background $bgFocused
+    statusline $textFocused
+    separator $oldLavender
+    focused_background $bgFocused
+    focused_statusline $textFocused
+    focused_separator $oldLavender
+    focused_workspace $powderBlue $powderBlue $bgFocused
+    active_workspace $bgUnfocused $bgUnfocused $textFocused
+    inactive_workspace $bgUnfocused $bgUnfocused $textFocused
+    urgent_workspace $bgUrgent $bgUrgent $textFocused
+    binding_mode $barSeparator $barSeparator $bgFocused
+  }
+}
+
+# set GTK settings
+exec gsettings set org.gnome.desktop.interface gtk-theme 'rose-pine-moon-gtk'
+exec gsettings set org.gnome.desktop.interface icon-theme 'rose-pine-moon-icons'
+exec gsettings set org.gnome.desktop.interface font-name 'Inter 11'
 
 # -------------------------------------------------- POWER OPTIONS
 #i3help restart i3 inplace
-bindsym $mod+ctrl+r restart, mode "default"
+bindsym $mod+ctrl+r reload, mode "default"
 
 # -------------------------------------------------- SWITCH FOCUS
 bindsym $mod+$left focus left
@@ -68,6 +119,7 @@ bindsym $mod+y focus child
 # -------------------------------------------------- WORKSPACE MOVEMENT
 bindsym $mod+ctrl+m move workspace to output left
 bindsym $mod+m focus output left
+bindsym $mod+ctrl+n move container to output left, focus output left
 bindsym $mod+a workspace back_and_forth
 bindsym $mod+semicolon workspace next
 bindsym $mod+comma workspace prev
@@ -85,6 +137,8 @@ bindsym XF86AudioNext exec playerctl next
 bindsym $mod+F11 exec xrandr --output $alt_display --brightness 0.6
 bindsym $mod+F12 exec xrandr --output $alt_display --brightness 1.0
 bindsym $mod+ctrl+a exec ~/dotfiles/scripts/airpods.sh
+bindsym $mod+F10 exec ~/dotfiles/scripts/toggle-touchpad-dir.sh
+bindsym XF86TouchpadToggle exec ~/dotfiles/scripts/toggle-touchpad-enabled.sh
 
 # -------------------------------------------------- WORKSPACES
 set $wsMisc "0:misc"
@@ -97,10 +151,11 @@ set $wsNotes "5:notes"
 # -------------------------------------------------- WORKSPACE RESTRICTIONS
 workspace_layout tabbed
 workspace $wsMisc output $alt_display
-workspace $wsWeb output $primary_display
 workspace $wsDev output $primary_display
+workspace $wsWeb output $primary_display
 workspace $wsMessages output $primary_display
 workspace $wsVibes output $primary_display
+workspace $wsNotes output $primary_display
 
 # -------------------------------------------------- SWITCH TO WORKSPACE
 bindsym $mod+0 workspace $wsMisc, mode "default"
@@ -139,8 +194,8 @@ bindsym $mod+c kill
 bindsym $mod+o exec --no-startup-id ~/dotfiles/rofi/rofi.sh drun
 #i3help Rofi cli program launcher
 bindsym $mod+ctrl+p exec --no-startup-id ~/dotfiles/rofi/rofi.sh powermenu
-#i3help Rofi run program
-bindsym $mod+ctrl+o exec --no-startup-id ~/dotfiles/rofi/rofi.sh run
+#i3help Rofi exec program
+bindsym $mod+e exec --no-startup-id ~/dotfiles/rofi/rofi.sh run
 #i3help Rofi open windows
 bindsym $alt+Tab exec --no-startup-id ~/dotfiles/rofi/rofi.sh window
 #i3help Rofi calculator with qalc
@@ -191,56 +246,77 @@ default_floating_border pixel 4
 bindsym $mod+ctrl+t [class=$term title="^scratchpad$"] scratchpad show
 bindsym $mod+shift+t exec $term --title "scratchpad"
 
+# -------------------------------------------------- WARPD
+bindsym $mod+ctrl+g exec warpd --hint
+bindsym $mod+g exec warpd --normal
+bindsym $mod+shift+g exec warpd --grid
+
 # -------------------------------------------------- DEFAULT WORKSPACES
-# Dev
-assign [class="^brave-browser$"] $wsDev
-assign [class="^Brave-browser$"] $wsDev
-# Web
-assign [class="^firefox$"] $wsWeb
-# Messaging
-assign [class="^slack$"] $wsMessages 
-assign [class="^Slack$"] $wsMessages 
-assign [class="^discord$"] $wsMessages 
-# Vibes
+# DEV
+assign [class="^[bB]rave-browser$"] $wsDev
+# assign [app_id="^[bB]rave-browser$"] $wsDev
+# WEB
+assign [class="^[fF]irefox$"] $wsWeb
+# assign [app_id="^[fF]irefox$"] $wsWeb
+# MESSAGING
+assign [class="^[sS]lack$"] $wsMessages 
+# assign [app_id="^[sS]lack$"] $wsMessages 
+assign [class="^[dD]iscord$"] $wsMessages 
+# assign [app_id="^[dD]iscord$"] $wsMessages 
+# VIBES
 # Spotify is annoying and doesn't work with regular "assign"
-for_window [class="^Spotify$"] move to workspace $wsVibes
-assign [class="^ncspot$"] $wsVibes
-assign [title="^ncspot$"] $wsVibes
-assign [class="^obs$"] $wsVibes
-# Notes
-assign [class="^obsidian$"] $wsNotes 
+for_window [class="^[sS]potify$"] move to workspace $wsVibes
+# for_window [app_id="^[sS]potify$"] move to workspace $wsVibes
+assign [class="^[nN]cspot$"] $wsVibes
+# assign [app_id="^[nN]cspot$"] $wsVibes
+assign [title="^[nN]cspot$"] $wsVibes
+# obs-studio
+assign [class="^[oO]bs$"] $wsVibes
+# assign [app_id="^[oO]bs$"] $wsVibes
+# NOTES
+assign [class="^[oO]bsidian$"] $wsNotes 
+# assign [app_id="^[oO]bsidian$"] $wsNotes 
 
 # -------------------------------------------------- APP EXCEPTIONS
 # Zoom meetings
-for_window [class="zoom\s?"] floating enable, resize set 800 600, move position center
-for_window [class="^blueman-manager$"] floating enable, resize set 800 600, move position center
-for_window [class="^Blueman-manager$"] floating enable, resize set 800 600, move position center
+for_window [class="zoom\s?"] floating enable, resize set 750 500, move position center
+# for_window [app_id="zoom\s?"] floating enable, resize set 750 500, move position center
+# set bluetooth manager & pulse audio control apps to float centrally
+for_window [class="^[bB]lueman-manager$"] floating enable, resize set 750 500, move position center
+# for_window [app_id="^[bB]lueman-manager$"] floating enable, resize set 750 500, move position center
+for_window [class="^[pP]avucontrol$"] floating enable, resize set 750 500, move position center
+# for_window [app_id="^[pP]avucontrol$"] floating enable, resize set 750 500, move position center
 # terminal scratchpad
-for_window [class=$term title="^scratchpad$"] floating enable, resize set 800 600, move position center, move scratchpad
+for_window [class=$term title="^scratchpad$"] floating enable, resize set 750 500, move position center, move scratchpad
+# for_window [app_id=$term title="^scratchpad$"] floating enable, resize set 750 500, move position center, move scratchpad
 # move all floating windows to center automatically, except windows with the WM_TITLE of "scratchpad"
 for_window [floating title="^(?!scratchpad).*$"] move position center
 
 # -------------------------------------------------- AUTOSTART
 # exec bluetoothctl disconnect E8:85:4B:4A:82:86; bluetoothctl block E8:85:4B:4A:82:86 &
-exec ~/dotfiles/config/vincit.sh
-exec picom
-exec dunst
-exec nitrogen --restore
-exec xsetroot -cursor_name left_ptr
-exec xset r rate 250 25 &
-exec flameshot
-exec nm-applet
-exec blueman-applet
-exec imwheel
-exec pasystray
-exec_always --no-startup-id $HOME/dotfiles/polybar/launch.sh
+# exec picom
+exec --no-startup-id dunst
+exec --no-startup-id nitrogen --restore
+exec --no-startup-id xset r rate 250 25
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
+exec --no-startup-id imwheel
+exec --no-startup-id pasystray
+exec --no-startup-id battray
+exec --no-startup-id flameshot
+exec --no-startup-id keyd-application-mapper -d
+exec --no-startup-id pactl load-module module-switch-on-connect
+# exec_always --no-startup-id $HOME/dotfiles/polybar/launch.sh
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c "#382f47" --nofork
 
 # programs to use on startup
-exec --no-startup-id i3-msg workspace $wsDev; exec kitty
+# exec swaymsg focus output $primary_display
 exec --no-startup-id i3-msg workspace $wsDev; exec brave-browser
+exec --no-startup-id i3-msg workspace $wsDev; exec kitty
 exec --no-startup-id i3-msg workspace $wsWeb; exec firefox
 exec --no-startup-id i3-msg workspace $wsMessages; exec slack
-# exec --no-startup-id i3-msg workspace $wsVibes; exec spotify
 exec --no-startup-id i3-msg workspace $wsDev; exec 1password
 
 # start up scratchpad instances

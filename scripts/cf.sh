@@ -48,7 +48,10 @@ if [[ "$1" == '-i' || "$1" == '--install' ]]; then
 
   if [[ -z "$stow_files" || "$stow_files" == 'y' ]]; then
     eval "$cmd_start -v $cmd_end"
-    ln -s ~/dotfiles/imwheel/imwheelrc ~/.imwheelrc
+    # symlink imwheelrc config to the home dir if it doesn't already exist
+    if [[ ! -f "$HOME/.imwheelrc" ]]; then
+      ln -s ~/dotfiles/imwheel/imwheelrc ~/.imwheelrc
+    fi
     echo 'files stowed!'
   else
     echo 'files were not stowed'
@@ -61,6 +64,10 @@ elif [[ "$1" == '-c' || "$1" == '--clean' ]]; then
 
   if [[ -z "$remove_files" || "$remove_files" == 'y' ]]; then
     eval "$cmd_start -vD $cmd_end"
+    # remove symlink imwheelrc config in home dir if it exists
+    if [[ -f "$HOME/.imwheelrc" ]]; then
+      rm "$HOME/.imwheelrc"
+    fi
     echo 'files removed!'
   else
     echo 'files were not removed'

@@ -9,3 +9,4 @@ _site/
 .jira.d/
 .dprint.json
 tsconfig.tsbuildinfo
+.node-version
