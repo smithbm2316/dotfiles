@@ -1,0 +1,26 @@
+#!/bin/sh
+if [ ! -f 'package.json' ]; then
+  echo 'No package.json found in current directory'
+  exit 1
+fi
+
+script_to_run=$(cat ~/code/portfolio/package.json | \
+  jq -r '.scripts | keys | @tsv' | \
+  sed -n 's/\t/\n/gp' | \
+  gum filter)
+
+if (test -f 'yarn.lock' && test -f 'package-lock.json') ||
+    (test -f 'yarn.lock' && test -f 'pnpm-lock.yaml') ||
+    (test -f 'package-lock.json' && test -f 'pnpm-lock.yaml'); then
+  echo 'Found multiple lockfiles, try using the specific package manager that you want instead.'
+  exit 1
+elif [ -f 'pnpm-lock.yaml' ]; then
+  pnpm run "$script_to_run"
+elif [ -f 'yarn.lock' ]; then
+  yarn run "$script_to_run"
+elif [ -f 'package-lock.json' ]; then
+  npm run "$script_to_run"
+else
+  echo 'No project found in current directory'
+  exit 1
+fi

@@ -253,6 +253,14 @@ charm_sh() {
   sudo dnf install glow gum skate
 }
 
+# https://github.com/ungoogled-software/ungoogled-chromium
+ungoogled_chromium() {
+  flatpak install com.github.Eloston.UngoogledChromium
+  # give flatpak permission to read GTK themes from the GTK ~/.themes directory
+  sudo flatpak override --filesystem=$HOME/.themes
+  sudo flatpak override --env=GTK_THEME=rose-pine-moon-gtk
+}
+
 # if ~/builds dir doesn't exist, make it
 echo "Creating the '~/builds' directory for manual in $USER's home directory"
 mkdir -pv ~/builds

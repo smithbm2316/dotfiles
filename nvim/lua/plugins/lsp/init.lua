@@ -122,10 +122,7 @@ function goto_diagnostic_msg(direction, shouldGoToAny)
   vim.wo.linebreak = true
 end
 
-M.my_on_attach = function(
-  _, -- client
-  bufnr
-)
+M.my_on_attach = function(client, bufnr)
   local bufnr_opts = { buffer = bufnr }
 
   -- show hover

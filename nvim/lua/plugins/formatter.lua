@@ -140,20 +140,20 @@ create_augroup('AutoFormattingWebDev', {
 
 -- toggle auto-formatting per language
 nnoremap('<leader>tfw', function()
-  _G.BS_toggle_augroup('AutoFormattingWebDev', true)
+  _G.BS_toggle_augroup 'AutoFormattingWebDev'
 end, 'Toggle auto-formatting WebDev')
 
 nnoremap('<leader>tfl', function()
-  _G.BS_toggle_augroup('AutoFormattingLua', true)
+  _G.BS_toggle_augroup 'AutoFormattingLua'
 end, 'Toggle auto-formatting Lua')
 
 nnoremap('<leader>tfg', function()
-  _G.BS_toggle_augroup('AutoFormattingGolang', true)
+  _G.BS_toggle_augroup 'AutoFormattingGolang'
 end, 'Toggle auto-formatting Go')
 
 -- if we are in a Deno project, don't use prettier for formatting
 if vim.fn.glob('deno.json*'):len() > 0 then
-  _G.BS_toggle_augroup('AutoFormattingWebDev', true)
+  _G.BS_toggle_augroup 'AutoFormattingWebDev'
   create_augroup('AutoFormattingDeno', {
     {
       events = 'BufWritePre',

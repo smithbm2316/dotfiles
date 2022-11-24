@@ -1,0 +1,1 @@
+-chrome-extension: -url:https://js.stripe.com -/Download\sthe\sApollo\sDevTools/

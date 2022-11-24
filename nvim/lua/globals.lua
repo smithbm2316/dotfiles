@@ -126,20 +126,14 @@ end
 
 ---helper function to toggle an augroup on/off
 ---@param group string name of autogroup to toggle
----@param show_notify boolean if true don't show notification (default false)
-_G.BS_toggle_augroup = function(group, show_notify)
+_G.BS_toggle_augroup = function(group)
   if _G.BSAugroups[group].enabled then
     _G.BSAugroups[group].enabled = false
     vim.api.nvim_del_augroup_by_name(group)
-    if not show_notify then
-      vim.notify('Disabled ' .. group)
-    end
+    vim.notify('Disabled ' .. group)
   else
     _G.BSAugroups[group].enabled = true
     create_augroup(group, _G.BSAugroups[group].aucmds)
-    if not show_notify then
-      vim.notify('Disabled ' .. group)
-    end
     vim.notify('Enabled ' .. group)
   end
 end

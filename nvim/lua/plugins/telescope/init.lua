@@ -12,6 +12,7 @@ local conf = require('telescope.config').values
 local always_ignore_these = {
   'yarn%.lock',
   'package%-lock%.json',
+  'pnpm%-lock%.yaml',
   'node_modules/.*',
   '%.git/.*',
   '%.svg',
@@ -37,6 +38,7 @@ local always_ignore_these = {
 local ignore_these = {
   'yarn%.lock',
   'package%-lock%.json',
+  'pnpm%-lock%.yaml',
   'node_modules/.*',
   '%.git/.*',
   '%.svg',

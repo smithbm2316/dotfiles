@@ -1,0 +1,12 @@
+#!/bin/sh
+branch_selection=$(git branch | sed -n 's/..\(.*\)\s*/\1/p' | gum filter)
+if [ -z "$branch_selection" ]; then
+  exit
+fi
+stash_message=$(gum input --placeholder 'Enter stash message:')
+if [ ! -z "$stash_message" ]; then
+  git stash push -u -m "$stash_message"
+fi
+git switch "$branch_selection"
+git fetch
+echo "Switched to $branch_selection"

@@ -57,7 +57,6 @@ else
   alias l 'ls -lA'
   alias lsa 'ls -A'
 end
-alias ss "ssh -p 23231 hunk-of-junk.local"
 alias ytdl youtube-dl
 # pactl
 alias setvol50 "pactl set-sink-volume @DEFAULT_SINK@ 50%"
@@ -102,60 +101,16 @@ function f
   end
 end
 
-# shortcuts for shell configs
-function shl
-  set -l shlcmd "$EDITOR ~/dotfiles/fish"
+# pnpm/yarn dlx
+abbr -a ypx 'pnpm dlx'
+abbr -a ppx 'pnpm dlx'
 
-  switch $argv
-    case 'rc'
-      eval "$shlcmd/config.fish"
-    case 'env'
-      eval "$shlcmd/env.fish"
-    case 'hist'
-      eval "$shlcmd/history"
-    case 'fns'
-      eval "$shlcmd/functions"
-    case ''
-      fish
-    case '*'
-      echo 'Invalid usage of shl command'
-  end
-end
-
-# for running npm or yarn or pnpm scripts without remembering which package manager i'm using
-function js
-  if test -f 'yarn.lock' && test -f 'package-lock.json'
-    echo 'Found multiple lockfiles, try using the specific package manager that you want instead.'
-  else if test -f 'yarn.lock' && test -f 'pnpm-lock.yaml'
-    echo 'Found multiple lockfiles, try using the specific package manager that you want instead.'
-  else if test -f 'package-lock.json' && test -f 'pnpm-lock.yaml' 
-    echo 'Found multiple lockfiles, try using the specific package manager that you want instead.'
-  else if test -f 'pnpm-lock.yaml'
-    pnpm $argv
-  else if test -f 'yarn.lock'
-    yarn $argv
-  else if test -f 'package-lock.json'
-    npm $argv
-  else
-    echo 'No npm or yarn project found'
-  end
-end
-abbr -a pnpx 'pnpm dlx'
-
-# js run ...
-abbr -a jr 'js run'
-alias jrd='js run dev'
-alias jrb='js run build'
-alias jri='js install'
-alias jrl='js run lint'
-alias jrs='js run start'
-# alias jrv="js run validate"
 function dt
   deno task -q $argv
 end
 
 # make tmux easier to use
-alias tmls='tmux ls'
+abbr -a tmls 'tmux ls'
 abbr -a tma 'tmux attach -t '
 
 function tm -a session

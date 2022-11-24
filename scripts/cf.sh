@@ -27,7 +27,7 @@ elif [[ "$2" == 'dots' ]]; then
   if [[ -z "$target_dir" ]]; then
     target_dir="$HOME/.config"
   fi
-  cmd_end="--ignore='bootstrap|config|cronjobs|scripts' -t $target_dir dotfiles"
+  cmd_end="--ignore='bin|bootstrap|config|cronjobs|scripts' -t $target_dir dotfiles"
   rootdir="cd ~"
 elif [[ "$2" == 'cron' ]]; then
   cmd_end="-t /etc/cron.daily cronjobs"

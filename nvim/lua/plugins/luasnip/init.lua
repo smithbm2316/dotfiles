@@ -93,6 +93,33 @@ local webdev_snippets = {
     })
   ),
   --}}}
+  -- console.dir shortcut
+  --{{{
+  snip(
+    {
+      trig = 'dir',
+      name = 'console.dir',
+      dscr = 'console.dir shortcut',
+    },
+    fmt([[console.dir({debug})]], {
+      debug = i(0),
+    })
+  ),
+  --}}}
+  --}}}
+  -- console.dir Infinity shortcut
+  --{{{
+  snip(
+    {
+      trig = 'dinf',
+      name = 'console.dir inf',
+      dscr = 'console.dir Infinity shortcut',
+    },
+    fmt([[console.dir({debug}, {{ depth: Infinity }})]], {
+      debug = i(0),
+    })
+  ),
+  --}}}
   -- node.js require() snippet
   --{{{
   snip(

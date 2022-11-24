@@ -8,7 +8,6 @@ set $down j
 set $up k
 set $right l
 floating_modifier $mod
-set $term kitty
 set $primary_display DP-1
 set $alt_display eDP-1
 # set up displays early
@@ -129,7 +128,7 @@ bindsym $mod+ctrl+comma move container to workspace prev, workspace prev, mode "
 # -------------------------------------------------- PULSEAUDIO CONTROLS
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym $mod+XF86AudioMute exec pactl set-sink-volume @DEFAULT_SINK@ 50%
+bindsym $mod+XF86AudioMute exec ~/dotfiles/scripts/mute-mic-toggle.sh
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPrev exec playerctl previous
@@ -184,10 +183,13 @@ bindsym $mod+shift+5 move container to workspace $wsNotes, mode "default"
 # Focus follows the mouse!
 focus_follows_mouse no
 mouse_warping output
+# make sure that focus does not wrap to other displays
+# https://www.reddit.com/r/i3wm/comments/w3bsay/how_to_focus_updown_but_restricted_to_the_focused/
+focus_wrapping workspace
 # When launching a new app, focus should go to it
 focus_on_window_activation focus
 #i3help start a terminal
-bindsym $mod+t exec $term
+bindsym $mod+t exec kitty --title 'kitty'
 # kill focused window
 bindsym $mod+c kill
 #i3help Rofi application launcher
@@ -243,13 +245,18 @@ default_border pixel 2
 default_floating_border pixel 4
 
 # -------------------------------------------------- SCRATCHPAD
-bindsym $mod+ctrl+t [class=$term title="^scratchpad$"] scratchpad show
-bindsym $mod+shift+t exec $term --title "scratchpad"
+bindsym $mod+ctrl+t [class=kitty title="^scratchpad$"] scratchpad show
+bindsym $mod+shift+t exec kitty --title "scratchpad"
 
 # -------------------------------------------------- WARPD
 bindsym $mod+ctrl+g exec warpd --hint
 bindsym $mod+g exec warpd --normal
 bindsym $mod+shift+g exec warpd --grid
+
+# -------------------------------------------------- ONESHOTS
+# bindsym $mod+i exec '/home/smithbm/.local/bin/todofi.sh'
+bindsym $mod+b exec kitty --session ~/dotfiles/kitty/sessions/buku.conf
+bindsym $mod+ctrl+v exec kitty --session ~/dotfiles/kitty/sessions/mtg.conf
 
 # -------------------------------------------------- DEFAULT WORKSPACES
 # DEV
@@ -287,10 +294,12 @@ for_window [class="^[bB]lueman-manager$"] floating enable, resize set 750 500, m
 for_window [class="^[pP]avucontrol$"] floating enable, resize set 750 500, move position center
 # for_window [app_id="^[pP]avucontrol$"] floating enable, resize set 750 500, move position center
 # terminal scratchpad
-for_window [class=$term title="^scratchpad$"] floating enable, resize set 750 500, move position center, move scratchpad
-# for_window [app_id=$term title="^scratchpad$"] floating enable, resize set 750 500, move position center, move scratchpad
+for_window [class=kitty title="^scratchpad$"] floating enable, resize set 750 500, move position center, move scratchpad
+# for_window [app_id=kitty title="^scratchpad$"] floating enable, resize set 750 500, move position center, move scratchpad
 # move all floating windows to center automatically, except windows with the WM_TITLE of "scratchpad"
 for_window [floating title="^(?!scratchpad).*$"] move position center
+# for oneshot terminal jobs, handle them like scratchpads
+for_window [class=kitty title="^oneshot:.*$"] floating enable, resize set 750 500, move position center
 
 # -------------------------------------------------- AUTOSTART
 # exec bluetoothctl disconnect E8:85:4B:4A:82:86; bluetoothctl block E8:85:4B:4A:82:86 &
@@ -314,7 +323,7 @@ exec --no-startup-id pactl load-module module-switch-on-connect
 # programs to use on startup
 # exec swaymsg focus output $primary_display
 exec --no-startup-id i3-msg workspace $wsDev; exec brave-browser
-exec --no-startup-id i3-msg workspace $wsDev; exec kitty
+exec --no-startup-id i3-msg workspace $wsDev; exec kitty --title 'kitty'
 exec --no-startup-id i3-msg workspace $wsWeb; exec firefox
 exec --no-startup-id i3-msg workspace $wsMessages; exec slack
 exec --no-startup-id i3-msg workspace $wsDev; exec 1password
