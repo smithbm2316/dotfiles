@@ -113,7 +113,7 @@ bindsym $mod+u [urgent="latest"] focus
 # focus parent
 bindsym $mod+p focus parent
 # focus young one (child)
-bindsym $mod+y focus child
+# bindsym $mod+y focus child
 
 # -------------------------------------------------- WORKSPACE MOVEMENT
 bindsym $mod+ctrl+m move workspace to output left
@@ -208,6 +208,8 @@ bindsym $mod+ctrl+e exec --no-startup-id ~/dotfiles/rofi/rofi.sh emoji
 bindsym Print exec flameshot gui -c -s
 bindsym ctrl+Print exec flameshot gui
 bindsym $mod+Print exec flameshot screen --clipboard
+# watch a video link copied to the clipboard with mpv
+bindsym $mod+y exec --no-startup-id ~/dotfiles/scripts/watch-video.sh
 
 # -------------------------------------------------- RESIZE MODE
 mode "resize" {
