@@ -91,7 +91,7 @@ M.lsp_rename = function()
             changed_files_count == 1 and '' or 's',
             changed_files_count > 1 and "To save them run ':cfdo w'" or ''
           ),
-          'info'
+          vim.log.levels.INFO
         )
       end)
     end
