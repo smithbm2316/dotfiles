@@ -126,7 +126,7 @@ end
 
 ---helper function to toggle an augroup on/off
 ---@param group string name of autogroup to toggle
-_G.BS_toggle_augroup = function(group)
+_G.toggle_augroup = function(group)
   if _G.BSAugroups[group].enabled then
     _G.BSAugroups[group].enabled = false
     vim.api.nvim_del_augroup_by_name(group)

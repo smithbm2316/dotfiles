@@ -75,3 +75,6 @@ emacs/*
 
 # ignore gitk config
 gitk
+
+# ignore python cache for qtile
+qtile/__pycache__

@@ -101,6 +101,7 @@ dnf_packages() {
     "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 
   sudo dnf install -y \
+    autorandr \
     battray \
     blueman \
     discord \
@@ -257,9 +258,32 @@ charm_sh() {
 ungoogled_chromium() {
   flatpak install com.github.Eloston.UngoogledChromium
   # give flatpak permission to read GTK themes from the GTK ~/.themes directory
-  sudo flatpak override --filesystem=$HOME/.themes
+  sudo flatpak override --filesystem="$HOME/.themes"
   sudo flatpak override --env=GTK_THEME=rose-pine-moon-gtk
 }
+
+bitwarden() {
+  # bw cli
+  npm i -g @bitwarden/cli
+  # linux desktop app
+  # https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage
+}
+
+qtile() {
+  sudo dnf install -y \
+    python3-cffi \
+    python3-cairocffi \
+    python3-dbus-next \
+    pango \
+    python3-xcffib
+  pip install --no-cache-dir cairocffi
+  # get .desktop file from https://raw.githubusercontent.com/qtile/qtile/master/resources/qtile.desktop
+  # and overwrite the `qtile start` part with the location of the qtile binary, and put it in
+  # /usr/share/xsessions folder
+  pip install qtile
+  # widget dependencies
+  pip install psutil dbus-next
+} 
 
 # if ~/builds dir doesn't exist, make it
 echo "Creating the '~/builds' directory for manual in $USER's home directory"
@@ -302,6 +326,7 @@ if [ "$(command -v dnf)" ]; then
     @prisma/language-server \
     @tailwindcss/language-server \
     bash-language-server \
+    cssmodules-language-server \
     graphql \
     graphql-language-service-cli \
     stylelint-lsp \
@@ -320,7 +345,9 @@ if [ "$(command -v dnf)" ]; then
     # yarn
     yarn \
     # pnpm
-    pnpm
+    pnpm \
+    # json fixer for humans
+    fixjson
 
   # sqls
   go install github.com/lighttiger2505/sqls@latest
@@ -339,6 +366,9 @@ if [ "$(command -v dnf)" ]; then
 
   # teal language server
   sudo luarocks install --dev teal-language-server
+
+  # proselint for linting prose/markdown
+  sudo dnf install -y proselint
 
   # marksman markdown server
   mkdir ~/.local/bin

@@ -4,6 +4,7 @@
 set -Ux XDG_CACHE_HOME $HOME/.cache
 set -Ux XDG_CONFIG_HOME $HOME/.config
 set -Ux XDG_DATA_HOME $HOME/.local/share
+set -Ux XDG_DATA_DIRS /usr/local/share:/usr/share
 
 # ZSH settings
 set -Ux ZDOTDIR $XDG_CONFIG_HOME/zsh
@@ -12,8 +13,6 @@ set -Ux HISTSIZE 10000
 set -Ux SAVEHIST 10000
 
 # Programming languages and their dependenices
-set -Ux BUN_INSTALL $HOME/.bun
-set -Ux BUNBIN $HOME/.bun/bin
 set -Ux CARGOBIN $HOME/.cargo/bin
 set -Ux DENOBIN $HOME/.deno/bin
 set -Ux GOEXEC /usr/local/go/bin
@@ -44,16 +43,15 @@ set -Ux RANGER_LOAD_DEFAULT_RC FALSE
 set -Ux SRC_ENDPOINT 'https://sourcegraph.com'
 set -Ux ZK_NOTEBOOK_DIR $HOME/wiki
 
-if test (uname -s) = 'Linux'
-  set -Ux HOMEBREW_CELLAR /home/linuxbrew/.linuxbrew/Cellar
-  set -Ux HOMEBREW_PREFIX /home/linuxbrew/.linuxbrew
-  set -Ux HOMEBREW_REPOSITORY /home/linuxbrew/.linuxbrew/Homebrew
-  fish_add_path -a /home/linuxbrew/.linuxbrew/bin
-  fish_add_path -a /home/linuxbrew/.linuxbrew/sbin
+if test (uname -s) = Linux
+    set -Ux HOMEBREW_CELLAR /home/linuxbrew/.linuxbrew/Cellar
+    set -Ux HOMEBREW_PREFIX /home/linuxbrew/.linuxbrew
+    set -Ux HOMEBREW_REPOSITORY /home/linuxbrew/.linuxbrew/Homebrew
+    fish_add_path -a /home/linuxbrew/.linuxbrew/bin
+    fish_add_path -a /home/linuxbrew/.linuxbrew/sbin
 end
 
 # PATH configuration
-fish_add_path -a $BUNBIN
 fish_add_path -a $CARGOBIN
 fish_add_path -a $DENOBIN
 fish_add_path -a $GOBIN

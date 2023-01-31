@@ -31,5 +31,6 @@ brew "stylua"
 brew "tldr"
 brew "ttyd" --HEAD
 brew "tmux"
+brew "viu"
 brew "youtube-dl"
 brew "zk"

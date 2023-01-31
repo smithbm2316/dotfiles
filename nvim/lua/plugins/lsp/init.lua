@@ -48,6 +48,7 @@ M.lsp_rename = function()
     default = curr_name,
   }, function(new_name)
     if new_name then
+      ---@diagnostic disable-next-line: missing-parameter
       local lsp_params = vim.lsp.util.make_position_params()
 
       if not new_name or #new_name == 0 or curr_name == new_name then
@@ -110,7 +111,7 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
 
 --- Go to a specific diagnostic message in a particular direction
 ---@param direction string value can be 'prev' or 'next', direction in which message to show
----@param shouldGoToAny boolean if false (default), only go to errors and warnings, otherwise go to any message
+---@param shouldGoToAny? boolean if false (default), only go to errors and warnings, otherwise go to any message
 function goto_diagnostic_msg(direction, shouldGoToAny)
   vim.diagnostic['goto_' .. direction] {
     float = true,
@@ -147,6 +148,11 @@ M.my_on_attach = function(client, bufnr)
   nnoremap('<leader>lr', function()
     require('telescope.builtin').lsp_references()
   end, 'Show lsp references', bufnr_opts)
+
+  -- lsp implementations
+  nnoremap('<leader>li', function()
+    vim.lsp.buf.implementation()
+  end, 'Go to lsp implementation', bufnr_opts)
 
   -- lsp symbols
   nnoremap('<leader>lsw', function()
@@ -202,13 +208,13 @@ M.my_on_attach = function(client, bufnr)
       require('goto-preview').goto_preview_references()
     end, 'Preview lsp references', bufnr_opts)
     nnoremap('<leader>pi', function()
-      require('goto-preview').goto_preview_implementation()
+      require('goto-preview').goto_preview_implementation {}
     end, 'Preview lsp implementations', bufnr_opts)
     nnoremap('gD', function()
-      require('goto-preview').goto_preview_definition()
+      require('goto-preview').goto_preview_definition {}
     end, 'Preview lsp definition', bufnr_opts)
     nnoremap('<leader>pt', function()
-      require('goto-preview').goto_preview_type_definition()
+      require('goto-preview').goto_preview_type_definition {}
     end, 'Preview type definition', bufnr_opts)
   end
 
@@ -238,51 +244,6 @@ local servers = {
       unstable = false,
     },
   },
-  eslint = {
-    autostart = true,
-    filetypes = { 'astro', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte' },
-    root_dir = util.root_pattern(
-      '.eslintrc',
-      '.eslintrc.js',
-      '.eslintrc.cjs',
-      '.eslintrc.yaml',
-      '.eslintrc.yml',
-      '.eslintrc.json',
-      'package.json'
-    ),
-    settings = {
-      codeAction = {
-        disableRuleComment = {
-          enable = true,
-          location = 'separateLine',
-        },
-        showDocumentation = {
-          enable = true,
-        },
-      },
-      codeActionOnSave = {
-        enable = false,
-        mode = 'all',
-      },
-      format = true,
-      nodePath = '',
-      onIgnoredFiles = 'off',
-      packageManager = 'npm',
-      quiet = false,
-      -- https://github.com/microsoft/vscode-eslint#settings-options
-      -- rulesCustomizations lets me override Prettier suggestions to
-      -- use a lower severity diagnostic (info)
-      rulesCustomizations = {
-        { rule = 'prettier*', severity = 'info' },
-      },
-      run = 'onType',
-      useESLintClass = false,
-      validate = 'on',
-      workingDirectory = {
-        mode = 'location',
-      },
-    },
-  },
   gopls = {
     settings = {
       gopls = {
@@ -304,6 +265,7 @@ local servers = {
         function()
           local params = vim.lsp.util.make_range_params()
           params.context = { only = { 'source.organizeImports' } }
+          ---@diagnostic disable-next-line: param-type-mismatch
           local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1000)
           for _, res in pairs(result or {}) do
             for _, r in pairs(res.result or {}) do
@@ -323,15 +285,25 @@ local servers = {
     filetypes = { 'graphql' },
   },
   html = {},
-  marksman = {},
+  -- marksman = {},
   prismals = {},
-  pylsp = {},
+  -- pylsp = {},
+  pyright = {
+    disableOrganizeImports = false,
+    analysis = {
+      useLibraryCodeForTypes = true,
+      autoSearchPaths = true,
+      diagnosticMode = 'workspace',
+      autoImportCompletions = true,
+    },
+  },
   --[[ sqls = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
-  --[[ stylelint_lsp = {
+  stylelint_lsp = {
     filetypes = { 'css', 'scss', 'sass', 'astro' },
-  }, ]]
+  },
+  -- rust_analyzer = {},
   svelte = {},
   tailwindcss = {
     root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.cjs'),
@@ -384,14 +356,164 @@ for server, config in pairs(servers) do
   }, config))
 end
 
---[[ local null_ls = require 'null-ls'
-null_ls.setup {
-  sources = {
-    null_ls.builtins.diagnostics.eslint_d, -- eslint or eslint_d
-    null_ls.builtins.code_actions.eslint_d, -- eslint or eslint_d
-    -- null_ls.builtins.formatting.prettier -- prettier, eslint, eslint_d, or prettierd
+lspconfig.eslint.setup {
+  on_attach = function(client, bufnr)
+    -- if the buffer is a cypress test, then don't attach eslint
+    if client.name == 'eslint' then
+      local bufname = vim.api.nvim_buf_get_name(bufnr)
+      if vim.regex([[cypress\/.*\.[tj]sx\?]]):match_str(bufname) ~= nil then
+        vim.lsp.buf_detach_client(bufnr, client.id)
+        return
+      end
+    end
+
+    M.my_on_attach(client, bufnr)
+  end,
+  capabilities = M.my_capabilities,
+  autostart = true,
+  filetypes = { 'astro', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte' },
+  root_dir = util.root_pattern(
+    '.eslintrc',
+    '.eslintrc.js',
+    '.eslintrc.cjs',
+    '.eslintrc.yaml',
+    '.eslintrc.yml',
+    '.eslintrc.json',
+    'package.json'
+  ),
+  settings = {
+    codeAction = {
+      disableRuleComment = {
+        enable = true,
+        location = 'separateLine',
+      },
+      showDocumentation = {
+        enable = true,
+      },
+    },
+    codeActionOnSave = {
+      enable = false,
+      mode = 'all',
+    },
+    format = true,
+    nodePath = '',
+    onIgnoredFiles = 'off',
+    packageManager = 'npm',
+    quiet = false,
+    -- https://github.com/microsoft/vscode-eslint#settings-options
+    -- rulesCustomizations lets me override Prettier suggestions to
+    -- use a lower severity diagnostic (info)
+    rulesCustomizations = {
+      { rule = 'prettier*', severity = 'info' },
+    },
+    run = 'onType',
+    useESLintClass = false,
+    validate = 'on',
+    workingDirectory = {
+      mode = 'location',
+    },
   },
-} ]]
+}
+
+local null_ok, null_ls = pcall(require, 'null-ls')
+if null_ok then
+  null_ls.setup {
+    sources = {
+      -- code actions
+      -- null_ls.builtins.code_actions.eslint,
+      -- null_ls.builtins.code_actions.gitsigns,
+      -- null_ls.builtins.code_actions.proselint,
+      null_ls.builtins.code_actions.shellcheck,
+      -- completion
+      -- diagnostics
+      -- null_ls.builtins.diagnostics.eslint,
+      null_ls.builtins.diagnostics.fish,
+      -- null_ls.builtins.diagnostics.luacheck,
+      -- null_ls.builtins.diagnostics.proselint,
+      null_ls.builtins.diagnostics.shellcheck,
+      null_ls.builtins.diagnostics.teal,
+      -- formatting
+      null_ls.builtins.formatting.deno_fmt,
+      -- null_ls.builtins.formatting.dprint,
+      -- null_ls.builtins.formatting.eslint,
+      null_ls.builtins.formatting.fish_indent,
+      null_ls.builtins.formatting.fixjson,
+      null_ls.builtins.formatting.prettierd,
+      null_ls.builtins.formatting.prismaFmt,
+      -- null_ls.builtins.formatting.rome,
+      null_ls.builtins.formatting.rustywind,
+      null_ls.builtins.formatting.stylua,
+      -- hover
+      -- null_ls.builtins.hover.dictionary,
+    },
+  }
+  create_augroup('AutoFormatting', {
+    {
+      events = 'BufWritePre',
+      pattern = {
+        '*.astro',
+        '*.cjs',
+        '*.js',
+        '*.mjs',
+        '*.ts',
+        '*.jsx',
+        '*.tsx',
+        '*.svelte',
+        '*.vue',
+        '*.json',
+        '*.jsonc',
+        '*.css',
+        '*.sass',
+        '*.scss',
+        '*.lua',
+        '*.tl',
+        '*.go',
+        '*.bash',
+        '*.fish',
+        '*.sh',
+        '*.zsh',
+        '*.schema',
+        '*.rs',
+      },
+      callback = function()
+        vim.lsp.buf.format {
+          async = false,
+          filter = function(client)
+            local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+            local supports_formatting = client.supports_method 'textDocument/formatting'
+
+            if
+              supports_formatting and (client.name == 'gopls' and ft == 'go')
+              or (client.name == 'null-ls')
+              or (client.name == 'astro')
+            then
+              return true
+            else
+              return false
+            end
+          end,
+          timeout_ms = 400,
+        }
+      end,
+    },
+  })
+  nnoremap('<leader>tf', function()
+    toggle_augroup 'AutoFormatting'
+  end, 'Toggle auto-formatting')
+end
+
+-- https://github.com/antonk52/cssmodules-language-server
+lspconfig.cssmodules_ls.setup {
+  on_attach = function(client, bufnr)
+    -- avoid accepting `definitionProvider` responses from this LSP
+    client.server_capabilities.definitionProvider = false
+    M.my_on_attach(client, bufnr)
+  end,
+  capabilities = M.my_capabilities,
+  init_options = {
+    camelCase = true,
+  },
+}
 
 lspconfig.tsserver.setup {
   filetypes = {
@@ -552,6 +674,7 @@ lspconfig.jsonls.setup {
   },
 }
 
+---@diagnostic disable-next-line: missing-parameter
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
@@ -570,14 +693,46 @@ if not neodev_ok then
   return
 end
 
+local cwd = vim.fn.getcwd()
+
 neodev.setup {
   library = {
     enabled = true,
     runtime = true,
-    types = true,
+    types = cwd:match(vim.env.HOME .. '/dotfiles/nvim') ~= nil,
     plugins = true,
   },
 }
+
+--[[
+local testing_globals = {
+  'describe',
+  'it',
+  'before_each',
+  'after_each',
+}
+--]]
+local lua_globals = {}
+
+if cwd:match(vim.env.HOME .. '/dotfiles/awesome') then
+  lua_globals = {
+    'awesome',
+    'client',
+    'mouse',
+    'root',
+    'screen',
+  }
+elseif cwd:match(vim.env.HOME .. '/dotfiles/hammerspoon') then
+  lua_globals = {
+    'hs',
+    'spoon',
+  }
+elseif cwd:match(vim.env.HOME .. '/dotfiles/nvim') then
+  lua_globals = {
+    'package',
+    'vim',
+  }
+end
 
 lspconfig.sumneko_lua.setup {
   on_attach = M.my_on_attach,
@@ -595,17 +750,7 @@ lspconfig.sumneko_lua.setup {
         keywordSnippet = 'Disable',
       },
       diagnostics = {
-        globals = {
-          'awesome', -- awesomewm
-          'spoon', -- hammerspoon
-          'hs', -- hammerspoon
-          'package', -- neovim
-          'vim', -- neovim
-          'describe', -- lua testing
-          'it', -- lua testing
-          'before_each', -- lua testing
-          'after_each', -- lua testing
-        },
+        globals = lua_globals,
         -- disable specific diagnostic messages
         disable = {
           'lowercase-global',
@@ -621,6 +766,29 @@ lspconfig.sumneko_lua.setup {
     },
   },
 }
+
+local rt_ok, rt = pcall(require, 'rust-tools')
+if rt_ok then
+  rt.setup {
+    server = {
+      on_attach = M.my_on_attach,
+      capabilities = M.my_capabilities,
+      settings = {
+        -- to enable rust-analyzer settings visit:
+        -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+        ['rust-analyzer'] = {
+          -- enable clippy on save
+          checkOnSave = {
+            command = 'clippy',
+            enable = true,
+          },
+        },
+      },
+    },
+  }
+  -- enable inlay hints
+  rt.inlay_hints.enable()
+end
 
 -- define signcolumn lsp diagnostic icons
 local diagnostic_signs = { ' ', ' ', ' ', ' ' }

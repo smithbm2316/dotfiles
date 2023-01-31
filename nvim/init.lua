@@ -24,7 +24,8 @@ if vim.g.vscode then
 else
   -- settings for neovide gui
   if vim.g.neovide then
-    vim.cmd [[set guifont=JetBrains\ Mono:h13.1]]
+    vim.cmd [[set guifont=iMWritingMonoS_NF]]
+    vim.cmd [[cd $HOME/wiki]]
     vim.g.neovide_scale_factor = 1.0
     vim.g.neovide_refresh_rate = 144
     vim.g.neovide_confirm_quit = true
@@ -51,11 +52,11 @@ else
     require 'packer/packer_compiled'
   end
 
-  -- load my vim settings
-  require 'settings'
-
   -- load my global helpers and wrappers
   require 'globals'
+
+  -- load my vim settings
+  require 'settings'
 
   -- load my personal variables, settings, and functions
   require 'bs'

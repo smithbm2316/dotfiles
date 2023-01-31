@@ -14,7 +14,7 @@ dir="$HOME/dotfiles/rofi/themes/"
 theme='powermenu'
 
 # CMDs
-uptime="$(uptime -p | sed -e 's/up //g')"
+uptime="$(uptime -p)"
 host=$(hostname)
 
 # Options
@@ -30,7 +30,7 @@ no='ﰸ No'
 rofi_cmd() {
 	rofi -dmenu \
 		-p "$host" \
-		-mesg "Uptime: $uptime" \
+		-mesg "$uptime" \
 		-theme "${dir}/${theme}.rasi"
 }
 
@@ -76,6 +76,8 @@ run_cmd() {
 				swaymsg 'exit'
 			elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
 				qdbus org.kde.ksmserver /KSMServer logout 0 0 0
+			elif [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
+        qtile cmd-obj -o cmd -f shutdown
 			fi
 		fi
 	else
@@ -98,6 +100,7 @@ case ${chosen} in
   "$suspend")
     playerctl pause
     amixer set Master mute
+    i3lock -c "#232136"
     systemctl suspend
       ;;
   "$logout")

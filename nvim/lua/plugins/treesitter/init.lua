@@ -4,9 +4,9 @@ if not ok then
   return
 end
 
-local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
-ft_to_parser.nunjucks = 'tsx'
-ft_to_parser.liquid = 'tsx'
+-- local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
+-- ft_to_parser.nunjucks = 'tsx'
+-- ft_to_parser.liquid = 'tsx'
 
 -- temporary until this PR gets merged: https://github.com/nvim-treesitter/nvim-treesitter/pull/3726
 local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
@@ -124,6 +124,7 @@ require('nvim-treesitter.configs').setup {
     'prisma',
     'python',
     'query',
+    'rust',
     'regex',
     'scss',
     'sql',

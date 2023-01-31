@@ -1,6 +1,8 @@
 local ok, zk = pcall(require, 'zk')
 if not ok then
   return
+else
+  return
 end
 
 zk.setup {

@@ -8,6 +8,11 @@ return require('packer').startup {
     --- lua plugins :D
     ---
     -----------------------------------------------------
+    -- bionic reading in neovim
+    use {
+      'nullchilly/fsread.nvim',
+    }
+
     -- vim.notify handler
     use {
       'vigoux/notifier.nvim',
@@ -78,6 +83,7 @@ return require('packer').startup {
     -- nice way of managing split focusing
     use {
       'beauwilliams/focus.nvim',
+      disable = true,
     }
 
     -- rainbow coloring of brackets/curly braces/parenthesis/tags to make finding pairs easier
@@ -93,11 +99,14 @@ return require('packer').startup {
       'L3MON4D3/LuaSnip',
     }
 
-    -- language server for linting/formatting
     -- better tsserver support
     use {
       'jose-elias-alvarez/nvim-lsp-ts-utils',
       requires = 'jose-elias-alvarez/null-ls.nvim',
+    }
+    -- language server for linting/formatting/code actions/more
+    use {
+      'jose-elias-alvarez/null-ls.nvim',
     }
 
     -- simple file explorer
@@ -192,6 +201,7 @@ return require('packer').startup {
     -- format code with external tools
     use {
       'mhartington/formatter.nvim',
+      disable = true,
     }
 
     -- gitgutter lua replacement
@@ -227,6 +237,11 @@ return require('packer').startup {
       'neovim/nvim-lspconfig',
     }
 
+    -- make rust development in neovim much better
+    use {
+      'simrat39/rust-tools.nvim',
+    }
+
     -- TJ's lua functions that he doesn't wanna write again
     use {
       'nvim-lua/plenary.nvim',
@@ -251,6 +266,10 @@ return require('packer').startup {
     use {
       'nvim-telescope/telescope-file-browser.nvim',
       requires = 'nvim-telescope/telescope.nvim',
+    }
+    -- zettlekasten notetaking workflow supercharged with telescope!
+    use {
+      'renerocksai/telekasten.nvim',
     }
 
     -- impatient speeds up loading times with caching
@@ -293,9 +312,10 @@ return require('packer').startup {
     -- for automatic list bulleting when writing markdown or plaintext
     use {
       'dkarter/bullets.vim',
-      config = function()
+      disable = true,
+      --[[ config = function()
         vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
-      end,
+      end, ]]
     }
 
     -- tpope's blessings to vimmers everywhere

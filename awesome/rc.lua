@@ -28,7 +28,7 @@ require 'awful.hotkeys_popup.keys'
 local cpu_widget = require 'awesome-wm-widgets.cpu-widget.cpu-widget'
 local ram_widget = require 'awesome-wm-widgets.ram-widget.ram-widget'
 
--- {{{ Variable definitions
+-- Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init '/home/smithbm/.config/awesome/theme.lua'
 
@@ -47,13 +47,12 @@ altkey = 'Mod1'
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-  awful.layout.suit.tile.left,
   awful.layout.suit.max,
+  awful.layout.suit.tile.left,
   awful.layout.suit.tile.top,
 }
--- }}}
 
--- {{{ Error handling
+-- Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
@@ -82,9 +81,8 @@ do
     in_error = false
   end)
 end
--- }}}
 
--- {{{ Menu
+-- Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {
   {
@@ -143,9 +141,8 @@ local mylauncher = awful.widget.launcher {
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
 
--- {{{ Wibar
+-- Wibar
 -- Create a textclock widget
 local mytextclock = wibox.widget.textclock(' %a %b %e, %I:%M%P ', 30)
 local month_calendar = awful.widget.calendar_popup.month()
@@ -350,19 +347,16 @@ awful.screen.connect_for_each_screen(function(s)
     },
   }
 end)
--- }}}
 
--- {{{ Mouse bindings
+-- Mouse bindings
 root.buttons(gears.table.join(
   awful.button({}, 3, function()
     mymainmenu:toggle()
-  end)
-  --[[ awful.button({ }, 4, awful.tag.viewnext),
+  end) --[[ awful.button({ }, 4, awful.tag.viewnext),
   awful.button({ }, 5, awful.tag.viewprev) ]]
 ))
--- }}}
 
--- {{{ Key bindings
+-- Key bindings
 globalkeys = gears.table.join(
   awful.key({ modkey }, 's', hotkeys_popup.show_help, { description = 'show help', group = 'awesome' }),
   awful.key({ modkey }, ',', awful.tag.viewprev, { description = 'view previous', group = 'tag' }),
@@ -516,7 +510,7 @@ globalkeys = gears.table.join(
     group = 'launcher',
   }),
 
-  --{{{ CUSTOM KEYBINDINGS
+  -- CUSTOM KEYBINDINGS
 
   -- Rofi Drun
   awful.key({ modkey }, 'slash', function()
@@ -799,9 +793,8 @@ clientbuttons = gears.table.join(
 
 -- Set keys
 root.keys(globalkeys)
--- }}}
 
--- {{{ Rules
+-- Rules
 -- Rules to apply to new clients (through the 'manage' signal).
 awful.rules.rules = {
   -- All clients will match this rule.
@@ -897,9 +890,8 @@ client.connect_signal('property::class', function(c)
     c:move_to_tag(screen[2].tags[2])
   end
 end)
--- }}}
 
--- {{{ Signals
+-- Signals
 -- Signal function to execute when a new client appears.
 client.connect_signal('manage', function(c)
   -- Set the windows at the slave,
@@ -963,4 +955,3 @@ end)
 client.connect_signal('unfocus', function(c)
   c.border_color = beautiful.border_normal
 end)
--- }}}

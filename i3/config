@@ -135,49 +135,49 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioNext exec playerctl next
 bindsym $mod+F11 exec xrandr --output $alt_display --brightness 0.6
 bindsym $mod+F12 exec xrandr --output $alt_display --brightness 1.0
-bindsym $mod+ctrl+a exec ~/dotfiles/scripts/airpods.sh
+bindsym $mod+ctrl+a exec ~/dotfiles/scripts/airpods.sh connection
 bindsym $mod+F10 exec ~/dotfiles/scripts/toggle-touchpad-dir.sh
 bindsym XF86TouchpadToggle exec ~/dotfiles/scripts/toggle-touchpad-enabled.sh
 
 # -------------------------------------------------- WORKSPACES
-set $wsMisc "0:misc"
+set $wsNotes "0:notes"
 set $wsDev "1:dev"
 set $wsWeb "2:web"
 set $wsMessages "3:messages"
 set $wsVibes "4:vibes"
-set $wsNotes "5:notes"
+set $wsMisc "5:misc"
 
 # -------------------------------------------------- WORKSPACE RESTRICTIONS
 workspace_layout tabbed
-workspace $wsMisc output $alt_display
+workspace $wsNotes output $primary_display
 workspace $wsDev output $primary_display
 workspace $wsWeb output $primary_display
 workspace $wsMessages output $primary_display
 workspace $wsVibes output $primary_display
-workspace $wsNotes output $primary_display
+workspace $wsMisc output $primary_display
 
 # -------------------------------------------------- SWITCH TO WORKSPACE
-bindsym $mod+0 workspace $wsMisc, mode "default"
+bindsym $mod+0 workspace $wsNotes, mode "default"
 bindsym $mod+1 workspace $wsDev, mode "default"
 bindsym $mod+2 workspace $wsWeb, mode "default"
 bindsym $mod+3 workspace $wsMessages, mode "default"
 bindsym $mod+4 workspace $wsVibes, mode "default"
-bindsym $mod+5 workspace $wsNotes, mode "default"
+bindsym $mod+5 workspace $wsMisc, mode "default"
 
 # -------------------------------------------------- MOVE WINDOW TO WORKSPACE
-bindsym $mod+ctrl+0 move container to workspace $wsMisc, workspace $wsMisc, mode "default"
+bindsym $mod+ctrl+0 move container to workspace $wsNotes, workspace $wsNotes, mode "default"
 bindsym $mod+ctrl+1 move container to workspace $wsDev, workspace $wsDev, mode "default"
 bindsym $mod+ctrl+2 move container to workspace $wsWeb, workspace $wsWeb, mode "default"
 bindsym $mod+ctrl+3 move container to workspace $wsMessages, workspace $wsMessages, mode "default"
 bindsym $mod+ctrl+4 move container to workspace $wsVibes, workspace $wsVibes, mode "default"
-bindsym $mod+ctrl+5 move container to workspace $wsNotes, workspace $wsNotes, mode "default"
+bindsym $mod+ctrl+5 move container to workspace $wsMisc, workspace $wsMisc, mode "default"
 
-bindsym $mod+shift+0 move container to workspace $wsMisc, mode "default"
+bindsym $mod+shift+0 move container to workspace $wsNotes, mode "default"
 bindsym $mod+shift+1 move container to workspace $wsDev, mode "default"
 bindsym $mod+shift+2 move container to workspace $wsWeb, mode "default"
 bindsym $mod+shift+3 move container to workspace $wsMessages, mode "default"
 bindsym $mod+shift+4 move container to workspace $wsVibes, mode "default"
-bindsym $mod+shift+5 move container to workspace $wsNotes, mode "default"
+bindsym $mod+shift+5 move container to workspace $wsMisc, mode "default"
 
 # -------------------------------------------------- MISCELLANEOUS KEYBINDS
 # Focus follows the mouse!
@@ -251,9 +251,9 @@ bindsym $mod+ctrl+t [class=kitty title="^scratchpad$"] scratchpad show
 bindsym $mod+shift+t exec kitty --title "scratchpad"
 
 # -------------------------------------------------- WARPD
-bindsym $mod+ctrl+g exec warpd --hint
-bindsym $mod+g exec warpd --normal
-bindsym $mod+shift+g exec warpd --grid
+bindsym $mod+ctrl+g exec warpd --grid
+bindsym $mod+g exec warpd --hint
+bindsym $mod+shift+g exec warpd --normal
 
 # -------------------------------------------------- ONESHOTS
 # bindsym $mod+i exec '/home/smithbm/.local/bin/todofi.sh'
@@ -324,11 +324,11 @@ exec --no-startup-id pactl load-module module-switch-on-connect
 
 # programs to use on startup
 # exec swaymsg focus output $primary_display
-exec --no-startup-id i3-msg workspace $wsDev; exec brave-browser
-exec --no-startup-id i3-msg workspace $wsDev; exec kitty --title 'kitty'
-exec --no-startup-id i3-msg workspace $wsWeb; exec firefox
-exec --no-startup-id i3-msg workspace $wsMessages; exec slack
-exec --no-startup-id i3-msg workspace $wsDev; exec 1password
+exec --no-startup-id i3-msg workspace $wsDev; exec --no-startup-id /home/smithbm/appimages/sizzy.AppImage
+exec --no-startup-id i3-msg workspace $wsDev; exec --no-startup-id kitty --title 'kitty'
+exec --no-startup-id i3-msg workspace $wsDev; exec --no-startup-id 1password
+exec --no-startup-id i3-msg workspace $wsWeb; exec --no-startup-id firefox
+exec --no-startup-id i3-msg workspace $wsMessages; exec --no-startup-id slack
 
 # start up scratchpad instances
 # exec --no-startup-id kitty --title "scratchpad"

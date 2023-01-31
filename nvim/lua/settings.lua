@@ -36,6 +36,7 @@ vim.o.wildignore = '*/node_modules/*,*/.git/*,DS_Store,*/venv/*,*/__pycache__/*,
 vim.o.wildmenu = true
 vim.o.wildmode = 'full'
 vim.o.wildoptions = 'pum'
+-- vim.o.virtualedit = 'all'
 vim.opt.shortmess:append 'c'
 
 -- Window-local options

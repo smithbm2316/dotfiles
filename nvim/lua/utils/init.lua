@@ -8,7 +8,7 @@ Utils.print_table = function()
     vim.notify(vim.inspect(result), vim.log.levels.DEBUG)
   end
 end
-nnoremap('<leader>vi', [[<cr>lua Utils.print_table()<cr>]], 'Print table')
+-- nnoremap('<leader>vi', [[<cr>lua Utils.print_table()<cr>]], 'Print table')
 
 -- turn a table into a string for keymapping
 Utils.tbl_to_str = function(tbl)

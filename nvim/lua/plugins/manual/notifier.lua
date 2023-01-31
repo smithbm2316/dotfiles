@@ -15,13 +15,7 @@ notifier.setup {
       return math.floor(cols / 3)
     end
   end,
-  -- Order of the components to draw from top to bottom (first nvim notifications, then lsp)
-  components = {
-    -- Nvim notifications (vim.notify and such)
-    'nvim',
-    -- LSP status updates
-    'lsp',
-  },
+  components = nil,
   notify = {
     -- Time in milliseconds before removing a vim.notify notification, 0 to make them sticky
     clear_time = 3000,
@@ -33,3 +27,23 @@ notifier.setup {
   -- The zindex to use for the floating window. Note that changing this value may cause visual bugs with other windows overlapping the notifier window.
   zindex = 50,
 }
+
+-- override default vim.notify behavior with plugin
+-- auto-convert tables to string interpretation so we can print it
+vim.notify = function(msg, log_level, opts)
+  if type(msg) == 'table' then
+    msg = vim.inspect(msg)
+  elseif type(msg) == 'number' or type(msg) == 'boolean' then
+    msg = tostring(msg)
+  elseif type(msg) == 'string' then
+    -- ignore the LSP warning for no matching language servers to format with
+    if msg == '[LSP] Format request failed, no matching language servers.' then
+      return
+    end
+  else
+    notifier.notify([[Could'nt convert value to a string]], vim.log.levels.ERROR, opts)
+    return
+  end
+
+  notifier.notify(msg, log_level, opts)
+end

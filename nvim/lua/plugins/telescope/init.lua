@@ -14,6 +14,7 @@ local always_ignore_these = {
   'package%-lock%.json',
   'pnpm%-lock%.yaml',
   'node_modules/.*',
+  '.obsidian/.*',
   '%.git/.*',
   '%.svg',
   '%.png',
@@ -40,6 +41,8 @@ local ignore_these = {
   'package%-lock%.json',
   'pnpm%-lock%.yaml',
   'node_modules/.*',
+  '.obsidian/.*',
+  '.obsidian.vimrc',
   '%.git/.*',
   '%.svg',
   '%.png',
@@ -343,7 +346,8 @@ end, 'Packer command picker')
 -- wrapper for find_files/fd, so that when in my wiki directory,
 -- we hook into zk-cli to search notes by title, not the name of the file
 nnoremap('<leader>fj', function()
-  if vim.loop.cwd() == (os.getenv 'HOME' .. '/wiki') then
+  require('telescope.builtin').find_files()
+  --[[ if vim.loop.cwd() == (os.getenv 'HOME' .. '/wiki') then
     local ok, zk_commands = pcall(require, 'zk.commands')
     if ok then
       zk_commands.get 'ZkNotes'()
@@ -352,7 +356,7 @@ nnoremap('<leader>fj', function()
     end
   else
     require('telescope.builtin').find_files()
-  end
+  end ]]
 end, 'Find files')
 
 -- jump to next diangostic suggestion and open the code actions menu
