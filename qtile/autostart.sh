@@ -15,9 +15,10 @@ nitrogen --restore &
 # systemctl --user enable --now darkman.service &
 
 # apps to autostart
-flatpak run com.github.Eloston.UngoogledChromium &
+# flatpak run com.github.Eloston.UngoogledChromium &
+google-chrome &
 kitty --title=dev &
-1password &
+# 1password &
 firefox &
 slack &
 spotify &

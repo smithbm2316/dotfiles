@@ -154,6 +154,10 @@ nnoremap('<leader>wj', function()
 end, 'Wiki find notes')
 -- find daily notes
 nnoremap('<leader>wd', function()
+  telekasten.goto_today()
+end, 'Wiki goto daily')
+-- find daily notes
+nnoremap('<leader>wD', function()
   telekasten.find_daily_notes()
 end, 'Wiki find daily notes')
 -- find weekly notes

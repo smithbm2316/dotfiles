@@ -128,10 +128,12 @@ require('nvim-treesitter.configs').setup {
     'regex',
     'scss',
     'sql',
+    'svelte',
     'teal',
     'toml',
     'tsx',
     'typescript',
+    'vue',
     'vhs',
     'vim',
     -- 'yaml', this currently is breaking the Telescope previewer

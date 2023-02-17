@@ -78,7 +78,7 @@ abbr -a nvpack 'cd ~/.local/share/nvim/site/pack/packer/start'
 # check what key events are being sent with `xev`
 abbr -a keyevent 'xev -event keyboard | grep -o -e \'(keysym .*, .*)\''
 # do all of the homebrew things please and update neovim nightly
-alias brewmeup 'brew update; brew upgrade; brew cleanup -s; brew doctor'
+abbr -a brewmeup 'brew update -v; brew upgrade -v; brew cleanup -s -v; brew doctor -v'
 # list all fedora dnf package repos
 abbr -a dnfrepos 'grep -E "^\[.*]" /etc/yum.repos.d/*'
 # set an alias for docker-compose depending on the operating system

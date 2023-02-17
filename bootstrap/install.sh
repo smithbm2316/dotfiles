@@ -330,6 +330,7 @@ if [ "$(command -v dnf)" ]; then
     graphql \
     graphql-language-service-cli \
     stylelint-lsp \
+    svelte-language-server \
     tree-sitter-cli \
     typescript \
     typescript-language-server \

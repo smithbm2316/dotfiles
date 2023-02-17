@@ -398,7 +398,7 @@ for trig, text in pairs(lua_text_snippets) do
 end
 
 -- add snippets to luasnip
-for _, ft in ipairs { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'astro' } do
+for _, ft in ipairs { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'astro', 'svelte', 'vue' } do
   ls.add_snippets(ft, webdev_snippets, {
     key = ft,
   })

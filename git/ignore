@@ -10,3 +10,8 @@ _site/
 .dprint.json
 tsconfig.tsbuildinfo
 .node-version
+.vite
+.svelte-kit
+.next
+.astro
+.parcel-cache

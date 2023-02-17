@@ -1,4 +1,4 @@
-set linebreak wrap
+set linebreak wrap tw=0
 
 function! ScreenMovement(movement)
   if &wrap

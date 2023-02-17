@@ -50,7 +50,9 @@ end
 
 lir.setup {
   show_hidden_files = string.find(vim.fn.getcwd(), os.getenv 'HOME' .. '/dotfiles') and true or false,
-  devicons_enable = true,
+  devicons = {
+    enable = true,
+  },
   mappings = {
     ['<cr>'] = actions.edit,
     ['<c-s>'] = actions.split,

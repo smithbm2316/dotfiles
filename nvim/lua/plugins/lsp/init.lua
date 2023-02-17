@@ -485,6 +485,7 @@ if null_ok then
             if
               supports_formatting and (client.name == 'gopls' and ft == 'go')
               or (client.name == 'null-ls')
+              or (client.name == 'svelte')
               or (client.name == 'astro')
             then
               return true
@@ -734,7 +735,7 @@ elseif cwd:match(vim.env.HOME .. '/dotfiles/nvim') then
   }
 end
 
-lspconfig.sumneko_lua.setup {
+lspconfig.lua_ls.setup {
   on_attach = M.my_on_attach,
   cmd = { 'lua-language-server' },
   settings = {
