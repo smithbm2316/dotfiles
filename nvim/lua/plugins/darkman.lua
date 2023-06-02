@@ -4,10 +4,10 @@ if not catppuccin_ok then
 end
 
 catppuccin.setup {
-  flavour = 'macchiato', -- latte, frappe, macchiato, mocha
+  flavour = 'mocha', -- latte, frappe, macchiato, mocha
   background = { -- :h background
     light = 'latte',
-    dark = 'macchiato',
+    dark = 'mocha',
   },
   transparent_background = false,
   show_end_of_buffer = false, -- show the '~' characters after the end of buffers
