@@ -3,3 +3,4 @@ enter    = overload(meta, enter)
 leftshift = overload(shift, {)
 rightshift = overload(shift, })
 esc = playpause
+f4 = capslock

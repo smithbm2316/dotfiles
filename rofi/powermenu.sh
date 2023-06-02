@@ -95,12 +95,12 @@ case ${chosen} in
     run_cmd --reboot
       ;;
   "$lock")
-    i3lock -c "#000000"
+    i3lock -c "#908caa"
       ;;
   "$suspend")
     playerctl pause
     amixer set Master mute
-    i3lock -c "#232136"
+    i3lock -c "#908caa"
     systemctl suspend
       ;;
   "$logout")

@@ -64,6 +64,7 @@ lir.setup {
     s = Wrappers.sedit,
     v = Wrappers.vedit,
     e = Wrappers.edit,
+    E = actions.newfile,
     h = actions.up,
     q = actions.quit,
     f = actions.mkdir,

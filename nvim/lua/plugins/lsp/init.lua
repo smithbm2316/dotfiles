@@ -1,5 +1,6 @@
 local lspconfig = require 'lspconfig'
 local util = require 'lspconfig.util'
+local configs = require 'lspconfig.configs'
 
 -- functions to hook into
 local M = {}
@@ -172,6 +173,9 @@ M.my_on_attach = function(client, bufnr)
 
   -- lsp definition
   nnoremap('gd', function()
+    require('telescope.builtin').lsp_definitions()
+  end, 'Goto lsp definition', bufnr_opts)
+  nnoremap('gD', function()
     vim.lsp.buf.definition()
   end, 'Goto lsp definition', bufnr_opts)
 
@@ -210,7 +214,7 @@ M.my_on_attach = function(client, bufnr)
     nnoremap('<leader>pi', function()
       require('goto-preview').goto_preview_implementation {}
     end, 'Preview lsp implementations', bufnr_opts)
-    nnoremap('gD', function()
+    nnoremap('<leader>pd', function()
       require('goto-preview').goto_preview_definition {}
     end, 'Preview lsp definition', bufnr_opts)
     nnoremap('<leader>pt', function()
@@ -234,9 +238,27 @@ local servers = {
     root_dir = util.root_pattern('astro.config.js', 'astro.config.ts', 'astro.config.mjs', 'astro.config.cjs'),
   },
   bashls = {},
-  cssls = {},
+  cssls = {
+    -- disable diagnostics for cssls, i just want the autocompletion
+    handlers = {
+      ['textDocument/publishDiagnostics'] = function(...) end,
+    },
+    -- filetypes = { 'css', 'scss', 'less', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    settings = {
+      completion = {
+        triggerPropertyValueCompletion = true,
+        completePropertyWithSemicolon = false,
+      },
+    },
+  },
   denols = {
-    root_dir = util.root_pattern('deno.json', 'deno.jsonc'),
+    root_dir = function(filename, bufnr)
+      local first_line_arr = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
+      if #first_line_arr > 0 and first_line_arr[1]:match '#!.*/usr/bin/env.*deno' ~= nil then
+        return vim.fn.getcwd()
+      end
+      return util.root_pattern('deno.json', 'deno.jsonc')(filename)
+    end,
     single_file_support = false,
     settings = {
       enabled = true,
@@ -300,9 +322,22 @@ local servers = {
   --[[ sqls = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
-  stylelint_lsp = {
-    filetypes = { 'css', 'scss', 'sass', 'astro' },
-  },
+  --[[ stylelint_lsp = {
+    root_dir = util.find_package_json_ancestor,
+    filetypes = {
+      'astro',
+      'css',
+      'less',
+      'scss',
+      'sugarss',
+      'vue',
+      'wxss',
+      'javascript',
+      'javascriptreact',
+      'typescript',
+      'typescriptreact',
+    },
+  }, ]]
   -- rust_analyzer = {},
   svelte = {},
   tailwindcss = {
@@ -431,6 +466,7 @@ if null_ok then
       -- null_ls.builtins.diagnostics.luacheck,
       -- null_ls.builtins.diagnostics.proselint,
       null_ls.builtins.diagnostics.shellcheck,
+      null_ls.builtins.diagnostics.stylelint,
       null_ls.builtins.diagnostics.teal,
       -- formatting
       null_ls.builtins.formatting.deno_fmt,
@@ -438,10 +474,14 @@ if null_ok then
       -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fish_indent,
       null_ls.builtins.formatting.fixjson,
-      null_ls.builtins.formatting.prettierd,
+      null_ls.builtins.formatting.prettier.with {
+        extra_args = { '--plugin-search-dir', '.' },
+      },
+      -- null_ls.builtins.formatting.prettierd,
       null_ls.builtins.formatting.prismaFmt,
       -- null_ls.builtins.formatting.rome,
       null_ls.builtins.formatting.rustywind,
+      null_ls.builtins.formatting.stylelint,
       null_ls.builtins.formatting.stylua,
       -- hover
       -- null_ls.builtins.hover.dictionary,
@@ -493,7 +533,7 @@ if null_ok then
               return false
             end
           end,
-          timeout_ms = 400,
+          timeout_ms = 1000,
         }
       end,
     },
@@ -524,19 +564,6 @@ lspconfig.tsserver.setup {
     'javascriptreact',
   },
   on_attach = function(client, bufnr)
-    -- if it's marked as a deno file, then detach tsserver from the buffer
-    --[[ local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-    if #lines > 0 and lines[1]:find ' nvim:deno' ~= nil then
-      local clients = vim.lsp.get_active_clients()
-      for id, client in ipairs(clients) do
-        if client.name == 'tsserver' then
-          vim.lsp.buf_detach_client(bufnr, id)
-        end
-      end
-
-      return
-    end ]]
-
     local has_ts_utils, ts_utils = pcall(require, 'nvim-lsp-ts-utils')
     if has_ts_utils then
       ts_utils.setup {
@@ -607,14 +634,17 @@ lspconfig.tsserver.setup {
       description = 'Organize Imports',
     },
   },
-  root_dir = function(filename)
-    -- if we find a deno config file before a package.json or tsconfig.json, then don't attach this
-    -- server because this is a deno project
-    if util.root_pattern('deno.json', 'deno.jsonc')(filename) then
+  root_dir = function(filename, bufnr)
+    local first_line_arr = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
+    if
+      (#first_line_arr > 0 and first_line_arr[1]:match '#!.*/usr/bin/env.*deno' ~= nil)
+      or util.root_pattern('deno.json', 'deno.jsonc')(filename)
+    then
       return nil
     end
     return util.root_pattern('package.json', 'tsconfig.json')(filename)
   end,
+  single_file_support = false,
 }
 
 lspconfig.jsonls.setup {
@@ -634,13 +664,14 @@ lspconfig.jsonls.setup {
         {
           fileMatch = {
             '.prettierrc',
+            '.prettierrc.js',
             '.prettierrc.json',
             'prettier.config.json',
           },
           url = 'https://json.schemastore.org/prettierrc.json',
         },
         {
-          fileMatch = { '.eslintrc', '.eslintrc.json' },
+          fileMatch = { '.eslintrc', '.eslintrc.json', '.eslintrc.js' },
           url = 'https://json.schemastore.org/eslintrc.json',
         },
         {
@@ -701,7 +732,8 @@ neodev.setup {
     enabled = true,
     runtime = true,
     types = cwd:match(vim.env.HOME .. '/dotfiles/nvim') ~= nil,
-    plugins = true,
+    plugins = false,
+    pathStrict = true,
   },
 }
 
@@ -758,6 +790,8 @@ lspconfig.lua_ls.setup {
         },
       },
       workspace = {
+        -- https://www.reddit.com/r/neovim/comments/wgu8dx/configuring_neovim_for_l%C3%B6velua_i_always_get/ij22yo9/
+        checkThirdParty = false,
         library = library_files,
       },
       -- Do not send telemetry data containing a randomized but unique identifier

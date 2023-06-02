@@ -157,6 +157,11 @@ local icon_configs = {
     color = '#afdb89',
     name = 'TreesitterQuery',
   },
+  ['css.ts'] = {
+    icon = '',
+    color = '#3278c6',
+    name = 'CSS.TS',
+  },
   ['.prettierrc'] = shared_configs.rc_file,
   ['.prettierignore'] = shared_configs.rc_file,
   ['.prettierrc.json'] = shared_configs.rc_file,

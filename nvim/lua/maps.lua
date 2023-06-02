@@ -55,8 +55,10 @@ nnoremap('<c-q>', 'q:', 'Open cmdline window', nosilent)
 vnoremap('<c-q>', 'q:', 'Open cmdline window', nosilent)
 
 -- quickfix list navigation yay
-nnoremap('<leader>qn', '<cmd>cnext<cr>', 'Next item in qf list')
-nnoremap('<leader>qp', '<cmd>cprev<cr>', 'Prev item in qf list')
+nnoremap('<leader>co', '<cmd>copen<cr>', 'Open qflist')
+nnoremap('<leader>ce', '<cmd>cclose<cr>', 'Close/exit qflist')
+nnoremap('<leader>cn', '<cmd>cnext<cr>', 'Next item in qflist')
+nnoremap('<leader>cp', '<cmd>cprev<cr>', 'Prev item in qflist')
 nnoremap('<leader>qd', function()
   vim.ui.input({ prompt = 'Quickfix do: ', completion = 'command' }, function(do_cmd)
     if do_cmd then
@@ -114,9 +116,6 @@ nnoremap('<leader>fc', 'zM', 'Close all folds')
 -- Add function + user command for reviewing a PR
 vim.api.nvim_create_user_command('ReviewPR', 'lua vim.cmd("FocusDisable"); vim.cmd("DiffviewOpen main")', {})
 
--- open quickfix list
-nnoremap('<leader>qo', '<cmd>copen<cr>', 'Open qflist')
-
 -- enter in a new html tag above or below the current line
 -- nnoremap('<leader>it', [[<cmd>call feedkeys("o<\<C-E>",', ''i')<cr>]])
 -- nnoremap('<leader>iT', [[<cmd>call feedkeys("O<\<C-E>",', ''i')<cr>]])
@@ -156,7 +155,7 @@ end, 'Toggle line wrapping')
 
 nnoremap('<leader>qa', function()
   vim.cmd [[
-    DeleteSession
+    SessionDelete
     qall!
   ]]
 end, 'Quit session')
@@ -282,14 +281,6 @@ end, 'go doc viewer')
 
 -- mappings that require an external function
 --{{{
--- switch between light/dark rose-pine theme
-nnoremap('<leader>tt', function()
-  if vim.opt.background:get() == 'dark' then
-    vim.opt.background = 'light'
-  else
-    vim.opt.background = 'dark'
-  end
-end, 'Toggle color mode')
 
 -- turn terminal to normal mode with escape if it's not a lazygit terminal
 create_augroup('RemapTermEscapeUnlessLazygit', {

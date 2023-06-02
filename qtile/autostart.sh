@@ -6,19 +6,22 @@ dunst &
 xset r rate 250 25 &
 nm-applet &
 blueman-applet &
-imwheel &
 pasystray &
 flameshot &
 keyd-application-mapper -d &
 pactl load-module module-switch-on-connect &
 nitrogen --restore &
+# imwheel &
 # systemctl --user enable --now darkman.service &
 
 # apps to autostart
 # flatpak run com.github.Eloston.UngoogledChromium &
 google-chrome &
 kitty --title=dev &
-# 1password &
 firefox &
 slack &
-spotify &
+# spotify &
+/home/smithbm/appimages/obsidian.AppImage &
+
+system76-power graphics power off
+system76-power profile performance

@@ -12,7 +12,6 @@ local config = {
   mappings = {
     basic = true,
     extra = false,
-    extended = false,
   },
   toggler = {
     line = 'cml',

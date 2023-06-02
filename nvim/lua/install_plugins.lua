@@ -8,11 +8,6 @@ return require('packer').startup {
     --- lua plugins :D
     ---
     -----------------------------------------------------
-    -- bionic reading in neovim
-    use {
-      'nullchilly/fsread.nvim',
-    }
-
     -- vim.notify handler
     use {
       'vigoux/notifier.nvim',
@@ -21,17 +16,6 @@ return require('packer').startup {
     -- see the current function/class's context
     use {
       'nvim-treesitter/nvim-treesitter-context',
-    }
-
-    -- markdown preview in floating buffer, courtesy of glow
-    use {
-      'ellisonleao/glow.nvim',
-    }
-
-    -- paste to your heart's content
-    use {
-      'hrsh7th/nvim-pasta',
-      disable = true,
     }
 
     -- lsp server progress indicator
@@ -51,11 +35,6 @@ return require('packer').startup {
       disable = true,
     }
 
-    -- magit inside of neovim
-    use {
-      'TimUntersberger/neogit',
-    }
-
     -- better menus for inputs and selects in neovim
     use {
       'stevearc/dressing.nvim',
@@ -66,18 +45,6 @@ return require('packer').startup {
     use {
       'echasnovski/mini.nvim',
       branch = 'stable',
-    }
-
-    -- better notifications
-    use {
-      'rcarriga/nvim-notify',
-      disable = true,
-    }
-
-    -- nicer listing of registers
-    use {
-      'tversteeg/registers.nvim',
-      disable = true,
     }
 
     -- nice way of managing split focusing
@@ -176,13 +143,9 @@ return require('packer').startup {
       'kyazdani42/nvim-web-devicons',
     }
 
-    -- add plugin that uses treesitter to figure out what the commentstring should be
-    -- use { 'JoosepAlviste/nvim-ts-context-commentstring' }
-
     -- tpope/vim-commentary lua replacement
     use {
       'numToStr/Comment.nvim',
-      branch = 'jsx',
     }
 
     -- highlight and indent and textobject all the things
@@ -196,12 +159,6 @@ return require('packer').startup {
     }
     use {
       'nvim-treesitter/playground',
-    }
-
-    -- format code with external tools
-    use {
-      'mhartington/formatter.nvim',
-      disable = true,
     }
 
     -- gitgutter lua replacement
@@ -237,19 +194,9 @@ return require('packer').startup {
       'neovim/nvim-lspconfig',
     }
 
-    -- make rust development in neovim much better
-    use {
-      'simrat39/rust-tools.nvim',
-    }
-
     -- TJ's lua functions that he doesn't wanna write again
     use {
       'nvim-lua/plenary.nvim',
-    }
-
-    -- notetaking with golang zk lsp
-    use {
-      'mickael-menu/zk-nvim',
     }
 
     -- the best fuzzy finder :0
@@ -277,16 +224,35 @@ return require('packer').startup {
       'lewis6991/impatient.nvim',
     }
 
+    use {
+      'anuvyklack/help-vsplit.nvim',
+      config = function()
+        require('help-vsplit').setup {
+          always = true, -- Always open help in a vertical split.
+          side = 'left', -- 'left' or 'right'
+          buftype = { 'help' },
+          filetype = { 'man' },
+        }
+      end,
+    }
+
     -----------------------------------------------------
     ---
-    --- vimscript plugins
+    --- colorscheme plugins
     ---
     -----------------------------------------------------
+    use {
+      '4e554c4c/darkman.nvim',
+      run = 'go build -o bin/darkman.nvim',
+    }
+
     use {
       'rose-pine/neovim',
     }
+
     use {
-      'folke/tokyonight.nvim',
+      'catppuccin/nvim',
+      as = 'catppuccin',
     }
 
     -----------------------------------------------------
@@ -307,15 +273,6 @@ return require('packer').startup {
     -- runs :noh whenever the mouse cursor is moved 
     use {
       'junegunn/vim-slash',
-    }
-
-    -- for automatic list bulleting when writing markdown or plaintext
-    use {
-      'dkarter/bullets.vim',
-      disable = true,
-      --[[ config = function()
-        vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
-      end, ]]
     }
 
     -- tpope's blessings to vimmers everywhere

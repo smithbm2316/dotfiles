@@ -48,7 +48,7 @@ keys = [
     lazy.window.toggle_floating(),
     desc='Toggle a window between tiled and floating'
   ),
-  Key([mod], 'n', lazy.layout.next(), desc='Move window focus to other window'),
+  # Key([mod], 'n', lazy.layout.next(), desc='Move window focus to other window'),
   Key([mod], 'w', lazy.next_layout(), desc='Toggle between layouts'),
   Key([mod, ctrl], 'w', lazy.layout.normalize(), desc='Reset all window sizes'),
   # terminal
@@ -63,7 +63,7 @@ keys = [
   Key([alt], 'Tab', lazy.spawn(f'{dotfiles}/rofi/rofi.sh window'), desc='Rofi window'),
   Key([mod], 'q', lazy.spawn(f'{dotfiles}/rofi/rofi.sh calc'), desc='Rofi qalc'),
   Key([mod, ctrl], 'e', lazy.spawn(f'{dotfiles}/rofi/rofi.sh emoji'), desc='Rofi emoji'),
-  Key([mod, ctrl], 'p', lazy.spawn(f'{dotfiles}/rofi/powermenu.sh'), desc='Rofi powermenu'),
+  Key([mod], 'slash', lazy.spawn(f'{dotfiles}/rofi/powermenu.sh'), desc='Rofi powermenu'),
   # audio
   Key(
     [],
@@ -93,9 +93,9 @@ keys = [
   Key([], 'XF86AudioPrev', lazy.spawn('playerctl previous'), desc='Previous track'),
   Key([], 'XF86AudioNext', lazy.spawn('playerctl next'), desc='Next track'),
   # warpd
-  Key([mod, ctrl], 'm', lazy.spawn('warpd --grid'), desc='Launch warpd --hint'),
+  Key([mod, shift], 'm', lazy.spawn('warpd --grid'), desc='Launch warpd --hint'),
   Key([mod], 'm', lazy.spawn('warpd --hint'), desc='Launch warpd --normal'),
-  Key([mod, shift], 'm', lazy.spawn('warpd --normal'), desc='Launch warpd --grid'),
+  Key([mod, ctrl], 'm', lazy.spawn('warpd --normal'), desc='Launch warpd --grid'),
   # screenshots
   Key([], 'Print', lazy.spawn('flameshot gui -c -s'), desc='Screenshot to clipboard'),
   Key([mod, ctrl], 'Print', lazy.spawn('flameshot gui'), desc='Screenshot gui'),
@@ -115,13 +115,25 @@ keys = [
     desc='Toggle touchpad direction'
   ),
   Key(
+    [mod],
+    'F11',
+    lazy.spawn(f'{dotfiles}/scripts/toggle-laptop-keyboard.sh'),
+    desc='Toggle laptop keyboard'
+  ),
+  Key(
     [mod, alt], 'a', lazy.spawn(f'{dotfiles}/scripts/airpods.sh connection'), desc='Toggle airpods connection'
   ),
   Key(
     [mod, alt], 'm', lazy.spawn(f'{dotfiles}/scripts/airpods.sh codec'), desc='Toggle airpods mic on/off (codec)'
   ),
   Key(
-    [mod, alt], 'd', lazy.spawn('xrandr --auto'), desc='Run xrandr in auto mode'
+    [mod, alt], 'x', lazy.spawn('xrandr --auto'), desc='Run xrandr in auto mode'
+  ),
+  Key(
+    [mod], 'F9', lazy.spawn('xrandr --output eDP-1 --mode 1920x1080 --rate 144.03 --pos 1920x0'), desc='Turn on internal laptop display'
+  ),
+  Key(
+    [mod, shift], 'F9', lazy.spawn('xrandr --output eDP-1 --off'), desc='Turn off internal laptop display'
   ),
   Key(
     [],
@@ -178,8 +190,13 @@ groups = [
       'label': 'note',
       'apps': [
         Match(wm_class='obsidian'),
+        Match(wm_class='standard notes'),
       ]
-    }
+    },
+    'n': {
+      'label': 'sec',
+      'apps': [],
+    },
   }.items()
 ]
 
@@ -303,6 +320,8 @@ screens = [
           highlight_method='block',
           parse_text=lambda _: '',
           padding_x=0,
+          theme_mode='fallback',
+          theme_path='/usr/share/icons/Papirus-Dark',
           rounded=True,
           urgent_alert_method='border',
           urgent_border='#f6c177',
@@ -409,6 +428,7 @@ floating_layout = layout.Floating( # type: ignore
     Match(wm_class='pavucontrol'),
     Match(wm_class=re.compile(r'zoom\s?').pattern),
     Match(wm_class='kit'),
+    Match(wm_class='simplescreenrecorder'),
   ],
 )
 auto_fullscreen = False

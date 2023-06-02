@@ -22,6 +22,7 @@ do
 done
 
 if [ $? -eq 20 ]; then
+  # autorandr --load dual-desktop 2>/dev/null
   autorandr --load desktop 2>/dev/null
 else
   xrandr --auto

@@ -147,6 +147,7 @@ local webdev_snippets = {
       name = c(2, {
         sn(nil, { t '{ ', i(1), t ' }' }),
         sn(nil, { t 'type { ', i(1), t ' }' }),
+        sn(nil, { i(1) }),
       }),
     })
   ),
