@@ -1,0 +1,20 @@
+#! /usr/bin/env -S deno run -A --ext=ts
+
+import $ from "https://deno.land/x/dax/mod.ts";
+// import { parse } from 'https://deno.land/std/flags/mod.ts';
+// const flags = parse(Deno.args);
+
+const [currentTheme] = await $`darkman get`.lines() as ('light' | 'dark')[];
+let newTheme = '';
+let newKittyTheme = '';
+
+if (currentTheme === 'light') {
+  newTheme = 'dark';
+  newKittyTheme = 'Mocha';
+} else {
+  newTheme = 'light';
+  newKittyTheme = 'Latte';
+}
+
+await $`darkman set ${newTheme}`;
+await $`kitty +kitten themes --reload-in=all Catppuccin-${newKittyTheme}`;
