@@ -28,13 +28,13 @@ lua() {
   sudo dnf install -y readline readline-devel
   cd ~/builds || exit
   curl -R -O https://www.lua.org/ftp/lua-5.1.5.tar.gz
-  tar xzfv lua-5.1.5.tar.gz
+  tar zxpfv lua-5.1.5.tar.gz
   cd lua-5.1.5 || exit
   sudo make linux 
   make test
   sudo make install
   cd ~/builds || exit
-  rm lua-5.1.5.tar.gz
+  rm -rf lua-5.1.5.tar.gz
 
   # luajit
   luajit_latest_version=$(curl -sL https://api.github.com/repos/luajit/luajit/tags | jq -r '.[0].name' | cut -c 2-)
@@ -50,14 +50,14 @@ lua() {
 
   # luarocks
   luarocks_latest_version=$(curl -sL https://api.github.com/repos/luarocks/luarocks/tags | jq -r '.[0].name' | cut -c 2-)
-  luarocks_latest_filename="luarocks-$luarocks_latest_version.tar.gz"
+  luarocks_latest_filename="luarocks-$luarocks_latest_version"
   luarocks_url="https://luarocks.github.io/luarocks/releases/$luarocks_latest_filename.tar.gz"
   curl -R -O "$luarocks_url"
-  tar zxvpf "$luarocks_latest_filename"
+  tar zxvpf "$luarocks_latest_filename.tar.gz"
   cd "$luarocks_latest_filename" || exit
-  ./configure && make && make install
+  ./configure --with-lua-include=/usr/local/include && make && make install
   cd ~/builds || exit
-  rm "$luarocks_latest_filename"
+  rm "$luarocks_latest_filename.tar.gz"
 }
 
 # install homebrew/linuxbrew
@@ -71,7 +71,7 @@ homebrew() {
 # install all programming languages and programming language runtimes that i will need
 programming_languages() {
   # golang with "stefanmaric/g" version manager
-  curl -sSL https://git.io/g-install | sh -s
+   curl -sSL https://git.io/g-install | sh -s
 
   # rust/rustup/cargo
   
@@ -106,12 +106,16 @@ dnf_packages() {
     blueman \
     discord \
     dunst \
+    fish \
     flameshot \
     gstreamer1-plugin-openh264 \
+    gcc \
+    gcc-c++ \
     imwheel \
     keychain \
     kitty \
     lxappearance \
+    make \
     mozilla-openh264 \
     NetworkManager \
     NetworkManager-tui \
@@ -128,14 +132,19 @@ dnf_packages() {
     python3-xlib \
     qalculate \
     rofi \
-    vim \
+    stow \
+    util-linux-user \
+    vim-minimal \
+    vim-enhanced \
+    wl-clipboard \
     xclip \
     xdotool \
     xev \
     xinput \
     xprop \
     xset \
-    xsetroot
+    xsetroot \
+    zsh
 
   # https://docs.fedoraproject.org/en-US/quick-docs/openh264/
   # h264 codec for firefox
@@ -297,8 +306,6 @@ if [ "$(command -v dnf)" ]; then
   dnf_packages
   programming_languages
 
-  neovim
-
   # ------------------------------------------------------------
   # TMUX
   # ------------------------------------------------------------
@@ -339,8 +346,6 @@ if [ "$(command -v dnf)" ]; then
     yaml-language-server \
     # prettier daemon
     @fsouza/prettierd \
-    # rustywind for tailwind formatting
-    rustywind \
     # tree-sitter-cli to complile the Teal Treesitter binary in Neovim
     tree-sitter-cli \
     # yarn
@@ -352,9 +357,6 @@ if [ "$(command -v dnf)" ]; then
 
   # sqls
   go install github.com/lighttiger2505/sqls@latest
-
-  # zk
-  brew install zk
 
   # pylsp
   pip install python-lsp-server
@@ -433,9 +435,39 @@ if [ "$(command -v dnf)" ]; then
 
   # BlexMono nerd font
   gh_release_latest 'ryanoasis/nerd-fonts' 'IBMPlexMono.zip'
-  mkdir -pv ~/.local/share/fonts/BlexMono
-  unzip -d ~/.local/share/fonts/BlexMono IBMPlexMono.zip
+  mkdir -pv ~/.local/share/fonts/BlexMonoNF
+  unzip -d ~/.local/share/fonts/BlexMonoNF IBMPlexMono.zip
   rm IBMPlexMono.zip
+
+  # JetBrainsNF nerd font
+  gh_release_latest 'ryanoasis/nerd-fonts' 'JetBrainsMono.zip'
+  mkdir -pv ~/.local/share/fonts/JetBrainsMonoNF
+  unzip -d ~/.local/share/fonts/JetBrainsMonoNF JetBrainsMono.zip
+  rm JetBrainsMono.zip
+
+  # SpaceMono nerd font
+  gh_release_latest 'ryanoasis/nerd-fonts' 'SpaceMono.zip'
+  mkdir -pv ~/.local/share/fonts/SpaceMonoNF
+  unzip -d ~/.local/share/fonts/SpaceMonoNF SpaceMono.zip
+  rm SpaceMono.zip
+
+  # UbuntuNF nerd font
+  gh_release_latest 'ryanoasis/nerd-fonts' 'Ubuntu.zip'
+  mkdir -pv ~/.local/share/fonts/UbuntuNF
+  unzip -d ~/.local/share/fonts/UbuntuNF Ubuntu.zip
+  rm Ubuntu.zip
+
+  # UbuntuMonoNF nerd font
+  gh_release_latest 'ryanoasis/nerd-fonts' 'UbuntuMono.zip'
+  mkdir -pv ~/.local/share/fonts/UbuntuMonoNF
+  unzip -d ~/.local/share/fonts/UbuntuMonoNF UbuntuMono.zip
+  rm UbuntuMono.zip
+
+  # iA-Writer nerd font
+  gh_release_latest 'ryanoasis/nerd-fonts' 'iA-Writer.zip'
+  mkdir -pv ~/.local/share/fonts/iA-WriterNF
+  unzip -d ~/.local/share/fonts/iA-WriterNF iA-Writer.zip
+  rm iA-Writer.zip
 
   # inter font
   inter_zipfile=$(gh_release_latest 'rsms/inter' 'Inter')
@@ -447,22 +479,4 @@ if [ "$(command -v dnf)" ]; then
   # rose pine moon
   mkdir -pv ~/.themes
   mkdir -pv ~/.icons
-  # gtk3 theme
-  rose_pine_gtk3=$(gh_release_latest 'rose-pine/gtk' 'gtk3.tar.gz')
-  tar zxvf "$rose_pine_gtk3"
-  mv "$rose_pine_gtk3/rose-pine-moon-gtk" ~/.themes
-  rm -rf gtk3
-  # gtk4 theme
-  rose_pine_gtk4=$(gh_release_latest 'rose-pine/gtk' 'gtk4.tar.gz')
-  tar zxvf "$rose_pine_gtk4"
-  mv "$rose_pine_gtk4/rose-pine-moon.css" "$XDG_CONFIG_HOME/gtk-4.0/gtk.css"
-  rm -rf gtk4
-  # icons
-  rose_pine_icons=$(gh_release_latest 'rose-pine/gtk' 'rose-pine-moon-icons.tar.gz')
-  tar zxvf "$rose_pine_icons"
-  mv "$rose_pine_icons/rose-pine-moon-icons" ~/.icons
-  rm -rf icons
-
-  # elif [ "$(command -v apt)"  ]; then
-  # elif [ "$(uname -s)" = "Darwin" ]; then
 fi

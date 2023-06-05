@@ -20,6 +20,10 @@ hammerspoon/Spoons/*
 # ignore karabiner backups
 karabiner/automatic_backups/*
 
+# kitty files to ignore
+kitty/current-theme.conf
+kitty/kitty.conf.bak
+
 # ignore all but keyd conf
 keyd/app.log
 keyd/app.lock

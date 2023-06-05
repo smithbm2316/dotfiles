@@ -15,7 +15,6 @@ set -Ux SAVEHIST 10000
 # Programming languages and their dependenices
 set -Ux CARGOBIN $HOME/.cargo/bin
 set -Ux DENOBIN $HOME/.deno/bin
-set -Ux GOEXEC /usr/local/go/bin
 set -Ux GOBIN $HOME/go/bin
 set -Ux GOPATH $HOME/go
 set -Ux LOCALBIN $HOME/.local/bin
@@ -55,7 +54,6 @@ end
 fish_add_path -a $CARGOBIN
 fish_add_path -a $DENOBIN
 fish_add_path -a $GOBIN
-fish_add_path -a $GOEXEC
 fish_add_path -a $LOCALBIN
 fish_add_path -a $NBIN
 fish_add_path -a $NVIMBIN
