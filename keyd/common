@@ -1,6 +1,6 @@
 capslock = overload(meta, esc)
 enter    = overload(meta, enter)
-leftshift = overload(shift, {)
-rightshift = overload(shift, })
+leftshift = overload(shift, macro(S-[))
+rightshift = overload(shift, macro(S-]))
 esc = playpause
 f4 = capslock

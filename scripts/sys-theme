@@ -4,17 +4,30 @@ import $ from "https://deno.land/x/dax/mod.ts";
 // import { parse } from 'https://deno.land/std/flags/mod.ts';
 // const flags = parse(Deno.args);
 
-const [currentTheme] = await $`darkman get`.lines() as ('light' | 'dark')[];
-let newTheme = '';
-let newKittyTheme = '';
+// exit early if `darkman` command can't be found
+if (await $.commandExists("darkman") === false) Deno.exit();
 
-if (currentTheme === 'light') {
-  newTheme = 'dark';
-  newKittyTheme = 'Mocha';
+// get current theme
+const [currentTheme] = await $`darkman get`.lines() as ("light" | "dark")[];
+let newTheme = "";
+let newKittyTheme = "";
+let gnomeTheme = "";
+
+if (currentTheme === "light") {
+  newTheme = "dark";
+  newKittyTheme = "Mocha";
+  gnomeTheme = "prefer-dark";
 } else {
-  newTheme = 'light';
-  newKittyTheme = 'Latte';
+  newTheme = "light";
+  newKittyTheme = "Latte";
+  gnomeTheme = "prefer-light";
 }
 
 await $`darkman set ${newTheme}`;
-await $`kitty +kitten themes --reload-in=all Catppuccin-${newKittyTheme}`;
+if (await $.commandExists("kitty")) {
+  await $`kitty +kitten themes --reload-in=all Catppuccin-${newKittyTheme}`;
+}
+
+if (await $.commandExists("gsettings")) {
+  await $`gsettings set org.gnome.desktop.interface color-scheme ${gnomeTheme}`;
+}
