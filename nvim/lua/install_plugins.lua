@@ -70,9 +70,9 @@ return require('packer').startup {
       'jose-elias-alvarez/null-ls.nvim',
     }
 
-    -- simple file explorer
+    -- file browser like vim-vinegar
     use {
-      'tamago324/lir.nvim',
+      'stevearc/oil.nvim',
     }
 
     -- folke plugins
@@ -225,11 +225,6 @@ return require('packer').startup {
           filetype = { 'man' },
         }
       end,
-    }
-
-    -- file browser like vim-vinegar
-    use {
-      'stevearc/oil.nvim',
     }
 
     -----------------------------------------------------
