@@ -142,3 +142,18 @@ require('nvim-treesitter.configs').setup {
 
 -- require submodule of context
 pcall(require, 'plugins.treesitter.context')
+
+-- https://github.com/bennypowers/template-literal-comments.nvim
+vim.treesitter.query.add_directive('set-template-literal-lang-from-comment!', function(match, _, bufnr, pred, metadata)
+  local comment_node = match[pred[2]]
+  if comment_node then
+    local success, comment = pcall(vim.treesitter.get_node_text, comment_node, bufnr)
+    if success then
+      local tag = comment:match '/%*%s*(%w+)%s*%*/'
+      if tag then
+        local language = tag:lower() == 'svg' and 'html' or vim.filetype.match { filename = 'a.' .. tag } or tag:lower()
+        metadata.language = language
+      end
+    end
+  end
+end)

@@ -4,7 +4,7 @@ USER_OS=$(awk -F = '$1=="ID" { print $2 ;}' /etc/os-release)
 echo "This is a $USER_OS Linux system"
 
 emptty() {
-  sudo dnf install pam \
+  sudo dnf install -y pam \
    pam-devel \
    libX11 \
    libX11-devel \
@@ -124,7 +124,7 @@ dnf_packages() {
     nitrogen \
     papirus-icon-theme \
     pavucontrol \
-    pasystray # https://github.com/christophgysin/pasystray \
+    pasystray \
     picom \
     pip \
     playerctl \
@@ -154,9 +154,10 @@ dnf_packages() {
 }
 
 spotify() {
-  sudo dnf install lpf-spotify-client -y
-  # logout after adding yourself to the proper usermod group
-  lpf update
+  # sudo dnf install lpf-spotify-client -y
+  # # logout after adding yourself to the proper usermod group
+  # lpf update
+  sudo flatpak install flathub com.spotify.Client
 }
 
 homebrew_packages() {
@@ -181,10 +182,10 @@ rofi_calc() {
 
 # https://brave.com/linux/#release-channel-installation
 brave_browser() {
-  sudo dnf install dnf-plugins-core
+  sudo dnf install -y dnf-plugins-core
   sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/x86_64/
   sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-  sudo dnf install brave-browser
+  sudo dnf install -y brave-browser
 }
 
 # https://support.1password.com/install-linux/#centos-fedora-or-red-hat-enterprise-linux
@@ -224,7 +225,7 @@ neovim() {
 }
 
 keyd() {
-  sudo dnf install python3 python3-xlib
+  sudo dnf install -y python3 python3-xlib
   cd ~/builds || exit
   git clone https://github.com/rvaiya/keyd
   cd keyd || exit
@@ -235,7 +236,7 @@ keyd() {
 }
 
 warpd() {
-  sudo dnf install libXi-devel \
+  sudo dnf install -y libXi-devel \
     libXinerama-devel \
     libXft-devel \
     libXfixes-devel \
@@ -260,15 +261,15 @@ charm_sh() {
   enabled=1
   gpgcheck=1
   gpgkey=https://repo.charm.sh/yum/gpg.key' | sudo tee /etc/yum.repos.d/charm.repo
-  sudo dnf install glow gum skate
+  sudo dnf install -y glow gum skate
 }
 
 # https://github.com/ungoogled-software/ungoogled-chromium
 ungoogled_chromium() {
   flatpak install com.github.Eloston.UngoogledChromium
   # give flatpak permission to read GTK themes from the GTK ~/.themes directory
-  sudo flatpak override --filesystem="$HOME/.themes"
-  sudo flatpak override --env=GTK_THEME=rose-pine-moon-gtk
+  # sudo flatpak override --filesystem="$HOME/.themes"
+  # sudo flatpak override --env=GTK_THEME=rose-pine-moon-gtk
 }
 
 bitwarden() {
@@ -293,6 +294,92 @@ qtile() {
   # widget dependencies
   pip install psutil dbus-next
 } 
+
+ssh_keygen() {
+  cd ~/.ssh || exit
+
+  echo "Enter your email for the ssh key:"
+  read -r email
+  echo "Enter the name for your key (will be saved to ~/.ssh):"
+  read -r key_name
+
+  ssh-keygen -t ed25519 -C "$email" -f "$key_name"
+  copy_cmd=""
+
+  if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    if [ "$(command -v wl-copy)" ]; then
+      copy_cmd="wl-copy"
+    else
+      echo "Couldn't find 'wl-copy', please try installing it"
+      exit
+    fi
+  else
+    if [ "$(command -v xclip)" ]; then
+      copy_cmd="xclip -sel clip"
+    else
+      echo "Couldn't find 'xclip', please try installing it"
+      exit
+    fi
+  fi
+
+  "$copy_cmd" < "$HOME/.ssh/$key_name.pub" \
+    && echo "Copied public key for $key_name to clipboard" \
+    || exit
+  
+  cd - || exit
+}
+
+# set a bunch of gnome keybindings and settings
+gnome() {
+  # equivalent of `xset r rate 250 25` in Xorg
+  gsettings set org.gnome.desktop.peripherals.keyboard delay 250
+  gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 25
+
+  # gsettings list-recursively | grep -i "<Super>o"
+  # https://askubuntu.com/questions/1179858/disable-orientation-lock-shortcut-super-o-in-ubuntu-18-04-gnome
+  # turn off orientation rotation key for Super + O shortcut
+  gsettings set org.gnome.settings-daemon.plugins.media-keys rotate-video-lock-static "[]"
+  # so that you can set your "search" shortcut to Super + O
+  gsettings set org.gnome.settings-daemon.plugins.media-keys search '["<Super>o"]'
+
+  gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Super>w']"
+  gsettings set org.gnome.desktop.wm.keybindings maximize "[]"
+  gsettings set org.gnome.mutter center-new-windows true
+
+  gsettings set org.gnome.desktop.wm.keybindings cycle-windows "['<Super>j']"
+  gsettings set org.gnome.desktop.wm.keybindings cycle-windows-backward "['<Super>k']"
+
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1 "['<Super>a']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<Super>s']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>d']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<Super>f']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-5 "['<Super>g']"
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<Control><Super>a']"
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<Control><Super>s']"
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-3 "['<Control><Super>d']"
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<Control><Super>f']"
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-5 "['<Control><Super>g']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Super>comma']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Super>semicolon']"
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left "['<Control><Super>comma']"
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right "['<Control><Super>semicolon']"
+  gsettings set org.gnome.mutter.keybindings switch-monitor "['XF86Display']"
+  gsettings set org.gnome.mutter.keybindings toggle-tiled-left "['<Super>h']"
+  gsettings set org.gnome.mutter.keybindings toggle-tiled-right "['<Super>l']"
+  gsettings set org.gnome.shell.keybindings screenshot "['Print']"
+  gsettings set org.gnome.shell.keybindings show-screenshot-ui "['<Super>Print']"
+  gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Control><Super>Print']"
+  gsettings set org.gnome.shell.keybindings toggle-message-tray "['<Super>n']"
+  gsettings set org.gnome.shell.keybindings focus-active-notification "['<Control><Super>n']"
+
+  gsettings set org.gnome.desktop.wm.keybindings close "['<Super>c']"
+  gsettings set org.gnome.desktop.wm.preferences audible-bell false
+  gsettings set org.gnome.desktop.wm.preferences visual-bell true
+  gsettings set org.gnome.desktop.wm.preferences visual-bell-type "fullscreen-flash"
+
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left "['<Control><Super>h']"
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right "['<Control><Super>l']"
+}
 
 # if ~/builds dir doesn't exist, make it
 echo "Creating the '~/builds' directory for manual in $USER's home directory"
@@ -328,7 +415,6 @@ if [ "$(command -v dnf)" ]; then
   # make sure to use the system version of node in order to install the global binaries here
   # https://github.com/nodenv/nodenv/issues/183
   NODENV_VERSION=system npm i -g \
-    # language servers for neovim (lsp)
     @astrojs/language-server \
     @prisma/language-server \
     @tailwindcss/language-server \
@@ -344,15 +430,10 @@ if [ "$(command -v dnf)" ]; then
     vim-language-server \
     vscode-langservers-extracted \
     yaml-language-server \
-    # prettier daemon
     @fsouza/prettierd \
-    # tree-sitter-cli to complile the Teal Treesitter binary in Neovim
     tree-sitter-cli \
-    # yarn
     yarn \
-    # pnpm
     pnpm \
-    # json fixer for humans
     fixjson
 
   # sqls

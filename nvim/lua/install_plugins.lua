@@ -82,10 +82,6 @@ return require('packer').startup {
     }
 
     -- folke plugins
-    -- centerpad, but much better (uses a floating window!!)
-    use {
-      'folke/zen-mode.nvim',
-    }
     -- i can't remember my keybinds half the time, this should help
     use {
       'folke/which-key.nvim',
@@ -224,6 +220,7 @@ return require('packer').startup {
       'lewis6991/impatient.nvim',
     }
 
+    -- open help menu in a vsplit
     use {
       'anuvyklack/help-vsplit.nvim',
       config = function()
@@ -234,6 +231,11 @@ return require('packer').startup {
           filetype = { 'man' },
         }
       end,
+    }
+
+    -- file browser like vim-vinegar
+    use {
+      'stevearc/oil.nvim',
     }
 
     -----------------------------------------------------
@@ -253,6 +255,10 @@ return require('packer').startup {
     use {
       'catppuccin/nvim',
       as = 'catppuccin',
+    }
+
+    use {
+      'maxmx03/fluoromachine.nvim',
     }
 
     -----------------------------------------------------
