@@ -155,3 +155,11 @@ _G.dump = function(obj, use_notify)
   end
   return obj
 end
+
+local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Hint', 'Info' }
+_G.diagnostic_icons = {
+  error = '',
+  warn = '',
+  hint = '󱠃',
+  info = '',
+}

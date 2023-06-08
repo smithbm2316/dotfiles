@@ -826,28 +826,26 @@ if rt_ok then
 end
 
 -- define signcolumn lsp diagnostic icons
-local diagnostic_signs = { ' ', ' ', ' ', ' ' }
-local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Hint', 'Information' }
-local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Hint', 'Info' }
-
 -- define diagnostic icons/highlights for signcolumn and other stuff
-for index, icon in ipairs(diagnostic_signs) do
-  local fullname = diagnostic_severity_fullnames[index]
-  local shortname = diagnostic_severity_shortnames[index]
-
-  vim.fn.sign_define('DiagnosticSign' .. shortname, {
+local define_icon = function(short_name, long_name, icon)
+  vim.fn.sign_define('DiagnosticSign' .. short_name, {
     text = icon,
-    texthl = 'Diagnostic' .. shortname,
+    texthl = 'Diagnostic' .. short_name,
     linehl = '',
     numhl = '',
   })
 
-  vim.fn.sign_define('LspDiagnosticsSign' .. fullname, {
+  vim.fn.sign_define('LspDiagnosticsSign' .. long_name, {
     text = icon,
-    texthl = 'LspDiagnosticsSign' .. fullname,
+    texthl = 'LspDiagnosticsSign' .. long_name,
     linehl = '',
     numhl = '',
   })
 end
+
+define_icon('Error', 'Error', _G.diagnostic_icons.error)
+define_icon('Warning', 'Warn', _G.diagnostic_icons.warn)
+define_icon('Information', 'Info', _G.diagnostic_icons.info)
+define_icon('Hint', 'Hint', _G.diagnostic_icons.hint)
 
 return M

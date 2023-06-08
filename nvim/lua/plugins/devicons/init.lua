@@ -17,7 +17,7 @@ local shared_configs = {
 
 local tool_configs = {
   astro = {
-    icon = '',
+    icon = '󱓞',
     color = '#ff7e33',
     name = 'AstroConfig',
   },
@@ -32,7 +32,7 @@ local tool_configs = {
     name = 'RemixConfig',
   },
   tailwind = {
-    icon = '',
+    icon = '󱏿',
     color = '#0fa5e9',
     name = 'TailwindCSSConfig',
   },
@@ -58,7 +58,7 @@ local icon_configs = {
     name = 'Gitignore',
   },
   ['yarn.lock'] = {
-    icon = '',
+    icon = '',
     color = '#2188b6',
     name = 'YarnLockfile',
   },
@@ -68,7 +68,7 @@ local icon_configs = {
     name = 'NPMLockfile',
   },
   ['package.json'] = {
-    icon = '',
+    icon = '',
     color = '#84ba64',
     name = 'PackageJSON',
   },
@@ -78,37 +78,37 @@ local icon_configs = {
     name = 'TSConfig',
   },
   html = {
-    icon = '',
+    icon = '',
     color = '#f16529',
     name = 'HTML',
   },
   css = {
-    icon = '',
+    icon = '',
     color = '#409ad6',
     name = 'CSS',
   },
   js = {
-    icon = '',
+    icon = '󰌞',
     color = '#f6e400',
     name = 'Javascript',
   },
   mjs = {
-    icon = '',
+    icon = '󰌞',
     color = '#f6e400',
     name = 'Javascript',
   },
   cjs = {
-    icon = '',
+    icon = '󰌞',
     color = '#f6e400',
     name = 'Javascript',
   },
   ts = {
-    icon = 'ﯤ',
+    icon = '󰛦',
     color = '#3278c6',
     name = 'Typescript',
   },
   njk = {
-    icon = '',
+    icon = '',
     color = '#5cb85c',
     name = 'Nunjucks',
   },
@@ -118,22 +118,22 @@ local icon_configs = {
     name = 'LirFolderNode',
   },
   ['test.js'] = {
-    icon = 'ﭧ',
+    icon = '󰙨',
     color = '#cbcb41',
     name = 'JsTest',
   },
   ['spec.js'] = {
-    icon = '',
+    icon = '󰙨',
     color = '#f6e400',
     name = 'JsSpec',
   },
   ['test.lua'] = {
-    icon = 'ﭧ',
+    icon = '󰙨',
     color = '#51a0cf',
     name = 'LuaTest',
   },
   ['spec.lua'] = {
-    icon = '',
+    icon = '󰙨',
     color = '#51a0cf',
     name = 'LuaSpec',
   },
@@ -143,12 +143,12 @@ local icon_configs = {
     name = 'JsonC',
   },
   graphql = {
-    icon = '',
+    icon = '󰡷',
     color = '#e10298',
     name = 'GraphQL',
   },
   astro = {
-    icon = '',
+    icon = '󱓞',
     color = '#ff7e33',
     name = 'Astro',
   },
