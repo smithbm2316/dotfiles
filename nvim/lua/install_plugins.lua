@@ -18,12 +18,6 @@ return require('packer').startup {
       'nvim-treesitter/nvim-treesitter-context',
     }
 
-    -- lsp server progress indicator
-    use {
-      'j-hui/fidget.nvim',
-      disable = true,
-    }
-
     -- annotation generator
     use {
       'danymat/neogen',
