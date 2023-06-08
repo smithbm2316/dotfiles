@@ -16,8 +16,8 @@ nitrogen --restore &
 
 # apps to autostart
 # flatpak run com.github.Eloston.UngoogledChromium &
-google-chrome &
 kitty --title=dev &
+google-chrome &
 firefox &
 slack &
 # spotify &

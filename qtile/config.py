@@ -12,7 +12,6 @@ alt = 'mod1'
 shift = 'shift'
 
 terminal = 'kitty'
-home = os.path.expanduser('$HOME')
 dotfiles = os.path.expanduser('~/dotfiles')
 
 keys = [
@@ -125,6 +124,9 @@ keys = [
   ),
   Key(
     [mod, alt], 'm', lazy.spawn(f'{dotfiles}/scripts/airpods.sh codec'), desc='Toggle airpods mic on/off (codec)'
+  ),
+  Key(
+    [mod, ctrl], 'i', lazy.spawn(f'{os.path.expanduser("~/.local/bin/")}/sys-theme'), desc='Toggle system theme between light and dark'
   ),
   Key(
     [mod, alt], 'x', lazy.spawn('xrandr --auto'), desc='Run xrandr in auto mode'

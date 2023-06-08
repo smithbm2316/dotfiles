@@ -1,4 +1,4 @@
-#! /usr/bin/env -S deno run -A --ext=ts
+// #! /usr/bin/env -S deno run -A --ext=ts
 
 import $ from "https://deno.land/x/dax/mod.ts";
 // import { parse } from 'https://deno.land/std/flags/mod.ts';
