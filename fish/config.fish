@@ -143,7 +143,7 @@ function tmn -a session
     if test -z $session
         tmux \
             new -n code -s (basename $PWD) \; \
-            send "$EDITOR" C-m \; \
+            # send "$EDITOR" C-m \; \
             neww -n serve \; \
             splitw -h -c $idk -t serve
     else
@@ -154,7 +154,7 @@ end
 function tmnp -a session serve_command
     tmux \
         new -n code -s (basename $PWD) \; \
-        send "$EDITOR" C-m \; \
+        # send "$EDITOR" C-m \; \
         neww -n serve \; \
         splitw -h -c $idk -t serve \; \
         send -c $serve_command C-m
@@ -232,7 +232,13 @@ end
 if test (uname -s) = Linux
     # setup keychain settings if not in tmux
     if test -z $TMUX && status --is-interactive
-        SHELL=/usr/bin/fish /usr/bin/keychain --eval --quiet -Q gl_vincit gh_vincit gh_personal | source
+        # SHELL=/usr/bin/fish /usr/bin/keychain --eval --quiet -Q gl_vincit gh_vincit gh_personal | source
+        set -l fish_cmd (command -v fish)
+        set -l ls_cmd (command -v ls)
+        set -l keychain_cmd (command -v keychain)
+        set -l ssh_keys ($ls_cmd ~/.ssh | grep -v -e pub -e known_hosts -e config)
+        # echo "SHELL=$fish_cmd $keychain_cmd --agents ssh --eval --quiet -Q $ssh_keys | source"
+        SHELL=$fish_cmd $keychain_cmd --eval --quiet -Q $ssh_keys | source && echo "Loaded $ssh_keys from ~/.ssh"
     end
 
     # Debian settings
