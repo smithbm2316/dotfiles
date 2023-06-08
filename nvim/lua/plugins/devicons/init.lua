@@ -64,12 +64,12 @@ local icon_configs = {
   },
   ['package-lock.json'] = {
     icon = '',
-    color = '#cb0000',
+    color = '#84ba64',
     name = 'NPMLockfile',
   },
   ['package.json'] = {
     icon = '',
-    color = '#84ba64',
+    color = '#cb0000',
     name = 'PackageJSON',
   },
   ['tsconfig.json'] = {

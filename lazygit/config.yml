@@ -1,24 +1,43 @@
 gui:
   scrollHeight: 8 # how many lines you scroll by
   expandFocusedSidePanel: true
+  # theme:
+  #   lightTheme: false
+  #   selectedLineBgColor:
+  #     - black
+  #     - bold
+  #   activeBorderColor:
+  #     - white
+  #     - bold
+  #   inactiveBorderColor:
+  #     - green
+  #   optionsTextColor:
+  #     - blue
+  #   selectedRangeBgColor:
+  #     - black
+  #   cherryPickedCommitBgColor:
+  #     - blue
+  #   cherryPickedCommitFgColor:
+  #     - cyan
   theme:
-    lightTheme: false
-    selectedLineBgColor:
-      - black
-      - bold
+    lightTheme: false 
     activeBorderColor:
-      - white
+      - "#a6e3a1" # Green
       - bold
     inactiveBorderColor:
-      - green
+      - "#cdd6f4" # Text
     optionsTextColor:
-      - blue
+      - "#89b4fa" # Blue
+    selectedLineBgColor:
+      - "#313244" # Surface0
     selectedRangeBgColor:
-      - black
+      - "#313244" # Surface0
     cherryPickedCommitBgColor:
-      - blue
+      - "#94e2d5" # Teal
     cherryPickedCommitFgColor:
-      - cyan
+      - "#89b4fa" # Blue
+    unstagedChangesColor:
+      - red       # Red
 git:
   pull:
     mode: 'rebase'
