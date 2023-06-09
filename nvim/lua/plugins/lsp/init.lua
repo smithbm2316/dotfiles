@@ -827,7 +827,7 @@ end
 
 -- define signcolumn lsp diagnostic icons
 -- define diagnostic icons/highlights for signcolumn and other stuff
-local define_icon = function(short_name, long_name, icon)
+local define_icon = function(long_name, short_name, icon)
   vim.fn.sign_define('DiagnosticSign' .. short_name, {
     text = icon,
     texthl = 'Diagnostic' .. short_name,
