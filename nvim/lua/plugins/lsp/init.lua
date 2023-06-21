@@ -389,7 +389,7 @@ local servers = {
       },
     },
   },
-  -- teal_ls = {},
+  teal_ls = {},
   texlab = {},
   vuels = {},
   vimls = {},

@@ -50,6 +50,7 @@ cmp.setup {
         tmux = 'tmux',
         latex_symbols = 'latex',
         nvim_lsp_signature_help = 'sig_help',
+        ['html-css'] = entry.completion_item.menu,
       }
 
       if entry.source.name == 'nvim_lsp' then
@@ -94,6 +95,9 @@ cmp.setup {
     },
     {
       name = 'vscode_custom_data',
+    },
+    {
+      name = 'html-css',
     },
     { name = 'luasnip', max_item_count = 5 },
     { name = 'path' },

@@ -228,6 +228,15 @@ return require('packer').startup {
       end,
     }
 
+    -- autocomplete css classes in HTML/JSX
+    use {
+      -- 'Jezda1337/nvim-html-css',
+      'smithbm2316/nvim-html-css',
+      requires = {
+        'hrsh7th/nvim-cmp',
+      },
+    }
+
     -----------------------------------------------------
     ---
     --- colorscheme plugins

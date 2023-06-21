@@ -163,3 +163,15 @@ _G.diagnostic_icons = {
   hint = '󱠃',
   info = '',
 }
+
+_G.glp = function(path)
+  local file_path = require('plenary.path'):new { path, sep = '/' }
+  if not file_path:exists() then
+    return nil
+  end
+  return file_path:absolute()
+end
+
+_G.get_css_files = function()
+  return vim.split(vim.fn.globpath(vim.fn.getcwd(), '**/*.css'), '\n')
+end
