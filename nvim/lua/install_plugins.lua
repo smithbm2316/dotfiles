@@ -43,12 +43,13 @@ return require('packer').startup {
 
     -- nice way of managing split focusing
     use {
-      'beauwilliams/focus.nvim',
-      disable = true,
+      'nvim-focus/focus.nvim',
     }
 
     -- rainbow coloring of brackets/curly braces/parenthesis/tags to make finding pairs easier
-    -- use { 'p00f/nvim-ts-rainbow' }
+    use {
+      'p00f/nvim-ts-rainbow',
+    }
 
     -- add indent line guides to editor
     use {
