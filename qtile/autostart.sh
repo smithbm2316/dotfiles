@@ -8,7 +8,7 @@ nm-applet &
 blueman-applet &
 pasystray &
 flameshot &
-keyd-application-mapper -d &
+# keyd-application-mapper -d &
 pactl load-module module-switch-on-connect &
 nitrogen --restore &
 # imwheel &
