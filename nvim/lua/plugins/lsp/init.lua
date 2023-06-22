@@ -378,6 +378,7 @@ local servers = {
       },
     },
   },
+  -- teal_ls = {},
   texlab = {},
   vuels = {},
   vimls = {},
@@ -453,6 +454,8 @@ lspconfig.eslint.setup {
 local null_ok, null_ls = pcall(require, 'null-ls')
 if null_ok then
   null_ls.setup {
+    on_attach = M.my_on_attach,
+    capabilities = M.my_capabilities,
     sources = {
       -- code actions
       -- null_ls.builtins.code_actions.eslint,

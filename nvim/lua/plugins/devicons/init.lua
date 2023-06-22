@@ -137,6 +137,11 @@ local icon_configs = {
     color = '#51a0cf',
     name = 'LuaSpec',
   },
+  tl = {
+    icon = '󰢱',
+    color = '#0095a0',
+    name = 'Teal',
+  },
   jsonc = {
     icon = '',
     color = '#f6e400',
