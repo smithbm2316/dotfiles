@@ -590,7 +590,9 @@ lspconfig.tsserver.setup {
 
         -- filter diagnostics
         filter_out_diagnostics_by_severity = {},
-        filter_out_diagnostics_by_code = {},
+        filter_out_diagnostics_by_code = {
+          80001, -- https://stackoverflow.com/a/70294761/15089697
+        },
 
         -- inlay hints
         auto_inlay_hints = true,
