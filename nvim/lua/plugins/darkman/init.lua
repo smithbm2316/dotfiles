@@ -57,11 +57,7 @@ catppuccin.setup {
   },
 }
 
--- setup must be called before loading
-vim.cmd.colorscheme 'catppuccin'
-
--- Old setup for rose-pine, trying out catppuccin now
---[[
+-- rose-pine for light variant
 local rose_pine_ok, rose_pine = pcall(require, 'rose-pine')
 if not rose_pine_ok then
   return
@@ -73,10 +69,9 @@ rose_pine.setup {
     IndentBlanklineChar = { fg = 'surface' },
     -- this seems to fix the issue with highlighting TSX/JSX component names in markup
     -- https://github.com/nvim-treesitter/playground/issues/94#issuecomment-1251134196
-    ['@constructor'] = { fg = 'foam' },
+    -- ['@constructor'] = { fg = 'foam' },
   },
 }
---]]
 
 local ok, darkman = pcall(require, 'darkman')
 if not ok then
@@ -87,8 +82,8 @@ darkman.setup {
   change_background = true,
   send_user_event = false,
   colorscheme = {
-    dark = 'catppuccin',
-    light = 'catppuccin-latte',
+    dark = 'catppuccin-mocha',
+    light = 'rose-pine-dawn',
   },
 }
 
