@@ -341,7 +341,7 @@ local servers = {
   -- rust_analyzer = {},
   svelte = {},
   tailwindcss = {
-    root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.cjs'),
+    root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.cjs', 'tailwind.config.ts', 'package.json'),
     settings = {
       tailwindCSS = {
         classAttributes = { 'class', 'className' },
@@ -415,7 +415,8 @@ lspconfig.eslint.setup {
     '.eslintrc.yaml',
     '.eslintrc.yml',
     '.eslintrc.json',
-    'package.json'
+    'package.json',
+    'eslint.config.js'
   ),
   settings = {
     codeAction = {
@@ -431,10 +432,13 @@ lspconfig.eslint.setup {
       enable = false,
       mode = 'all',
     },
+    experimental = {
+      useFlatConfig = true,
+    },
     format = true,
     nodePath = '',
     onIgnoredFiles = 'off',
-    packageManager = 'npm',
+    -- packageManager = 'npm',
     quiet = false,
     -- https://github.com/microsoft/vscode-eslint#settings-options
     -- rulesCustomizations lets me override Prettier suggestions to
@@ -442,7 +446,7 @@ lspconfig.eslint.setup {
     rulesCustomizations = {
       { rule = 'prettier*', severity = 'info' },
     },
-    run = 'onType',
+    run = 'onSave',
     useESLintClass = false,
     validate = 'on',
     workingDirectory = {
