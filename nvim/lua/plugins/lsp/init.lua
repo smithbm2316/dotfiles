@@ -230,6 +230,9 @@ M.my_capabilities = vim.lsp.protocol.make_client_capabilities()
 M.my_capabilities = require('cmp_nvim_lsp').default_capabilities(M.my_capabilities)
 M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+-- directory for HTML custom data JSON files
+-- local htmlCustomDataFiles = vim.fn.globpath('~/dotfiles/nvim/htmlCustomData', '*.json', false, true)
+
 -- setup language servers
 -- TODO: add user commands similar to vim-go plugin
 -- https://github.com/fatih/vim-go
@@ -306,9 +309,17 @@ local servers = {
   graphql = {
     filetypes = { 'graphql' },
   },
-  html = {},
+  html = {
+    single_file_support = false,
+    init_options = {
+      provideFormatter = false,
+    },
+    --[[ settings = {
+      customDataProviders = htmlCustomDataFiles,
+    }, ]]
+  },
   -- marksman = {},
-  prismals = {},
+  -- prismals = {},
   -- pylsp = {},
   pyright = {
     disableOrganizeImports = false,
@@ -446,7 +457,7 @@ lspconfig.eslint.setup {
     rulesCustomizations = {
       { rule = 'prettier*', severity = 'info' },
     },
-    run = 'onSave',
+    run = 'onType',
     useESLintClass = false,
     validate = 'on',
     workingDirectory = {
@@ -484,12 +495,35 @@ if null_ok then
       --[[ null_ls.builtins.formatting.prettier.with {
         extra_args = { '--plugin-search-dir', '.' },
       }, ]]
-      null_ls.builtins.formatting.prettierd,
+      null_ls.builtins.formatting.prettierd.with {
+        filetypes = {
+          'javascript',
+          'javascriptreact',
+          'typescript',
+          'typescriptreact',
+          'vue',
+          'css',
+          'scss',
+          'less',
+          'html',
+          'json',
+          'jsonc',
+          'yaml',
+          'markdown',
+          'markdown.mdx',
+          'graphql',
+          'handlebars',
+          'astro',
+          'svelte',
+        },
+      },
       null_ls.builtins.formatting.prismaFmt,
       -- null_ls.builtins.formatting.rome,
       -- null_ls.builtins.formatting.rustywind,
       null_ls.builtins.formatting.stylelint,
-      null_ls.builtins.formatting.stylua,
+      null_ls.builtins.formatting.stylua.with {
+        filetypes = { 'lua', 'luau', 'tl' },
+      },
       -- hover
       -- null_ls.builtins.hover.dictionary,
     },
@@ -603,7 +637,8 @@ lspconfig.tsserver.setup {
         inlay_hints_highlight = 'Comment',
         inlay_hints_priority = 200, -- priority of the hint extmarks
         inlay_hints_throttle = 150, -- throttle the inlay hint request
-        inlay_hints_format = { -- format options for individual hint kind
+        inlay_hints_format = {
+          -- format options for individual hint kind
           Type = {},
           Parameter = {},
           Enum = {},
@@ -741,9 +776,10 @@ neodev.setup {
     enabled = true,
     runtime = true,
     types = cwd:match(vim.env.HOME .. '/dotfiles/nvim') ~= nil,
-    plugins = false,
-    pathStrict = true,
+    plugins = true,
   },
+  setup_jsonls = true,
+  pathStrict = true,
 }
 
 --[[

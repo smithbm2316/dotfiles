@@ -4,6 +4,16 @@ vim.o.completeopt = 'menuone,noselect'
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
 
+local vscode_custom_data = require 'plugins.cmp.vscode-custom-data'
+vscode_custom_data.setup {
+  ---@diagnostic disable-next-line: param-type-mismatch
+  local_data_files = vim.fn.globpath(vim.env.XDG_DATA_HOME .. '/nvim/vscode-custom-data', '**/data.json', false, true),
+  data_files = {
+    alpinejs = 'https://raw.githubusercontent.com/AdrianWilczynski/AlpineIntelliSense/master/customData/html.json',
+    htmx = 'https://raw.githubusercontent.com/otovo/htmx-tags/main/html.htmx-data.json',
+  },
+}
+
 -- setup nvim-cmp
 cmp.setup {
   --[[ completion = {
@@ -20,7 +30,7 @@ cmp.setup {
       require('luasnip').lsp_expand(args.body)
     end,
   },
-  preselect = false,
+  -- preselect = false,
   -- Neat trick for showing the exact LSP server that the completion comes from
   -- https://github.com/rebelot/dotfiles/blob/master/nvim/lua/plugins/cmp.lua
   formatting = {
@@ -54,11 +64,11 @@ cmp.setup {
   mapping = {
     ['<c-p>'] = cmp.mapping.select_prev_item(),
     ['<c-n>'] = cmp.mapping.select_next_item(),
-    ['<c-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<c-u>'] = cmp.mapping.scroll_docs(4),
+    ['<c-d>'] = cmp.mapping.scroll_docs(4),
+    ['<c-u>'] = cmp.mapping.scroll_docs(-4),
     ['<c-e>'] = cmp.mapping.complete(),
     ['<c-y>'] = cmp.mapping.close(),
-    ['<c-k>'] = cmp.mapping(function(fallback)
+    ['<c-k>'] = cmp.mapping(function(--[[fallback]])
       if cmp.visible() then
         cmp.confirm {
           behavior = cmp.ConfirmBehavior.Replace,
@@ -81,6 +91,9 @@ cmp.setup {
       --[[ entry_filter = function(entry, ctx)
         return
       end, ]]
+    },
+    {
+      name = 'vscode_custom_data',
     },
     { name = 'luasnip', max_item_count = 5 },
     { name = 'path' },

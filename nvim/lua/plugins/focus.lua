@@ -3,7 +3,8 @@ if not ok then
   return
 end
 
-local golden_ratio = 1.618
+-- local golden_ratio = 1.618
+local golden_ratio = 1.5
 
 local golden_ratio_width = function()
   local maxwidth = vim.o.columns

@@ -121,6 +121,7 @@ dnf_packages() {
     NetworkManager-tui \
     NetworkManager-wifi \
     mpv \
+    mpv-mpris \
     nitrogen \
     papirus-icon-theme \
     pavucontrol \
