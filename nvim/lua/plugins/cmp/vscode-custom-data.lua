@@ -87,7 +87,8 @@ end
 ---@param url string the url
 ---@return CustomDataFile
 local function get_file_from_url(file_name, url)
-  local file_path = vim.env.XDG_DATA_HOME .. '/nvim/vscode-custom-data/' .. file_name .. '.json'
+  local folder_path = vim.env.XDG_DATA_HOME .. '/nvim/vscode-custom-data'
+  local file_path = folder_path .. '/' .. file_name .. '.json'
   local cached_file = io.open(file_path, 'r')
   if cached_file then
     cached_file:close()
@@ -101,6 +102,8 @@ local function get_file_from_url(file_name, url)
     error("Couldn't download JSON file from %s" .. url, vim.log.levels.ERROR)
   end
 
+  vim.fn.mkdir(folder_path, 'p')
+  vim.fn.writefile({}, file_path)
   local file_to_cache = io.open(file_path, 'w')
   if not file_to_cache then
     vim.notify("Couldn't parse JSON from cached file: " .. file_path, vim.log.levels.ERROR)
@@ -169,7 +172,9 @@ M.setup = function(user_config)
   config = vim.tbl_deep_extend('force', default_config, user_config)
 
   for file_name, url in pairs(config.data_files) do
-    for _, globalAttr in ipairs(get_file_from_url(file_name, url).globalAttributes or {}) do
+    local json_data = get_file_from_url(file_name, url)
+    local global_attributes = json_data and json_data.globalAttributes or {}
+    for _, globalAttr in ipairs(global_attributes) do
       ---@type lsp.CompletionItem
       local cmp_item = {
         label = globalAttr.name,
