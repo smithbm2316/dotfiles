@@ -82,3 +82,6 @@ gitk
 
 # ignore python cache for qtile
 qtile/__pycache__
+
+# vscodium
+VSCodium

@@ -77,6 +77,27 @@ local icon_configs = {
     color = '#3278c6',
     name = 'TSConfig',
   },
+  tmpl = {
+    icon = '󰗀',
+    color = '#f16529',
+    name = 'GolangHTMLTemplate',
+  },
+  ['go.mod'] = {
+    icon = '󰟓',
+    color = '#519aba',
+    name = 'GolangSum',
+  },
+  ['go.sum'] = {
+    icon = '',
+    color = '#519aba',
+    name = 'GolangSum',
+  },
+  go = {
+    icon = '',
+    color = '#519aba',
+    cterm_color = '74',
+    name = 'Go',
+  },
   html = {
     icon = '',
     color = '#f16529',
