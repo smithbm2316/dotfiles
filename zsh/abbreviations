@@ -16,17 +16,6 @@ abbr "yeet"="rm -rf"
 abbr "cf"="$HOME/dotfiles/scripts/cf.sh"
 # pr review helper
 abbr "prr"="$HOME/dotfiles/scripts/prr.fish"
-# ls/exa aliases
-abbr "l"="exa --icons -la"
-abbr "ls"="exa --icons"
-abbr "lsa"="exa --icons -a"
-abbr "tree"="exa --icons --tree --all --ignore-glob 'node_modules|.git'"
-# if [ -z "$(command -v exa)" ]; then
-#   abbr "l"="ls -lA"
-#   abbr "lsa"="ls -A"
-# else
-#   echo "has exa"
-# fi
 abbr "ytdl"="youtube-dl"
 # pactl
 abbr "setvol50"="pactl set-sink-volume @DEFAULT_SINK@ 50%"

@@ -236,7 +236,6 @@ return require('packer').startup {
     use {
       '4e554c4c/darkman.nvim',
       run = 'go build -o bin/darkman.nvim',
-      disable = true,
     }
 
     use {

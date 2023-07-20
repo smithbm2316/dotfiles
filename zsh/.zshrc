@@ -44,5 +44,7 @@ source "$XDG_CONFIG_HOME/zsh/plugins/zsh-abbr/zsh-abbr.zsh"
 # load fzf completions & keybindings
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
 
+source "$XDG_CONFIG_HOME/zsh/aliases"
+
 # load zsh syntax highlighting
 source "$XDG_CONFIG_HOME/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

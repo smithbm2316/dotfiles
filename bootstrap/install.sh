@@ -147,6 +147,15 @@ dnf_packages() {
     xsetroot \
     zsh
 
+  # add ZDOTDIR environment variable to system so that zsh loads config from my dotfiles
+  if [ -e '/etc/zshenv' ]; then
+    echo 'export ZDOTDIR="/home/$USER/.config/zsh"' | sudo tee -a /etc/zshenv
+  elif [ -e '/etc/zsh/zshenv' ]; then
+    echo 'export ZDOTDIR="/home/$USER/.config/zsh"' | sudo tee -a /etc/zsh/zshenv
+  else
+    echo "Couldn't find /etc/zshenv or /etc/zsh/zshenv to add ZDOTDIR env var to"
+  fi
+
   # https://docs.fedoraproject.org/en-US/quick-docs/openh264/
   # h264 codec for firefox
   sudo dnf config-manager --set-enabled fedora-cisco-openh264
