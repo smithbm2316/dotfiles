@@ -34,6 +34,13 @@ autoload -Uz vim-bindings; vim-bindings
 # add support for zsh completions via 
 fpath=("$XDG_CONFIG_HOME/zsh/plugins/zsh-completions/src" $fpath)
 
+# add support for fish-style abbreviations in zsh
+# typeset -A ZSH_HIGHLIGHT_REGEXP
+# ZSH_HIGHLIGHT_HIGHLIGHTERS+=(main regexp)
+source "$XDG_CONFIG_HOME/zsh/plugins/zsh-abbr/zsh-abbr.zsh"
+# ZSH_HIGHLIGHT_REGEXP+=('^[[:blank:][:space:]]*('${(j:|:)${(k)ABBR_REGULAR_USER_ABBREVIATIONS}}')$' fg=green)
+# ZSH_HIGHLIGHT_REGEXP+=('\<('${(j:|:)${(k)ABBR_GLOBAL_USER_ABBREVIATIONS}}')$' fg=blue)
+
 # load fzf completions & keybindings
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
 

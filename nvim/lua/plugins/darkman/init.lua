@@ -73,8 +73,18 @@ rose_pine.setup {
   },
 }
 
+-- switch between light/dark theme
+nnoremap('<leader>tt', function()
+  if vim.opt.background:get() == 'dark' then
+    vim.opt.background = 'light'
+  else
+    vim.opt.background = 'dark'
+  end
+end, 'Toggle color mode')
+
 local ok, darkman = pcall(require, 'darkman')
 if not ok then
+  vim.cmd.colorscheme 'catppuccin-mocha'
   return
 end
 
@@ -86,13 +96,3 @@ darkman.setup {
     light = 'rose-pine-dawn',
   },
 }
-
--- switch between light/dark theme
-nnoremap('<leader>tt', function()
-  if vim.opt.background:get() == 'dark' then
-    vim.opt.background = 'light'
-  else
-    vim.opt.background = 'dark'
-  end
-end, 'Toggle color mode')
---
