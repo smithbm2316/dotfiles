@@ -1,4 +1,3 @@
-# vim: ft=zsh
 # ls/exa aliases
 if [ -e "$(command -v exa)" ]; then
   alias l="exa --icons -la"
@@ -9,3 +8,6 @@ else
   alias l="ls -lA"
   alias lsa="ls -A"
 fi
+
+# go version manager
+alias goenv="$GOPATH/bin/g"

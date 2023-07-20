@@ -82,17 +82,9 @@ nnoremap('<leader>tt', function()
   end
 end, 'Toggle color mode')
 
-local ok, darkman = pcall(require, 'darkman')
-if not ok then
+local current_sys_theme = vim.trim(vim.fn.system 'darkman get')
+if current_sys_theme == 'light' then
+  vim.cmd.colorscheme 'catppuccin-latte' -- rose-pine-dawn
+else
   vim.cmd.colorscheme 'catppuccin-mocha'
-  return
 end
-
-darkman.setup {
-  change_background = true,
-  send_user_event = false,
-  colorscheme = {
-    dark = 'catppuccin-mocha',
-    light = 'rose-pine-dawn',
-  },
-}

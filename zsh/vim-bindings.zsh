@@ -1,4 +1,3 @@
-# vim: ft=zsh
 # vim bindings
 bindkey -v
 export KEYTIMEOUT=1

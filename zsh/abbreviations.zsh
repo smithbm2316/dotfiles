@@ -1,4 +1,3 @@
-# vim: ft=zsh
 # OBS virtual cam using v4l2loopback 
 # abbr "vcam"="sudo modprobe v4l2loopback video_nr=7 card_label='OBS Virtual Cam'"
 # Source fish
@@ -21,7 +20,6 @@ abbr "ytdl"="youtube-dl"
 abbr "setvol50"="pactl set-sink-volume @DEFAULT_SINK@ 50%"
 # nvim
 abbr "nv"="nvim"
-abbr "pgnv"="pgrep nvim"
 abbr "nvpack"="cd ~/.local/share/nvim/site/pack/packer/start"
 # check what key events are being sent with `xev`
 abbr "keyevent"="xev -event keyboard | grep -o -e '(keysym .*, .*)'"
@@ -40,3 +38,10 @@ abbr "dcu"='docker compose up'
 # make tmux easier to use
 abbr "tmls"="tmux ls"
 abbr "tma"="tmux attach -t "
+
+# execute a deno task
+abbr "dt"="deno task "
+
+# pgrep / pkill
+abbr "pg"="pgrep"
+abbr "pk"="pkill"

@@ -1,4 +1,3 @@
-# vim: ft=zsh
 # https://salferrarello.com/zsh-git-status-prompt/
 # load add_zsh_hook and vcs_info
 autoload -Uz add-zsh-hook vcs_info

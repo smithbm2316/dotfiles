@@ -15,7 +15,7 @@ setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_SILENT
 
 # https://thevaluable.dev/zsh-install-configure-mouseless/
-alias d='dirs -v'
+alias d="dirs -v"
 for index ({1..9}) alias "$index"="cd +${index}"; unset index
 
 zstyle :compinstall filename "$XDG_CONFIG_HOME/zsh/.zshrc"
@@ -27,9 +27,9 @@ autoload -Uz compinit; compinit
 # and load my custom prompt
 _comp_options+=(globdots)
 fpath=("$XDG_CONFIG_HOME/zsh" $fpath)
-autoload -Uz prompt; prompt
+autoload -Uz prompt.zsh; prompt.zsh
 # load vim bindings
-autoload -Uz vim-bindings; vim-bindings
+autoload -Uz vim-bindings.zsh; vim-bindings.zsh
 
 # add support for zsh completions via 
 fpath=("$XDG_CONFIG_HOME/zsh/plugins/zsh-completions/src" $fpath)
@@ -44,7 +44,57 @@ source "$XDG_CONFIG_HOME/zsh/plugins/zsh-abbr/zsh-abbr.zsh"
 # load fzf completions & keybindings
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
 
-source "$XDG_CONFIG_HOME/zsh/aliases"
+# load aliases
+autoload -Uz aliases.zsh; aliases.zsh
 
+# load functions
+autoload -Uz functions.zsh; functions.zsh
+
+# load my ssh keys on startup
+load_ssh_keys() {
+  # start up ssh-agent if it's not been started yet
+  if [ -z "$(pgrep ssh-agent)" ]; then
+    eval "$(ssh-agent -c)"
+  fi
+
+  # setup keychain settings if not in tmux and you're in an interactive shell
+  if [ -z "$TMUX" ] && [ -o interactive ]; then
+    local zsh_cmd="$(command -v zsh)"
+    local ls_cmd="$(command -v ls)"
+    local keychain_cmd="$(command -v keychain)"
+    local ssh_keys="$($ls_cmd ~/.ssh | grep -v -e pub -e known_hosts -e config)"
+    # uncomment line below to debug
+    echo "SHELL=$zsh_cmd $keychain_cmd --agents ssh --eval --quiet -Q $ssh_keys | source"
+    SHELL="$zsh_cmd" "$keychain_cmd" --eval --quiet -Q "$ssh_keys" | source && echo "Loaded $ssh_keys from ~/.ssh"
+  fi
+}
+
+# Linux settings
+if [ "$(uname -s)" = "Linux" ]; then
+  # load_ssh_keys
+
+  # Debian settings
+  if [ -f /etc/debian_version ]; then
+    # Set `bat` as default man pager
+    alias bat="batcat"
+    # Alias for fd package
+    alias fd="fdfind"
+    # redefine for debian, where fd is renamed
+    export FZF_DEFAULT_COMMAND="fdfind --type f --color=never"
+    # Alias for ncal to use normal month formatting
+    alias cal="ncal -b"
+  fi
+elif [ "$(uname -s)" = "Darwin" ]; then
+  # setup keychain settings if not in tmux
+  # if [ -z $TMUX && status --is-interactive ]; then
+    # SHELL=/usr/bin/zsh /usr/local/bin/keychain --eval --quiet -Q gl_vincit gh_vincit gh_personal | source
+  # fi
+
+  # update $PATH to use gnu coreutils and commands instead of bsd defaults
+  # export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+  echo "On a mac, not linux >:("
+fi
+
+# LOAD LAST
 # load zsh syntax highlighting
 source "$XDG_CONFIG_HOME/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
