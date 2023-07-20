@@ -1,6 +1,7 @@
 #!/bin/sh
 # background processes, applets, and screen config
-/home/smithbm/dotfiles/scripts/displays.sh &
+# /home/smithbm/dotfiles/scripts/displays.sh &
+autorandr --load vertical-temp &
 picom -b &
 dunst &
 xset r rate 250 25 &
@@ -17,7 +18,7 @@ nitrogen --restore &
 # apps to autostart
 # flatpak run com.github.Eloston.UngoogledChromium &
 kitty --title=dev &
-google-chrome &
+# google-chrome &
 firefox &
 slack &
 # spotify &

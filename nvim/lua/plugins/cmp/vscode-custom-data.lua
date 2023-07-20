@@ -217,3 +217,11 @@ M.setup = function(user_config)
 end
 
 return M
+
+-- NOTE: References
+-- https://code.visualstudio.com/blogs/2020/02/24/custom-data-format
+-- https://github.com/hrsh7th/nvim-cmp/discussions/1531
+-- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/
+-- https://github.com/LuaLS/lua-language-server/wiki/Annotations
+-- https://json-schema.app/view/%23?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2Fvscode-html-languageservice%2Fmain%2Fdocs%2FcustomData.schema.json
+-- https://github.com/buschco/nvim-cmp-ts-tag-close/blob/main/lua/nvim-cmp-ts-tag-close/init.lua

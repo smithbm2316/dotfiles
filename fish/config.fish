@@ -33,7 +33,11 @@ abbr -a sosh 'source ~/dotfiles/fish/config.fish'
 # `cd -` alias
 abbr -a -- - 'cd -'
 # lazygit
-abbr -a lg lazygit
+# abbr -a lg lazygit
+# git
+abbr -a g git
+# go version manager
+alias goenv="$GOPATH/bin/g"
 # alias comet "$HOME/dotfiles/scripts/comet.sh"
 # mv and cp and mkdir improvements
 abbr -a mv 'mv -iv'
@@ -261,7 +265,6 @@ else if test (uname -s) = Darwin
     # update $PATH to use gnu coreutils and commands instead of bsd defaults
     set -p PATH /usr/local/opt/gnu-sed/libexec/gnubin
 end
-fish_add_path /usr/local/sbin
 
 
 
@@ -296,3 +299,6 @@ set -Ux FZF_DEFAULT_OPTS "\
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+
+fish_add_path /usr/local/sbin
+fish_add_path /usr/bin

@@ -484,8 +484,8 @@ if null_ok then
       -- null_ls.builtins.diagnostics.luacheck,
       -- null_ls.builtins.diagnostics.proselint,
       null_ls.builtins.diagnostics.shellcheck,
-      null_ls.builtins.diagnostics.stylelint,
-      null_ls.builtins.diagnostics.teal,
+      -- null_ls.builtins.diagnostics.stylelint,
+      -- null_ls.builtins.diagnostics.teal,
       -- formatting
       null_ls.builtins.formatting.deno_fmt,
       null_ls.builtins.formatting.gofmt.with {
@@ -746,7 +746,7 @@ lspconfig.jsonls.setup {
             'deno.json',
             'deno.jsonc',
           },
-          url = 'https://cdn.deno.land/deno/versions/v1.20.5/raw/cli/schemas/config-file.v1.json',
+          url = 'https://deno.land/x/deno/cli/schemas/config-file.v1.json',
         },
       },
     },

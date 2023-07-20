@@ -1,17 +1,13 @@
+# vim: ft=gitignore
 Session.vim
-.nvimrc
 .DS_Store
-.idea/
 npm-debug.log
 yarn-error.log
 node_modules/
-_site/
-.jira.d/
 .dprint.json
 tsconfig.tsbuildinfo
 .node-version
-.vite
-.svelte-kit
-.next
-.astro
-.parcel-cache
+# neovim project-specific configuration
+.nvimrc
+# personal scratchpad
+.scratchpad.md

@@ -1,4 +1,4 @@
-# vim: filetype=dosini
+# vim: ft=gitconfig
 # This is Git's per-user configuration file.
 [user]
 	name = Ben Smith
@@ -15,7 +15,7 @@
   cmm = commit -m 
 	cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
 	pushup = push -u origin HEAD
-  s = status
+  s = status -u
 	i = init 
 	l = log --oneline
 	cl = clone

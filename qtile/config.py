@@ -36,6 +36,8 @@ keys = [
   # Key([mod, shift], 'k', lazy.layout.grow_up(), desc='Grow window up'),
   Key([mod, shift], 'k', lazy.layout.shrink_main(), desc='Shrink main pane'),
   Key([mod, shift], 'j', lazy.layout.grow_main(), desc='Grow main pane'),
+  # Key([mod, ctrl], 'm', lazy.layout.maximize(), desc='Maximize/minimize main pane'),
+  Key([mod, shift], 'j', lazy.layout.grow_main(), desc='Grow main pane'),
   # next/prev group
   Key([mod], 'semicolon', lazy.screen.next_group(), desc='Go to next group'),
   Key([mod], 'comma', lazy.screen.prev_group(), desc='Go to prev group'),
@@ -47,7 +49,7 @@ keys = [
     lazy.window.toggle_floating(),
     desc='Toggle a window between tiled and floating'
   ),
-  # Key([mod], 'n', lazy.layout.next(), desc='Move window focus to other window'),
+  Key([mod], 'n', lazy.next_screen(), desc='Move focus to next screen'),
   Key([mod], 'w', lazy.next_layout(), desc='Toggle between layouts'),
   Key([mod, ctrl], 'w', lazy.layout.normalize(), desc='Reset all window sizes'),
   # terminal
@@ -163,8 +165,10 @@ groups = [
       'label': 'dev',
       'apps': [
         Match(wm_class='brave-browser'),
+        Match(wm_class='google-chrome'),
+        Match(wm_class='chromium'),
+        Match(wm_class='ungoogled-chromium'),
         Match(wm_class='kitty', title='dev'),
-        Match(wm_class='1password'),
       ],
     },
     's': {
@@ -174,30 +178,26 @@ groups = [
       ]
     },
     'd': {
-      'label': 'msg',
+      'label': 'media',
       'apps': [
         Match(wm_class='slack'),
         Match(wm_class='discord'),
+        Match(wm_class='spotify'),
+        Match(wm_class='ncspot'),
       ]
     },
     'f': {
-      'label': 'misc',
-      'apps': [
-        Match(wm_class='spotify'),
-        Match(wm_class='ncspot'),
-        Match(wm_class='obs'),
-      ]
-    },
-    'g': {
       'label': 'note',
       'apps': [
         Match(wm_class='obsidian'),
         Match(wm_class='standard notes'),
       ]
     },
-    'n': {
+    'g': {
       'label': 'sec',
-      'apps': [],
+      'apps': [
+        Match(wm_class='obs'),
+      ]
     },
   }.items()
 ]
@@ -271,7 +271,9 @@ layouts = [
   # layout.Matrix(), # type: ignore
   layout.Max(),  # type: ignore
   # layout.Columns(), # type: ignore
-  layout.MonadTall(),  # type: ignore
+  layout.MonadTall(
+    align=layout.MonadTall._right
+  ),  # type: ignore
   # layout.MonadThreeCol(), # type: ignore
   # layout.MonadWide(), # type: ignore
   # layout.RatioTile(), # type: ignore

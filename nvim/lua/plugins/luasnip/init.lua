@@ -409,6 +409,9 @@ ls.add_snippets('lua', lua_snippets, {
 })
 -- why do we use a key here: https://github.com/L3MON4D3/LuaSnip/issues/81#issuecomment-1073301357
 
+-- load rafamadriz/friendly-snippets snippets
+require('luasnip.loaders.from_vscode').lazy_load()
+
 -- add keymap to reload snippets on demand
 nnoremap('<leader>rs', function()
   vim.cmd [[luafile $XDG_CONFIG_HOME/nvim/lua/plugins/luasnip/init.lua]]

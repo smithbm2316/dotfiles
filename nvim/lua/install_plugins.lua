@@ -252,6 +252,11 @@ return require('packer').startup {
       'maxmx03/fluoromachine.nvim',
     }
 
+    -- vscode snippets
+    use {
+      'rafamadriz/friendly-snippets',
+    }
+
     -----------------------------------------------------
     ---
     --- vimscript plugins
