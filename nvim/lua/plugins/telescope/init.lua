@@ -72,6 +72,7 @@ local ignore_these = {
   '.yarn/.*',
   'graphql%.schema%.json',
   'schema%.json',
+  'go%.sum',
 }
 
 local webdev_dash_keywords = {

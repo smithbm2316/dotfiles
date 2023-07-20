@@ -10,6 +10,9 @@ fish/functions/fundle.fish
 fish/projects/*
 fish/fish_variables
 
+# ignore fzf completions and keybindings setup
+fzf/*
+
 # ignore all gh cli files except for the config
 gh/*
 !gh/config.yml
@@ -68,10 +71,13 @@ xmonad/*.o
 
 # ignore unnecssary zsh folders and files
 zsh/plugins/*
+!zsh/plugins/zsh-completions
+!zsh/plugins/zsh-syntax-highlighting
 !zsh/plugins/.gitkeep
 zsh/.zcompdump
 zsh/zcompdump
 zsh/.zhistory
+zsh/.histfile
 zsh/.zsh_history
 
 # ignore emacs packages

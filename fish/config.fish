@@ -287,11 +287,6 @@ set -Ux EDITOR nvim
 set -Ux VISUAL nvim
 set -Ux SUDO_EDITOR "nvim -u NORC"
 
-# pnpm
-set -gx PNPM_HOME "/home/smithbm/.local/share/pnpm"
-set -gx PATH "$PNPM_HOME" $PATH
-# pnpm end
-
 set -gx GOPATH $HOME/go
 set -gx GOROOT $HOME/.go
 set -gx PATH $GOPATH/bin $PATH

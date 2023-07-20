@@ -1,3 +1,4 @@
+# vim: ft=ruby
 brew "bat"
 brew "cloc"
 brew "datasette"

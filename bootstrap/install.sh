@@ -163,6 +163,8 @@ spotify() {
 
 homebrew_packages() {
   brew bundle install --file "$HOME/dotfiles/Brewfile"
+  # install fzf keybindings and completions for zsh
+  "$(brew --prefix)/opt/fzf/install" --xdg --key-bindings --completion --no-update-rc --no-fish --no-bash
 }
 
 # rofi calculator plugin with qalculate

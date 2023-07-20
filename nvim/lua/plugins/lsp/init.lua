@@ -488,6 +488,9 @@ if null_ok then
       null_ls.builtins.diagnostics.teal,
       -- formatting
       null_ls.builtins.formatting.deno_fmt,
+      null_ls.builtins.formatting.gofmt.with {
+        extra_args = { '-s' },
+      },
       -- null_ls.builtins.formatting.dprint,
       -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fish_indent,

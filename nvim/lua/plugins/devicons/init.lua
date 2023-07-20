@@ -87,11 +87,6 @@ local icon_configs = {
     color = '#519aba',
     name = 'GolangSum',
   },
-  ['go.sum'] = {
-    icon = '',
-    color = '#519aba',
-    name = 'GolangSum',
-  },
   go = {
     icon = '',
     color = '#519aba',
