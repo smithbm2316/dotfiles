@@ -17,7 +17,8 @@ export DENOBIN="$HOME/.deno/bin"
 export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
 export LOCALBIN="$HOME/.local/bin"
-export PRETTIERD_DEFAULT_CONFIG="$HOME/.config/prettier/.prettierrc"
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
 export YARNBIN="$HOME/.yarn/bin"
 
 # Default env variables that are useful
@@ -44,5 +45,6 @@ path+=("$LOCALBIN")
 path+=("$GOBIN")
 path+=("$DENOBIN")
 path+=("$CARGOBIN")
-path+=("$YARNBIN")
 path+=("$HOMEBREW_PREFIX/bin")
+path+=("$PNPM_HOME")
+path+=("$YARNBIN")
