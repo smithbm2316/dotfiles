@@ -1,7 +1,7 @@
 # OBS virtual cam using v4l2loopback 
 # abbr "vcam"="sudo modprobe v4l2loopback video_nr=7 card_label='OBS Virtual Cam'"
 # Source fish
-abbr "sosh"="source ~/dotfiles/fish/config.fish"
+abbr "sosh"="source $XDG_CONFIG_HOME/zsh/.zshrc"
 # lazygit
 abbr "lg"="lazygit"
 # mv and cp and mkdir improvements

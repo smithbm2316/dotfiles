@@ -14,7 +14,7 @@ bindkey '^P' up-history
 bindkey '^N' down-history
 
 # Backwards delete word in insert mode
-bindkey '^w' backward-kill-word
+bindkey '^W' backward-kill-word
 
 # delete character with backspace
 bindkey -v '^?' backward-delete-char

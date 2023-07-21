@@ -7,3 +7,6 @@
 [submodule "zsh/plugins/zsh-abbr"]
 	path = zsh/plugins/zsh-abbr
 	url = https://github.com/olets/zsh-abbr
+[submodule "zsh/plugins/zsh-autosuggestions"]
+	path = zsh/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions

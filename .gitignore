@@ -71,10 +71,12 @@ xmonad/*.o
 
 # ignore unnecssary zsh folders and files
 zsh/plugins/*
+!zsh/plugins/.gitkeep
+# submodules
 !zsh/plugins/zsh-abbr
+!zsh/plugins/zsh-autosuggestions
 !zsh/plugins/zsh-completions
 !zsh/plugins/zsh-syntax-highlighting
-!zsh/plugins/.gitkeep
 zsh/.zcompdump
 zsh/zcompdump
 zsh/.zhistory

@@ -43,6 +43,7 @@ local ignore_these = {
   'pnpm%-lock%.yaml',
   'node_modules/.*',
   'zsh%-abbr/.*',
+  'zsh%-autosuggestions/.*',
   'zsh%-completions/.*',
   'zsh%-syntax%-highlighting/.*',
   '.gitkeep',

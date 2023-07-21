@@ -6,6 +6,10 @@ setopt notify
 setopt prompt_subst
 # don't write duplicate events to history file
 setopt HIST_SAVE_NO_DUPS
+# set case insensitive completions
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# zstyle ':completion:*' menu select
+setopt MENU_COMPLETE
 
 # Push the current directory visited on the stack.
 setopt AUTO_PUSHD
@@ -40,6 +44,11 @@ fpath=("$XDG_CONFIG_HOME/zsh/plugins/zsh-completions/src" $fpath)
 source "$XDG_CONFIG_HOME/zsh/plugins/zsh-abbr/zsh-abbr.zsh"
 # ZSH_HIGHLIGHT_REGEXP+=('^[[:blank:][:space:]]*('${(j:|:)${(k)ABBR_REGULAR_USER_ABBREVIATIONS}}')$' fg=green)
 # ZSH_HIGHLIGHT_REGEXP+=('\<('${(j:|:)${(k)ABBR_GLOBAL_USER_ABBREVIATIONS}}')$' fg=blue)
+
+# add auto-suggestions
+source "$XDG_CONFIG_HOME/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+bindkey -M viins '^e' autosuggest-accept
+bindkey -v '^e' autosuggest-accept
 
 # load fzf completions & keybindings
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
