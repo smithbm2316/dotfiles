@@ -1,8 +1,9 @@
 # XDG defaults
-export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"
+export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$XDG_CONFIG_HOME/local/share"
+export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_DATA_DIRS="/usr/local/share:/usr/share:$XDG_DATA_HOME"
+export XDG_STATE_HOME="$HOME/.local/state"
 
 # ZSH settings
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
@@ -33,14 +34,15 @@ export FZF_DEFAULT_OPTS="--multi --layout=reverse-list --border=rounded --tabsto
 export HOMEBREW_NO_ANALYTICS=1
 export NEXT_TELEMETRY_DISABLED=1
 
-# if [ "$(uname -s)" = "Linux" ]; then
-#   export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
-#   export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-#   export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
-# fi
+if [ "$(uname -s)" = "Linux" ]; then
+  export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
+  export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+  export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
+fi
 
 path+=("$LOCALBIN")
 path+=("$GOBIN")
 path+=("$DENOBIN")
 path+=("$CARGOBIN")
 path+=("$YARNBIN")
+path+=("$HOMEBREW_PREFIX/bin")

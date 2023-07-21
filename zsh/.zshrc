@@ -98,3 +98,9 @@ fi
 # LOAD LAST
 # load zsh syntax highlighting
 source "$XDG_CONFIG_HOME/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+# References
+# - [Configuring zsh without dependencies - mouseless dev's config + explanation](https://thevaluable.dev/zsh-install-configure-mouseless/)
+# - [zsh expansion guide](https://thevaluable.dev/zsh-expansion-guide-example/)
+# - [zsh completion guide](https://thevaluable.dev/zsh-completion-guide-examples/)
+# - [zsh line editor guide](https://thevaluable.dev/zsh-line-editor-configuration-mouseless/)
