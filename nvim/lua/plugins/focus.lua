@@ -18,7 +18,9 @@ end ]]
 focus.setup {
   excluded_filetypes = { 'TelescopePrompt', 'help', 'harpoon', 'DiffviewFiles' },
   excluded_buftypes = { 'nofile' },
-  signcolumn = false,
+  ui = {
+    signcolumn = false,
+  },
   width = golden_ratio_width(),
 }
 
