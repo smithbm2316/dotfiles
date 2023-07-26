@@ -13,4 +13,4 @@ xset r rate 250 25 &
 # bluetoothctl disconnect E8:85:4B:4A:82:86; bluetoothctl block E8:85:4B:4A:82:86 &
 
 # set imwheel to autostart
-systemctl --user restart imwheel.service
+# systemctl --user restart imwheel.service

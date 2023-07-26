@@ -1,8 +1,9 @@
 [Desktop Entry]
 Name=ncspot
-Exec=kitty --single-instance --detach --class ncspot /home/smithbm/.cargo/bin/ncspot
-Icon=/usr/share/icons/Papirus-Dark/32x32/apps/musicbrainz.svg
-Terminal=true
+StartupWMClass=ncspot
+GenericName=Music Player
+Exec=kitty --single-instance --detach --class ncspot /home/smithbm/.local/bin/ncspot
+Icon=/usr/share/icons/Papirus/32x32/apps/com.github.neithern.g4music
 Type=Application
 StartupNotify=true
-Categories=Sound & Video
+Categories=Music

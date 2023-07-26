@@ -273,7 +273,7 @@ charm_sh() {
   enabled=1
   gpgcheck=1
   gpgkey=https://repo.charm.sh/yum/gpg.key' | sudo tee /etc/yum.repos.d/charm.repo
-  sudo dnf install -y glow gum skate
+  sudo dnf install -y glow gum skate pop vhs
 }
 
 # https://github.com/ungoogled-software/ungoogled-chromium
@@ -391,6 +391,22 @@ gnome() {
 
   gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left "['<Control><Super>h']"
   gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right "['<Control><Super>l']"
+}
+
+# terminal TUI spotify
+ncspot() {
+  sudo dnf install -y \
+    dbus-devel \
+    libxcb-devel \
+    ncurses-devel \
+    openssl-devel \
+    pulseaudio-libs-devel
+
+  cd ~/builds || echo "Couldn't find ~/builds"; return 1
+  git clone https://github.com/hrkfdn/ncspot
+  cd ncspot || echo "Couldn't find ~/builds/ncspot"; return 1
+  cargo build --release --features cover
+  ln -s "$HOME/builds/ncspot/target/release/ncspot" "$HOME/.local/bin/ncspot"
 }
 
 # if ~/builds dir doesn't exist, make it

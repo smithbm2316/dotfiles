@@ -11,9 +11,10 @@
 [alias]
 	aa = add -A
   cm = commit
+  cma = commit --amend
   cmf = commit --no-verify
-  cmm = commit -m 
-	cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
+  cmfa = commit --no-verify --amend
+  # cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
 	pushup = push -u origin HEAD
   s = status -u
 	i = init 
