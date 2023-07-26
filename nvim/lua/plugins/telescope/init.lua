@@ -42,6 +42,8 @@ local ignore_these = {
   'package%-lock%.json',
   'pnpm%-lock%.yaml',
   'node_modules/.*',
+  'generated/graphql%.tsx', -- scoutus project
+  'generated%-gql/.*', -- inkd project
   'zsh%-abbr/.*',
   'zsh%-autosuggestions/.*',
   'zsh%-completions/.*',

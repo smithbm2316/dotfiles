@@ -600,7 +600,62 @@ lspconfig.cssmodules_ls.setup {
   },
 }
 
-lspconfig.tsserver.setup {
+local ts_tools_ok, ts_tools = pcall(require, 'typescript-tools')
+if ts_tools_ok then
+  -- disable formatting for tsserver
+  local custom_capabilities = {
+    textDocument = {
+      formatting = false,
+      rangeFormatting = false,
+    },
+  }
+  vim.tbl_deep_extend('force', M.my_capabilities, custom_capabilities)
+
+  ts_tools.setup {
+    on_attach = M.my_on_attach,
+    capabilities = custom_capabilities,
+    handlers = {
+      ['textDocument/publishDiagnostics'] = require('typescript-tools.api').filter_diagnostics {
+        -- ignore "file may be converted to from a commonjs module to an es module" error
+        -- https://stackoverflow.com/a/70294761/15089697
+        '80001',
+      },
+    },
+    root_dir = function(filename, bufnr)
+      local first_line_arr = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
+      if
+        (#first_line_arr > 0 and first_line_arr[1]:match '#!.*/usr/bin/env.*deno' ~= nil)
+        or util.root_pattern('deno.json', 'deno.jsonc')(filename)
+      then
+        return nil
+      end
+      return util.root_pattern('package.json', 'tsconfig.json')(filename)
+    end,
+    settings = {
+      -- spawn additional tsserver instance to calculate diagnostics on it
+      separate_diagnostic_server = true,
+      -- "change"|"insert_leave" determine when the client asks the server about diagnostic
+      publish_diagnostic_on = 'insert_leave',
+      -- array of strings("fix_all"|"add_missing_imports"|"remove_unused")
+      -- specify commands exposed as code_actions
+      expose_as_code_action = { 'add_missing_imports', 'remove_unused', 'fix_all' },
+      -- string|nil - specify a custom path to `tsserver.js` file, if this is nil or file under path
+      -- not exists then standard path resolution strategy is applied
+      tsserver_path = nil,
+      -- specify a list of plugins to load by tsserver, e.g., for support `styled-components`
+      -- (see 💅 `styled-components` support section)
+      tsserver_plugins = {},
+      -- this value is passed to: https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes
+      -- memory limit in megabytes or "auto"(basically no limit)
+      tsserver_max_memory = 'auto',
+      -- described below
+      tsserver_format_options = {},
+      tsserver_file_preferences = {},
+    },
+  }
+end
+
+--[[ lspconfig.tsserver.setup {
   filetypes = {
     'javascript',
     'typescript',
@@ -692,7 +747,7 @@ lspconfig.tsserver.setup {
     return util.root_pattern('package.json', 'tsconfig.json')(filename)
   end,
   single_file_support = false,
-}
+} ]]
 
 lspconfig.jsonls.setup {
   on_attach = M.my_on_attach,

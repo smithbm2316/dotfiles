@@ -237,6 +237,12 @@ return require('packer').startup {
       },
     }
 
+    -- better tsserver
+    use {
+      'pmizio/typescript-tools.nvim',
+      requires = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    }
+
     -----------------------------------------------------
     ---
     --- colorscheme plugins
