@@ -30,23 +30,23 @@ autoload -Uz compinit; compinit
 # add completions for hidden/dot files
 # and load my custom prompt
 _comp_options+=(globdots)
-fpath=("$XDG_CONFIG_HOME/zsh" $fpath)
+fpath=("$ZDOTDIR" $fpath)
 autoload -Uz prompt.zsh; prompt.zsh
 # load vim bindings
 autoload -Uz vim-bindings.zsh; vim-bindings.zsh
 
 # add support for zsh completions via 
-fpath=("$XDG_CONFIG_HOME/zsh/plugins/zsh-completions/src" $fpath)
+fpath=("$ZDOTDIR/plugins/zsh-completions/src" $fpath)
 
 # add support for fish-style abbreviations in zsh
 # typeset -A ZSH_HIGHLIGHT_REGEXP
 # ZSH_HIGHLIGHT_HIGHLIGHTERS+=(main regexp)
-source "$XDG_CONFIG_HOME/zsh/plugins/zsh-abbr/zsh-abbr.zsh"
+source "$ZDOTDIR/plugins/zsh-abbr/zsh-abbr.zsh"
 # ZSH_HIGHLIGHT_REGEXP+=('^[[:blank:][:space:]]*('${(j:|:)${(k)ABBR_REGULAR_USER_ABBREVIATIONS}}')$' fg=green)
 # ZSH_HIGHLIGHT_REGEXP+=('\<('${(j:|:)${(k)ABBR_GLOBAL_USER_ABBREVIATIONS}}')$' fg=blue)
 
 # add auto-suggestions
-source "$XDG_CONFIG_HOME/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 bindkey -M viins '^e' autosuggest-accept
 bindkey -v '^e' autosuggest-accept
 
@@ -104,9 +104,14 @@ elif [ "$(uname -s)" = "Darwin" ]; then
   echo "On a mac, not linux >:("
 fi
 
+# load gitignored commands if it exists
+if [ -e "$ZDOTDIR/hidden.zsh" ]; then
+  source "$ZDOTDIR/hidden.zsh"
+fi
+
 # LOAD LAST
 # load zsh syntax highlighting
-source "$XDG_CONFIG_HOME/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "$ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # References
 # - [Configuring zsh without dependencies - mouseless dev's config + explanation](https://thevaluable.dev/zsh-install-configure-mouseless/)

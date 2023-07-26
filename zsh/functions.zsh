@@ -1,3 +1,11 @@
+handle_not_installed() {
+  local required_cmd="$1"
+  if [ -z "$(command -v $required_cmd)" ]; then
+    echo "Please install the $required_cmd to use this script"
+    return 127
+  fi
+}
+
 # create a new directory and cd into it
 mkd() {
   local new_dir="$1"
@@ -90,4 +98,19 @@ docker-hardreset() {
   docker rmi -f "$(docker images --filter dangling=true -qa)"
   docker volume rm "$(docker volume ls --filter dangling=true -q)"
   docker rmi -f "$(docker images -qa)"
+}
+
+# common jq operations
+jqs() {
+  handle_not_installed "gum" || return 127
+
+  case "$(gum choose --limit=1 'package.json')" in
+    'package.json')
+      # shortcut for listing all the dependencies and devDependencies of a package.json
+      jq '{ dependencies: .dependencies, devDependencies: .devDependencies }' package.json
+      ;;
+    *)
+      echo "Please select a choice to execute"
+      ;;
+  esac
 }

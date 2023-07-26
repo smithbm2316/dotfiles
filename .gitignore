@@ -77,6 +77,7 @@ zsh/plugins/*
 !zsh/plugins/zsh-autosuggestions
 !zsh/plugins/zsh-completions
 !zsh/plugins/zsh-syntax-highlighting
+zsh/hidden.zsh
 zsh/.zcompdump
 zsh/zcompdump
 zsh/.zhistory
