@@ -219,18 +219,6 @@ nnoremap('<leader>dd', function()
 end, 'Search DevDocs')
 --}}}
 
--- toggle copilot on/off
-nnoremap('<leader>tc', function()
-  local cmd = 'Copilot '
-  if vim.g.copilot_enabled == 1 or vim.g.copilot_enabled == nil then
-    cmd = cmd .. 'disable'
-  else
-    cmd = cmd .. 'enable'
-  end
-  vim.cmd(cmd)
-  vim.notify(cmd .. 'd', vim.log.levels.INFO)
-end, 'Toggle Copilot')
-
 -- toggle relativenumber on/off for all windows
 nnoremap('<leader>tn', function()
   if vim.api.nvim_win_get_option(0, 'relativenumber') then

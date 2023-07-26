@@ -83,7 +83,6 @@ cmp.setup {
   },
   sources = {
     -- { name = 'nvim_lua' },
-    -- { name = 'copilot' },
     -- { name = 'nvim_lsp', max_item_count = 30, keyword_length = 3 },
     {
       name = 'nvim_lsp',

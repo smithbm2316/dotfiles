@@ -238,6 +238,11 @@ return require('packer').startup {
       requires = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
     }
 
+    -- hide .env variables on load
+    use {
+      'laytan/cloak.nvim',
+    }
+
     -----------------------------------------------------
     ---
     --- colorscheme plugins
