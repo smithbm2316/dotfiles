@@ -114,11 +114,6 @@ return require('packer').startup {
       'NvChad/nvim-colorizer.lua',
     }
 
-    -- better quickfix window
-    use {
-      'kevinhwang91/nvim-bqf',
-    }
-
     -- nice and easy to use statusline
     use {
       'nvim-lualine/lualine.nvim',

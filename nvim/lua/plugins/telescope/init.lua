@@ -1,3 +1,9 @@
+local telescope_ok, telescope = pcall(require, 'telescope')
+if not telescope_ok then
+  vim.notify("You need to install Telescope you dummy, it's your lifeblood", vim.log.levels.ERROR)
+  return
+end
+
 -- Telescope stuff I need to import for configuration
 local actions = require 'telescope.actions'
 local action_state = require 'telescope.actions.state'
@@ -135,8 +141,17 @@ local default_picker_opts = {
   lsp_range_code_actions = themes.get_dropdown(),
 }
 
+-- you need trouble.nvim for a nicer quickfix list experience
+local trouble_actions_ok, trouble_telescope = pcall(require, 'trouble.providers.telescope')
+local quickfix_action = actions.send_to_qflist + actions.open_qflist
+if trouble_actions_ok then
+  quickfix_action = trouble_telescope.open_with_trouble
+else
+  vim.notify('Using default telescope quickfix action, trouble.nvim not installed', vim.log.levels.WARN)
+end
+
 -- TELESCOPE CONFIG
-require('telescope').setup {
+telescope.setup {
   pickers = default_picker_opts,
   defaults = {
     vimgrep_arguments = {
@@ -152,13 +167,13 @@ require('telescope').setup {
       n = {
         ['<c-x>'] = false,
         ['<c-s>'] = actions.select_horizontal,
-        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
+        ['<c-q>'] = quickfix_action,
         ['<c-c>'] = actions.close,
       },
       i = {
         ['<c-x>'] = false,
         ['<c-s>'] = actions.select_horizontal,
-        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
+        ['<c-q>'] = quickfix_action,
         ['<c-c>'] = actions.close,
         ['<c-k>'] = actions.delete_buffer,
       },
