@@ -15,6 +15,7 @@
   cmf = commit --no-verify
   cmfa = commit --no-verify --amend
   # cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
+  pushf = push --force-with-lease
 	pushup = push -u origin HEAD
   s = status -u
 	i = init 

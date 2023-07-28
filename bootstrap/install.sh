@@ -75,13 +75,10 @@ programming_languages() {
 
   # rust/rustup/cargo
   
-  # nodejs/npm with 'nodenv' version manager
-  if [ ! -d "$HOME/.nodenv" ]; then
-    # install node & nodenv if not already here
-    # we need a system-wide node version from homebrew, so that we can globally install npm binaries
-    # like language servers, yarn/pnpm, etc down below and have them persist across versions
-    brew install node nodenv
-  fi
+  # install pnpm
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
+  # install node with pnpm
+  pnpm env use --global latest
 
   # deno
   curl -fsSL https://deno.land/install.sh | sh
@@ -440,9 +437,7 @@ if [ "$(command -v dnf)" ]; then
   # NODE/NPM/YARN/PNPM PACKAGES
   # ------------------------------------------------------------
   # global npm packages
-  # make sure to use the system version of node in order to install the global binaries here
-  # https://github.com/nodenv/nodenv/issues/183
-  NODENV_VERSION=system npm i -g \
+  pnpm i -g \
     @astrojs/language-server \
     @prisma/language-server \
     @tailwindcss/language-server \
@@ -450,18 +445,13 @@ if [ "$(command -v dnf)" ]; then
     cssmodules-language-server \
     graphql \
     graphql-language-service-cli \
-    stylelint-lsp \
-    svelte-language-server \
-    tree-sitter-cli \
     typescript \
     typescript-language-server \
     vim-language-server \
     vscode-langservers-extracted \
     yaml-language-server \
     @fsouza/prettierd \
-    tree-sitter-cli \
     yarn \
-    pnpm \
     fixjson
 
   # sqls
@@ -585,7 +575,6 @@ if [ "$(command -v dnf)" ]; then
   rm "$inter_zipfile"
 
   # GTK THEME
-  # rose pine moon
   mkdir -pv ~/.themes
   mkdir -pv ~/.icons
 fi

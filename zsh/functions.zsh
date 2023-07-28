@@ -101,7 +101,7 @@ docker-hardreset() {
 }
 
 # common jq operations
-jqs() {
+json() {
   handle_not_installed "gum" || return 127
 
   case "$(gum choose --limit=1 'package.json')" in
@@ -113,4 +113,12 @@ jqs() {
       echo "Please select a choice to execute"
       ;;
   esac
+}
+
+# grep for process
+pg() {
+  handle_not_installed "gum" || return 127
+
+  local cmd="$(echo nvim | gum filter --no-strict --limit=1)"
+  pgrep --list-name "$cmd"
 }

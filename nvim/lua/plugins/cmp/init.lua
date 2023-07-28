@@ -8,6 +8,14 @@ local vscode_custom_data = require 'plugins.cmp.vscode-custom-data'
 vscode_custom_data.setup {
   ---@diagnostic disable-next-line: param-type-mismatch
   local_data_files = vim.fn.globpath(vim.env.XDG_DATA_HOME .. '/nvim/vscode-custom-data', '**/data.json', false, true),
+  filetypes = {
+    'html',
+    'astro',
+    'javascript',
+    'typescript',
+    'javascriptreact',
+    'typescriptreact',
+  },
   data_files = {
     alpinejs = 'https://raw.githubusercontent.com/AdrianWilczynski/AlpineIntelliSense/master/customData/html.json',
     htmx = 'https://raw.githubusercontent.com/otovo/htmx-tags/main/html.htmx-data.json',

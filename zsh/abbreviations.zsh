@@ -45,7 +45,7 @@ abbr "tma"="tmux attach -t "
 abbr "dt"="deno task "
 
 # pgrep / pkill
-abbr "pg"="pgrep --list-name"
+# abbr "pg"="pgrep --list-name"
 abbr "pk"="pkill"
 
 # .. commands

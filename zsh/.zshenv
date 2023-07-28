@@ -17,7 +17,6 @@ export DENOBIN="$HOME/.deno/bin"
 export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
 export LOCALBIN="$HOME/.local/bin"
-export PNPM_HOME="$XDG_DATA_HOME/pnpm"
 export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
 export YARNBIN="$HOME/.yarn/bin"
 
@@ -46,5 +45,4 @@ path+=("$GOBIN")
 path+=("$DENOBIN")
 path+=("$CARGOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
-path+=("$PNPM_HOME")
 path+=("$YARNBIN")

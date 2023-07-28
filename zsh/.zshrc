@@ -118,3 +118,12 @@ source "$ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # - [zsh expansion guide](https://thevaluable.dev/zsh-expansion-guide-example/)
 # - [zsh completion guide](https://thevaluable.dev/zsh-completion-guide-examples/)
 # - [zsh line editor guide](https://thevaluable.dev/zsh-line-editor-configuration-mouseless/)
+
+# auto-added by PNPM installer, DO NOT TOUCH
+# pnpm
+export PNPM_HOME="/home/smithbm/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

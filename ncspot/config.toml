@@ -23,9 +23,9 @@ repeat = true
 "[" = "voldown 5"
 "+" = "volup 1"
 "-" = "voldown 1"
-"1" = "sort artist ascending"
-"2" = "sort artist descending"
-"3" = "sort added ascending"
+"1" = "sort added descending"
+"2" = "sort artist ascending"
+"3" = "sort artist descending"
 
 "a" = "goto album"
 "b" = "seek -1000"

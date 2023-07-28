@@ -600,7 +600,7 @@ lspconfig.cssmodules_ls.setup {
   },
 }
 
-local ts_tools_ok, ts_tools = pcall(require, 'typescript-tools')
+--[[ local ts_tools_ok, ts_tools = pcall(require, 'typescript-tools')
 if ts_tools_ok then
   -- disable formatting for tsserver
   local custom_capabilities = {
@@ -653,9 +653,9 @@ if ts_tools_ok then
       tsserver_file_preferences = {},
     },
   }
-end
+end ]]
 
---[[ lspconfig.tsserver.setup {
+lspconfig.tsserver.setup {
   filetypes = {
     'javascript',
     'typescript',
@@ -747,7 +747,7 @@ end
     return util.root_pattern('package.json', 'tsconfig.json')(filename)
   end,
   single_file_support = false,
-} ]]
+}
 
 lspconfig.jsonls.setup {
   on_attach = M.my_on_attach,
