@@ -495,10 +495,10 @@ if null_ok then
       -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fish_indent,
       null_ls.builtins.formatting.fixjson,
-      --[[ null_ls.builtins.formatting.prettier.with {
+      null_ls.builtins.formatting.prettier.with {
         extra_args = { '--plugin-search-dir', '.' },
-      }, ]]
-      null_ls.builtins.formatting.prettierd.with {
+      },
+      --[[ null_ls.builtins.formatting.prettierd.with {
         filetypes = {
           'javascript',
           'javascriptreact',
@@ -519,7 +519,7 @@ if null_ok then
           'astro',
           'svelte',
         },
-      },
+      }, ]]
       null_ls.builtins.formatting.prismaFmt,
       -- null_ls.builtins.formatting.rome,
       -- null_ls.builtins.formatting.rustywind,

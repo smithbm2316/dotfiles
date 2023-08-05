@@ -14,7 +14,7 @@ mkd() {
 
 # fuzzy find for a dotfile to edit and open it
 dots() {
-  local file_loc="$(fd -t f --color=never . $HOME/dotfiles | fzf --preview='head -80 {}')"
+  local file_loc="$(fd --type f --hidden --color=never . $HOME/dotfiles | fzf --preview='head -80 {}')"
   if [ "$file_loc" ]; then
     eval "$EDITOR $file_loc -c 'cd ~/dotfiles'"
   fi
@@ -92,12 +92,12 @@ tmns-fzf() {
 # hard reset and wipe all docker containers and volumes
 # https://stackoverflow.com/questions/34658836/docker-is-in-volume-in-use-but-there-arent-any-docker-containers#42116347
 docker-hardreset() {
-  docker stop "$(docker ps -aq)"
-  docker rm "$(docker ps -aq)"
+  docker stop $(docker ps -aq)
+  docker rm $(docker ps -aq)
   docker network prune -f
-  docker rmi -f "$(docker images --filter dangling=true -qa)"
-  docker volume rm "$(docker volume ls --filter dangling=true -q)"
-  docker rmi -f "$(docker images -qa)"
+  docker rmi -f $(docker images --filter dangling=true -qa)
+  docker volume rm $(docker volume ls --filter dangling=true -q)
+  docker rmi -f $(docker images -qa)
 }
 
 # common jq operations

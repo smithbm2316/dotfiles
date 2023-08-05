@@ -132,7 +132,7 @@ local default_picker_opts = {
     selection_strategy = 'row',
   },
   find_files = {
-    find_command = { 'rg', '--files', '-L' },
+    find_command = { 'fd', '--hidden', '--type', 'f' },
     follow = true,
     hidden = true,
     no_ignore = false,

@@ -403,7 +403,7 @@ ncspot() {
   git clone https://github.com/hrkfdn/ncspot
   cd ncspot || echo "Couldn't find ~/builds/ncspot"; return 1
   cargo build --release --features cover
-  ln -s "$HOME/builds/ncspot/target/release/ncspot" "$HOME/.local/bin/ncspot"
+  ln -sf "$HOME/builds/ncspot/target/release/ncspot" "$HOME/.local/bin/ncspot"
 }
 
 # if ~/builds dir doesn't exist, make it

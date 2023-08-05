@@ -28,9 +28,8 @@ abbr "brewmeup"="brew update -v; brew upgrade -v; brew cleanup -s -v; brew docto
 # list all fedora dnf package repos
 abbr "dnfrepos"="grep -E '^\[.*]' /etc/yum.repos.d/*"
 # set an alias for docker-compose depending on the operating system
-abbr "dcu"='docker compose up --build'
-# alias for 
-abbr "dcup"='docker compose up'
+abbr "dcu"='docker compose up'
+abbr "dcup"='docker compose up --build'
 # if [ "$(uname -s)" = "Linux" ]; then
 #   abbr "dcu"='docker compose up'
 # else
