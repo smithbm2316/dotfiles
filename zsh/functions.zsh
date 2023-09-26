@@ -89,28 +89,38 @@ tmns-fzf() {
   tmux display-popup -E "new-session -c \"$(fd -E 'Library' --base-directory $HOME | fzf)\""
 }
 
-# hard reset and wipe all docker containers and volumes
-# https://stackoverflow.com/questions/34658836/docker-is-in-volume-in-use-but-there-arent-any-docker-containers#42116347
-docker-hardreset() {
-  local container_name="$1"
-  if [ ! -z "$container_name" ]; then
-    local container_id="$(docker ps -a --format '{{.ID}}: {{.Image}}' | grep $container_name | sed -n 's/^\(\w\+\)\:.*/\1/p')"
-    local image_id="$(docker images -a --format '{{.ID}}: {{.Repository}}' | grep $container_name | sed -n 's/^\(\w\+\)\:.*/\1/p')"
+# docker utilities
+dock() {
+  local cmd="$1"
 
-    docker stop "$container_id"
-    docker rm "$container_id"
-    docker network prune -f
-    docker rmi -f "$image_id"
-    # docker rmi -f $(docker images --filter dangling=true -qa)
-    # docker volume rm $(docker volume ls --filter dangling=true -q)
-  else
-    docker stop $(docker ps -aq)
-    docker rm $(docker ps -aq)
-    docker network prune -f
-    docker rmi -f $(docker images --filter dangling=true -qa)
-    docker volume rm $(docker volume ls --filter dangling=true -q)
-    docker rmi -f $(docker images -qa)
-  fi
+  case "$cmd" in
+    reset)
+      # hard reset and wipe all docker containers and volumes
+      # https://stackoverflow.com/questions/34658836/docker-is-in-volume-in-use-but-there-arent-any-docker-containers#42116347
+      local container_name="$2"
+      if [ ! -z "$container_name" ]; then
+        local container_id="$(docker ps -a --format '{{.ID}}: {{.Image}}' | grep $container_name | sed -n 's/^\(\w\+\)\:.*/\1/p')"
+        local image_id="$(docker images -a --format '{{.ID}}: {{.Repository}}' | grep $container_name | sed -n 's/^\(\w\+\)\:.*/\1/p')"
+
+        docker stop "$container_id"
+        docker rm "$container_id"
+        docker network prune -f
+        docker rmi -f "$image_id"
+        # docker rmi -f $(docker images --filter dangling=true -qa)
+        # docker volume rm $(docker volume ls --filter dangling=true -q)
+      else
+        docker stop $(docker ps -aq)
+        docker rm $(docker ps -aq)
+        docker network prune -f
+        docker rmi -f $(docker images --filter dangling=true -qa)
+        docker volume rm $(docker volume ls --filter dangling=true -q)
+        docker rmi -f $(docker images -qa)
+      fi
+    ;;
+    *)
+      echo "Invalid command. Available commands: reset"
+    ;;
+  esac
 }
 
 # common jq operations
@@ -184,4 +194,29 @@ gwrm() {
   git worktree remove $@
   echo "Removed worktree $@"
   git worktree list
+}
+
+# copy env files recursively from one repo into new one with the same directory structure.
+# useful specifically for copying env files from an existing git worktree to a new one
+cpenv() {
+  local new_repo="$1"
+  if [ -z "$new_repo" ]; then
+    echo "Please specify a path to copy the env files into recursively"
+    return 1
+  fi
+
+  # trim any trailing slashes off of the submitted path
+  new_repo="$(realpath --relative-to=. -s $new_repo)"
+
+  local env_pattern="$2"
+  if [ -z "$env_pattern" ]; then
+    # set default pattern to search for all exact ".env" and ".env.local" files
+    env_pattern='\.env(\.local)*$'
+  fi
+
+  fd --hidden --no-ignore-vcs "$env_pattern" | \
+    xargs -L1 echo | \
+    while read -r env_file; \
+      do cp -v "$env_file" "$new_repo/$env_file"; \
+    done
 }

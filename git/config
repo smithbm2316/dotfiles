@@ -21,7 +21,7 @@
 	i = init 
 	l = log --oneline
 	cl = clone
-  clb = "!gclb() { git clone --bare \"$1\" .bare; echo 'gitdir: ./.bare' > .git; }; gclb"
+  clb = "!$HOME/dotfiles/scripts/git-bare-clone.sh"
   latest = "!glatest() { current_branch=\"$(git branch --show-current)\"; main_branch=\"${1:-main}\"; git checkout \"$main_branch\"; git pull; git checkout \"$current_branch\"; }; glatest"
   sw = switch
   swp = switch -
