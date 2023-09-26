@@ -135,3 +135,6 @@ esac
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
+
+# bun completions
+[ -s "/home/smithbm/.bun/_bun" ] && source "/home/smithbm/.bun/_bun"

@@ -20,8 +20,8 @@ if (currentTheme === "light") {
   gnomeGtkTheme = "Adwaita-Dark";
 } else {
   newTheme = "light";
-  // newKittyTheme = 'Rosé Pine Dawn';
-  newKittyTheme = "Catppuccin-Latte";
+  newKittyTheme = "Rosé Pine Dawn";
+  // newKittyTheme = "Catppuccin-Latte";
   gnomeTheme = "prefer-light";
   gnomeGtkTheme = "Adwaita";
 }

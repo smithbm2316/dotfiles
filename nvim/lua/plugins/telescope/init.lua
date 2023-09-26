@@ -142,12 +142,14 @@ local default_picker_opts = {
 }
 
 -- you need trouble.nvim for a nicer quickfix list experience
-local trouble_actions_ok, trouble_telescope = pcall(require, 'trouble.providers.telescope')
-local quickfix_action = actions.send_to_qflist + actions.open_qflist
-if trouble_actions_ok then
-  quickfix_action = trouble_telescope.open_with_trouble
-else
-  vim.notify('Using default telescope quickfix action, trouble.nvim not installed', vim.log.levels.WARN)
+local function trouble_qflist()
+  local trouble_actions_ok, trouble_telescope = pcall(require, 'trouble.providers.telescope')
+
+  if trouble_actions_ok then
+    trouble_telescope.open_with_trouble()
+  else
+    vim.notify('Using default telescope quickfix action, trouble.nvim not installed', vim.log.levels.WARN)
+  end
 end
 
 -- TELESCOPE CONFIG
@@ -167,13 +169,15 @@ telescope.setup {
       n = {
         ['<c-x>'] = false,
         ['<c-s>'] = actions.select_horizontal,
-        ['<c-q>'] = quickfix_action,
+        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
+        ['<c-t>'] = trouble_qflist,
         ['<c-c>'] = actions.close,
       },
       i = {
         ['<c-x>'] = false,
         ['<c-s>'] = actions.select_horizontal,
-        ['<c-q>'] = quickfix_action,
+        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
+        ['<c-t>'] = trouble_qflist,
         ['<c-c>'] = actions.close,
         ['<c-k>'] = actions.delete_buffer,
       },

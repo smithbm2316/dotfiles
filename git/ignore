@@ -11,3 +11,4 @@ tsconfig.tsbuildinfo
 .nvimrc
 # personal scratchpad
 .scratchpad.md
+.env.act

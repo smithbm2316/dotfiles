@@ -92,12 +92,25 @@ tmns-fzf() {
 # hard reset and wipe all docker containers and volumes
 # https://stackoverflow.com/questions/34658836/docker-is-in-volume-in-use-but-there-arent-any-docker-containers#42116347
 docker-hardreset() {
-  docker stop $(docker ps -aq)
-  docker rm $(docker ps -aq)
-  docker network prune -f
-  docker rmi -f $(docker images --filter dangling=true -qa)
-  docker volume rm $(docker volume ls --filter dangling=true -q)
-  docker rmi -f $(docker images -qa)
+  local container_name="$1"
+  if [ ! -z "$container_name" ]; then
+    local container_id="$(docker ps -a --format '{{.ID}}: {{.Image}}' | grep $container_name | sed -n 's/^\(\w\+\)\:.*/\1/p')"
+    local image_id="$(docker images -a --format '{{.ID}}: {{.Repository}}' | grep $container_name | sed -n 's/^\(\w\+\)\:.*/\1/p')"
+
+    docker stop "$container_id"
+    docker rm "$container_id"
+    docker network prune -f
+    docker rmi -f "$image_id"
+    # docker rmi -f $(docker images --filter dangling=true -qa)
+    # docker volume rm $(docker volume ls --filter dangling=true -q)
+  else
+    docker stop $(docker ps -aq)
+    docker rm $(docker ps -aq)
+    docker network prune -f
+    docker rmi -f $(docker images --filter dangling=true -qa)
+    docker volume rm $(docker volume ls --filter dangling=true -q)
+    docker rmi -f $(docker images -qa)
+  fi
 }
 
 # common jq operations
@@ -121,4 +134,54 @@ pg() {
 
   local cmd="$(echo nvim | gum filter --no-strict --limit=1)"
   pgrep --list-name "$cmd"
+}
+
+# wrapper for js
+# get_js_pkg_manager() {
+#   if [ -e "pnpm-lock.yaml" ];
+#     echo "pnpm"
+#   elif [ -e "yarn.lock" ];
+#     echo "yarn"
+#   elif [ -e "package-lock.json" ];
+#     echo "npm"
+#   else
+#     echo "none"
+#   fi
+# }
+
+# git worktree helpers
+gwa() {
+  handle_not_installed "gum" || return 127
+
+  # fetch all remote branches and prune
+  if [ "$1" = "-r" ] || [ "$1" = "--remote" ]; then
+    git fetch -p origin 'refs/heads/*:refs/heads/*' || return 1
+  fi
+  # list and pick a branch to use 
+  local branch="$(git branch --format='%(refname:short)' | gum filter --no-strict --limit=1)"
+  # use the branch's name for the local path. if the branch name contains `/`, use
+  # the text after the last `/`
+  local path_to_worktree="$(echo $branch | awk -F / '{ print $NF }')" || return 1
+  if [ -e "$path_to_worktree" ]; then
+    echo "That file or worktree already exists, exiting..."
+    return 1
+  fi
+  # create the worktree
+  git worktree add "$path_to_worktree" "$branch" || return 1
+  # cd into it
+  cd "$path_to_worktree"
+}
+
+gw() {
+  git worktree $@
+}
+
+gwls() {
+  git worktree list
+}
+
+gwrm() {
+  git worktree remove $@
+  echo "Removed worktree $@"
+  git worktree list
 }

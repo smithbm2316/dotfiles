@@ -95,7 +95,7 @@ cmp.setup {
     {
       name = 'nvim_lsp',
       -- keyword_length = 3,
-      max_item_count = 75,
+      -- max_item_count = 75,
       --[[ entry_filter = function(entry, ctx)
         return
       end, ]]

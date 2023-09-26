@@ -237,9 +237,8 @@ M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- TODO: add user commands similar to vim-go plugin
 -- https://github.com/fatih/vim-go
 local servers = {
-  astro = {
-    root_dir = util.root_pattern('astro.config.js', 'astro.config.ts', 'astro.config.mjs', 'astro.config.cjs'),
-  },
+  astro = {},
+  -- root_dir = util.root_pattern('astro.config.js', 'astro.config.ts', 'astro.config.mjs', 'astro.config.cjs'),
   bashls = {},
   cssls = {
     -- disable diagnostics for cssls, i just want the autocompletion
@@ -496,6 +495,9 @@ if null_ok then
       null_ls.builtins.formatting.fish_indent,
       null_ls.builtins.formatting.fixjson,
       null_ls.builtins.formatting.prettier.with {
+        condition = function(utils)
+          return not utils.root_has_file { 'deno.json', 'deno.jsonc' }
+        end,
         extra_args = { '--plugin-search-dir', '.' },
       },
       --[[ null_ls.builtins.formatting.prettierd.with {

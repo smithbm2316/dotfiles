@@ -84,7 +84,7 @@ end, 'Toggle color mode')
 
 local current_sys_theme = vim.trim(vim.fn.system 'darkman get')
 if current_sys_theme == 'light' then
-  vim.cmd.colorscheme 'catppuccin-latte' -- rose-pine-dawn
+  vim.cmd.colorscheme 'rose-pine-dawn'
 else
   vim.cmd.colorscheme 'catppuccin-mocha'
 end

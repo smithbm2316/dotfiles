@@ -27,6 +27,8 @@
   swp = switch -
   bra = branch -a
   brd = branch -d
+  lb = branch
+  lbr = branch --remote
   nb = checkout -b
   stall = stash push -u -m
   wt = worktree
@@ -34,6 +36,7 @@
   wtr = worktree remove
   wtls = worktree list
   ri = rebase -i
+  rsl = reset --soft HEAD~1
 [core]
 	excludesFile = ~/.config/git/ignore
   editor = nvim

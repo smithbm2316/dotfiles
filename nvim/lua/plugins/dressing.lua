@@ -2,7 +2,7 @@
 vim.cmd 'highlight! default link FloatTitle DiagnosticHint'
 
 local has_dressing, dressing = pcall(require, 'dressing')
-if has_dressing then
+if not has_dressing then
   dressing.setup {
     input = {
       -- Set to false to disable the vim.ui.input implementation
