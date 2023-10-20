@@ -141,17 +141,6 @@ local default_picker_opts = {
   lsp_range_code_actions = themes.get_dropdown(),
 }
 
--- you need trouble.nvim for a nicer quickfix list experience
-local function trouble_qflist()
-  local trouble_actions_ok, trouble_telescope = pcall(require, 'trouble.providers.telescope')
-
-  if trouble_actions_ok then
-    trouble_telescope.open_with_trouble()
-  else
-    vim.notify('Using default telescope quickfix action, trouble.nvim not installed', vim.log.levels.WARN)
-  end
-end
-
 -- TELESCOPE CONFIG
 telescope.setup {
   pickers = default_picker_opts,
@@ -169,15 +158,15 @@ telescope.setup {
       n = {
         ['<c-x>'] = false,
         ['<c-s>'] = actions.select_horizontal,
-        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
-        ['<c-t>'] = trouble_qflist,
+        ['<c-t>'] = actions.send_to_qflist + actions.open_qflist,
+        ['<c-q>'] = require('trouble.providers.telescope').open_with_trouble,
         ['<c-c>'] = actions.close,
       },
       i = {
         ['<c-x>'] = false,
         ['<c-s>'] = actions.select_horizontal,
-        ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
-        ['<c-t>'] = trouble_qflist,
+        ['<c-t>'] = actions.send_to_qflist + actions.open_qflist,
+        ['<c-q>'] = require('trouble.providers.telescope').open_with_trouble,
         ['<c-c>'] = actions.close,
         ['<c-k>'] = actions.delete_buffer,
       },

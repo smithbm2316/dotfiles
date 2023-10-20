@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.1
+Type=Application
+Name=Bruno
+GenericName=API Client
+Icon=yast-http-server
+Exec=/home/smithbm/appimages/bruno.AppImage
+Actions=
+Categories=Development;Internet;
+StartupNotify=true
+StartupWMClass=bruno

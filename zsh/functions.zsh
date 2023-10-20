@@ -160,7 +160,7 @@ pg() {
 # }
 
 # git worktree helpers
-gwa() {
+gwta() {
   handle_not_installed "gum" || return 127
 
   # fetch all remote branches and prune
@@ -172,6 +172,7 @@ gwa() {
   # use the branch's name for the local path. if the branch name contains `/`, use
   # the text after the last `/`
   local path_to_worktree="$(echo $branch | awk -F / '{ print $NF }')" || return 1
+              // @ts-expect-error TEMPORARY
   if [ -e "$path_to_worktree" ]; then
     echo "That file or worktree already exists, exiting..."
     return 1
@@ -219,4 +220,12 @@ cpenv() {
     while read -r env_file; \
       do cp -v "$env_file" "$new_repo/$env_file"; \
     done
+}
+
+gwa() {
+  local based_off_of="origin/$2"
+  if [ -z "$2" ]; then
+    based_off_of="origin/main"
+  fi
+  git worktree add -b "ben-smith/$1" "$1" "$based_off_of"
 }

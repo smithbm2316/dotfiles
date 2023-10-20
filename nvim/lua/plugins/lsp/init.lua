@@ -930,6 +930,39 @@ if rt_ok then
   rt.inlay_hints.enable()
 end
 
+-- htmx lsp
+-- https://github.com/ThePrimeagen/htmx-lsp
+-- Check if the config is already defined (useful when reloading this file)
+if not configs.foo_lsp then
+  configs.htmx_lsp = {
+    default_config = {
+      cmd = {
+        'htmx-lsp',
+        --[[ '-f',
+        '$XDG_CACHE_HOME/htmx-lsp',
+        '--level',
+        'WARN', ]]
+      },
+      filetypes = {
+        'html',
+        'tmpl',
+        'astro',
+        'svelte',
+        'vue',
+      },
+      autostart = true,
+      root_dir = util.root_pattern('package.json', 'tsconfig.json', '.git'),
+      single_file_support = false,
+      settings = {},
+    },
+  }
+
+  lspconfig.htmx_lsp.setup {
+    on_attach = M.my_on_attach,
+    capabilities = M.my_capabilities,
+  }
+end
+
 -- define signcolumn lsp diagnostic icons
 -- define diagnostic icons/highlights for signcolumn and other stuff
 local define_icon = function(long_name, short_name, icon)

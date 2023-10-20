@@ -4,7 +4,7 @@ vim.o.completeopt = 'menuone,noselect'
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
 
-local vscode_custom_data = require 'plugins.cmp.vscode-custom-data'
+--[[ local vscode_custom_data = require 'plugins.cmp.vscode-custom-data'
 vscode_custom_data.setup {
   ---@diagnostic disable-next-line: param-type-mismatch
   local_data_files = vim.fn.globpath(vim.env.XDG_DATA_HOME .. '/nvim/vscode-custom-data', '**/data.json', false, true),
@@ -20,7 +20,7 @@ vscode_custom_data.setup {
     alpinejs = 'https://raw.githubusercontent.com/AdrianWilczynski/AlpineIntelliSense/master/customData/html.json',
     htmx = 'https://raw.githubusercontent.com/otovo/htmx-tags/main/html.htmx-data.json',
   },
-}
+} ]]
 
 -- setup nvim-cmp
 cmp.setup {
@@ -58,7 +58,7 @@ cmp.setup {
         tmux = 'tmux',
         latex_symbols = 'latex',
         nvim_lsp_signature_help = 'sig_help',
-        ['html-css'] = entry.completion_item.menu,
+        -- ['html-css'] = entry.completion_item.menu,
       }
 
       if entry.source.name == 'nvim_lsp' then
@@ -100,9 +100,9 @@ cmp.setup {
         return
       end, ]]
     },
-    {
+    --[[ {
       name = 'vscode_custom_data',
-    },
+    }, ]]
     {
       name = 'html-css',
     },
