@@ -82,6 +82,11 @@ local icon_configs = {
     color = '#f16529',
     name = 'GolangHTMLTemplate',
   },
+  templ = {
+    icon = '󰗀',
+    color = '#f16529',
+    name = 'Templ',
+  },
   ['go.mod'] = {
     icon = '󰟓',
     color = '#519aba',

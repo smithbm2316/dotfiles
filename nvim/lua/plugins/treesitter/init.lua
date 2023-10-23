@@ -4,23 +4,16 @@ if not ok then
   return
 end
 
--- local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
--- ft_to_parser.nunjucks = 'tsx'
--- ft_to_parser.liquid = 'tsx'
-
--- temporary until this PR gets merged: https://github.com/nvim-treesitter/nvim-treesitter/pull/3726
-local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-parser_config.vhs = {
+local treesitter_parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+treesitter_parser_config.templ = {
   install_info = {
-    url = 'https://github.com/charmbracelet/tree-sitter-vhs', -- local path or git repo
-    files = { 'src/parser.c' },
-    -- optional entries:
-    branch = 'main', -- default branch in case of git repo if different from master
-    generate_requires_npm = false, -- if stand-alone parser without npm dependencies
-    requires_generate_from_grammar = true, -- if folder contains pre-generated src/parser.c
+    url = 'https://github.com/vrischmann/tree-sitter-templ.git',
+    files = { 'src/parser.c', 'src/scanner.c' },
+    branch = 'master',
   },
-  filetype = 'vhs', -- if filetype does not match the parser name
 }
+
+vim.treesitter.language.register('templ', 'templ')
 
 require('nvim-treesitter.configs').setup {
   textobjects = {
@@ -95,6 +88,7 @@ require('nvim-treesitter.configs').setup {
   },
   highlight = {
     enable = true,
+    additional_vim_regex_highlighting = false,
   },
   indent = {
     enable = true,
@@ -130,6 +124,7 @@ require('nvim-treesitter.configs').setup {
     'sql',
     'svelte',
     'teal',
+    'templ',
     'toml',
     'tsx',
     'typescript',

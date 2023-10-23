@@ -146,6 +146,10 @@ return require('packer').startup {
     use {
       'nvim-treesitter/playground',
     }
+    use {
+      'vrischmann/tree-sitter-templ',
+      requires = 'nvim-treesitter/nvim-treesitter',
+    }
 
     -- gitgutter lua replacement
     use {
