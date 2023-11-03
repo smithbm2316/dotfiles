@@ -39,7 +39,7 @@ local always_ignore_these = {
   '%.flv',
   '%.avi',
   '%.webm',
-  '.env.*',
+  '%.env.*',
   '%.db',
 }
 
@@ -79,9 +79,8 @@ local ignore_these = {
   '%.otf',
   '%.woff',
   '%.woff2',
-  '.env.*',
+  '%.env.*',
   '%.db',
-  '.env.*',
   '.yarn/.*',
   'graphql%.schema%.json',
   'schema%.json',
