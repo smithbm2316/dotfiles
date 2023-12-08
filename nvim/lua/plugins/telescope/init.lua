@@ -4,6 +4,12 @@ if not telescope_ok then
   return
 end
 
+-- i want the `root_pattern` func required
+local ok, lspconfig_util = pcall(require, 'lspconfig.util')
+if not ok then
+  return
+end
+
 -- Telescope stuff I need to import for configuration
 local actions = require 'telescope.actions'
 local action_state = require 'telescope.actions.state'
@@ -86,6 +92,13 @@ local ignore_these = {
   'schema%.json',
   'go%.sum',
 }
+
+-- if we have a `.luarc.json` file, we are probably in a love2D game folder and should ignore the `types` folder where I store any of my annotations for lua-language-server for libraries that I'm using
+local check_for_luarc_json = lspconfig_util.root_pattern '.luarc.json'
+local result = check_for_luarc_json(vim.fn.expand '%:p:h')
+if result ~= nil then
+  ignore_these = vim.tbl_extend('force', ignore_these, { 'types/.*' })
+end
 
 local webdev_dash_keywords = {
   'css',
