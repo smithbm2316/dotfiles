@@ -47,6 +47,7 @@ local always_ignore_these = {
   '%.webm',
   '%.env.*',
   '%.db',
+  '%.zip',
 }
 
 local ignore_these = {
@@ -87,6 +88,7 @@ local ignore_these = {
   '%.woff2',
   '%.env.*',
   '%.db',
+  '%.zip',
   '.yarn/.*',
   'graphql%.schema%.json',
   'schema%.json',

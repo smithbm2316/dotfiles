@@ -270,6 +270,14 @@ return require('packer').startup {
       'rafamadriz/friendly-snippets',
     }
 
+    -- csv plugin
+    use {
+      'cameron-wags/rainbow_csv.nvim',
+      config = function()
+        require('rainbow_csv').setup()
+      end,
+    }
+
     -----------------------------------------------------
     ---
     --- vimscript plugins

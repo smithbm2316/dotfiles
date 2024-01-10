@@ -318,8 +318,9 @@ local servers = {
     }, ]]
   },
   htmx = {
-    filetypes = { 'astro', 'html', 'templ', 'tmpl' },
+    filetypes = { 'astro', 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'templ', 'tmpl' },
     single_file_support = false,
+    root_dir = util.root_pattern 'package.json',
   },
   -- marksman = {},
   -- prismals = {},
@@ -454,16 +455,25 @@ lspconfig.eslint.setup {
   capabilities = M.my_capabilities,
   autostart = true,
   filetypes = { 'astro', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte' },
-  root_dir = util.root_pattern(
-    '.eslintrc',
-    '.eslintrc.js',
-    '.eslintrc.cjs',
-    '.eslintrc.yaml',
-    '.eslintrc.yml',
-    '.eslintrc.json',
-    'package.json',
-    'eslint.config.js'
-  ),
+  root_dir = function(filename, bufnr)
+    local first_line_arr = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
+    if
+      (#first_line_arr > 0 and first_line_arr[1]:match '#!.*/usr/bin/env.*deno' ~= nil)
+      or util.root_pattern('deno.json', 'deno.jsonc')(filename)
+    then
+      return nil
+    end
+    return util.root_pattern(
+      '.eslintrc',
+      '.eslintrc.js',
+      '.eslintrc.cjs',
+      '.eslintrc.yaml',
+      '.eslintrc.yml',
+      '.eslintrc.json',
+      'package.json',
+      'eslint.config.js'
+    )(filename)
+  end,
   settings = {
     codeAction = {
       disableRuleComment = {
@@ -615,7 +625,7 @@ if null_ok then
               return false
             end
           end,
-          timeout_ms = 1000,
+          timeout_ms = 5000,
         }
       end,
     },
@@ -895,6 +905,7 @@ if cwd:match(vim.env.HOME .. '/dotfiles/awesome') then
     'mouse',
     'root',
     'screen',
+    'love',
   }
 elseif cwd:match(vim.env.HOME .. '/dotfiles/hammerspoon') then
   lua_globals = {

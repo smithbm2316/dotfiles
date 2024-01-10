@@ -7,13 +7,17 @@ if (!$.commandExistsSync("darkman")) {
 }
 
 // get current theme
-const [currentTheme] = (await $`darkman get`.lines()) as ("light" | "dark")[];
+const [currentTheme] = (await $`darkman get`.lines()) as (
+  | "light"
+  | "dark"
+  | "null"
+)[];
 let newTheme = "";
 let newKittyTheme = "";
 let gnomeTheme = "";
 let gnomeGtkTheme = "";
 
-if (currentTheme === "light") {
+if (currentTheme === "light" || currentTheme === "null") {
   newTheme = "dark";
   newKittyTheme = "Catppuccin-Mocha";
   gnomeTheme = "prefer-dark";
