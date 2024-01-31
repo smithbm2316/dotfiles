@@ -276,6 +276,7 @@ return require('packer').startup {
       config = function()
         require('rainbow_csv').setup()
       end,
+      disable = true,
     }
 
     -----------------------------------------------------
@@ -354,6 +355,11 @@ return require('packer').startup {
     -- rasi filetype
     use {
       'Fymyte/rasi.vim',
+    }
+
+    -- edge filetype (edgeJS templating language for AdonisJS framework)
+    use {
+      'watzon/vim-edge-template',
     }
 
     -----------------------------------------------------

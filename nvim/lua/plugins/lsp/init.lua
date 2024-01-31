@@ -321,8 +321,10 @@ local servers = {
     filetypes = { 'astro', 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'templ', 'tmpl' },
     single_file_support = false,
     root_dir = util.root_pattern 'package.json',
+    autostart = false,
   },
   -- marksman = {},
+  phpactor = {},
   -- prismals = {},
   -- pylsp = {},
   pyright = {
@@ -356,6 +358,7 @@ local servers = {
   -- rust_analyzer = {},
   svelte = {},
   tailwindcss = {
+    autostart = false,
     filetypes = {
       'astro',
       'astro-markdown',
@@ -470,8 +473,8 @@ lspconfig.eslint.setup {
       '.eslintrc.yaml',
       '.eslintrc.yml',
       '.eslintrc.json',
-      'package.json',
       'eslint.config.js'
+      -- 'package.json',
     )(filename)
   end,
   settings = {
@@ -646,9 +649,10 @@ lspconfig.cssmodules_ls.setup {
   init_options = {
     camelCase = true,
   },
+  autostart = false,
 }
 
---[[ local ts_tools_ok, ts_tools = pcall(require, 'typescript-tools')
+local ts_tools_ok, ts_tools = pcall(require, 'typescript-tools')
 if ts_tools_ok then
   -- disable formatting for tsserver
   local custom_capabilities = {
@@ -662,10 +666,10 @@ if ts_tools_ok then
   ts_tools.setup {
     on_attach = M.my_on_attach,
     capabilities = custom_capabilities,
+    -- ignore "file may be converted to from a commonjs module to an es module" error
+    -- https://stackoverflow.com/a/70294761/15089697
     handlers = {
       ['textDocument/publishDiagnostics'] = require('typescript-tools.api').filter_diagnostics {
-        -- ignore "file may be converted to from a commonjs module to an es module" error
-        -- https://stackoverflow.com/a/70294761/15089697
         '80001',
       },
     },
@@ -699,11 +703,31 @@ if ts_tools_ok then
       -- described below
       tsserver_format_options = {},
       tsserver_file_preferences = {},
+      -- locale of all tsserver messages, supported locales you can find here:
+      -- https://github.com/microsoft/TypeScript/blob/3c221fc086be52b19801f6e8d82596d04607ede6/src/compiler/utilitiesPublic.ts#L620
+      tsserver_locale = 'en',
+      -- mirror of VSCode's `typescript.suggest.completeFunctionCalls`
+      complete_function_calls = false,
+      include_completions_with_insert_text = true,
+      -- CodeLens
+      -- WARNING: Experimental feature also in VSCode, because it might hit performance of server.
+      -- possible values: ("off"|"all"|"implementations_only"|"references_only")
+      code_lens = 'off',
+      -- by default code lenses are displayed on all referencable values and for some of you it can
+      -- be too much this option reduce count of them by removing member references from lenses
+      disable_member_code_lens = true,
+      -- JSXCloseTag
+      -- WARNING: it is disabled by default (maybe you configuration or distro already uses nvim-ts-autotag,
+      -- that maybe have a conflict if enable this feature. )
+      jsx_close_tag = {
+        enable = false,
+        filetypes = { 'javascriptreact', 'typescriptreact' },
+      },
     },
   }
-end ]]
+end
 
-lspconfig.tsserver.setup {
+--[[ lspconfig.tsserver.setup {
   filetypes = {
     'javascript',
     'typescript',
@@ -795,7 +819,7 @@ lspconfig.tsserver.setup {
     return util.root_pattern('package.json', 'tsconfig.json')(filename)
   end,
   single_file_support = false,
-}
+} ]]
 
 lspconfig.jsonls.setup {
   on_attach = M.my_on_attach,

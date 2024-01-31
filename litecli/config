@@ -1,4 +1,3 @@
-# vi: ft=dosini
 [main]
 
 # Multi-line mode allows breaking up the sql statements into multiple lines. If
@@ -52,6 +51,10 @@ key_bindings = vi
 # Enabling this option will show the suggestions in a wider menu. Thus more items are suggested.
 wider_completion_menu = False
 
+# Autocompletion is on by default. This can be truned off by setting this
+# option to False. Pressing tab will still trigger completion.
+autocompletion = True
+
 # litecli prompt
 # \D - The full current date
 # \d - Database name
@@ -62,8 +65,12 @@ wider_completion_menu = False
 # \R - The current time, in 24-hour military time (0-23)
 # \r - The current time, standard 12-hour time (1-12)
 # \s - Seconds of the current time
-prompt = '\d> '
-prompt_continuation = '-> '
+# \x1b[...m - insert ANSI escape sequence
+prompt = "\d> "
+prompt_continuation = "-> "
+
+# Show/hide the informational toolbar with function keymap at the footer.
+show_bottom_toolbar = True
 
 # Skip intro info on startup and outro info on exit
 less_chatty = True
@@ -80,35 +87,31 @@ keyword_casing = lower
 
 # disabled pager on startup
 enable_pager = True
-
-# Custom colors for the completion menu, toolbar, etc.
 [colors]
-completion-menu.completion.current = 'bg:#e0def4 #2a273f'
-completion-menu.completion = 'bg:#2a273f #e0def4'
-completion-menu.meta.completion.current = 'bg:#9ccfd8 #232136'
-completion-menu.meta.completion = 'bg:#393552 #e0def4'
-completion-menu.multi-column-meta = 'bg:#c4a7e7 #232136'
-scrollbar.arrow = 'bg:#003333'
-scrollbar = 'bg:#c4a7e7'
-selected = '#e0def4 bg:#6666aa'
-search = '#e0def4 bg:#59546d'
-search.current = '#e0def4 bg:#3e8fb0'
-bottom-toolbar = 'bg:#2a273f #aaaaaa'
-bottom-toolbar.off = 'bg:#2a273f #888888'
-bottom-toolbar.on = 'bg:#2a273f #e0def4'
-search-toolbar = 'noinherit bold'
-search-toolbar.text = 'nobold'
-system-toolbar = 'noinherit bold'
-arg-toolbar = 'noinherit bold'
-arg-toolbar.text = 'nobold'
-bottom-toolbar.transaction.valid = 'bg:#222222 #9ccfd8 bold'
-bottom-toolbar.transaction.failed = 'bg:#222222 #eb6f92 bold'
+completion-menu.completion.current = "bg:#e0def4 #2a273f"
+completion-menu.completion = "bg:#2a273f #e0def4"
+completion-menu.meta.completion.current = "bg:#9ccfd8 #232136"
+completion-menu.meta.completion = "bg:#393552 #e0def4"
+completion-menu.multi-column-meta = "bg:#c4a7e7 #232136"
+scrollbar.arrow = "bg:#003333"
+scrollbar = "bg:#c4a7e7"
+selected = "#e0def4 bg:#6666aa"
+search = "#e0def4 bg:#59546d"
+search.current = "#e0def4 bg:#3e8fb0"
+bottom-toolbar = "bg:#2a273f #aaaaaa"
+bottom-toolbar.off = "bg:#2a273f #888888"
+bottom-toolbar.on = "bg:#2a273f #e0def4"
+search-toolbar = noinherit bold
+search-toolbar.text = nobold
+system-toolbar = noinherit bold
+arg-toolbar = noinherit bold
+arg-toolbar.text = nobold
+bottom-toolbar.transaction.valid = "bg:#222222 #9ccfd8 bold"
+bottom-toolbar.transaction.failed = "bg:#222222 #eb6f92 bold"
 
 # style classes for colored table output
 output.header = "#817c9c bold"
 output.odd-row = "#ea9a97"
 output.even-row = "#c4a7e7"
-
-
-# Favorite queries.
 [favorite_queries]
+users = "select id, name, email, created_at, updated_at from users"
