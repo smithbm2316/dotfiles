@@ -122,6 +122,12 @@ source "$ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # nodenv
 eval "$(nodenv init -)"
 
+# phpenv
+if [ -d "${PHPENV_ROOT}" ]; then
+  export PATH="${PHPENV_ROOT}/bin:${PATH}"
+  eval "$(phpenv init -)"
+fi
+
 # auto-added by PNPM installer, DO NOT TOUCH
 # pnpm
 export PNPM_HOME="/home/smithbm/.local/share/pnpm"

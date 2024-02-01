@@ -11,7 +11,7 @@ export HISTFILE="$ZDOTDIR/.histfile"
 export HISTSIZE=10000
 export SAVEHIST=10000
 
-# Programming languages and their dependenices
+# Programming languages and their dependencies
 export BUNBIN="$HOME/.bun/bin"
 export CARGOBIN="$HOME/.cargo/bin"
 export DENOBIN="$HOME/.deno/bin"
@@ -19,6 +19,7 @@ export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
 export GOROOT="$HOME/.go"
 export LOCALBIN="$HOME/.local/bin"
+export PHPENV_ROOT="/home/smithbm/.phpenv"
 export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
 export YARNBIN="$HOME/.yarn/bin"
 
