@@ -128,6 +128,7 @@ dnf_packages() {
     blueman \
     discord \
     dunst \
+    eza \
     fish \
     flameshot \
     gstreamer1-plugin-openh264 \
