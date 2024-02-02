@@ -71,20 +71,45 @@ homebrew() {
 # install all programming languages and programming language runtimes that i will need
 programming_languages() {
   # golang with "stefanmaric/g" version manager
-   curl -sSL https://git.io/g-install | sh -s
+  curl -sSL https://git.io/g-install | sh -s
 
   # rust/rustup/cargo
   
   # install pnpm
   curl -fsSL https://get.pnpm.io/install.sh | sh -
   # install node with pnpm
-  pnpm env use --global latest
+  # pnpm env use --global latest
 
   # deno
   curl -fsSL https://deno.land/install.sh | sh
 
   # call lua function
   lua
+
+  # install phpenv for managing php versions
+  curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer | bash
+  export PHPENV_ROOT="/home/smithbm/.phpenv"
+  if [ -d "${PHPENV_ROOT}" ]; then
+    export PATH="${PHPENV_ROOT}/bin:${PATH}"
+    eval "$(phpenv init -)"
+  fi
+  phpenv install 8.3.2
+
+  # install php package manager (composer)
+  EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+  if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
+  then
+    >&2 echo 'ERROR: Invalid installer checksum'
+    rm composer-setup.php
+    exit 1
+  fi
+
+  php composer-setup.php --quiet
+  rm composer-setup.php
+  mv composer.phar ~/.local/bin/composer
 }
 
 # packages
@@ -417,6 +442,9 @@ if [ "$(command -v dnf)" ]; then
   homebrew_packages
   dnf_packages
   programming_languages
+  keyd
+  charm_sh
+
 
   # ------------------------------------------------------------
   # TMUX
@@ -430,32 +458,27 @@ if [ "$(command -v dnf)" ]; then
   # luacheck
   sudo luarocks install luacheck
   # teal and cyan (teal build system)
-  sudo luarocks install tl
-  sudo luarocks install cyan
+  # sudo luarocks install tl
+  # sudo luarocks install cyan
 
   # ------------------------------------------------------------
   # NODE/NPM/YARN/PNPM PACKAGES
   # ------------------------------------------------------------
   # global npm packages
-  pnpm i -g \
+  npm i -g \
     @astrojs/language-server \
-    @prisma/language-server \
     @tailwindcss/language-server \
     bash-language-server \
-    cssmodules-language-server \
-    graphql \
-    graphql-language-service-cli \
     typescript \
     typescript-language-server \
     vim-language-server \
     vscode-langservers-extracted \
-    yaml-language-server \
     @fsouza/prettierd \
     yarn \
     fixjson
 
   # sqls
-  go install github.com/lighttiger2505/sqls@latest
+  # go install github.com/lighttiger2505/sqls@latest
 
   # pylsp
   pip install python-lsp-server
@@ -464,19 +487,19 @@ if [ "$(command -v dnf)" ]; then
   go install golang.org/x/tools/gopls@latest
 
   # sumneko_lua language server
-  brew install lua-language-server
+  # brew install lua-language-server
 
   # teal language server
-  sudo luarocks install --dev teal-language-server
+  # sudo luarocks install --dev teal-language-server
 
   # proselint for linting prose/markdown
-  sudo dnf install -y proselint
+  # sudo dnf install -y proselint
 
   # marksman markdown server
-  mkdir ~/.local/bin
-  marksman_appimage=$(gh_release_latest 'artempyanykh/marksman' 'marksman-linux')
-  chmod +x "$marksman_appimage"
-  mv -v "$marksman_appimage" "$HOME/.local/bin/marksman"
+  # mkdir ~/.local/bin
+  # marksman_appimage=$(gh_release_latest 'artempyanykh/marksman' 'marksman-linux')
+  # chmod +x "$marksman_appimage"
+  # mv -v "$marksman_appimage" "$HOME/.local/bin/marksman"
 
   # vscodium
   rpmkeys --import https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
@@ -485,16 +508,16 @@ if [ "$(command -v dnf)" ]; then
 
   # github cli (gh)
   # all distro options: https://github.com/cli/cli/blob/trunk/docs/install_linux.md
-  sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-  sudo dnf install -y gh
+  # sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+  # sudo dnf install -y gh
 
   # splatmoji
-  splatmoji_rpm=$(gh_release_latest 'cspeterson/splatmoji' 'rpm')
-  sudo dnf install -y "$splatmoji_rpm"
-  rm -rf "$splatmoji_rpm"
+  # splatmoji_rpm=$(gh_release_latest 'cspeterson/splatmoji' 'rpm')
+  # sudo dnf install -y "$splatmoji_rpm"
+  # rm -rf "$splatmoji_rpm"
 
   # rofi calc
-  rofi_calc
+  # rofi_calc
 
   # ------------------------------------------------------------
   # APPIMAGES
