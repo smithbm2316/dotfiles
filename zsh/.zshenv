@@ -19,7 +19,6 @@ export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
 export GOROOT="$HOME/.go"
 export LOCALBIN="$HOME/.local/bin"
-export PHPENV_ROOT="/home/smithbm/.phpenv"
 export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
 export YARNBIN="$HOME/.yarn/bin"
 

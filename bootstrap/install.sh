@@ -86,15 +86,6 @@ programming_languages() {
   # call lua function
   lua
 
-  # install phpenv for managing php versions
-  curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer | bash
-  export PHPENV_ROOT="/home/smithbm/.phpenv"
-  if [ -d "${PHPENV_ROOT}" ]; then
-    export PATH="${PHPENV_ROOT}/bin:${PATH}"
-    eval "$(phpenv init -)"
-  fi
-  phpenv install 8.3.2
-
   # install php package manager (composer)
   EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
   php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
