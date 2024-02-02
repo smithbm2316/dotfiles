@@ -3,25 +3,6 @@
 USER_OS=$(awk -F = '$1=="ID" { print $2 ;}' /etc/os-release)
 echo "This is a $USER_OS Linux system"
 
-emptty() {
-  sudo dnf install -y pam \
-   pam-devel \
-   libX11 \
-   libX11-devel \
-   gcc
-  cd ~/builds || exit
-  git clone https://github.com/tvrzna/emptty
-  cd emptty || exit
-  make
-  sudo make build
-  sudo make install
-  sudo make install-pam-fedora
-  sudo make install-manual
-  sudo make install-config
-  sudo make install-systemd
-  sudo systemctl enable emptty.service
-}
-
 # install lua 5.1, luajit, and luarocks
 lua() {
   # lua
@@ -55,7 +36,7 @@ lua() {
   curl -R -O "$luarocks_url"
   tar zxvpf "$luarocks_latest_filename.tar.gz"
   cd "$luarocks_latest_filename" || exit
-  ./configure --with-lua-include=/usr/local/include && make && make install
+  ./configure --with-lua-include=/usr/local/include && make && sudo make install
   cd ~/builds || exit
   rm "$luarocks_latest_filename.tar.gz"
 }
@@ -77,8 +58,6 @@ programming_languages() {
   
   # install pnpm
   curl -fsSL https://get.pnpm.io/install.sh | sh -
-  # install node with pnpm
-  # pnpm env use --global latest
 
   # deno
   curl -fsSL https://deno.land/install.sh | sh
@@ -125,7 +104,6 @@ dnf_packages() {
     gstreamer1-plugin-openh264 \
     gcc \
     gcc-c++ \
-    imwheel \
     keychain \
     kitty \
     lxappearance \
@@ -134,6 +112,7 @@ dnf_packages() {
     NetworkManager \
     NetworkManager-tui \
     NetworkManager-wifi \
+    neovim \
     mpv \
     mpv-mpris \
     nitrogen \
@@ -178,9 +157,8 @@ dnf_packages() {
 }
 
 spotify() {
-  # sudo dnf install lpf-spotify-client -y
-  # # logout after adding yourself to the proper usermod group
-  # lpf update
+  sudo dnf install -y flatpak
+  flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   sudo flatpak install flathub com.spotify.Client
 }
 
@@ -237,27 +215,14 @@ gh_release_latest() {
   echo "$release_url" | awk -F/ '{print $NF}'
 }
 
-# install neovim from source on fedora
-neovim() {
-  sudo yum -y install ninja-build libtool autoconf automake cmake gcc gcc-c++ make pkgconfig unzip patch gettext curl
-  git clone https://github.com/neovim/neovim
-  cd ~/builds/neovim || exit
-  git checkout stable
-  git pull
-  make distclean
-  make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local/nvim"
-  sudo make install
-  cd ~/builds || exit
-}
-
 keyd() {
   sudo dnf install -y python3 python3-xlib
   cd ~/builds || exit
   git clone https://github.com/rvaiya/keyd
   cd keyd || exit
   make && sudo make install
-  rm -rf /etc/keyd
-  ln -s /home/smithbm/dotfiles/keyd /etc/keyd
+  sudo rm -rf /etc/keyd
+  sudo ln -s /home/smithbm/dotfiles/keyd /etc/keyd
   systemctl enable keyd && systemctl start keyd
 }
 
@@ -297,29 +262,6 @@ ungoogled_chromium() {
   # sudo flatpak override --filesystem="$HOME/.themes"
   # sudo flatpak override --env=GTK_THEME=rose-pine-moon-gtk
 }
-
-bitwarden() {
-  # bw cli
-  npm i -g @bitwarden/cli
-  # linux desktop app
-  # https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage
-}
-
-qtile() {
-  sudo dnf install -y \
-    python3-cffi \
-    python3-cairocffi \
-    python3-dbus-next \
-    pango \
-    python3-xcffib
-  pip install --no-cache-dir cairocffi
-  # get .desktop file from https://raw.githubusercontent.com/qtile/qtile/master/resources/qtile.desktop
-  # and overwrite the `qtile start` part with the location of the qtile binary, and put it in
-  # /usr/share/xsessions folder
-  pip install qtile
-  # widget dependencies
-  pip install psutil dbus-next
-} 
 
 ssh_keygen() {
   cd ~/.ssh || exit
@@ -423,6 +365,17 @@ ncspot() {
   ln -sf "$HOME/builds/ncspot/target/release/ncspot" "$HOME/.local/bin/ncspot"
 }
 
+stow_dotfiles() {
+  cd ~ || exit
+  rm ~/.config/user-dirs.dirs
+  # rm ~/.config/user-dirs.locale
+  stow -v -t ~/.config dotfiles
+  # install git submodules for zsh plugins
+  cd ~/dotfiles || exit
+  git submodule
+  cd ~ || exit
+}
+
 # if ~/builds dir doesn't exist, make it
 echo "Creating the '~/builds' directory for manual in $USER's home directory"
 mkdir -pv ~/builds
@@ -430,13 +383,17 @@ mkdir -pv ~/builds
 cd ~/builds || exit
 
 if [ "$(command -v dnf)" ]; then
+  # update all packages first before installing the rest
+  sudo dnf update
+
   homebrew
   homebrew_packages
   dnf_packages
+  stow_dotfiles
   programming_languages
   keyd
   charm_sh
-
+  spotify
 
   # ------------------------------------------------------------
   # TMUX
@@ -470,7 +427,10 @@ if [ "$(command -v dnf)" ]; then
     fixjson
 
   # sqls
-  # go install github.com/lighttiger2505/sqls@latest
+  go install github.com/sql-server/sqls@latest
+
+  # templ lsp
+  go install github.com/a-h/templ/cmd/templ@latest
 
   # pylsp
   pip install python-lsp-server
@@ -478,8 +438,7 @@ if [ "$(command -v dnf)" ]; then
   # gopls language server
   go install golang.org/x/tools/gopls@latest
 
-  # sumneko_lua language server
-  # brew install lua-language-server
+  # sumneko_lua language server is installed with Brewfile
 
   # teal language server
   # sudo luarocks install --dev teal-language-server
@@ -583,13 +542,27 @@ if [ "$(command -v dnf)" ]; then
   unzip -d ~/.local/share/fonts/iA-WriterNF iA-Writer.zip
   rm iA-Writer.zip
 
+  # symbols nerd font
+  symbols_nerd_font_zipfile=$(gh_release_latest 'ryanoasis/nerd-fonts' 'NerdFontsSymbolsOnly.zip')
+  mkdir -pv ~/.local/share/fonts/SymbolsNerdFont
+  unzip -d ~/.local/share/fonts/SymbolsNerdFont "$symbols_nerd_font_zipfile"
+  rm "$symbols_nerd_font_zipfile"
+
   # inter font
   inter_zipfile=$(gh_release_latest 'rsms/inter' 'Inter')
   mkdir -pv ~/.local/share/fonts/Inter
   unzip -d ~/.local/share/fonts/Inter "$inter_zipfile"
   rm "$inter_zipfile"
 
+  # ibm plex mono font
+  ibm_plex_zipfile=$(gh_release_latest 'IBM/plex' 'IBM-Plex-Mono.zip')
+  mkdir -pv ~/.local/share/fonts/IBM-Plex-Mono
+  unzip -d ~/.local/share/fonts/IBM-Plex-Mono "$ibm_plex_zipfile"
+  rm "$ibm_plex_zipfile"
+
   # GTK THEME
   mkdir -pv ~/.themes
   mkdir -pv ~/.icons
+
+  # TODO: mv command to move all uppercase directories in ~ to lowercase
 fi
