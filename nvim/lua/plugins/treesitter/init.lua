@@ -5,6 +5,8 @@ if not ok then
 end
 
 local treesitter_parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+
+-- golang templ template filetype
 treesitter_parser_config.templ = {
   install_info = {
     url = 'https://github.com/vrischmann/tree-sitter-templ.git',
@@ -12,8 +14,17 @@ treesitter_parser_config.templ = {
     branch = 'master',
   },
 }
-
 vim.treesitter.language.register('templ', 'templ')
+
+-- blade templates for php filetype
+treesitter_parser_config.blade = {
+  install_info = {
+    url = 'https://github.com/EmranMR/tree-sitter-blade',
+    files = { 'src/parser.c' },
+    branch = 'main',
+  },
+}
+vim.treesitter.language.register('blade', 'blade')
 
 require('nvim-treesitter.configs').setup {
   textobjects = {
@@ -99,6 +110,7 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = {
     'astro',
     'bash',
+    'blade',
     'comment',
     'css',
     'dockerfile',

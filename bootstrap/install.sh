@@ -424,7 +424,8 @@ if [ "$(command -v dnf)" ]; then
     vscode-langservers-extracted \
     @fsouza/prettierd \
     yarn \
-    fixjson
+    fixjson \
+    blade-formatter
 
   # sqls
   go install github.com/sql-server/sqls@latest
@@ -432,11 +433,14 @@ if [ "$(command -v dnf)" ]; then
   # templ lsp
   go install github.com/a-h/templ/cmd/templ@latest
 
-  # pylsp
-  pip install python-lsp-server
-
   # gopls language server
   go install golang.org/x/tools/gopls@latest
+
+  # python - lsp, formatter (blue), etc
+  # pip install python-lsp-server
+  pip install \
+    pyright \
+    blue
 
   # sumneko_lua language server is installed with Brewfile
 

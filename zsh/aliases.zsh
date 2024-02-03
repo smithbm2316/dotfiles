@@ -3,12 +3,12 @@ if [ -e "$(command -v exa)" ]; then
   alias l="exa --icons -la"
   alias ls="exa --icons"
   alias lsa="exa --icons -a"
-  alias tree="exa --icons --tree --all --ignore-glob 'node_modules|.git'"
+  alias tree="exa --icons --tree --all --ignore-glob 'node_modules|.git|.venv|venv'"
 elif [ -e "$(command -v eza)" ]; then
   alias l="eza --icons -la"
   alias ls="eza --icons"
   alias lsa="eza --icons -a"
-  alias tree="eza --icons --tree --all --ignore-glob 'node_modules|.git'"
+  alias tree="eza --icons --tree --all --ignore-glob 'node_modules|.git|.venv|venv'"
 else
   alias l="ls -lA"
   alias lsa="ls -A"

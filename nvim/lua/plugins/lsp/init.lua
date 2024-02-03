@@ -324,7 +324,14 @@ local servers = {
     autostart = false,
   },
   -- marksman = {},
-  phpactor = {},
+  phpactor = {
+    capabilities = vim.tbl_deep_extend('force', M.my_capabilities, {
+      textDocument = {
+        formatting = false,
+        rangeFormatting = false,
+      },
+    }),
+  },
   -- prismals = {},
   -- pylsp = {},
   pyright = {
@@ -539,6 +546,13 @@ if null_ok then
       null_ls.builtins.formatting.gofmt.with {
         extra_args = { '-s' },
       },
+      -- python
+      null_ls.builtins.formatting.blue,
+      -- null_ls.builtins.formatting.blackd,
+      -- php
+      null_ls.builtins.formatting.blade_formatter, -- formatter for blade templates
+      null_ls.builtins.formatting.pint, -- comes with laravel
+      -- null_ls.builtins.formatting.phpcsfixer,
       -- null_ls.builtins.formatting.dprint,
       -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fish_indent,
@@ -609,6 +623,8 @@ if null_ok then
         '*.zsh',
         '*.schema',
         '*.rs',
+        '*.py',
+        '*.php',
       },
       callback = function()
         vim.lsp.buf.format {
