@@ -203,7 +203,7 @@ telescope.setup {
         preview_cutoff = 0.4,
       },
       flex = {
-        flip_columns = 110,
+        flip_columns = 128,
       },
       height = 0.94,
       width = 0.86,
