@@ -365,7 +365,7 @@ local servers = {
   -- rust_analyzer = {},
   svelte = {},
   tailwindcss = {
-    autostart = false,
+    autostart = true,
     filetypes = {
       'astro',
       'astro-markdown',
@@ -390,7 +390,7 @@ local servers = {
       'svelte',
       'templ',
     },
-    root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.cjs', 'tailwind.config.ts', 'package.json'),
+    root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.cjs', 'tailwind.config.ts'),
     init_options = {
       userLanguages = {
         eelixir = 'html-eex',

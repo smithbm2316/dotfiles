@@ -34,6 +34,7 @@ export CALIBRE_USE_DARK_PALETTE=1
 export FZF_DEFAULT_COMMAND="fd -t f='--color=never'"
 export FZF_DEFAULT_OPTS="--multi --layout=reverse-list --border=rounded --tabstop=2 --bind='ctrl-d:page-down,ctrl-u:page-up'"
 export HOMEBREW_NO_ANALYTICS=1
+export ASTRO_TELEMETRY_DISABLED=1
 export NEXT_TELEMETRY_DISABLED=1
 
 if [ "$(uname -s)" = "Linux" ]; then
