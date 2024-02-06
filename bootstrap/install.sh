@@ -82,6 +82,23 @@ programming_languages() {
   mv composer.phar ~/.local/bin/composer
 }
 
+# install these if you are going to use a window manager instead of Gnome/another desktop environment
+dnf_packages_wm() {
+  sudo dnf install -y \
+    autorandr \
+    battray \
+    dunst \
+    flameshot \
+    lxappearance \
+    nitrogen \
+    pavucontrol \
+    pasystray \
+    picom \
+    playerctl \
+    qalculate \
+    rofi
+}
+
 # packages
 dnf_packages() {
   # https://docs.fedoraproject.org/en-US/quick-docs/setup_rpmfusion/
@@ -93,39 +110,31 @@ dnf_packages() {
     "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 
   sudo dnf install -y \
-    autorandr \
-    battray \
-    blueman \
+    bluez \
+    calibre \
+    chromium \
     discord \
-    dunst \
+    epiphany \
     eza \
-    fish \
-    flameshot \
+    foliate \
+    google-chrome-unstable \
     gstreamer1-plugin-openh264 \
     gcc \
     gcc-c++ \
     keychain \
     kitty \
-    lxappearance \
     make \
     mozilla-openh264 \
+    neovim \
     NetworkManager \
     NetworkManager-tui \
     NetworkManager-wifi \
-    neovim \
     mpv \
     mpv-mpris \
-    nitrogen \
     papirus-icon-theme \
-    pavucontrol \
-    pasystray \
-    picom \
     pip \
-    playerctl \
     python3 \
     python3-xlib \
-    qalculate \
-    rofi \
     stow \
     util-linux-user \
     vim-minimal \
@@ -367,6 +376,31 @@ ncspot() {
 
 stow_dotfiles() {
   cd ~ || exit
+  # create all home directories that i use, remove all uppercase original ones
+  mkdir -pv appimages \
+    books \
+    builds \
+    code \
+    desktop \
+    documents \
+    downloads \
+    games \
+    music \
+    notes \
+    pictures/screenshots \
+    public \
+    templates \
+    videos \
+    wiki
+  rmdir Desktop \
+    Documents \
+    Downloads \
+    Music \
+    Pictures \
+    Public \
+    Templates \
+    Videos
+
   rm ~/.config/user-dirs.dirs
   # rm ~/.config/user-dirs.locale
   stow -v -t ~/.config dotfiles
@@ -559,14 +593,18 @@ if [ "$(command -v dnf)" ]; then
   rm "$inter_zipfile"
 
   # ibm plex mono font
-  ibm_plex_zipfile=$(gh_release_latest 'IBM/plex' 'IBM-Plex-Mono.zip')
+  ibm_plex_mono_zipfile=$(gh_release_latest 'IBM/plex' 'IBM-Plex-Mono.zip')
   mkdir -pv ~/.local/share/fonts/IBM-Plex-Mono
-  unzip -d ~/.local/share/fonts/IBM-Plex-Mono "$ibm_plex_zipfile"
-  rm "$ibm_plex_zipfile"
+  unzip -d ~/.local/share/fonts/IBM-Plex-Mono "$ibm_plex_mono_zipfile"
+  rm "$ibm_plex_mono_zipfile"
+
+  # ibm plex sans font
+  ibm_plex_sans_zipfile=$(gh_release_latest 'IBM/plex' 'IBM-Plex-Sans.zip')
+  mkdir -pv ~/.local/share/fonts/IBM-Plex-Sans
+  unzip -d ~/.local/share/fonts/IBM-Plex-Sans "$ibm_plex_sans_zipfile"
+  rm "$ibm_plex_sans_zipfile"
 
   # GTK THEME
   mkdir -pv ~/.themes
   mkdir -pv ~/.icons
-
-  # TODO: mv command to move all uppercase directories in ~ to lowercase
 fi
