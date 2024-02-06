@@ -239,7 +239,6 @@ M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 local servers = {
   astro = {},
   -- root_dir = util.root_pattern('astro.config.js', 'astro.config.ts', 'astro.config.mjs', 'astro.config.cjs'),
-  bashls = {},
   cssls = {
     -- disable diagnostics for cssls, i just want the autocompletion
     handlers = {
@@ -449,6 +448,22 @@ for server, config in pairs(servers) do
   }, config))
 end
 
+lspconfig.bashls.setup {
+  on_attach = function(client, bufnr)
+    -- if we are in a .env/.env.* file, don't load bashls
+    if client.name == 'bashls' then
+      if vim.api.nvim_buf_get_name(bufnr):match '%.env.*$' ~= nil then
+        -- vim.lsp.buf_detach_client(bufnr, client.id)
+        client.stop()
+        return
+      end
+    end
+
+    M.my_on_attach(client, bufnr)
+  end,
+  capabilities = M.my_capabilities,
+}
+
 lspconfig.eslint.setup {
   on_attach = function(client, bufnr)
     -- if the buffer is a cypress test, then don't attach eslint
@@ -531,14 +546,22 @@ if null_ok then
       -- null_ls.builtins.code_actions.eslint,
       -- null_ls.builtins.code_actions.gitsigns,
       -- null_ls.builtins.code_actions.proselint,
-      null_ls.builtins.code_actions.shellcheck,
+      --[[ null_ls.builtins.code_actions.shellcheck.with {
+        condition = function()
+          return vim.api.nvim_buf_get_name(0):match '%.env.*$' == nil
+        end,
+      }, ]]
       -- completion
       -- diagnostics
       -- null_ls.builtins.diagnostics.eslint,
       null_ls.builtins.diagnostics.fish,
       -- null_ls.builtins.diagnostics.luacheck,
       -- null_ls.builtins.diagnostics.proselint,
-      null_ls.builtins.diagnostics.shellcheck,
+      --[[ null_ls.builtins.diagnostics.shellcheck.with {
+        condition = function()
+          return vim.api.nvim_buf_get_name(0):match '%.env.*$' == nil
+        end,
+      }, ]]
       -- null_ls.builtins.diagnostics.stylelint,
       -- null_ls.builtins.diagnostics.teal,
       -- formatting
