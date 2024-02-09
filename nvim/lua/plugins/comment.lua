@@ -2,8 +2,8 @@ local comment = {}
 
 -- load Comment.nvim modules
 -- local ft = require 'Comment.ft'
-local comment_utils = require 'Comment.utils'
-local comment_extra = require 'Comment.extra'
+local utils = require 'Comment.utils'
+local extra = require 'Comment.extra'
 
 -- set default config table for Comment
 local config = {
@@ -47,13 +47,13 @@ require('Comment').setup(config)
 comment.extra = function(key)
   if key == 'o' then
     -- This powers the `gco`
-    comment_extra.norm_o(comment_utils.ctype.line, config) -- With linewise
+    extra.norm_o(utils.ctype.line, config) -- With linewise
   elseif key == 'O' then
     -- This powers the `gcO`
-    comment_extra.norm_O(comment_utils.ctype.line, config) -- With linewise
+    extra.norm_O(utils.ctype.line, config) -- With linewise
   elseif key == 'A' then
     -- This powers the `gcA`
-    comment_extra.norm_A(comment_utils.ctype.line, config) -- With linewise
+    extra.norm_A(utils.ctype.line, config) -- With linewise
   end
 end
 

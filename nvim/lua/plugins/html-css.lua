@@ -9,8 +9,6 @@ html_css.setup {
     file_types = {
       'html',
       'astro',
-      'vue',
-      'svelte',
       'javascriptreact',
       'typescriptreact',
     },

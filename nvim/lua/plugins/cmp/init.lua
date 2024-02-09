@@ -3,24 +3,34 @@ local nvim_cmp = {}
 vim.o.completeopt = 'menuone,noselect'
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
+local types = require 'cmp.types'
 
---[[ local vscode_custom_data = require 'plugins.cmp.vscode-custom-data'
-vscode_custom_data.setup {
-  ---@diagnostic disable-next-line: param-type-mismatch
-  local_data_files = vim.fn.globpath(vim.env.XDG_DATA_HOME .. '/nvim/vscode-custom-data', '**/data.json', false, true),
-  filetypes = {
-    'html',
-    'astro',
-    'javascript',
-    'typescript',
-    'javascriptreact',
-    'typescriptreact',
-  },
-  data_files = {
-    alpinejs = 'https://raw.githubusercontent.com/AdrianWilczynski/AlpineIntelliSense/master/customData/html.json',
-    htmx = 'https://raw.githubusercontent.com/otovo/htmx-tags/main/html.htmx-data.json',
-  },
-} ]]
+-- local vscode_custom_data = require 'plugins.cmp.vscode-custom-data'
+-- vscode_custom_data.setup {
+--   ---@diagnostic disable-next-line: param-type-mismatch
+--   -- local_data_files = vim.fn.globpath(vim.env.XDG_DATA_HOME .. '/nvim/vscode-custom-data', '**/*.json', false, true),
+--   filetypes = {
+--     'html',
+--     'astro',
+--     'nunjucks',
+--     'jinja.html',
+--     'webc',
+--     'liquid',
+--     'django',
+--     'htmldjango',
+--     -- 'javascript',
+--     -- 'typescript',
+--     -- 'javascriptreact',
+--     -- 'typescriptreact',
+--   },
+--   data_files = {
+--     webc = '',
+--   },
+--   --[[ data_files = {
+--     alpinejs = 'https://raw.githubusercontent.com/AdrianWilczynski/AlpineIntelliSense/master/customData/html.json',
+--     htmx = 'https://raw.githubusercontent.com/otovo/htmx-tags/main/html.htmx-data.json',
+--   }, ]]
+-- }
 
 -- setup nvim-cmp
 cmp.setup {
@@ -94,6 +104,15 @@ cmp.setup {
     -- { name = 'nvim_lsp', max_item_count = 30, keyword_length = 3 },
     {
       name = 'nvim_lsp',
+      -- disable "Text" completions from LSP
+      -- https://github.com/hrsh7th/nvim-cmp/pull/1067
+      entry_filter = function(entry, ctx)
+        local kind = types.lsp.CompletionItemKind[entry:get_kind()]
+        if kind == 'Text' then
+          return false
+        end
+        return true
+      end,
       -- keyword_length = 3,
       -- max_item_count = 75,
       --[[ entry_filter = function(entry, ctx)

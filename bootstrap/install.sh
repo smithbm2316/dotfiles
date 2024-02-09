@@ -470,11 +470,11 @@ if [ "$(command -v dnf)" ]; then
   # gopls language server
   go install golang.org/x/tools/gopls@latest
 
-  # python - lsp, formatter (blue), etc
-  # pip install python-lsp-server
+  # python - lsp (pyright), formatter (blue, djlint), etc
   pip install \
-    pyright \
-    blue
+    blue \
+    djlint \
+    pyright
 
   # sumneko_lua language server is installed with Brewfile
 

@@ -77,31 +77,51 @@ local icon_configs = {
     color = '#3278c6',
     name = 'TSConfig',
   },
-  tmpl = {
-    icon = '󰗀',
-    color = '#f16529',
-    name = 'GolangHTMLTemplate',
-  },
-  templ = {
-    icon = '󰗀',
-    color = '#f16529',
-    name = 'Templ',
-  },
-  ['go.mod'] = {
-    icon = '󰟓',
-    color = '#519aba',
-    name = 'GolangSum',
-  },
   go = {
     icon = '',
     color = '#519aba',
     cterm_color = '74',
     name = 'Go',
   },
+  ['go.mod'] = {
+    icon = '󰟓',
+    color = '#519aba',
+    name = 'GolangSum',
+  },
+  tmpl = {
+    icon = '󰗀',
+    color = '#519aba',
+    name = 'GolangHTMLTemplate',
+  },
+  templ = {
+    icon = '󰗀',
+    color = '#dbbd30',
+    name = 'Templ',
+  },
   html = {
     icon = '',
     color = '#f16529',
     name = 'HTML',
+  },
+  webc = {
+    icon = '',
+    color = '#f16529',
+    name = 'WebC',
+  },
+  njk = {
+    icon = '',
+    color = '#5cb85c',
+    name = 'Nunjucks',
+  },
+  jinja = {
+    icon = '',
+    color = '#b41717',
+    name = 'Jinja',
+  },
+  j2 = {
+    icon = '',
+    color = '#b41717',
+    name = 'Jinja',
   },
   css = {
     icon = '',
@@ -127,11 +147,6 @@ local icon_configs = {
     icon = '󰛦',
     color = '#3278c6',
     name = 'Typescript',
-  },
-  njk = {
-    icon = '',
-    color = '#5cb85c',
-    name = 'Nunjucks',
   },
   lir_folder_icon = {
     icon = '',
@@ -191,9 +206,13 @@ local icon_configs = {
   ['.prettierrc'] = shared_configs.rc_file,
   ['.prettierignore'] = shared_configs.rc_file,
   ['.prettierrc.json'] = shared_configs.rc_file,
+  ['.prettierrc.js'] = shared_configs.rc_file,
+  ['prettier.config.js'] = shared_configs.rc_file,
   ['.eslintrc'] = shared_configs.rc_file,
   ['.eslintignore'] = shared_configs.rc_file,
   ['.eslintrc.json'] = shared_configs.rc_file,
+  ['eslint.config.js'] = shared_configs.rc_file,
+  ['.djlintrc'] = shared_configs.rc_file,
   Dockerfile = shared_configs.docker,
   ['.dockerignore'] = shared_configs.docker,
   ['docker-compose.yml'] = shared_configs.docker,

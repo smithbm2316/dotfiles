@@ -230,15 +230,32 @@ M.my_capabilities = vim.lsp.protocol.make_client_capabilities()
 M.my_capabilities = require('cmp_nvim_lsp').default_capabilities(M.my_capabilities)
 M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+---Returns a custom data file parsed as JSON into a lua table
+---@param file_path string
+---@return CustomDataFile
+local function parse_file_to_json(file_path)
+  local file = assert(io.open(file_path, 'r'))
+  local data = file:read '*a' --[[@as string]]
+  local json_data = vim.json.decode(data) --[[@as CustomDataFile]]
+  file:close()
+  return json_data
+end
+
 -- directory for HTML custom data JSON files
--- local htmlCustomDataFiles = vim.fn.globpath('~/dotfiles/nvim/htmlCustomData', '*.json', false, true)
+--[[ ---@diagnostic disable-next-line: param-type-mismatch
+local custom_data_file_paths = vim.fn.globpath('~/dotfiles/nvim/htmlCustomData', '*.json', false, true)
+
+local html_custom_data_files_parsed = {}
+---@diagnostic disable-next-line: param-type-mismatch
+for _, file_path in ipairs(custom_data_file_paths) do
+  table.insert(html_custom_data_files_parsed, parse_file_to_json(file_path))
+end ]]
 
 -- setup language servers
 -- TODO: add user commands similar to vim-go plugin
 -- https://github.com/fatih/vim-go
 local servers = {
   astro = {},
-  -- root_dir = util.root_pattern('astro.config.js', 'astro.config.ts', 'astro.config.mjs', 'astro.config.cjs'),
   cssls = {
     -- disable diagnostics for cssls, i just want the autocompletion
     handlers = {
@@ -308,12 +325,23 @@ local servers = {
     filetypes = { 'graphql' },
   },
   html = {
+    filetypes = {
+      'html',
+      'django',
+      'htmldjango',
+      'jinja',
+      'jinja.html',
+      'liquid',
+      'nunjucks',
+      'templ',
+      'webc',
+    },
     single_file_support = false,
     init_options = {
       provideFormatter = false,
     },
     --[[ settings = {
-      customDataProviders = htmlCustomDataFiles,
+      customDataProviders = html_custom_data_files_parsed,
     }, ]]
   },
   htmx = {
@@ -322,7 +350,6 @@ local servers = {
     root_dir = util.root_pattern 'package.json',
     autostart = false,
   },
-  -- marksman = {},
   phpactor = {
     capabilities = vim.tbl_deep_extend('force', M.my_capabilities, {
       textDocument = {
@@ -331,8 +358,6 @@ local servers = {
       },
     }),
   },
-  -- prismals = {},
-  -- pylsp = {},
   pyright = {
     disableOrganizeImports = false,
     analysis = {
@@ -345,24 +370,6 @@ local servers = {
   --[[ sqls = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
-  --[[ stylelint_lsp = {
-    root_dir = util.find_package_json_ancestor,
-    filetypes = {
-      'astro',
-      'css',
-      'less',
-      'scss',
-      'sugarss',
-      'vue',
-      'wxss',
-      'javascript',
-      'javascriptreact',
-      'typescript',
-      'typescriptreact',
-    },
-  }, ]]
-  -- rust_analyzer = {},
-  svelte = {},
   tailwindcss = {
     autostart = true,
     filetypes = {
@@ -371,11 +378,13 @@ local servers = {
       'gohtml',
       'gohtmltmpl',
       'html',
+      'django',
+      'htmldjango',
+      -- 'jinja.html',
+      'nunjucks',
       'liquid',
       'markdown',
       'mdx',
-      'njk',
-      'nunjucks',
       'css',
       'less',
       'postcss',
@@ -385,20 +394,24 @@ local servers = {
       'javascriptreact',
       'typescript',
       'typescriptreact',
-      'vue',
-      'svelte',
       'templ',
+      'webc',
     },
     root_dir = util.root_pattern('tailwind.config.js', 'tailwind.config.cjs', 'tailwind.config.ts'),
+    -- add support for custom languages
+    -- https://github.com/tailwindlabs/tailwindcss-intellisense/issues/84#issuecomment-1128278248
     init_options = {
       userLanguages = {
-        eelixir = 'html-eex',
-        eruby = 'erb',
         templ = 'html',
+        webc = 'html',
       },
     },
     settings = {
       tailwindCSS = {
+        includeLanguages = {
+          templ = 'html',
+          webc = 'html',
+        },
         classAttributes = { 'class', 'className', 'class:list', 'classList' },
         codeActions = true,
         colorDecorators = true,
@@ -422,23 +435,11 @@ local servers = {
             { 'cva\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
           },
         },
-        --[[ experimental = {
-          classRegex = {
-            -- https://github.com/tailwindlabs/tailwindcss/issues/7553#issuecomment-917271069
-            { '/\\*tw\\*/ ([^;]*);', "'([^']*)'" },
-            { '/\\*tw\\*/ ([^;]*);', '"([^"]*)"' },
-            { '/\\*tw\\*/ ([^;]*);', '`([^`]*)`' },
-          },
-        }, ]]
       },
     },
   },
-  teal_ls = {},
   templ = {},
-  texlab = {},
-  vuels = {},
   vimls = {},
-  yamlls = {},
 }
 
 for server, config in pairs(servers) do
@@ -479,7 +480,7 @@ lspconfig.eslint.setup {
   end,
   capabilities = M.my_capabilities,
   autostart = true,
-  filetypes = { 'astro', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte' },
+  filetypes = { 'astro', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
   root_dir = function(filename, bufnr)
     local first_line_arr = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
     if
@@ -554,7 +555,6 @@ if null_ok then
       -- completion
       -- diagnostics
       -- null_ls.builtins.diagnostics.eslint,
-      null_ls.builtins.diagnostics.fish,
       -- null_ls.builtins.diagnostics.luacheck,
       -- null_ls.builtins.diagnostics.proselint,
       --[[ null_ls.builtins.diagnostics.shellcheck.with {
@@ -564,59 +564,48 @@ if null_ok then
       }, ]]
       -- null_ls.builtins.diagnostics.stylelint,
       -- null_ls.builtins.diagnostics.teal,
+      null_ls.builtins.diagnostics.djlint.with {
+        filetypes = {
+          'django',
+          'htmldjango',
+          'jinja.html',
+          'liquid',
+          'nunjucks',
+        },
+      },
       -- formatting
+      null_ls.builtins.formatting.djlint.with {
+        filetypes = {
+          'django',
+          'htmldjango',
+          'jinja.html',
+          'liquid',
+          'nunjucks',
+        },
+      },
       null_ls.builtins.formatting.deno_fmt,
       null_ls.builtins.formatting.gofmt.with {
         extra_args = { '-s' },
       },
       -- python
       null_ls.builtins.formatting.blue,
-      -- null_ls.builtins.formatting.blackd,
       -- php
       null_ls.builtins.formatting.blade_formatter, -- formatter for blade templates
       null_ls.builtins.formatting.pint, -- comes with laravel
       -- null_ls.builtins.formatting.phpcsfixer,
-      -- null_ls.builtins.formatting.dprint,
       -- null_ls.builtins.formatting.eslint,
-      null_ls.builtins.formatting.fish_indent,
       null_ls.builtins.formatting.fixjson,
       null_ls.builtins.formatting.prettier.with {
+        extra_filetypes = { 'webc' },
         condition = function(utils)
           return not utils.root_has_file { 'deno.json', 'deno.jsonc' }
         end,
         extra_args = { '--plugin-search-dir', '.' },
       },
-      --[[ null_ls.builtins.formatting.prettierd.with {
-        filetypes = {
-          'javascript',
-          'javascriptreact',
-          'typescript',
-          'typescriptreact',
-          'vue',
-          'css',
-          'scss',
-          'less',
-          'html',
-          'json',
-          'jsonc',
-          'yaml',
-          'markdown',
-          'markdown.mdx',
-          'graphql',
-          'handlebars',
-          'astro',
-          'svelte',
-        },
-      }, ]]
-      null_ls.builtins.formatting.prismaFmt,
-      -- null_ls.builtins.formatting.rome,
-      -- null_ls.builtins.formatting.rustywind,
       null_ls.builtins.formatting.stylelint,
       null_ls.builtins.formatting.stylua.with {
         filetypes = { 'lua', 'luau', 'tl' },
       },
-      -- hover
-      -- null_ls.builtins.hover.dictionary,
     },
   }
   create_augroup('AutoFormatting', {
@@ -630,8 +619,6 @@ if null_ok then
         '*.ts',
         '*.jsx',
         '*.tsx',
-        '*.svelte',
-        '*.vue',
         '*.json',
         '*.jsonc',
         '*.css',
@@ -641,13 +628,15 @@ if null_ok then
         '*.tl',
         '*.go',
         '*.bash',
-        '*.fish',
         '*.sh',
         '*.zsh',
         '*.schema',
         '*.rs',
         '*.py',
         '*.php',
+        '*.webc',
+        '*.njk',
+        '*.liquid',
       },
       callback = function()
         vim.lsp.buf.format {
@@ -659,7 +648,6 @@ if null_ok then
             if
               supports_formatting and (client.name == 'gopls' and ft == 'go')
               or (client.name == 'null-ls')
-              or (client.name == 'svelte')
               or (client.name == 'astro')
             then
               return true
@@ -705,11 +693,14 @@ if ts_tools_ok then
   ts_tools.setup {
     on_attach = M.my_on_attach,
     capabilities = custom_capabilities,
-    -- ignore "file may be converted to from a commonjs module to an es module" error
-    -- https://stackoverflow.com/a/70294761/15089697
+    -- ignore specific tsserver errors
     handlers = {
       ['textDocument/publishDiagnostics'] = require('typescript-tools.api').filter_diagnostics {
-        '80001',
+        -- ignore "file may be converted to from a commonjs module to an es module" error
+        -- https://stackoverflow.com/a/70294761/15089697
+        80001,
+        -- ignore "Could not find a declaration file for module ..." error
+        7016,
       },
     },
     root_dir = function(filename, bufnr)
@@ -799,6 +790,7 @@ end
         filter_out_diagnostics_by_severity = {},
         filter_out_diagnostics_by_code = {
           80001, -- https://stackoverflow.com/a/70294761/15089697
+          7016,
         },
 
         -- inlay hints

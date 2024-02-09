@@ -1,4 +1,4 @@
-;; extends
+; extends
 
 ; embed javascript in AlpineJS attributes
 (attribute
