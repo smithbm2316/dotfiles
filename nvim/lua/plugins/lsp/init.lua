@@ -255,7 +255,6 @@ end ]]
 -- TODO: add user commands similar to vim-go plugin
 -- https://github.com/fatih/vim-go
 local servers = {
-  astro = {},
   cssls = {
     -- disable diagnostics for cssls, i just want the autocompletion
     handlers = {
@@ -573,6 +572,8 @@ if null_ok then
           'nunjucks',
         },
       },
+      -- use `write-good` prose linter in markdown
+      null_ls.builtins.diagnostics.write_good,
       -- formatting
       null_ls.builtins.formatting.djlint.with {
         filetypes = {
@@ -679,6 +680,21 @@ lspconfig.cssmodules_ls.setup {
   autostart = false,
 }
 
+lspconfig.astro.setup {
+  on_attach = M.my_on_attach,
+  capabilities = vim.tbl_deep_extend('force', M.my_capabilities, {
+    textDocument = {
+      formatting = false,
+      rangeFormatting = false,
+    },
+  }),
+  filetypes = { 'astro' },
+  init_options = {
+    typescript = {},
+  },
+  autostart = true,
+}
+
 local ts_tools_ok, ts_tools = pcall(require, 'typescript-tools')
 if ts_tools_ok then
   -- disable formatting for tsserver
@@ -692,6 +708,13 @@ if ts_tools_ok then
 
   ts_tools.setup {
     on_attach = M.my_on_attach,
+    filetypes = {
+      'javascript',
+      'typescript',
+      'typescriptreact',
+      'javascriptreact',
+      -- 'webc',
+    },
     capabilities = custom_capabilities,
     -- ignore specific tsserver errors
     handlers = {
@@ -1031,6 +1054,31 @@ if rt_ok then
   -- enable inlay hints
   rt.inlay_hints.enable()
 end
+
+lspconfig.emmet_language_server.setup {
+  filetypes = { 'html', 'javascriptreact', 'typescriptreact', 'webc' },
+  -- **Note:** only the options listed in the table are supported.
+  init_options = {
+    ---@type table<string, string>
+    includeLanguages = {},
+    --- @type string[]
+    excludeLanguages = {},
+    --- @type string[]
+    extensionsPath = {},
+    --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
+    preferences = {},
+    --- @type boolean Defaults to `true`
+    showAbbreviationSuggestions = true,
+    --- @type "always" | "never" Defaults to `"always"`
+    showExpandedAbbreviation = 'always',
+    --- @type boolean Defaults to `false`
+    showSuggestionsAsSnippets = true,
+    --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
+    syntaxProfiles = {},
+    --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
+    variables = {},
+  },
+}
 
 -- define signcolumn lsp diagnostic icons
 -- define diagnostic icons/highlights for signcolumn and other stuff
