@@ -1,4 +1,4 @@
-; extends
+; inherits: html
 
 ; highlight `webc:` attributes
 ; adapted from: https://github.com/bennypowers/webc.nvim/blob/main/queries/html/highlights.scm
@@ -16,3 +16,7 @@
                      (attribute_value) @constant)
                    ]
                   (#eq? @_name "webc:root"))
+
+; highlight `frontmatter_lang` attribute as a `keyword`
+(frontmatter
+  (frontmatter_lang) @keyword)

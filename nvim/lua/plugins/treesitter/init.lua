@@ -26,6 +26,15 @@ treesitter_parser_config.blade = {
 }
 vim.treesitter.language.register('blade', 'blade')
 
+treesitter_parser_config.webc = {
+  install_info = {
+    url = '~/code/tree-sitter-webc',
+    files = { 'src/parser.c', 'src/scanner.c' },
+    branch = 'main',
+  },
+}
+vim.treesitter.language.register('webc', 'webc')
+
 require('nvim-treesitter.configs').setup {
   textobjects = {
     enable = true,

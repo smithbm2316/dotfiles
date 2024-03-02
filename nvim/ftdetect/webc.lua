@@ -3,6 +3,3 @@ vim.filetype.add {
     webc = 'webc',
   },
 }
-vim.treesitter.language.add('astro', {
-  filetype = 'webc',
-})
