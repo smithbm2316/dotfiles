@@ -459,7 +459,8 @@ if [ "$(command -v dnf)" ]; then
     @fsouza/prettierd \
     yarn \
     fixjson \
-    blade-formatter
+    blade-formatter \
+    write-good
 
   # sqls
   go install github.com/sql-server/sqls@latest
