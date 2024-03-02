@@ -1,5 +1,4 @@
 -- luasnip module imports
---{{{
 local ls = require 'luasnip'
 local snip = ls.snippet
 local sn = ls.snippet_node
@@ -15,10 +14,8 @@ local events = require 'luasnip.util.events'
 local types = require 'luasnip.util.types'
 local fmt = require('luasnip.extras.fmt').fmt
 local ai = require 'luasnip.nodes.absolute_indexer'
---}}}
 
 -- luasnip config setup
---{{{
 ls.config.set_config {
   ext_opts = {
     [types.choiceNode] = {
@@ -37,7 +34,6 @@ ls.config.set_config {
   update_events = 'TextChanged,TextChangedI',
   ft_func = require('luasnip.extras.filetype_functions').from_cursor,
 }
---}}}
 
 -- luasnip helpers
 --- insert an extra insert node for a type annotation if the current filetype matches
@@ -45,7 +41,6 @@ ls.config.set_config {
 ---@param type_pattern string the pattern to insert for a type, use a `|` to show where the cursor should end up
 ---@param show_annotation_choice_first boolean whether the annotation should be the first choice in the choice node
 ---@return nil
---{{{
 local add_ts_type = function(position, type_pattern, show_annotation_choice_first)
   return d(position, function()
     local ft = vim.api.nvim_buf_get_option(0, 'ft')
@@ -76,12 +71,10 @@ local add_ts_type = function(position, type_pattern, show_annotation_choice_firs
     end
   end)
 end
----}}}
 
 -- snippets for web development
 local webdev_snippets = {
   -- console.log shortcut
-  --{{{
   snip(
     {
       trig = 'log',
@@ -92,9 +85,7 @@ local webdev_snippets = {
       debug = i(0),
     })
   ),
-  --}}}
   -- console.dir shortcut
-  --{{{
   snip(
     {
       trig = 'dir',
@@ -105,10 +96,7 @@ local webdev_snippets = {
       debug = i(0),
     })
   ),
-  --}}}
-  --}}}
   -- console.dir Infinity shortcut
-  --{{{
   snip(
     {
       trig = 'dinf',
@@ -119,9 +107,7 @@ local webdev_snippets = {
       debug = i(0),
     })
   ),
-  --}}}
   -- node.js require() snippet
-  --{{{
   snip(
     {
       trig = 'req',
@@ -133,9 +119,7 @@ local webdev_snippets = {
       package = i(1),
     })
   ),
-  --}}}
   -- import from node_modules package
-  --{{{
   snip(
     {
       trig = 'im',
@@ -151,9 +135,7 @@ local webdev_snippets = {
       }),
     })
   ),
-  --}}}
   -- import default export from node_modules package
-  --{{{
   snip(
     {
       trig = 'imd',
@@ -165,9 +147,7 @@ local webdev_snippets = {
       name = i(0),
     })
   ),
-  --}}}
   -- insert a function component
-  --{{{
   snip(
     {
       trig = 'fc',
@@ -193,9 +173,7 @@ local webdev_snippets = {
       }
     )
   ),
-  --}}}
   -- insert an arrow function component
-  --{{{
   snip(
     {
       trig = 'ac',
@@ -228,83 +206,7 @@ local webdev_snippets = {
       }
     )
   ),
-  --}}}
-  -- import a component and its 'links' export in remix
-  --{{{
-  snip(
-    {
-      trig = 'ric',
-      name = 'remix import component',
-      dscr = 'import a component/function from a package with its corresponding links func',
-    },
-    fmt([[import {{ {name}, links as {linksAlias} }} from '{path}']], {
-      path = i(1),
-      name = i(2),
-      linksAlias = i(0),
-    })
-  ),
-  --}}}
-  -- useState with type annotation
-  --{{{
-  snip(
-    {
-      trig = 'us',
-      name = 'useState',
-      desc = 'useState with type annotation',
-    },
-    fmt([[const [{state}, {setState}] = useState{type_annotation}({initial_value})]], {
-      state = i(1),
-      setState = f(function(args)
-        if args[1][1]:len() > 0 then
-          return 'set' .. args[1][1]:sub(1, 1):upper() .. args[1][1]:sub(2)
-        else
-          return ''
-        end
-      end, 1),
-      type_annotation = add_ts_type(2, '<|>', true),
-      initial_value = i(0),
-    })
-  ),
-  --}}}
-  -- useEffect with type annotation
-  -- add the ability to auto-import this from React in your file,
-  -- probably using LSP capabilities somehow. Maybe run the helper
-  -- func from nvim-ts-lsp-utils or nvim-cmp that imports automatically
-  --{{{
-  snip(
-    {
-      trig = 'ue',
-      name = 'useEffect',
-      desc = 'useEffect',
-    },
-    fmt(
-      [[
-    useEffect(() => {{
-      {body}
-    }}, [{deps}])
-    ]],
-      {
-        deps = i(1),
-        body = i(0),
-      }
-    )
-  ),
-  --}}}
-  -- className attribute for easy Tailwind usage
-  --{{{
-  snip(
-    {
-      trig = 'cn',
-      name = 'className',
-      desc = 'Insert className attribute',
-    },
-    fmt([[className='{}']], {
-      i(0),
-    })
-  ),
-  --}}}
   -- console.dir an object with infinite depth for command line viewing
-  --{{{
   snip(
     {
       trig = 'co',
@@ -315,12 +217,10 @@ local webdev_snippets = {
       i(1),
     })
   ),
-  --}}}
 }
 
 local lua_snippets = {
   -- luasnip snippet generator: *i used the luasnip to create the luasnip snippet* - thanos
-  --{{{
   snip(
     {
       trig = 'lsnip',
@@ -355,9 +255,7 @@ local lua_snippets = {
       }
     )
   ),
-  ---}}}
   -- protected (pcall) require snippet
-  --{{{
   snip(
     {
       trig = 'preq',
@@ -379,7 +277,6 @@ local lua_snippets = {
       }
     )
   ),
-  --}}}
 }
 
 -- simple text node snippets for lua
@@ -399,11 +296,19 @@ for trig, text in pairs(lua_text_snippets) do
 end
 
 -- add snippets to luasnip
-for _, ft in ipairs { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'astro' } do
+for _, ft in ipairs {
+  'javascript',
+  'typescript',
+  'typescriptreact',
+  'javascriptreact',
+  'astro',
+  'webc',
+} do
   ls.add_snippets(ft, webdev_snippets, {
     key = ft,
   })
 end
+
 ls.add_snippets('lua', lua_snippets, {
   key = 'lua',
 })
