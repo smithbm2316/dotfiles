@@ -26,7 +26,8 @@ if (currentTheme === "light" || currentTheme === "null") {
   newTheme = "light";
   newKittyTheme = "Rosé Pine Dawn";
   // newKittyTheme = "Catppuccin-Latte";
-  gnomeTheme = "prefer-light";
+  // gnomeTheme = "prefer-light";
+  gnomeTheme = "default";
   gnomeGtkTheme = "Adwaita";
 }
 

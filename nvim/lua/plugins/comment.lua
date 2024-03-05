@@ -1,7 +1,7 @@
 local comment = {}
 
 -- load Comment.nvim modules
--- local ft = require 'Comment.ft'
+local ft = require 'Comment.ft'
 local utils = require 'Comment.utils'
 local extra = require 'Comment.extra'
 
@@ -42,6 +42,8 @@ local config = {
 
 -- and load the plugin
 require('Comment').setup(config)
+
+ft.webc = { '<!--- %s --->', '<!--- %s --->' }
 
 -- define wrapper function to map the extra Comment.nvim mappings to
 comment.extra = function(key)
