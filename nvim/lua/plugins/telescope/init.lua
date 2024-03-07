@@ -86,6 +86,7 @@ local ignore_these = {
   '%.otf',
   '%.woff',
   '%.woff2',
+  '%.eot',
   '%.env.*',
   '%.db',
   '%.zip',
