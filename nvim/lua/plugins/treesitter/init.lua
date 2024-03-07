@@ -139,7 +139,7 @@ require('nvim-treesitter.configs').setup {
     'ini',
     'javascript',
     'jq',
-    'jsdoc',
+    -- 'jsdoc',
     'json',
     'jsonc',
     'lua',

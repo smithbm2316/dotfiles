@@ -465,11 +465,11 @@ if [ "$(command -v dnf)" ]; then
   # sqls
   go install github.com/sql-server/sqls@latest
 
-  # templ lsp
-  go install github.com/a-h/templ/cmd/templ@latest
-
   # gopls language server
   go install golang.org/x/tools/gopls@latest
+
+  # templ lsp
+  go install github.com/a-h/templ/cmd/templ@latest
 
   # python - lsp (pyright), formatter (blue, djlint), etc
   pip install \

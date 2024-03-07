@@ -35,6 +35,7 @@
                   ]
                   (#not-eq? @_name "webc:root")
                   (#not-eq? @_name "webc:type")
+                  (#not-eq? @_name "webc:scoped")
                   (#not-eq? @_name "11ty:type")
                   (#not-eq? @_name "11ty:import")
                   (#match? @_name "^((webc)?:|\\@(html|raw|text))")

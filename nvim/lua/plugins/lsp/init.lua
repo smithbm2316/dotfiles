@@ -251,20 +251,57 @@ for _, file_path in ipairs(custom_data_file_paths) do
   table.insert(html_custom_data_files_parsed, parse_file_to_json(file_path))
 end ]]
 
+-- stylua: ignore start
+--[[ local cssCustomData = vim.split(
+  vim.fn.globpath(vim.fn.getcwd(), '.vscode/**/*.css-data.json'),
+  '\n'
+)
+local htmlCustomDataFilepaths = vim.split(
+  vim.fn.globpath(vim.fn.getcwd(), '.vscode/**/*.html-data.json'),
+  '\n'
+) ]]
+
+-- local htmlCustomData = {}
+-- for _, file_path in ipairs(htmlCustomDataFilepaths) do
+--   local file = assert(io.open(file_path, 'r'))
+--   local data = file:read '*a' --[[@as string]]
+--   local json_data = vim.json.decode(data)
+--   file:close()
+--
+--   table.insert(htmlCustomData, json_data)
+-- end
+-- stylua: ignore end
+
 -- setup language servers
--- TODO: add user commands similar to vim-go plugin
--- https://github.com/fatih/vim-go
 local servers = {
   cssls = {
     -- disable diagnostics for cssls, i just want the autocompletion
-    handlers = {
+    --[[ handlers = {
       ['textDocument/publishDiagnostics'] = function(...) end,
-    },
+    }, ]]
     -- filetypes = { 'css', 'scss', 'less', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
     settings = {
-      completion = {
-        triggerPropertyValueCompletion = true,
-        completePropertyWithSemicolon = false,
+      -- settings docs:
+      -- https://code.visualstudio.com/Docs/languages/CSS#_customizing-css-scss-and-less-settings
+      css = {
+        completion = {
+          completePropertyWithSemicolon = false,
+          triggerPropertyValueCompletion = true,
+        },
+        format = {
+          preserveNewLines = true,
+          spaceAroundSelectorSeparator = true,
+        },
+        -- customData = cssCustomData,
+        lint = {
+          argumentsInColorFunction = 'error',
+          compatibleVendorPrefixes = 'warning',
+          duplicateProperties = 'warning',
+          hexColorLength = 'error',
+          propertyIgnoredDueToDisplay = 'warning',
+          vendorPrefix = 'warning',
+        },
+        validate = true,
       },
     },
   },
@@ -324,6 +361,17 @@ local servers = {
     filetypes = { 'graphql' },
   },
   html = {
+    --[[ cmd = {
+      'node',
+      '/home/smithbm/code/vscode-extension-samples/lsp-embedded-language-service/server/out/server.js',
+      '--stdio',
+    }, ]]
+    capabilities = vim.tbl_deep_extend('force', M.my_capabilities, {
+      textDocument = {
+        formatting = true,
+        rangeFormatting = true,
+      },
+    }),
     filetypes = {
       'html',
       'django',
@@ -337,14 +385,38 @@ local servers = {
     },
     single_file_support = false,
     init_options = {
+      -- dataPaths = htmlCustomDataFilepaths,
+      configurationSection = { 'html', 'css', 'javascript' },
+      embeddedLanguages = {
+        css = true,
+        javascript = true,
+      },
       provideFormatter = false,
     },
-    --[[ settings = {
-      customDataProviders = html_custom_data_files_parsed,
-    }, ]]
+    settings = {
+      css = {
+        completion = {
+          completePropertyWithSemicolon = false,
+          triggerPropertyValueCompletion = true,
+        },
+        format = {
+          preserveNewLines = true,
+          spaceAroundSelectorSeparator = true,
+        },
+      },
+    },
   },
   htmx = {
-    filetypes = { 'astro', 'html', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'templ', 'tmpl' },
+    filetypes = {
+      'astro',
+      'html',
+      'javascript',
+      'javascriptreact',
+      'typescript',
+      'typescriptreact',
+      'templ',
+      'tmpl',
+    },
     single_file_support = false,
     root_dir = util.root_pattern 'package.json',
     autostart = false,
@@ -597,7 +669,7 @@ if null_ok then
       -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fixjson,
       null_ls.builtins.formatting.prettier.with {
-        extra_filetypes = { 'webc' },
+        -- extra_filetypes = { 'webc' },
         condition = function(utils)
           return not utils.root_has_file { 'deno.json', 'deno.jsonc' }
         end,
@@ -643,14 +715,28 @@ if null_ok then
         vim.lsp.buf.format {
           async = false,
           filter = function(client)
+            --- the current filetype
+            --- @type string
             local ft = vim.api.nvim_buf_get_option(0, 'filetype')
-            local supports_formatting = client.supports_method 'textDocument/formatting'
+            --- keys in the table represent filetypes, values represent the name of LSP servers
+            local ft_lsp_map = {
+              astro = 'astro',
+              html = 'html',
+              go = 'gopls',
+              templ = 'templ',
+              webc = 'html',
+            }
 
-            if
-              supports_formatting and (client.name == 'gopls' and ft == 'go')
-              or (client.name == 'null-ls')
-              or (client.name == 'astro')
-            then
+            -- exit early if the given LSP doesn't support formatting
+            if not client.supports_method 'textDocument/formatting' then
+              return false
+            end
+
+            -- if our LSP client's name is valid for the current filetype, we can use that LSP's formatter
+            if ft_lsp_map[ft] == client.name then
+              return true
+            -- if `null-ls` is the current formatter, then great you can use that!
+            elseif client.name == 'null-ls' then
               return true
             else
               return false
