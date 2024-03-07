@@ -229,3 +229,9 @@ gwa() {
   fi
   git worktree add -b "ben-smith/$1" "$1" "$based_off_of"
 }
+
+# show more options when using pgrep
+# https://serverfault.com/a/77167
+ppgrep() {
+  pgrep "$@" | xargs --no-run-if-empty ps fp;
+}
