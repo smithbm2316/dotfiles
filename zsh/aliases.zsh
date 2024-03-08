@@ -16,3 +16,6 @@ fi
 
 # go version manager
 alias goenv="$GOPATH/bin/g"
+
+# alias for "make" that suppresses all output (useful when using as a task runner)
+alias mk="make -s"
