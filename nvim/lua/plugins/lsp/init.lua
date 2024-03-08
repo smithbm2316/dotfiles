@@ -509,7 +509,13 @@ local servers = {
       },
     },
   },
-  templ = {},
+  templ = {
+    -- use project-local templ if it exits, default to lspconfig global templ if not
+    cmd = {
+      util.path.exists './bin/templ' and './bin/templ' or 'templ',
+      'lsp',
+    },
+  },
   vimls = {},
 }
 
