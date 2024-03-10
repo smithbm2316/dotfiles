@@ -145,7 +145,6 @@ require('nvim-treesitter.configs').setup {
     'lua',
     'luadoc',
     'luap',
-    'make',
     'markdown',
     'markdown_inline',
     'php',

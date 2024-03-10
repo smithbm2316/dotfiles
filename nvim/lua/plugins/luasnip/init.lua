@@ -105,6 +105,21 @@ if err != nil {{
 }
 ls.add_snippets('go', go_snippets, { key = 'go' })
 
+-- makefile snippets
+ls.add_snippets('make', {
+  -- variable declaration
+  snip(
+    {
+      trig = 'var',
+      name = 'variable declaration',
+    },
+    fmt([[{var} := {value}]], {
+      var = i(1, 'vars'),
+      value = i(0, 'value'),
+    })
+  ),
+}, { key = 'make' })
+
 -- snippets for web development
 local webdev_snippets = {
   -- console.log shortcut
