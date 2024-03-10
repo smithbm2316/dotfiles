@@ -72,6 +72,39 @@ local add_ts_type = function(position, type_pattern, show_annotation_choice_firs
   end)
 end
 
+-- golang snippets
+local go_snippets = {
+  -- handle error clause
+  snip(
+    {
+      trig = 'err',
+      name = 'handle error',
+      desc = 'handle errors with err != nil clause',
+    },
+    fmt(
+      [[
+if err != nil {{
+  {}
+}}
+]],
+      { i(0) }
+    )
+  ),
+  -- short variable declaration
+  snip(
+    {
+      trig = 'var',
+      name = 'short variable declaration',
+      desc = 'shortcut for defining variables with := short declaration',
+    },
+    fmt([[{vars} := {value}]], {
+      vars = i(1, 'vars'),
+      value = i(0, 'value'),
+    })
+  ),
+}
+ls.add_snippets('go', go_snippets, { key = 'go' })
+
 -- snippets for web development
 local webdev_snippets = {
   -- console.log shortcut
@@ -230,7 +263,6 @@ local lua_snippets = {
     fmt(
       [[
   -- {comment}
-  --{{{{{{
   snip(
     {{
       trig = '{trig}',
@@ -243,7 +275,6 @@ local lua_snippets = {
       }}
     )
   ),
-  --}}}}}}
   ]],
       {
         comment = i(1),
@@ -315,7 +346,13 @@ ls.add_snippets('lua', lua_snippets, {
 -- why do we use a key here: https://github.com/L3MON4D3/LuaSnip/issues/81#issuecomment-1073301357
 
 -- load rafamadriz/friendly-snippets snippets
-require('luasnip.loaders.from_vscode').lazy_load()
+require('luasnip.loaders.from_vscode').lazy_load {
+  exclude = { 'go' },
+}
+-- load my local snippets
+require('luasnip.loaders.from_vscode').lazy_load {
+  paths = { './snippets' },
+}
 
 -- add keymap to reload snippets on demand
 nnoremap('<leader>rs', function()
