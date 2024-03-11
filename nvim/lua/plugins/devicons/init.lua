@@ -15,7 +15,53 @@ local shared_configs = {
   },
 }
 
-local tool_configs = {
+local filename_configs = {
+  ['.gitignore'] = {
+    icon = '',
+    color = '#f54d27',
+    name = 'Gitignore',
+  },
+  ['yarn.lock'] = {
+    icon = '',
+    color = '#2188b6',
+    name = 'YarnLockfile',
+  },
+  ['package-lock.json'] = {
+    icon = '',
+    color = '#84ba64',
+    name = 'NPMLockfile',
+  },
+  ['package.json'] = {
+    icon = '',
+    color = '#cb0000',
+    name = 'PackageJSON',
+  },
+  ['tsconfig.json'] = {
+    icon = '',
+    color = '#3278c6',
+    name = 'TSConfig',
+  },
+  ['go.mod'] = {
+    icon = '󰟓',
+    color = '#519aba',
+    name = 'GolangSum',
+  },
+  ['.prettierrc'] = shared_configs.rc_file,
+  ['.prettierignore'] = shared_configs.rc_file,
+  ['.prettierrc.json'] = shared_configs.rc_file,
+  ['.prettierrc.js'] = shared_configs.rc_file,
+  ['prettier.config.js'] = shared_configs.rc_file,
+  ['.eslintrc'] = shared_configs.rc_file,
+  ['.eslintignore'] = shared_configs.rc_file,
+  ['.eslintrc.json'] = shared_configs.rc_file,
+  ['eslint.config.js'] = shared_configs.rc_file,
+  ['.djlintrc'] = shared_configs.rc_file,
+  Dockerfile = shared_configs.docker,
+  ['.dockerignore'] = shared_configs.docker,
+  ['docker-compose.yml'] = shared_configs.docker,
+}
+
+local web_tool_configs = {
   astro = {
     icon = '󱓞',
     color = '#ff7e33',
@@ -44,49 +90,18 @@ local tool_configs = {
 }
 
 local web_config_file_endings = { '.js', '.ts', '.mjs', '.cjs' }
-local web_tool_configs = {}
-for tool_name, icon_config in pairs(tool_configs) do
+for tool_name, icon_config in pairs(web_tool_configs) do
   for _, file_ending in ipairs(web_config_file_endings) do
-    web_tool_configs[tool_name .. '.config' .. file_ending] = icon_config
+    filename_configs[tool_name .. '.config' .. file_ending] = icon_config
   end
 end
 
-local icon_configs = {
-  ['.gitignore'] = {
-    icon = '',
-    color = '#f54d27',
-    name = 'Gitignore',
-  },
-  ['yarn.lock'] = {
-    icon = '',
-    color = '#2188b6',
-    name = 'YarnLockfile',
-  },
-  ['package-lock.json'] = {
-    icon = '',
-    color = '#84ba64',
-    name = 'NPMLockfile',
-  },
-  ['package.json'] = {
-    icon = '',
-    color = '#cb0000',
-    name = 'PackageJSON',
-  },
-  ['tsconfig.json'] = {
-    icon = '',
-    color = '#3278c6',
-    name = 'TSConfig',
-  },
+local file_extension_configs = {
   go = {
     icon = '',
     color = '#519aba',
     cterm_color = '74',
     name = 'Go',
-  },
-  ['go.mod'] = {
-    icon = '󰟓',
-    color = '#519aba',
-    name = 'GolangSum',
   },
   tmpl = {
     icon = '󰗀',
@@ -148,11 +163,6 @@ local icon_configs = {
     color = '#3278c6',
     name = 'Typescript',
   },
-  lir_folder_icon = {
-    icon = '',
-    color = '#7ebae4',
-    name = 'LirFolderNode',
-  },
   ['test.js'] = {
     icon = '󰙨',
     color = '#cbcb41',
@@ -203,23 +213,11 @@ local icon_configs = {
     color = '#3278c6',
     name = 'CSS.TS',
   },
-  ['.prettierrc'] = shared_configs.rc_file,
-  ['.prettierignore'] = shared_configs.rc_file,
-  ['.prettierrc.json'] = shared_configs.rc_file,
-  ['.prettierrc.js'] = shared_configs.rc_file,
-  ['prettier.config.js'] = shared_configs.rc_file,
-  ['.eslintrc'] = shared_configs.rc_file,
-  ['.eslintignore'] = shared_configs.rc_file,
-  ['.eslintrc.json'] = shared_configs.rc_file,
-  ['eslint.config.js'] = shared_configs.rc_file,
-  ['.djlintrc'] = shared_configs.rc_file,
-  Dockerfile = shared_configs.docker,
-  ['.dockerignore'] = shared_configs.docker,
-  ['docker-compose.yml'] = shared_configs.docker,
 }
 
 -- load the configuration for the web-devicons plugin
 nvim_web_devicons.setup {
-  override = vim.tbl_deep_extend('force', icon_configs, web_tool_configs),
+  override_by_filename = filename_configs,
+  override_by_extension = file_extension_configs,
   default = false,
 }
