@@ -78,7 +78,18 @@ oil.setup {
     end,
     -- This function defines what will never be shown, even when `show_hidden` is set
     is_always_hidden = function(name, bufnr)
-      return false
+      local ignored_suffixes = {
+        '_templ.go',
+        '_templ.txt',
+      }
+      local should_ignore = false
+      for _, suffix in ipairs(ignored_suffixes) do
+        if vim.endswith(name, suffix) then
+          should_ignore = true
+          break
+        end
+      end
+      return should_ignore
     end,
   },
   -- Configuration for the floating window in oil.open_float

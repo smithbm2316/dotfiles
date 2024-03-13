@@ -345,7 +345,7 @@ local servers = {
         experimentalPostfixCompletions = true,
         matcher = 'Fuzzy',
         staticcheck = false,
-        usePlaceholders = true,
+        usePlaceholders = false,
       },
     },
     commands = {

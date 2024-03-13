@@ -18,6 +18,7 @@ autotag.setup {
     'jinja.html',
     'nunjucks',
     'webc',
+    'templ',
   },
   skip_tags = {
     'area',
