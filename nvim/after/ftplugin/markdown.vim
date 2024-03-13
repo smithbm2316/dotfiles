@@ -1,4 +1,9 @@
-set linebreak wrap tw=0
+set linebreak
+set wrap
+set tw=0
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
 
 function! ScreenMovement(movement)
   if &wrap

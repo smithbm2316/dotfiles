@@ -729,6 +729,7 @@ if null_ok then
         '*.webc',
         '*.njk',
         '*.liquid',
+        '*.templ',
       },
       callback = function()
         vim.lsp.buf.format {
