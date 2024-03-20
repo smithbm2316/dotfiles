@@ -43,7 +43,15 @@ local config = {
 -- and load the plugin
 require('Comment').setup(config)
 
+-- use server-removed comments (three dashes) for webc
 ft.webc = { '<!--- %s --->', '<!--- %s --->' }
+
+ft.templ = {
+  -- setup line comments as Go comments
+  '// %s',
+  -- and block comments as HTML comments
+  '<!-- %s -->',
+}
 
 -- define wrapper function to map the extra Comment.nvim mappings to
 comment.extra = function(key)

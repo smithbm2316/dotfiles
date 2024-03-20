@@ -3,7 +3,8 @@ vim.o.autoindent = true
 vim.o.expandtab = true
 vim.opt.formatoptions:remove '2ac' -- t
 vim.opt.formatoptions:append 'jnrqlo'
--- vim.o.textwidth = 100
+vim.o.colorcolumn = '+1'
+vim.o.textwidth = 80
 vim.o.shiftwidth = 2
 vim.o.smartindent = true
 vim.o.softtabstop = 2
