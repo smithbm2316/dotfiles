@@ -1,8 +1,7 @@
 [Desktop Entry]
 Name=Firefox Developer Edition
 GenericName=Web Browser
-Exec=/home/smithbm/.local/opt/firefox-dev/firefox %u
-# Icon=/opt/firefox-dev/browser/chrome/icons/default/default128.png
+Exec=/home/smithbm/.local/firefox-dev/firefox %u
 Icon=/usr/share/icons/Papirus-Dark/32x32/apps/firefox-developer-icon.svg
 Terminal=false
 Type=Application
@@ -15,8 +14,8 @@ StartupWMClass=Firefox Developer Edition
 
 [Desktop Action new-window]
 Name=Open a New Window
-Exec=/home/smithbm/.local/opt/firefox-dev/firefox %u
+Exec=/home/smithbm/.local/firefox-dev/firefox %u
 
 [Desktop Action new-private-window]
 Name=Open a New Private Window
-Exec=/home/smithbm/.local/opt/firefox-dev/firefox --private-window %u
+Exec=/home/smithbm/.local/firefox-dev/firefox --private-window %u

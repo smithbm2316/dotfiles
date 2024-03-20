@@ -374,6 +374,18 @@ ncspot() {
   ln -sf "$HOME/builds/ncspot/target/release/ncspot" "$HOME/.local/bin/ncspot"
 }
 
+# https://linuxconfig.org/how-to-install-firefox-developer-edition-on-linux
+firefox_dev() {
+  cd ~/downloads || exit
+  curl --location \
+    "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US" \
+    | tar --extract --verbose --preserve-permissions --bzip2
+  mkdir -pv ~/.local
+  mv -v firefox ~/.local/firefox-dev
+  ln -sv ~/.local/firefox-dev/firefox ~/.local/bin/firefox-dev
+  ln -sv ~/dotfiles/config/applications/firefox-dev.desktop ~/.local/share/applications/firefox-dev.desktop
+}
+
 stow_dotfiles() {
   cd ~ || exit
   # create all home directories that i use, remove all uppercase original ones
