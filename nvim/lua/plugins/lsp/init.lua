@@ -230,56 +230,9 @@ M.my_capabilities = vim.lsp.protocol.make_client_capabilities()
 M.my_capabilities = require('cmp_nvim_lsp').default_capabilities(M.my_capabilities)
 M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
----Returns a custom data file parsed as JSON into a lua table
----@param file_path string
----@return CustomDataFile
-local function parse_file_to_json(file_path)
-  local file = assert(io.open(file_path, 'r'))
-  local data = file:read '*a' --[[@as string]]
-  local json_data = vim.json.decode(data) --[[@as CustomDataFile]]
-  file:close()
-  return json_data
-end
-
--- directory for HTML custom data JSON files
---[[ ---@diagnostic disable-next-line: param-type-mismatch
-local custom_data_file_paths = vim.fn.globpath('~/dotfiles/nvim/htmlCustomData', '*.json', false, true)
-
-local html_custom_data_files_parsed = {}
----@diagnostic disable-next-line: param-type-mismatch
-for _, file_path in ipairs(custom_data_file_paths) do
-  table.insert(html_custom_data_files_parsed, parse_file_to_json(file_path))
-end ]]
-
--- stylua: ignore start
---[[ local cssCustomData = vim.split(
-  vim.fn.globpath(vim.fn.getcwd(), '.vscode/**/*.css-data.json'),
-  '\n'
-)
-local htmlCustomDataFilepaths = vim.split(
-  vim.fn.globpath(vim.fn.getcwd(), '.vscode/**/*.html-data.json'),
-  '\n'
-) ]]
-
--- local htmlCustomData = {}
--- for _, file_path in ipairs(htmlCustomDataFilepaths) do
---   local file = assert(io.open(file_path, 'r'))
---   local data = file:read '*a' --[[@as string]]
---   local json_data = vim.json.decode(data)
---   file:close()
---
---   table.insert(htmlCustomData, json_data)
--- end
--- stylua: ignore end
-
 -- setup language servers
 local servers = {
   cssls = {
-    -- disable diagnostics for cssls, i just want the autocompletion
-    --[[ handlers = {
-      ['textDocument/publishDiagnostics'] = function(...) end,
-    }, ]]
-    -- filetypes = { 'css', 'scss', 'less', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
     settings = {
       -- settings docs:
       -- https://code.visualstudio.com/Docs/languages/CSS#_customizing-css-scss-and-less-settings
@@ -374,11 +327,6 @@ local servers = {
     filetypes = { 'graphql' },
   },
   html = {
-    --[[ cmd = {
-      'node',
-      '/home/smithbm/code/vscode-extension-samples/lsp-embedded-language-service/server/out/server.js',
-      '--stdio',
-    }, ]]
     capabilities = vim.tbl_deep_extend('force', M.my_capabilities, {
       textDocument = {
         formatting = true,
@@ -398,7 +346,6 @@ local servers = {
     },
     single_file_support = false,
     init_options = {
-      -- dataPaths = htmlCustomDataFilepaths,
       configurationSection = { 'html', 'css', 'javascript' },
       embeddedLanguages = {
         css = true,
@@ -676,9 +623,6 @@ if null_ok then
         },
       },
       null_ls.builtins.formatting.deno_fmt,
-      null_ls.builtins.formatting.gofmt.with {
-        extra_args = { '-s' },
-      },
       -- python
       null_ls.builtins.formatting.blue,
       -- php
@@ -688,7 +632,6 @@ if null_ok then
       -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fixjson,
       null_ls.builtins.formatting.prettier.with {
-        -- extra_filetypes = { 'webc' },
         condition = function(utils)
           return not utils.root_has_file { 'deno.json', 'deno.jsonc' }
         end,
@@ -705,31 +648,31 @@ if null_ok then
       events = 'BufWritePre',
       pattern = {
         '*.astro',
+        '*.bash',
         '*.cjs',
+        '*.css',
+        '*.go',
         '*.js',
-        '*.mjs',
-        '*.ts',
-        '*.jsx',
-        '*.tsx',
         '*.json',
         '*.jsonc',
-        '*.css',
-        '*.sass',
-        '*.scss',
-        '*.lua',
-        '*.tl',
-        '*.go',
-        '*.bash',
-        '*.sh',
-        '*.zsh',
-        '*.schema',
-        '*.rs',
-        '*.py',
-        '*.php',
-        '*.webc',
-        '*.njk',
+        '*.jsx',
         '*.liquid',
+        '*.lua',
+        '*.mjs',
+        '*.njk',
+        '*.php',
+        '*.py',
+        '*.rs',
+        '*.sass',
+        '*.schema',
+        '*.scss',
+        '*.sh',
         '*.templ',
+        '*.tl',
+        '*.ts',
+        '*.tsx',
+        '*.webc',
+        '*.zsh',
       },
       callback = function()
         vim.lsp.buf.format {
