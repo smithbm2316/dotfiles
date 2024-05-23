@@ -2,7 +2,7 @@
 Name=Firefox Developer Edition
 GenericName=Web Browser
 Exec=/home/smithbm/.local/firefox-dev/firefox %u
-Icon=/usr/share/icons/Papirus-Dark/32x32/apps/firefox-developer-icon.svg
+Icon=/usr/share/icons/Papirus-Dark/32x32/apps/firefox-developer-edition.svg
 Terminal=false
 Type=Application
 MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;x-scheme-handler/http;x-scheme-handler/https;

@@ -464,6 +464,8 @@ if [ "$(command -v dnf)" ]; then
     @astrojs/language-server \
     @tailwindcss/language-server \
     bash-language-server \
+    css-variables-language-server \
+    custom-elements-languageserver \
     typescript \
     typescript-language-server \
     vim-language-server \

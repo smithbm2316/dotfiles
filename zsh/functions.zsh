@@ -235,3 +235,17 @@ gwa() {
 ppgrep() {
   pgrep "$@" | xargs --no-run-if-empty ps fp;
 }
+
+# start a local http server for specific folders on my machine
+serve() {
+  case "$1" in
+    books)
+      # the books in my $HOME/books folder
+      npx http-server --port 1337 ~/books
+      ;;
+    *)
+      echo "Please choose a valid option from: books"
+      exit 1
+      ;;
+  esac
+}

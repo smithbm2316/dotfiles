@@ -3,7 +3,6 @@ local maps = {}
 -- cc: https://www.hillelwayne.com/vim-macro-trickz/
 
 -- Basic mappings
---{{{
 local nosilent = { silent = false }
 
 --
@@ -90,6 +89,11 @@ nnoremap('C', '"_C')
 inoremap('<c-v>', '<c-r>+', 'Paste with <c-v>', nosilent)
 cnoremap('<c-v>', '<c-r>+', 'Paste with <c-v>', nosilent)
 
+-- insert ":=" while already in insert mode (go shortcut)
+inoremap('<c-t>', function()
+  vim.api.nvim_feedkeys(':=', 'i', true)
+end, 'Insert ":=" (go shortcut)')
+
 -- turn off search highlighting after finishing a search (nohlsearch)
 nnoremap('<leader>hl', '<cmd>noh<cr>', 'Turn off search hl')
 
@@ -119,10 +123,8 @@ vim.api.nvim_create_user_command('ReviewPR', 'lua vim.cmd("FocusDisable"); vim.c
 -- enter in a new html tag above or below the current line
 -- nnoremap('<leader>it', [[<cmd>call feedkeys("o<\<C-E>",', ''i')<cr>]])
 -- nnoremap('<leader>iT', [[<cmd>call feedkeys("O<\<C-E>",', ''i')<cr>]])
----}}}
 
 -- Function mappings
---{{{
 -- Source Here: Reload current buffer if it is a vim or lua file
 nnoremap('<leader>sh', function()
   local ft = vim.api.nvim_buf_get_option(0, 'filetype')
@@ -217,7 +219,6 @@ nnoremap('<leader>dd', function()
   local encodedURL = string.format('open "https://devdocs.io/#q=%s"', query:gsub('%s', '%%20'))
   os.execute(encodedURL)
 end, 'Search DevDocs')
---}}}
 
 -- toggle relativenumber on/off for all windows
 nnoremap('<leader>tn', function()
@@ -268,7 +269,6 @@ nnoremap('<leader>gd', function()
 end, 'go doc viewer')
 
 -- mappings that require an external function
---{{{
 
 -- turn terminal to normal mode with escape if it's not a lazygit terminal
 create_augroup('RemapTermEscapeUnlessLazygit', {

@@ -226,13 +226,31 @@ M.my_on_attach = function(client, bufnr)
   vim.b.show_diagnostics = true
 end
 
-M.my_capabilities = vim.lsp.protocol.make_client_capabilities()
-M.my_capabilities = require('cmp_nvim_lsp').default_capabilities(M.my_capabilities)
-M.my_capabilities.textDocument.completion.completionItem.snippetSupport = true
+M.my_capabilities = vim.tbl_deep_extend(
+  'force',
+  require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+  {
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = true,
+        },
+      },
+    },
+  }
+)
+
+local capabilities_without_formatting = vim.tbl_deep_extend('force', M.my_capabilities, {
+  textDocument = {
+    formatting = false,
+    rangeFormatting = false,
+  },
+})
 
 -- setup language servers
 local servers = {
   cssls = {
+    capabilities = capabilities_without_formatting,
     settings = {
       -- settings docs:
       -- https://code.visualstudio.com/Docs/languages/CSS#_customizing-css-scss-and-less-settings
@@ -245,7 +263,6 @@ local servers = {
           preserveNewLines = true,
           spaceAroundSelectorSeparator = true,
         },
-        -- customData = cssCustomData,
         lint = {
           argumentsInColorFunction = 'error',
           compatibleVendorPrefixes = 'warning',
@@ -258,6 +275,36 @@ local servers = {
       },
     },
   },
+  css_variables = {
+    capabilities = capabilities_without_formatting,
+    cssVariables = {
+      lookupFiles = { '**/*.less', '**/*.scss', '**/*.sass', '**/*.css' },
+      blacklistFolders = {
+        '**/.cache',
+        '**/.DS_Store',
+        '**/.git',
+        '**/.hg',
+        '**/.next',
+        '**/.svn',
+        '**/bower_components',
+        '**/CVS',
+        '**/dist',
+        '**/node_modules',
+        '**/tests',
+        '**/tmp',
+        -- personal website build folder
+        '**/www',
+      },
+    },
+  },
+  --[[ custom_elements_ls = {
+    capabilities = capabilities_without_formatting,
+    filetypes = {
+      'html',
+      'templ',
+      'webc',
+    },
+  }, ]]
   denols = {
     root_dir = function(filename, bufnr)
       local first_line_arr = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
@@ -324,19 +371,15 @@ local servers = {
     },
   },
   graphql = {
+    capabilities = capabilities_without_formatting,
     filetypes = { 'graphql' },
   },
   html = {
-    capabilities = vim.tbl_deep_extend('force', M.my_capabilities, {
-      textDocument = {
-        formatting = true,
-        rangeFormatting = true,
-      },
-    }),
     filetypes = {
       'html',
       'django',
       'htmldjango',
+      'edge',
       'jinja',
       'jinja.html',
       'liquid',
@@ -367,6 +410,7 @@ local servers = {
     },
   },
   htmx = {
+    capabilities = capabilities_without_formatting,
     filetypes = {
       'astro',
       'html',
@@ -382,14 +426,10 @@ local servers = {
     autostart = false,
   },
   phpactor = {
-    capabilities = vim.tbl_deep_extend('force', M.my_capabilities, {
-      textDocument = {
-        formatting = false,
-        rangeFormatting = false,
-      },
-    }),
+    filetypes = { 'blade', 'php' },
   },
   pyright = {
+    capabilities = capabilities_without_formatting,
     disableOrganizeImports = false,
     analysis = {
       useLibraryCodeForTypes = true,
@@ -402,6 +442,7 @@ local servers = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
   tailwindcss = {
+    capabilities = capabilities_without_formatting,
     autostart = true,
     filetypes = {
       'astro',
@@ -631,13 +672,26 @@ if null_ok then
       -- null_ls.builtins.formatting.phpcsfixer,
       -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fixjson,
+      null_ls.builtins.formatting.prettierd.with {
+        filetypes = {
+          'css',
+        },
+      },
       null_ls.builtins.formatting.prettier.with {
+        filetypes = {
+          'graphql',
+          'javascript',
+          'javascriptreact',
+          'typescript',
+          'typescriptreact',
+          'vue',
+          'yaml',
+        },
         condition = function(utils)
           return not utils.root_has_file { 'deno.json', 'deno.jsonc' }
         end,
         extra_args = { '--plugin-search-dir', '.' },
       },
-      null_ls.builtins.formatting.stylelint,
       null_ls.builtins.formatting.stylua.with {
         filetypes = { 'lua', 'luau', 'tl' },
       },
@@ -1008,7 +1062,7 @@ neodev.setup {
   library = {
     enabled = true,
     runtime = true,
-    types = cwd:match(vim.env.HOME .. '/dotfiles/nvim') ~= nil,
+    types = true, -- cwd:match(vim.env.HOME .. '/dotfiles/nvim') ~= nil,
     plugins = true,
   },
   setup_jsonls = true,
@@ -1048,6 +1102,7 @@ end
 
 lspconfig.lua_ls.setup {
   on_attach = M.my_on_attach,
+  capabilities = M.my_capabilities,
   cmd = { 'lua-language-server' },
   settings = {
     Lua = {

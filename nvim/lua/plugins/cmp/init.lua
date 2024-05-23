@@ -5,39 +5,12 @@ local cmp = require 'cmp'
 local lspkind = require 'lspkind'
 local types = require 'cmp.types'
 
--- local vscode_custom_data = require 'plugins.cmp.vscode-custom-data'
--- vscode_custom_data.setup {
---   ---@diagnostic disable-next-line: param-type-mismatch
---   -- local_data_files = vim.fn.globpath(vim.env.XDG_DATA_HOME .. '/nvim/vscode-custom-data', '**/*.json', false, true),
---   filetypes = {
---     'html',
---     'astro',
---     'nunjucks',
---     'jinja.html',
---     'webc',
---     'liquid',
---     'django',
---     'htmldjango',
---     -- 'javascript',
---     -- 'typescript',
---     -- 'javascriptreact',
---     -- 'typescriptreact',
---   },
---   data_files = {
---     webc = '',
---   },
---   --[[ data_files = {
---     alpinejs = 'https://raw.githubusercontent.com/AdrianWilczynski/AlpineIntelliSense/master/customData/html.json',
---     htmx = 'https://raw.githubusercontent.com/otovo/htmx-tags/main/html.htmx-data.json',
---   }, ]]
--- }
-
 -- setup nvim-cmp
 cmp.setup {
-  --[[ completion = {
-    -- autocomplete = false,
-    keyword_length = 3,
-  }, ]]
+  -- disable this so that gopls doesn't put your selection in the middle of the
+  -- menu by default
+  -- https://github.com/hrsh7th/nvim-cmp/discussions/1670#discussioncomment-8391873
+  preselect = cmp.PreselectMode.None,
   window = {
     documentation = {
       border = 'double',
@@ -48,7 +21,6 @@ cmp.setup {
       require('luasnip').lsp_expand(args.body)
     end,
   },
-  -- preselect = false,
   -- Neat trick for showing the exact LSP server that the completion comes from
   -- https://github.com/rebelot/dotfiles/blob/master/nvim/lua/plugins/cmp.lua
   formatting = {
@@ -68,7 +40,6 @@ cmp.setup {
         tmux = 'tmux',
         latex_symbols = 'latex',
         nvim_lsp_signature_help = 'sig_help',
-        -- ['html-css'] = entry.completion_item.menu,
       }
 
       if entry.source.name == 'nvim_lsp' then
@@ -85,7 +56,7 @@ cmp.setup {
     ['<c-n>'] = cmp.mapping.select_next_item(),
     ['<c-d>'] = cmp.mapping.scroll_docs(4),
     ['<c-u>'] = cmp.mapping.scroll_docs(-4),
-    ['<c-e>'] = cmp.mapping.complete(),
+    ['<c-f>'] = cmp.mapping.complete(),
     ['<c-y>'] = cmp.mapping.close(),
     ['<c-k>'] = cmp.mapping(function(--[[fallback]])
       if cmp.visible() then
@@ -100,8 +71,6 @@ cmp.setup {
     }),
   },
   sources = {
-    -- { name = 'nvim_lua' },
-    -- { name = 'nvim_lsp', max_item_count = 30, keyword_length = 3 },
     {
       name = 'nvim_lsp',
       -- disable "Text" completions from LSP
@@ -113,25 +82,9 @@ cmp.setup {
         end
         return true
       end,
-      -- keyword_length = 3,
-      -- max_item_count = 75,
-      --[[ entry_filter = function(entry, ctx)
-        return
-      end, ]]
-    },
-    --[[ {
-      name = 'vscode_custom_data',
-    }, ]]
-    {
-      name = 'html-css',
     },
     { name = 'luasnip', max_item_count = 5 },
     { name = 'path' },
-    --[[ {
-      name = 'buffer',
-      keyword_length = 4,
-      max_item_count = 5,
-    }, ]]
   },
   view = {
     entries = 'custom',

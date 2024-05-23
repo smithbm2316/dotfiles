@@ -6,6 +6,7 @@ end
 autotag.setup {
   filetypes = {
     'astro',
+    'edge',
     'html',
     'liquid',
     'django',

@@ -362,7 +362,7 @@ ls.add_snippets('lua', lua_snippets, {
 
 -- load rafamadriz/friendly-snippets snippets
 require('luasnip.loaders.from_vscode').lazy_load {
-  exclude = { 'go' },
+  exclude = { 'css', 'go' },
 }
 -- load my local snippets
 require('luasnip.loaders.from_vscode').lazy_load {

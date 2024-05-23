@@ -213,6 +213,11 @@ local file_extension_configs = {
     color = '#3278c6',
     name = 'CSS.TS',
   },
+  edge = {
+    icon = '󱩅',
+    color = '#0cbba4',
+    name = 'EdgeJS',
+  },
 }
 
 -- load the configuration for the web-devicons plugin
