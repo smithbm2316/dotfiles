@@ -4,6 +4,11 @@ if not ok then
 end
 
 autotag.setup {
+  opts = {
+    enable_close = true,
+    enable_rename = true,
+    enable_close_on_slash = true,
+  },
   filetypes = {
     'astro',
     'edge',
@@ -20,6 +25,10 @@ autotag.setup {
     'nunjucks',
     'webc',
     'templ',
+  },
+  aliases = {
+    edge = 'html',
+    webc = 'html',
   },
   skip_tags = {
     'area',

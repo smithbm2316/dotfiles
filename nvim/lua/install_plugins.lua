@@ -358,6 +358,7 @@ return require('packer').startup {
     -- edge filetype (edgeJS templating language for AdonisJS framework)
     use {
       'watzon/vim-edge-template',
+      disable = true,
     }
 
     -----------------------------------------------------
