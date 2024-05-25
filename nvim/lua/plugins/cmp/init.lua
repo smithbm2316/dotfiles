@@ -56,7 +56,7 @@ cmp.setup {
     ['<c-n>'] = cmp.mapping.select_next_item(),
     ['<c-d>'] = cmp.mapping.scroll_docs(4),
     ['<c-u>'] = cmp.mapping.scroll_docs(-4),
-    ['<c-f>'] = cmp.mapping.complete(),
+    ['<c-e>'] = cmp.mapping.complete(),
     ['<c-y>'] = cmp.mapping.close(),
     ['<c-k>'] = cmp.mapping(function(--[[fallback]])
       if cmp.visible() then
