@@ -16,12 +16,6 @@ brew "lua-language-server"
 brew "luv"
 brew "micro"
 brew "mkcert"
-# nodenv needs a system-global default node version, so just install the latest
-brew "node"
-brew "nodenv"
-# use the package-json-engine plugin to detect a project's node version from the "engines" field in a package.json
-tap "nodenv/nodenv"
-brew "nodenv-package-json-engine"
 brew "pandoc"
 brew "pgcli"
 brew "php"

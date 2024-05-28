@@ -12,7 +12,6 @@ export HISTSIZE=10000
 export SAVEHIST=10000
 
 # Programming languages and their dependencies
-export BUNBIN="$HOME/.bun/bin"
 export CARGOBIN="$HOME/.cargo/bin"
 export DENOBIN="$HOME/.deno/bin"
 export GOBIN="$HOME/go/bin"
@@ -21,6 +20,7 @@ export GOROOT="$HOME/.go"
 export LOCALBIN="$HOME/.local/bin"
 export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
 export YARNBIN="$HOME/.yarn/bin"
+export VOLTA_HOME="$HOME/.volta"
 
 # Default env variables that are useful
 export EDITOR="nvim"
@@ -45,9 +45,8 @@ fi
 
 path+=("$LOCALBIN")
 path+=("$GOBIN")
-path+=("$BUNBIN")
+path+=("$VOLTA_HOME")
 path+=("$DENOBIN")
-path+=("$BUNBIN")
 path+=("$CARGOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
 path+=("$YARNBIN")

@@ -432,6 +432,9 @@ if [ "$(command -v dnf)" ]; then
   # update all packages first before installing the rest
   sudo dnf update
 
+  # volta installs node
+  curl https://get.volta.sh | bash
+
   homebrew
   homebrew_packages
   dnf_packages
