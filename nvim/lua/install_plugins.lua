@@ -335,6 +335,11 @@ return require('packer').startup {
       'arthurxavierx/vim-caser',
     }
 
+    -- extends builtin matchit plugin
+    use {
+      'andymass/vim-matchup',
+    }
+
     -----------------------------------------------------
     ---
     --- syntax highlighting plugins

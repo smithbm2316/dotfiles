@@ -113,6 +113,11 @@ require('nvim-treesitter.configs').setup {
     -- waiting on this issue with indents to be resolved from nvim-treesitter
     disable = { 'go', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
   },
+  matchup = {
+    enable = true, -- mandatory, false will disable the whole extension
+    -- disable = {},  -- optional, list of language that will be disabled
+    -- [options]
+  },
   ensure_installed = {
     'astro',
     'awk',
@@ -145,6 +150,8 @@ require('nvim-treesitter.configs').setup {
     'markdown',
     'markdown_inline',
     'php',
+    'phpdoc',
+    'php_only',
     'python',
     'query',
     'regex',

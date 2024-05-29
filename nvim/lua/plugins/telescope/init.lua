@@ -57,6 +57,7 @@ local ignore_these = {
   'node_modules/.*',
   'generated/graphql%.tsx', -- scoutus project
   'generated%-gql/.*', -- inkd project
+  '__generated__/.*', -- kcrw project
   'zsh%-abbr/.*',
   'zsh%-autosuggestions/.*',
   'zsh%-completions/.*',

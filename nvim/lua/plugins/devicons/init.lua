@@ -218,6 +218,11 @@ local file_extension_configs = {
     color = '#0cbba4',
     name = 'EdgeJS',
   },
+  ['blade.php'] = {
+    icon = '󰫐',
+    color = '#f33a2f',
+    name = 'Blade',
+  },
 }
 
 -- load the configuration for the web-devicons plugin

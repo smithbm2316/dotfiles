@@ -465,19 +465,20 @@ if [ "$(command -v dnf)" ]; then
   # global npm packages
   npm i -g \
     @astrojs/language-server \
+    @fsouza/prettierd \
     @tailwindcss/language-server \
     bash-language-server \
+    blade-formatter \
     css-variables-language-server \
     custom-elements-languageserver \
+    fixjson \
+    pnpm \
     typescript \
     typescript-language-server \
     vim-language-server \
     vscode-langservers-extracted \
-    @fsouza/prettierd \
-    yarn \
-    fixjson \
-    blade-formatter \
-    write-good
+    write-good \
+    yarn
 
   # sqls
   go install github.com/sql-server/sqls@latest

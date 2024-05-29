@@ -376,6 +376,7 @@ local servers = {
   },
   html = {
     filetypes = {
+      'blade',
       'html',
       'django',
       'htmldjango',
@@ -425,7 +426,11 @@ local servers = {
     root_dir = util.root_pattern 'package.json',
     autostart = false,
   },
-  phpactor = {
+  --[[ phpactor = {
+    filetypes = { 'blade', 'php' },
+  }, ]]
+  intelephense = {
+    capabilities = capabilities_without_formatting,
     filetypes = { 'blade', 'php' },
   },
   pyright = {
@@ -447,6 +452,7 @@ local servers = {
     filetypes = {
       'astro',
       'astro-markdown',
+      'blade',
       'gohtml',
       'gohtmltmpl',
       'html',
@@ -672,13 +678,14 @@ if null_ok then
       -- null_ls.builtins.formatting.phpcsfixer,
       -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fixjson,
-      null_ls.builtins.formatting.prettierd.with {
+      --[[ null_ls.builtins.formatting.prettierd.with {
         filetypes = {
           'css',
         },
-      },
+      }, ]]
       null_ls.builtins.formatting.prettier.with {
         filetypes = {
+          'css',
           'graphql',
           'javascript',
           'javascriptreact',
@@ -703,6 +710,7 @@ if null_ok then
       pattern = {
         '*.astro',
         '*.bash',
+        '*.blade',
         '*.cjs',
         '*.css',
         '*.go',
@@ -1159,7 +1167,7 @@ if rt_ok then
   rt.inlay_hints.enable()
 end
 
-lspconfig.emmet_language_server.setup {
+--[[ lspconfig.emmet_language_server.setup {
   filetypes = { 'html', 'javascriptreact', 'typescriptreact', 'webc' },
   -- **Note:** only the options listed in the table are supported.
   init_options = {
@@ -1182,7 +1190,7 @@ lspconfig.emmet_language_server.setup {
     --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
     variables = {},
   },
-}
+} ]]
 
 -- define signcolumn lsp diagnostic icons
 -- define diagnostic icons/highlights for signcolumn and other stuff
