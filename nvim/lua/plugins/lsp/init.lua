@@ -678,11 +678,6 @@ if null_ok then
       -- null_ls.builtins.formatting.phpcsfixer,
       -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fixjson,
-      --[[ null_ls.builtins.formatting.prettierd.with {
-        filetypes = {
-          'css',
-        },
-      }, ]]
       null_ls.builtins.formatting.prettier.with {
         filetypes = {
           'css',

@@ -13,6 +13,7 @@ export SAVEHIST=10000
 
 # Programming languages and their dependencies
 export CARGOBIN="$HOME/.cargo/bin"
+export COMPOSER_VENDOR_BIN="$XDG_CONFIG_HOME/composer/vendor/bin"
 export DENOBIN="$HOME/.deno/bin"
 export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
@@ -49,4 +50,5 @@ path+=("$VOLTA_HOME/bin")
 path+=("$DENOBIN")
 path+=("$CARGOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
+path+=("$COMPOSER_VENDOR_BIN")
 path+=("$YARNBIN")
