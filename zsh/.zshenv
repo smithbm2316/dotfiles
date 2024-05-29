@@ -45,7 +45,7 @@ fi
 
 path+=("$LOCALBIN")
 path+=("$GOBIN")
-path+=("$VOLTA_HOME")
+path+=("$VOLTA_HOME/bin")
 path+=("$DENOBIN")
 path+=("$CARGOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
