@@ -88,6 +88,8 @@ return require('packer').startup {
     -- run lsp server for whole project or just the file
     use {
       'folke/trouble.nvim',
+      -- pin trouble before v3 since we need a newer version of neovim
+      commit = 'a8264a65a0b894832ea642844f5b7c30112c458f',
     }
 
     -- preview window for lsp references/definitions/implementations
