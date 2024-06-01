@@ -249,3 +249,18 @@ serve() {
       ;;
   esac
 }
+
+# shortcut for `php artisan ...`
+art() {
+  php artisan $@
+}
+
+# shortcut for `npx shopify hydrogen ...`
+h2() {
+  npx shopify hydrogen $@
+}
+
+# shortcut for `npm run ...`
+js() {
+  npm run $@
+}
