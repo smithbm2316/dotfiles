@@ -47,7 +47,7 @@ vim.o.linebreak = true
 vim.o.relativenumber = true
 vim.o.number = true
 vim.o.signcolumn = 'yes' -- make sure this is on for gitsigns.nvim, otherwise the signcolumn changes size constantly
-vim.o.wrap = true
+vim.o.wrap = false
 
 -- Autocmds
 -- highlight yank for a brief second for visual feedback

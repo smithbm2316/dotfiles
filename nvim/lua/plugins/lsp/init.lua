@@ -247,6 +247,18 @@ local capabilities_without_formatting = vim.tbl_deep_extend('force', M.my_capabi
   },
 })
 
+-- configure `laravel-dev-tools` binary
+configs.laravel_dev_tools = {
+  default_config = {
+    cmd = { 'laravel-dev-tools', 'lsp' },
+    filetypes = { 'blade' },
+    root_dir = function(fname)
+      return lspconfig.util.find_git_ancestor(fname)
+    end,
+    settings = {},
+  },
+}
+
 -- setup language servers
 local servers = {
   cssls = {
@@ -278,7 +290,12 @@ local servers = {
   css_variables = {
     capabilities = capabilities_without_formatting,
     cssVariables = {
-      lookupFiles = { '**/*.less', '**/*.scss', '**/*.sass', '**/*.css' },
+      lookupFiles = {
+        '**/*.less',
+        '**/*.scss',
+        '**/*.sass',
+        '**/*.css',
+      },
       blacklistFolders = {
         '**/.cache',
         '**/.DS_Store',
@@ -432,6 +449,9 @@ local servers = {
   intelephense = {
     capabilities = capabilities_without_formatting,
     filetypes = { 'blade', 'php' },
+  },
+  laravel_dev_tools = {
+    autostart = false,
   },
   pyright = {
     capabilities = capabilities_without_formatting,
@@ -658,7 +678,7 @@ if null_ok then
         },
       },
       -- use `write-good` prose linter in markdown
-      null_ls.builtins.diagnostics.write_good,
+      -- null_ls.builtins.diagnostics.write_good,
       -- formatting
       null_ls.builtins.formatting.djlint.with {
         filetypes = {
