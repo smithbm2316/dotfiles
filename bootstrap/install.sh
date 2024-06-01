@@ -55,9 +55,6 @@ programming_languages() {
   curl -sSL https://git.io/g-install | sh -s
 
   # rust/rustup/cargo
-  
-  # install pnpm
-  curl -fsSL https://get.pnpm.io/install.sh | sh -
 
   # deno
   curl -fsSL https://deno.land/install.sh | sh
@@ -252,18 +249,6 @@ warpd() {
   make && sudo make install
 }
 
-# https://charm.sh
-charm_sh() {
-  # add charm.sh's fedora repositories
-  echo '[charm]
-  name=Charm
-  baseurl=https://repo.charm.sh/yum/
-  enabled=1
-  gpgcheck=1
-  gpgkey=https://repo.charm.sh/yum/gpg.key' | sudo tee /etc/yum.repos.d/charm.repo
-  sudo dnf install -y glow gum skate pop vhs
-}
-
 # https://github.com/ungoogled-software/ungoogled-chromium
 ungoogled_chromium() {
   flatpak install com.github.Eloston.UngoogledChromium
@@ -441,7 +426,6 @@ if [ "$(command -v dnf)" ]; then
   stow_dotfiles
   programming_languages
   keyd
-  charm_sh
   spotify
 
   # ------------------------------------------------------------
