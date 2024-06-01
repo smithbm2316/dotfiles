@@ -62,12 +62,7 @@ tmn() {
     tmux \
       new -n code -s "$(basename $PWD)" \; \
       neww -n serve \; \
-      splitw -h -c -t serve
-    # tmux \
-      # new -n code -s "$(basename $PWD)" \; \
-      # send "$EDITOR" C-m \; \
-      # neww -n serve \; \
-      # splitw -h -c -t serve
+      splitw -t serve -v
   else
     tmux new -s "$session"
   fi
