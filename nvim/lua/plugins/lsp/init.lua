@@ -323,13 +323,7 @@ local servers = {
     },
   }, ]]
   denols = {
-    root_dir = function(filename, bufnr)
-      local first_line_arr = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
-      if #first_line_arr > 0 and first_line_arr[1]:match '#!.*/usr/bin/env.*deno' ~= nil then
-        return vim.fn.getcwd()
-      end
-      return util.root_pattern('deno.json', 'deno.jsonc')(filename)
-    end,
+    root_dir = util.root_pattern('deno.json', 'deno.jsonc'),
     single_file_support = false,
     settings = {
       enabled = true,
@@ -585,25 +579,15 @@ lspconfig.eslint.setup {
   capabilities = M.my_capabilities,
   autostart = true,
   filetypes = { 'astro', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-  root_dir = function(filename, bufnr)
-    local first_line_arr = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
-    if
-      (#first_line_arr > 0 and first_line_arr[1]:match '#!.*/usr/bin/env.*deno' ~= nil)
-      or util.root_pattern('deno.json', 'deno.jsonc')(filename)
-    then
-      return nil
-    end
-    return util.root_pattern(
-      '.eslintrc',
-      '.eslintrc.js',
-      '.eslintrc.cjs',
-      '.eslintrc.yaml',
-      '.eslintrc.yml',
-      '.eslintrc.json',
-      'eslint.config.js'
-      -- 'package.json',
-    )(filename)
-  end,
+  root_dir = util.root_pattern(
+    '.eslintrc',
+    '.eslintrc.js',
+    '.eslintrc.cjs',
+    '.eslintrc.yaml',
+    '.eslintrc.yml',
+    '.eslintrc.json',
+    'eslint.config.js'
+  ),
   settings = {
     codeAction = {
       disableRuleComment = {
@@ -689,7 +673,6 @@ if null_ok then
           'nunjucks',
         },
       },
-      null_ls.builtins.formatting.deno_fmt,
       -- python
       null_ls.builtins.formatting.blue,
       -- php
@@ -698,7 +681,7 @@ if null_ok then
       -- null_ls.builtins.formatting.phpcsfixer,
       -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fixjson,
-      null_ls.builtins.formatting.prettier.with {
+      null_ls.builtins.formatting.prettierd.with {
         filetypes = {
           'css',
           'graphql',
@@ -709,9 +692,6 @@ if null_ok then
           'vue',
           'yaml',
         },
-        condition = function(utils)
-          return not utils.root_has_file { 'deno.json', 'deno.jsonc' }
-        end,
         extra_args = { '--plugin-search-dir', '.' },
       },
       null_ls.builtins.formatting.stylua.with {
@@ -839,7 +819,6 @@ if ts_tools_ok then
       'typescript',
       'typescriptreact',
       'javascriptreact',
-      -- 'webc',
     },
     capabilities = custom_capabilities,
     -- ignore specific tsserver errors
@@ -852,16 +831,7 @@ if ts_tools_ok then
         7016,
       },
     },
-    root_dir = function(filename, bufnr)
-      local first_line_arr = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
-      if
-        (#first_line_arr > 0 and first_line_arr[1]:match '#!.*/usr/bin/env.*deno' ~= nil)
-        or util.root_pattern('deno.json', 'deno.jsonc')(filename)
-      then
-        return nil
-      end
-      return util.root_pattern('package.json', 'tsconfig.json')(filename)
-    end,
+    root_dir = util.root_pattern 'tsconfig.json',
     settings = {
       -- spawn additional tsserver instance to calculate diagnostics on it
       separate_diagnostic_server = true,
@@ -872,7 +842,9 @@ if ts_tools_ok then
       expose_as_code_action = { 'add_missing_imports', 'remove_unused', 'fix_all' },
       -- string|nil - specify a custom path to `tsserver.js` file, if this is nil or file under path
       -- not exists then standard path resolution strategy is applied
-      tsserver_path = nil,
+      -- https://github.com/pmizio/typescript-tools.nvim/issues/135#issuecomment-1680768637
+      tsserver_path = vim.env.HOME
+        .. '/.volta/tools/image/packages/typescript/lib/node_modules/typescript/lib/tsserver.js',
       -- specify a list of plugins to load by tsserver, e.g., for support `styled-components`
       -- (see 💅 `styled-components` support section)
       tsserver_plugins = {},
@@ -975,29 +947,7 @@ end
     client.server_capabilities.document_formatting = false
     client.server_capabilities.document_range_formatting = false
   end,
-  commands = {
-    OrganizeImports = {
-      function()
-        local params = {
-          command = '_typescript.organizeImports',
-          arguments = { vim.api.nvim_buf_get_name(0) },
-          title = '',
-        }
-        vim.lsp.buf.execute_command(params)
-      end,
-      description = 'Organize Imports',
-    },
-  },
-  root_dir = function(filename, bufnr)
-    local first_line_arr = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
-    if
-      (#first_line_arr > 0 and first_line_arr[1]:match '#!.*/usr/bin/env.*deno' ~= nil)
-      or util.root_pattern('deno.json', 'deno.jsonc')(filename)
-    then
-      return nil
-    end
-    return util.root_pattern('package.json', 'tsconfig.json')(filename)
-  end,
+  root_dir = util.root_pattern('tsconfig.json'),
   single_file_support = false,
 } ]]
 
