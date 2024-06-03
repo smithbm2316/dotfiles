@@ -24,7 +24,7 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
 
     if trouble_config.options.mode == 'telescope' then
       vim.keymap.set('n', 'D', function()
-        require('trouble.providers.telescope').results = {}
+        require('trouble.sources.telescope').results = {}
         require('trouble').close()
       end, bufopts)
 
@@ -33,7 +33,7 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
         local cursor = vim.api.nvim_win_get_cursor(win)
         local line = cursor[1]
         -- Can use Trouble.get_items()
-        local results = require('trouble.providers.telescope').results
+        local results = require('trouble.sources.telescope').results
         local folds = require 'trouble.folds'
 
         local filenames = {}
@@ -76,12 +76,12 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
             end
           end
 
-          require('trouble.providers.telescope').results = filtered_results
+          require('trouble.sources.telescope').results = filtered_results
         else
           table.remove(results, index)
         end
 
-        if #require('trouble.providers.telescope').results == 0 then
+        if #require('trouble.sources.telescope').results == 0 then
           require('trouble').close()
         else
           require('trouble').refresh { provider = 'telescope', auto = false }
