@@ -1132,8 +1132,8 @@ if rt_ok then
   rt.inlay_hints.enable()
 end
 
---[[ lspconfig.emmet_language_server.setup {
-  filetypes = { 'html', 'javascriptreact', 'typescriptreact', 'webc' },
+lspconfig.emmet_language_server.setup {
+  filetypes = { 'blade', 'html', 'javascriptreact', 'typescriptreact', 'webc' },
   -- **Note:** only the options listed in the table are supported.
   init_options = {
     ---@type table<string, string>
@@ -1155,7 +1155,7 @@ end
     --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
     variables = {},
   },
-} ]]
+}
 
 -- define signcolumn lsp diagnostic icons
 -- define diagnostic icons/highlights for signcolumn and other stuff

@@ -1,0 +1,5 @@
+{
+  "wrapAttributes": "force-expand-multiline",
+  "wrapLineLength": 80,
+  "indentSize": 2
+}

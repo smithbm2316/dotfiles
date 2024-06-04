@@ -77,6 +77,9 @@ programming_languages() {
   php composer-setup.php --quiet
   rm composer-setup.php
   mv composer.phar ~/.local/bin/composer
+
+  # setup laravel cli
+  composer global require laravel/installer
 }
 
 # install these if you are going to use a window manager instead of Gnome/another desktop environment
