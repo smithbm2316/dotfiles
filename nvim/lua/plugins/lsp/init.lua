@@ -247,18 +247,6 @@ local capabilities_without_formatting = vim.tbl_deep_extend('force', M.my_capabi
   },
 })
 
--- configure `laravel-dev-tools` binary
-configs.laravel_dev_tools = {
-  default_config = {
-    cmd = { 'laravel-dev-tools', 'lsp' },
-    filetypes = { 'blade' },
-    root_dir = function(fname)
-      return lspconfig.util.find_git_ancestor(fname)
-    end,
-    settings = {},
-  },
-}
-
 -- setup language servers
 local servers = {
   cssls = {
@@ -442,10 +430,7 @@ local servers = {
   }, ]]
   intelephense = {
     capabilities = capabilities_without_formatting,
-    filetypes = { 'blade', 'php' },
-  },
-  laravel_dev_tools = {
-    autostart = false,
+    filetypes = { 'php' },
   },
   pyright = {
     capabilities = capabilities_without_formatting,
@@ -563,68 +548,6 @@ lspconfig.bashls.setup {
   capabilities = M.my_capabilities,
 }
 
-lspconfig.eslint.setup {
-  on_attach = function(client, bufnr)
-    -- if the buffer is a cypress test, then don't attach eslint
-    if client.name == 'eslint' then
-      local bufname = vim.api.nvim_buf_get_name(bufnr)
-      if vim.regex([[cypress\/.*\.[tj]sx\?]]):match_str(bufname) ~= nil then
-        vim.lsp.buf_detach_client(bufnr, client.id)
-        return
-      end
-    end
-
-    M.my_on_attach(client, bufnr)
-  end,
-  capabilities = M.my_capabilities,
-  autostart = true,
-  filetypes = { 'astro', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-  root_dir = util.root_pattern(
-    '.eslintrc',
-    '.eslintrc.js',
-    '.eslintrc.cjs',
-    '.eslintrc.yaml',
-    '.eslintrc.yml',
-    '.eslintrc.json',
-    'eslint.config.js'
-  ),
-  settings = {
-    codeAction = {
-      disableRuleComment = {
-        enable = true,
-        location = 'separateLine',
-      },
-      showDocumentation = {
-        enable = true,
-      },
-    },
-    codeActionOnSave = {
-      enable = false,
-      mode = 'all',
-    },
-    experimental = {
-      useFlatConfig = true,
-    },
-    format = true,
-    nodePath = '',
-    onIgnoredFiles = 'off',
-    -- packageManager = 'npm',
-    quiet = false,
-    -- https://github.com/microsoft/vscode-eslint#settings-options
-    -- rulesCustomizations lets me override Prettier suggestions to
-    -- use a lower severity diagnostic (info)
-    rulesCustomizations = {
-      { rule = 'prettier*', severity = 'info' },
-    },
-    run = 'onType',
-    useESLintClass = false,
-    validate = 'on',
-    workingDirectory = {
-      mode = 'location',
-    },
-  },
-}
-
 local null_ok, null_ls = pcall(require, 'null-ls')
 if null_ok then
   null_ls.setup {
@@ -632,26 +555,9 @@ if null_ok then
     capabilities = M.my_capabilities,
     sources = {
       -- code actions
-      -- null_ls.builtins.code_actions.eslint,
-      -- null_ls.builtins.code_actions.gitsigns,
-      -- null_ls.builtins.code_actions.proselint,
-      --[[ null_ls.builtins.code_actions.shellcheck.with {
-        condition = function()
-          return vim.api.nvim_buf_get_name(0):match '%.env.*$' == nil
-        end,
-      }, ]]
-      -- completion
+      null_ls.builtins.code_actions.eslint,
       -- diagnostics
-      -- null_ls.builtins.diagnostics.eslint,
-      -- null_ls.builtins.diagnostics.luacheck,
-      -- null_ls.builtins.diagnostics.proselint,
-      --[[ null_ls.builtins.diagnostics.shellcheck.with {
-        condition = function()
-          return vim.api.nvim_buf_get_name(0):match '%.env.*$' == nil
-        end,
-      }, ]]
-      -- null_ls.builtins.diagnostics.stylelint,
-      -- null_ls.builtins.diagnostics.teal,
+      null_ls.builtins.diagnostics.eslint,
       null_ls.builtins.diagnostics.djlint.with {
         filetypes = {
           'django',
@@ -678,8 +584,6 @@ if null_ok then
       -- php
       null_ls.builtins.formatting.blade_formatter, -- formatter for blade templates
       null_ls.builtins.formatting.pint, -- comes with laravel
-      -- null_ls.builtins.formatting.phpcsfixer,
-      -- null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.fixjson,
       null_ls.builtins.formatting.prettierd.with {
         filetypes = {

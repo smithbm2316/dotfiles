@@ -89,11 +89,6 @@ nnoremap('C', '"_C')
 inoremap('<c-v>', '<c-r>+', 'Paste with <c-v>', nosilent)
 cnoremap('<c-v>', '<c-r>+', 'Paste with <c-v>', nosilent)
 
--- insert ":=" while already in insert mode (go shortcut)
-inoremap('<c-t>', function()
-  vim.api.nvim_feedkeys(':=', 'i', true)
-end, 'Insert ":=" (go shortcut)')
-
 -- turn off search highlighting after finishing a search (nohlsearch)
 nnoremap('<leader>hl', '<cmd>noh<cr>', 'Turn off search hl')
 
