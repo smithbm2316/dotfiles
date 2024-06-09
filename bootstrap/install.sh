@@ -459,6 +459,7 @@ if [ "$(command -v dnf)" ]; then
     css-variables-language-server \
     custom-elements-languageserver \
     fixjson \
+    intelephense \
     pnpm \
     typescript \
     typescript-language-server \
@@ -466,6 +467,11 @@ if [ "$(command -v dnf)" ]; then
     vscode-langservers-extracted \
     write-good \
     yarn
+  
+  # phpactor
+  curl -Lo phpactor.phar https://github.com/phpactor/phpactor/releases/latest/download/phpactor.phar
+  chmod +x phpactor.phar
+  mv -iv phpactor.phar ~/.local/bin/phpactor
 
   # sqls
   go install github.com/sql-server/sqls@latest
