@@ -4,6 +4,7 @@
     "braces_position": {
       "classes_opening_brace": "same_line",
       "functions_opening_brace": "same_line"
-    }
+    },
+    "declare_strict_types": true
   }
 }

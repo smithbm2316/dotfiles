@@ -38,11 +38,21 @@ php artisan ide-helper:models --write
 
 # copy over the proper formatter config files
 cp -v "$XDG_CONFIG_HOME/laravel/.bladeformatterrc.json" .
-cp -v "$XDG_CONFIG_HOME/laravel/.editorconfig" .
 cp -v "$XDG_CONFIG_HOME/laravel/pint.json" .
 
 # install npm dependencies
 npm i
+# add https://github.com/shufo/blade-formatter to project to format blade files
+npm i -D blade-formatter
+
+# add formatting scripts to composer.json using `jq`
+format_script='"format": "composer format:blade; composer format:php"'
+format_blade_script='"format:blade": "./node_modules/.bin/blade-formatter resources/views/**/*.blade.php -w"'
+format_php_script='"format:php": "./vendor/bin/pint -v"'
+jq --indent 4 \
+  ".scripts += { $format_script,$format_blade_script,$format_php_script }" \
+  composer.json > composer.tmp.json
+mv composer.tmp.json composer.json
 
 # install tailwind and configure it to be processed by Vite
 if [ "$no_starter_kit" = "true" ]; then
@@ -64,3 +74,6 @@ if [ "$no_starter_kit" = "true" ]; then
   cp -v "$XDG_CONFIG_HOME/laravel/layout.blade.php" resources/views/components/layout.blade.php
   cp -v "$XDG_CONFIG_HOME/laravel/welcome.blade.php" resources/views/welcome.blade.php
 fi
+
+# use Pint to format all files and add strict type checks to all files
+./vendor/bin/pint app/

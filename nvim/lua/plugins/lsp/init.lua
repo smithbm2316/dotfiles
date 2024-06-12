@@ -426,11 +426,11 @@ local servers = {
     autostart = false,
   },
   --[[ phpactor = {
-    filetypes = { 'blade', 'php' },
+    filetypes = { 'php' },
   }, ]]
   intelephense = {
     capabilities = capabilities_without_formatting,
-    filetypes = { 'php' },
+    filetypes = { 'blade', 'php' },
   },
   pyright = {
     capabilities = capabilities_without_formatting,
@@ -582,8 +582,12 @@ if null_ok then
       -- python
       null_ls.builtins.formatting.blue,
       -- php
-      null_ls.builtins.formatting.blade_formatter, -- formatter for blade templates
-      null_ls.builtins.formatting.pint, -- comes with laravel
+      -- formatter for blade templates
+      null_ls.builtins.formatting.blade_formatter.with {
+        prefer_local = './node_modules/.bin',
+      },
+      -- format php files with Laravel's pint package
+      null_ls.builtins.formatting.pint,
       null_ls.builtins.formatting.fixjson,
       null_ls.builtins.formatting.prettierd.with {
         filetypes = {
@@ -900,7 +904,7 @@ lspconfig.jsonls.setup {
             '.stylelintrc.json',
             'stylelint.config.json',
           },
-          url = 'http://json.schemastore.org/stylelintrc.json',
+          url = 'https://json.schemastore.org/stylelintrc.json',
         },
         {
           fileMatch = {
@@ -908,6 +912,10 @@ lspconfig.jsonls.setup {
             'deno.jsonc',
           },
           url = 'https://deno.land/x/deno/cli/schemas/config-file.v1.json',
+        },
+        {
+          fileMatch = { 'composer.json' },
+          url = 'https://getcomposer.org/schema.json',
         },
       },
     },

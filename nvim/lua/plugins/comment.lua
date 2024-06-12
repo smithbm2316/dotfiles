@@ -43,8 +43,9 @@ local config = {
 -- and load the plugin
 require('Comment').setup(config)
 
--- use server-removed comments (three dashes) for webc
+-- use server-removed comments (three dashes) for webc and blade
 ft.webc = { '<!--- %s --->', '<!--- %s --->' }
+ft.blade = { '{{-- %s --}}', '{{-- %s --}}' }
 
 ft.templ = {
   -- setup line comments as Go comments
