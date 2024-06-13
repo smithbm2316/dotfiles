@@ -250,7 +250,9 @@ local capabilities_without_formatting = vim.tbl_deep_extend('force', M.my_capabi
 -- setup language servers
 local servers = {
   cssls = {
-    capabilities = capabilities_without_formatting,
+    init_options = {
+      provideFormatter = true,
+    },
     settings = {
       -- settings docs:
       -- https://code.visualstudio.com/Docs/languages/CSS#_customizing-css-scss-and-less-settings
@@ -591,7 +593,6 @@ if null_ok then
       null_ls.builtins.formatting.fixjson,
       null_ls.builtins.formatting.prettierd.with {
         filetypes = {
-          'css',
           'graphql',
           'javascript',
           'javascriptreact',
@@ -649,8 +650,11 @@ if null_ok then
             --- keys in the table represent filetypes, values represent the name of LSP servers
             local ft_lsp_map = {
               astro = 'astro',
+              css = 'cssls',
               html = 'html',
               go = 'gopls',
+              sass = 'cssls',
+              scss = 'cssls',
               templ = 'templ',
               webc = 'html',
             }
