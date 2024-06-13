@@ -557,9 +557,37 @@ if null_ok then
     capabilities = M.my_capabilities,
     sources = {
       -- code actions
-      null_ls.builtins.code_actions.eslint,
+      null_ls.builtins.code_actions.eslint.with {
+        condition = function(utils)
+          return utils.root_has_file {
+            'eslint.config.js',
+            'eslint.config.cjs',
+            'eslint.config.mjs',
+            '.eslintrc',
+            '.eslintrc.cjs',
+            '.eslintrc.js',
+            '.eslintrc.json',
+            '.eslintrc.yaml',
+            '.eslintrc.yml',
+          }
+        end,
+      },
       -- diagnostics
-      null_ls.builtins.diagnostics.eslint,
+      null_ls.builtins.diagnostics.eslint.with {
+        condition = function(utils)
+          return utils.root_has_file {
+            'eslint.config.js',
+            'eslint.config.cjs',
+            'eslint.config.mjs',
+            '.eslintrc',
+            '.eslintrc.cjs',
+            '.eslintrc.js',
+            '.eslintrc.json',
+            '.eslintrc.yaml',
+            '.eslintrc.yml',
+          }
+        end,
+      },
       null_ls.builtins.diagnostics.djlint.with {
         filetypes = {
           'django',
@@ -591,7 +619,8 @@ if null_ok then
       -- format php files with Laravel's pint package
       null_ls.builtins.formatting.pint,
       null_ls.builtins.formatting.fixjson,
-      null_ls.builtins.formatting.prettierd.with {
+      null_ls.builtins.formatting.prettier.with {
+        prefer_local = './node_modules/.bin',
         filetypes = {
           'graphql',
           'javascript',
@@ -887,7 +916,7 @@ lspconfig.jsonls.setup {
           url = 'https://json.schemastore.org/prettierrc.json',
         },
         {
-          fileMatch = { '.eslintrc', '.eslintrc.json', '.eslintrc.js' },
+          fileMatch = { '.eslintrc', '.eslintrc.json' },
           url = 'https://json.schemastore.org/eslintrc.json',
         },
         {

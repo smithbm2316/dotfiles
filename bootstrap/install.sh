@@ -461,6 +461,7 @@ if [ "$(command -v dnf)" ]; then
     fixjson \
     intelephense \
     pnpm \
+    prettier \
     typescript \
     typescript-language-server \
     vim-language-server \
