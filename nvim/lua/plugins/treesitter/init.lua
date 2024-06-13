@@ -13,8 +13,9 @@ treesitter_parser_config.templ = {
     files = { 'src/parser.c', 'src/scanner.c' },
     branch = 'master',
   },
+  filetype = 'templ',
 }
-vim.treesitter.language.register('templ', 'templ')
+-- vim.treesitter.language.register('templ', 'templ')
 
 -- blade templates for php filetype
 treesitter_parser_config.blade = {
@@ -23,8 +24,8 @@ treesitter_parser_config.blade = {
     files = { 'src/parser.c' },
     branch = 'main',
   },
+  filetype = 'blade',
 }
-vim.treesitter.language.register('blade', 'blade')
 
 treesitter_parser_config.webc = {
   install_info = {
@@ -32,8 +33,9 @@ treesitter_parser_config.webc = {
     files = { 'src/parser.c', 'src/scanner.c' },
     branch = 'main',
   },
+  filetype = 'webc',
 }
-vim.treesitter.language.register('webc', 'webc')
+-- vim.treesitter.language.register('webc', 'webc')
 
 require('nvim-treesitter.configs').setup {
   textobjects = {

@@ -11,6 +11,7 @@ return require('packer').startup {
     -- vim.notify handler
     use {
       'vigoux/notifier.nvim',
+      disable = true,
     }
 
     -- see the current function/class's context
@@ -243,6 +244,12 @@ return require('packer').startup {
     -- hide .env variables on load
     use {
       'laytan/cloak.nvim',
+    }
+
+    -- laravel livewire and component helpers
+    use {
+      'smithbm2316/lali-components.nvim',
+      ft = { 'blade', 'php' },
     }
 
     -----------------------------------------------------

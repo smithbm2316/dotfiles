@@ -466,6 +466,7 @@ local servers = {
       'mdx',
       'css',
       'less',
+      'php',
       'postcss',
       'sass',
       'scss',
@@ -615,6 +616,11 @@ if null_ok then
       -- formatter for blade templates
       null_ls.builtins.formatting.blade_formatter.with {
         prefer_local = './node_modules/.bin',
+        filetypes = { 'blade', 'php' },
+        -- only enable if it's a blade file
+        runtime_condition = function(params)
+          return vim.api.nvim_buf_get_name(0):match '%.blade%.php$' ~= nil
+        end,
       },
       -- format php files with Laravel's pint package
       null_ls.builtins.formatting.pint,
@@ -1078,7 +1084,7 @@ if rt_ok then
 end
 
 lspconfig.emmet_language_server.setup {
-  filetypes = { 'blade', 'html', 'javascriptreact', 'typescriptreact', 'webc' },
+  filetypes = { 'blade', 'html', 'javascriptreact', 'typescriptreact', 'php', 'webc' },
   -- **Note:** only the options listed in the table are supported.
   init_options = {
     ---@type table<string, string>

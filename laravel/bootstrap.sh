@@ -35,6 +35,8 @@ fi
 php artisan ide-helper:generate
 php artisan ide-helper:meta
 php artisan ide-helper:models --write
+echo '_ide_helper.php' >> .gitignore
+echo '_ide_helper_models.php' >> .gitignore
 
 # copy over the proper formatter config files
 cp -v "$XDG_CONFIG_HOME/laravel/.bladeformatterrc.json" .
@@ -45,12 +47,13 @@ npm i
 # add https://github.com/shufo/blade-formatter to project to format blade files
 npm i -D blade-formatter
 
-# add formatting scripts to composer.json using `jq`
+# add formatting scripts and ide-helper script to composer.json using `jq`
 format_script='"format": "composer format:blade; composer format:php"'
 format_blade_script='"format:blade": "./node_modules/.bin/blade-formatter resources/views/**/*.blade.php -w"'
 format_php_script='"format:php": "./vendor/bin/pint -v"'
+ide_helper_script='"ide-helper": "php artisan ide-helper:eloquent -n; php artisan ide-helper:generate -W; php artisan ide-helper:model -M"'
 jq --indent 4 \
-  ".scripts += { $format_script,$format_blade_script,$format_php_script }" \
+  ".scripts += { $format_script,$format_blade_script,$format_php_script,$ide_helper_script }" \
   composer.json > composer.tmp.json
 mv composer.tmp.json composer.json
 
