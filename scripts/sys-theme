@@ -1,2 +1,17 @@
 #!/usr/bin/env sh
-/home/smithbm/dotfiles/scripts/sys-theme.ts
+current_theme="$(darkman get)"
+if [ "$current_theme" = "dark" ]; then
+  darkman toggle
+  kitty +kitten themes --reload-in=all "Rosé Pine Dawn"
+  gsettings set org.gnome.desktop.interface color-scheme default
+  gsettings set org.gnome.desktop.interface gtk-theme Adawaita
+else
+  darkman toggle
+  kitty +kitten themes --reload-in=all "Catppuccin-Mocha"
+  gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+  gsettings set org.gnome.desktop.interface gtk-theme Adwaita-Dark
+fi
+
+# References
+# https://blogs.gnome.org/alicem/2021/10/04/dark-style-preference/
+# https://wiki.archlinux.org/title/Dark_mode_switching#gsettings

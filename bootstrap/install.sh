@@ -453,6 +453,7 @@ if [ "$(command -v dnf)" ]; then
   npm i -g \
     @astrojs/language-server \
     @fsouza/prettierd \
+    @olrtg/emmet-language-server \
     @tailwindcss/language-server \
     bash-language-server \
     blade-formatter \
