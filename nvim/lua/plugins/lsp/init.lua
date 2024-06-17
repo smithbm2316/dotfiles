@@ -628,6 +628,9 @@ if null_ok then
       null_ls.builtins.formatting.prettier.with {
         prefer_local = './node_modules/.bin',
         filetypes = {
+          'css',
+          'sass',
+          'scss',
           'graphql',
           'javascript',
           'javascriptreact',
@@ -685,11 +688,8 @@ if null_ok then
             --- keys in the table represent filetypes, values represent the name of LSP servers
             local ft_lsp_map = {
               astro = 'astro',
-              css = 'cssls',
               html = 'html',
               go = 'gopls',
-              sass = 'cssls',
-              scss = 'cssls',
               templ = 'templ',
               webc = 'html',
             }
@@ -699,11 +699,19 @@ if null_ok then
               return false
             end
 
-            -- if our LSP client's name is valid for the current filetype, we can use that LSP's formatter
+            -- if our LSP client's name is valid for the current filetype, we
+            -- can use that LSP's formatter
             if ft_lsp_map[ft] == client.name then
               return true
             -- if `null-ls` is the current formatter, then great you can use that!
             elseif client.name == 'null-ls' then
+              return true
+            -- only format the document with cssls if we're in a PHP project
+            elseif
+              client.name == 'cssls'
+              and (ft == 'css' or ft == 'scss')
+              and util.root_pattern 'composer.json'(vim.api.nvim_buf_get_name(0)) ~= nil
+            then
               return true
             else
               return false
