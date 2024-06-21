@@ -457,6 +457,7 @@ if [ "$(command -v dnf)" ]; then
     @tailwindcss/language-server \
     bash-language-server \
     blade-formatter \
+    cssmodules-language-server \
     css-variables-language-server \
     custom-elements-languageserver \
     fixjson \

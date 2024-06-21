@@ -15,7 +15,6 @@ treesitter_parser_config.templ = {
   },
   filetype = 'templ',
 }
--- vim.treesitter.language.register('templ', 'templ')
 
 -- blade templates for php filetype
 treesitter_parser_config.blade = {
@@ -35,7 +34,6 @@ treesitter_parser_config.webc = {
   },
   filetype = 'webc',
 }
--- vim.treesitter.language.register('webc', 'webc')
 
 require('nvim-treesitter.configs').setup {
   textobjects = {
@@ -84,24 +82,6 @@ require('nvim-treesitter.configs').setup {
     use_virtual_text = true,
     lint_events = { 'BufWrite', 'CursorHold' },
   },
-  -- nvim-ts-context-commentstring setup
-  context_commentstring = {
-    enable = false,
-    enable_autocmd = false,
-    config = {
-      javascript = {
-        __default = '// %s',
-        jsx_element = '{/* %s */}',
-        jsx_fragment = '{/* %s */}',
-        jsx_attribute = '// %s',
-        comment = '// %s',
-        __parent = {
-          -- if a node has this as the parent, use the `//` commentstring
-          jsx_expression = '// %s',
-        },
-      },
-    },
-  },
   autopairs = {
     enable = true,
   },
@@ -143,7 +123,7 @@ require('nvim-treesitter.configs').setup {
     'ini',
     'javascript',
     'jq',
-    -- 'jsdoc',
+    'jsdoc',
     'json',
     'jsonc',
     'lua',

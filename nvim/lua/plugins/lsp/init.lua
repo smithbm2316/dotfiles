@@ -427,13 +427,6 @@ local servers = {
     root_dir = util.root_pattern 'package.json',
     autostart = false,
   },
-  --[[ phpactor = {
-    filetypes = { 'php' },
-  }, ]]
-  intelephense = {
-    capabilities = capabilities_without_formatting,
-    filetypes = { 'blade', 'php' },
-  },
   pyright = {
     capabilities = capabilities_without_formatting,
     disableOrganizeImports = false,
@@ -535,6 +528,26 @@ for server, config in pairs(servers) do
   }, config))
 end
 
+lspconfig.intelephense.setup {
+  on_attach = function(client, bufnr)
+    M.my_on_attach(client, bufnr)
+
+    -- in order to get intelephense to index blade files properly, it needs to
+    -- think the filetype is `php` at first so that it kicks off the correct
+    -- processes and provides completion to us. so we can get a bit tricky
+    -- and check each time that we attach intelephense to a buffer if it's a
+    -- blade file, and if it is, set our filetype to blade after it's been
+    -- attached. that way we get proper syntax highlighting *AND* we get
+    -- auto-completion from intelephense, since for our purposes blade files
+    -- are just php files
+    if vim.api.nvim_buf_get_name(0):match '%.blade%.php$' ~= nil then
+      vim.cmd 'set ft=blade'
+    end
+  end,
+  capabilities = capabilities_without_formatting,
+  filetypes = { 'blade', 'php' },
+}
+
 lspconfig.bashls.setup {
   on_attach = function(client, bufnr)
     -- if we are in a .env/.env.* file, don't load bashls
@@ -614,14 +627,14 @@ if null_ok then
       null_ls.builtins.formatting.blue,
       -- php
       -- formatter for blade templates
-      null_ls.builtins.formatting.blade_formatter.with {
+      --[[ null_ls.builtins.formatting.blade_formatter.with {
         prefer_local = './node_modules/.bin',
         filetypes = { 'blade', 'php' },
         -- only enable if it's a blade file
         runtime_condition = function(params)
           return vim.api.nvim_buf_get_name(0):match '%.blade%.php$' ~= nil
         end,
-      },
+      }, ]]
       -- format php files with Laravel's pint package
       null_ls.builtins.formatting.pint,
       null_ls.builtins.formatting.fixjson,
@@ -738,7 +751,7 @@ lspconfig.cssmodules_ls.setup {
   init_options = {
     camelCase = true,
   },
-  autostart = false,
+  autostart = true,
 }
 
 lspconfig.astro.setup {

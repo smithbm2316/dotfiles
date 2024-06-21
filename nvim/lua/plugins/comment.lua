@@ -21,23 +21,6 @@ local config = {
     line = 'cl',
     block = 'cm',
   },
-  --[[ pre_hook = function(ctx)
-    -- call ts-context-commentstring to update what the comment should be at the
-    -- moment (particularly useful in JSX where you have lots of comment types
-    -- depending on file location)
-    local location = nil
-    if ctx.ctype == comment_utils.ctype.block then
-      location = require('ts_context_commentstring.utils').get_cursor_location()
-    elseif ctx.cmotion == comment_utils.cmotion.v or ctx.cmotion == comment_utils.cmotion.V then
-      location = require('ts_context_commentstring.utils').get_visual_start_location()
-    end
-
-    return require('ts_context_commentstring.internal').calculate_commentstring {
-      key = ctx.ctype == comment_utils.ctype.line and '__default' or '__multiline',
-      location = location,
-    }
-  end, ]]
-  post_hook = nil,
 }
 
 -- and load the plugin
@@ -45,7 +28,6 @@ require('Comment').setup(config)
 
 -- use server-removed comments (three dashes) for webc and blade
 ft.webc = { '<!--- %s --->', '<!--- %s --->' }
-ft.blade = { '{{-- %s --}}', '{{-- %s --}}' }
 
 ft.templ = {
   -- setup line comments as Go comments

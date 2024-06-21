@@ -71,6 +71,7 @@ cmp.setup {
     }),
   },
   sources = {
+    { name = 'luasnip', max_item_count = 5 },
     {
       name = 'nvim_lsp',
       -- disable "Text" completions from LSP
@@ -83,7 +84,6 @@ cmp.setup {
         return true
       end,
     },
-    { name = 'luasnip', max_item_count = 5 },
     { name = 'path' },
   },
   view = {
