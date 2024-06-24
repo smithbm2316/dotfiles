@@ -1,6 +1,6 @@
 local lspconfig = require 'lspconfig'
 local util = require 'lspconfig.util'
-local configs = require 'lspconfig.configs'
+-- local configs = require 'lspconfig.configs'
 
 -- functions to hook into
 local M = {}
@@ -34,9 +34,11 @@ vim.diagnostic.config {
 nnoremap('<leader>td', function()
   if vim.b.show_diagnostics then
     vim.diagnostic.hide()
+    ---@diagnostic disable-next-line: inject-field
     vim.b.show_diagnostics = false
   else
     vim.diagnostic.show()
+    ---@diagnostic disable-next-line: inject-field
     vim.b.show_diagnostics = true
   end
 end, nil, 'Toggle diagnostics')
@@ -124,7 +126,10 @@ function goto_diagnostic_msg(direction, shouldGoToAny)
   vim.wo.linebreak = true
 end
 
-M.my_on_attach = function(client, bufnr)
+---
+---@param _ any a reference to the lsp client
+---@param bufnr number the buffer number
+M.my_on_attach = function(_, bufnr)
   local bufnr_opts = { buffer = bufnr }
 
   -- show hover
@@ -223,6 +228,7 @@ M.my_on_attach = function(client, bufnr)
   end
 
   -- define buffer-local variable for toggling diangostic buffer decorations
+  ---@diagnostic disable-next-line: inject-field
   vim.b.show_diagnostics = true
 end
 
@@ -636,7 +642,9 @@ if null_ok then
         end,
       }, ]]
       -- format php files with Laravel's pint package
-      null_ls.builtins.formatting.pint,
+      null_ls.builtins.formatting.pint.with {
+        filetypes = { 'blade', 'php' },
+      },
       null_ls.builtins.formatting.fixjson,
       null_ls.builtins.formatting.prettier.with {
         prefer_local = './node_modules/.bin',
