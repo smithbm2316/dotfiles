@@ -1,51 +1,76 @@
-local ok, gitsigns = pcall(require, 'gitsigns')
-if not ok then
-  return
-end
-
-gitsigns.setup {
-  keymaps = nil,
-  preview_config = {
-    border = 'double',
+return {
+  'lewis6991/gitsigns.nvim',
+  dependencies = { 'nvim-lua/plenary.nvim' },
+  event = 'VeryLazy',
+  opts = {
+    keymaps = nil,
+    preview_config = {
+      border = 'double',
+    },
   },
+  config = function(_, opts)
+    local gitsigns = require 'gitsigns'
+    gitsigns.setup(opts)
+
+    vim.keymap.set('n', '<leader>gn', function()
+      gitsigns.nav_hunk 'next'
+    end, { desc = 'Next hunk' })
+
+    vim.keymap.set('n', '<leader>gp', function()
+      gitsigns.nav_hunk 'prev'
+    end, { desc = 'Previous hunk' })
+
+    vim.keymap.set(
+      { 'n', 'v' },
+      '<leader>hs',
+      gitsigns.stage_hunk,
+      { desc = 'Stage hunk' }
+    )
+
+    vim.keymap.set(
+      'n',
+      '<leader>hu',
+      gitsigns.undo_stage_hunk,
+      { desc = 'Unstage hunk' }
+    )
+
+    vim.keymap.set(
+      { 'n', 'v' },
+      '<leader>hr',
+      gitsigns.reset_hunk,
+      { desc = 'Reset hunk' }
+    )
+
+    vim.keymap.set(
+      'n',
+      '<leader>hR',
+      gitsigns.reset_buffer,
+      { desc = 'Reset buffer' }
+    )
+
+    vim.keymap.set(
+      'n',
+      '<leader>hh',
+      gitsigns.preview_hunk,
+      { desc = 'Preview hunk' }
+    )
+
+    vim.keymap.set('n', '<leader>hb', function()
+      gitsigns.blame_line(true)
+    end, { desc = 'Blame line' })
+
+    vim.keymap.set(
+      'n',
+      '<leader>hS',
+      gitsigns.stage_buffer,
+      { desc = 'Stage buffer' }
+    )
+
+    vim.keymap.set(
+      'n',
+      '<leader>hU',
+      gitsigns.reset_buffer_index,
+      { desc = 'Reset buffer index' }
+    )
+  end,
 }
-
-nnoremap('<leader>gn', function()
-  require('gitsigns.actions').next_hunk()
-end, 'Next hunk')
-
-nnoremap('<leader>gp', function()
-  require('gitsigns.actions').prev_hunk()
-end, 'Previous hunk')
-
-noremap({ 'n', 'v' }, '<leader>hs', function()
-  require('gitsigns').stage_hunk()
-end, 'Stage hunk')
-
-nnoremap('<leader>hu', function()
-  require('gitsigns').undo_stage_hunk()
-end, 'Unstage hunk')
-
-noremap({ 'n', 'v' }, '<leader>hr', function()
-  require('gitsigns').reset_hunk()
-end, 'Reset hunk')
-
-nnoremap('<leader>hR', function()
-  require('gitsigns').reset_buffer()
-end, 'Reset buffer')
-
-nnoremap('<leader>hh', function()
-  require('gitsigns').preview_hunk()
-end, 'Preview hunk')
-
-nnoremap('<leader>hb', function()
-  require('gitsigns').blame_line(true)
-end, 'Blame line')
-
-nnoremap('<leader>hS', function()
-  require('gitsigns').stage_buffer()
-end, 'Stage buffer')
-
-nnoremap('<leader>hU', function()
-  require('gitsigns').reset_buffer_index()
-end, 'Reset buffer index')

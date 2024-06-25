@@ -44,11 +44,7 @@ litecli/*
 # ignore userstate.toml from ncspot
 ncspot/userstate.*
 
-# neovim: ignore plugins & backups directories
-nvim/lua/packer/packer_compiled.lua
-nvim/plugged/*
-nvim/backups/*
-nvim/sessions/*
+# neovim
 nvim/.netrwhist
 
 # ignore ranger plugins

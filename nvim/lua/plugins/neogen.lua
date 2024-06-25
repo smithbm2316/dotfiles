@@ -1,31 +1,34 @@
-local ok, neogen = pcall(require, 'neogen')
-if not ok then
-  return
-end
-
-neogen.setup {
-  enabled = true,
-  input_after_comment = true,
-  snippet_engine = 'luasnip',
-  languages = {
-    lua = {
-      template = {
-        annotation_convention = 'emmylua',
-      },
+return {
+  'danymat/neogen',
+  version = '*',
+  dependencies = {
+    'L3MON4D3/LuaSnip',
+  },
+  cmd = 'Neogen',
+  keys = {
+    {
+      '<leader>ia',
+      [[<cmd>Neogen<cr>]],
+      desc = 'Insert annotation',
     },
-    typescript = {
-      template = {
-        annotation_convention = 'tsdoc',
+  },
+  opts = {
+    languages = {
+      lua = {
+        template = {
+          annotation_convention = 'emmylua',
+        },
       },
-    },
-    typescriptreact = {
-      template = {
-        annotation_convention = 'tsdoc',
+      typescript = {
+        template = {
+          annotation_convention = 'tsdoc',
+        },
+      },
+      typescriptreact = {
+        template = {
+          annotation_convention = 'tsdoc',
+        },
       },
     },
   },
 }
-
-nnoremap('<leader>ia', function()
-  neogen.generate()
-end, 'Insert annotation')

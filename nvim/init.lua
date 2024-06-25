@@ -1,81 +1,72 @@
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---
---  ███████╗███╗   ███╗██╗████████╗██╗  ██╗██████╗ ███╗   ███╗██████╗ ██████╗  ██╗ ██████╗
---  ██╔════╝████╗ ████║██║╚══██╔══╝██║  ██║██╔══██╗████╗ ████║╚════██╗╚════██╗███║██╔════╝
---  ███████╗██╔████╔██║██║   ██║   ███████║██████╔╝██╔████╔██║ █████╔╝ █████╔╝╚██║███████╗
---  ╚════██║██║╚██╔╝██║██║   ██║   ██╔══██║██╔══██╗██║╚██╔╝██║██╔═══╝  ╚═══██╗ ██║██╔═══██╗
---  ███████║██║ ╚═╝ ██║██║   ██║   ██║  ██║██████╔╝██║ ╚═╝ ██║███████╗██████╔╝ ██║╚██████╔╝
---  ╚══════╝╚═╝     ╚═╝╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚══════╝╚═════╝  ╚═╝ ╚═════╝
---
---  Ben Smith
---  github.com/smithbm2316
---  https://ben-smith.dev
---  This is neovim configuration!
---
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Set leader key to space
+-- Make sure to setup `mapleader` and `maplocalleader` before all other things
+-- so that all keymaps use the correct <leader> and <localleader> key
 vim.g.mapleader = ' '
+vim.g.maplocalleader = '\\'
 
--- if we are using VSCode, only load certain files
+-- load my global helpers, default settings, and non-plugin specific keymaps
+require 'globals'
+local disabled_plugins = require 'disable_rtp_plugins'
+require 'settings'
+require 'maps'
+
+-- if we are using VSCode, exit before we set up all our other configuration
 if vim.g.vscode then
-  require 'globals'
-  require 'bs'
-  require 'maps'
-else
-  -- settings for neovide gui
-  if vim.g.neovide then
-    vim.cmd [[set guifont=iMWritingMonoS_NF]]
-    vim.cmd [[cd $HOME/wiki]]
-    vim.g.neovide_scale_factor = 1.0
-    vim.g.neovide_refresh_rate = 144
-    vim.g.neovide_confirm_quit = true
-    vim.g.neovide_remember_window_size = true
-  end
-
-  -- Autoinstall packer.nvim if not already installed
-  local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path }
-    vim.cmd 'packadd packer.nvim'
-  end
-
-  -- load impatient.nvim and compiled packer output before everything else
-  local impatient_ok, impatient = pcall(require, 'impatient')
-  if impatient_ok then
-    impatient.enable_profile()
-  else
-    print "couldn't load impatient.nvim"
-  end
-
-  local packer_compiled_ok = pcall(require, 'packer/packer_compiled')
-  if packer_compiled_ok then
-    require 'packer/packer_compiled'
-  end
-
-  -- load my global helpers and wrappers
-  require 'globals'
-
-  -- load my vim settings
-  require 'settings'
-
-  -- load my personal variables, settings, and functions
-  require 'bs'
-
-  -- load my keymappings
-  require 'maps'
-
-  -- load my user commands
-  require 'user_commands'
-
-  -- load my ftdetect settings
-  require 'ftdetect'
-
-  -- load various utility functions
-  require 'utils'
-
-  -- load all of my packer plugins
-  require 'install_plugins'
-
-  -- load all of my plugin config files
-  require 'plugins'
+  return
 end
+
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+  vim.fn.system {
+    'git',
+    'clone',
+    '--filter=blob:none',
+    '--branch=stable',
+    lazyrepo,
+    lazypath,
+  }
+end
+-- Add lazy to the `runtimepath`, this allows us to `require` it.
+vim.opt.rtp:prepend(lazypath)
+
+vim.cmd [[
+augroup CloseNeovimWithQFileTypes
+  au!
+  au FileType man,help,startuptime,qf,lspinfo nnoremap <buffer><silent> q :close<cr>
+augroup END
+]]
+
+-- Setup lazy.nvim
+require('lazy').setup {
+  spec = {
+    { import = 'plugins' },
+  },
+  install = {
+    colorscheme = { 'catppuccin-mocha' },
+  },
+  checker = {
+    -- automatically check for plugin updates
+    enabled = true,
+    ---@type number? set to 1 to check for updates very slowly
+    concurrency = 1,
+    -- get a notification when new updates are found
+    notify = true,
+    -- in seconds, check once a day
+    frequency = 86400,
+    -- check for pinned packages that can't be updated
+    check_pinned = false,
+  },
+  change_detection = {
+    -- automatically check for config file changes and reload the ui
+    enabled = false,
+    -- get a notification when changes are found
+    notify = false,
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = disabled_plugins,
+    },
+  },
+}
+vim.keymap.set('n', '<leader>ll', '<cmd>Lazy<cr>', { desc = 'Lazy.nvim UI' })
