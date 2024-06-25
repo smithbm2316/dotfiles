@@ -4,8 +4,8 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
   group = 'GoFiletypeCmds',
   callback = function()
     -- insert ":=" while already in insert mode (go shortcut)
-    inoremap('<c-i>=', function()
+    vim.keymap.set('i', '<c-i>=', function()
       vim.api.nvim_feedkeys(':=', 'i', true)
-    end, 'Insert ":=" (go shortcut)')
+    end, { desc = 'Insert ":=" (go shortcut)' })
   end,
 })

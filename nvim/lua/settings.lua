@@ -33,7 +33,8 @@ vim.o.splitright = true
 vim.o.swapfile = false
 vim.o.termguicolors = true
 vim.o.updatetime = 2000
-vim.o.wildignore = '*/node_modules/*,*/.git/*,DS_Store,*/venv/*,*/__pycache__/*,*.pyc'
+vim.o.wildignore =
+  '*/node_modules/*,*/.git/*,DS_Store,*/venv/*,*/__pycache__/*,*.pyc'
 vim.o.wildmenu = true
 vim.o.wildmode = 'full'
 vim.o.wildoptions = 'pum'
@@ -57,22 +58,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank { on_visual = false }
   end,
 })
-
--- disable builtin plugins i don't need
-vim.g.loaded_gzip = 1
-vim.g.loaded_zip = 1
-vim.g.loaded_zipPlugin = 1
-vim.g.loaded_tar = 1
-vim.g.loaded_tarPlugin = 1
-vim.g.loaded_getscript = 1
-vim.g.loaded_getscriptPlugin = 1
-vim.g.loaded_vimball = 1
-vim.g.loaded_vimballPlugin = 1
-vim.g.loaded_2html_plugin = 1
-vim.g.loaded_logiPat = 1
-vim.g.loaded_rrhelper = 1
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_netrwSettings = 1
--- vim.g.loaded_matchit = 1
--- vim.g.loaded_matchparen = 1

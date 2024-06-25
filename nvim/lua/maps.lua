@@ -1,127 +1,116 @@
-local maps = {}
 -- TODO: add mapping for visual mode macro running
 -- cc: https://www.hillelwayne.com/vim-macro-trickz/
 
--- Basic mappings
-local nosilent = { silent = false }
-
---
 -- https://www.reddit.com/r/vim/comments/a8mp8z/comment/ecc0aw4
-nnoremap('j', [[v:count > 1 ? "m'" . v:count . 'j' : 'gj']], nil, { expr = true })
-nnoremap('k', [[v:count > 1 ? "m'" . v:count . 'k' : 'gk']], nil, { expr = true })
-nnoremap('gj', '<Down>')
-nnoremap('gk', '<Up>')
+vim.keymap.set('n', 'j', [[v:count > 1 ? "m'" . v:count . 'j' : 'gj']], {
+  expr = true,
+})
+vim.keymap.set('n', 'k', [[v:count > 1 ? "m'" . v:count . 'k' : 'gk']], {
+  expr = true,
+})
+vim.keymap.set('n', 'gj', '<Down>')
+vim.keymap.set('n', 'gk', '<Up>')
 
 -- run a :command
-nnoremap('go', ':', 'Command-line mode', nosilent)
-vnoremap('go', ':', 'Command-line mode', nosilent)
+vim.keymap.set({ 'n', 'v' }, 'go', ':', { desc = 'Command-line mode' })
 
 -- Substitute Linewise
-nnoremap('<leader>sl', ':s/', 'Linewise search', nosilent)
-vnoremap('<leader>sl', ':s/', 'Linewise search', nosilent)
+vim.keymap.set({ 'n', 'v' }, '<leader>sl', ':s/', { desc = 'Linewise search' })
 
 -- Substitute Globally
-nnoremap('<leader>sg', ':%s/', 'Global buffer search', nosilent)
-vnoremap('<leader>sg', ':%s/', 'Global buffer search', nosilent)
+vim.keymap.set(
+  { 'n', 'v' },
+  '<leader>sg',
+  ':%s/',
+  { desc = 'Global buffer search' }
+)
 
 -- make gu toggle between upper and lower case instead of just upper
-nnoremap('gl', 'gu', 'Lowercase', nosilent)
-vnoremap('gl', 'gu', 'Lowercase', nosilent)
-nnoremap('gL', 'g~', 'Toggle case', nosilent)
-vnoremap('gL', 'g~', 'Toggle case', nosilent)
-nnoremap('gu', 'gU', 'Uppercase', nosilent)
-vnoremap('gu', 'gU', 'Uppercase', nosilent)
-nnoremap('gU', 'g~', 'Toggle case', nosilent)
-vnoremap('gU', 'g~', 'Toggle case', nosilent)
+vim.keymap.set({ 'n', 'v' }, 'gl', 'gu', { desc = 'Lowercase' })
+vim.keymap.set({ 'n', 'v' }, 'gL', 'g~', { desc = 'Toggle case' })
+vim.keymap.set({ 'n', 'v' }, 'gu', 'gU', { desc = 'Uppercase' })
+vim.keymap.set({ 'n', 'v' }, 'gU', 'g~', { desc = 'Toggle case' })
 
 -- swap to alternate file
-nnoremap('ga', '<c-^>', 'Swap to alt file', nosilent)
-vnoremap('ga', '<c-^>', 'Swap to alt file', nosilent)
+vim.keymap.set({ 'n', 'v' }, 'ga', '<c-^>', { desc = 'Swap to alt file' })
 
 -- replace currently selected text with default register without yanking it
-vnoremap('p', '"_dP', nil, nosilent)
+vim.keymap.set('v', 'p', '"_dP', { desc = nil })
 
 -- repeat last macro
-nnoremap('<c-m>', '@@', 'Repeat last macro', nosilent)
-vnoremap('<c-m>', '@@', 'Repeat last macro', nosilent)
+vim.keymap.set({ 'n', 'v' }, '<c-m>', '@@', { desc = 'Repeat last macro' })
 
 -- repeat last :command
-nnoremap('gx', '@:', 'Repeat last command', nosilent)
-vnoremap('gx', '@:', 'Repeat last command', nosilent)
+vim.keymap.set({ 'n', 'v' }, 'gx', '@:', { desc = 'Repeat last command' })
 
 -- remap q: to be easier to use, less work for your poor left pinky
-nnoremap('<c-q>', 'q:', 'Open cmdline window', nosilent)
-vnoremap('<c-q>', 'q:', 'Open cmdline window', nosilent)
+vim.keymap.set({ 'n', 'v' }, '<c-q>', 'q:', { desc = 'Open cmdline window' })
 
--- quickfix list navigation yay
-nnoremap('<leader>co', '<cmd>copen<cr>', 'Open qflist')
-nnoremap('<leader>ce', '<cmd>cclose<cr>', 'Close/exit qflist')
-nnoremap('<leader>cn', '<cmd>cnext<cr>', 'Next item in qflist')
-nnoremap('<leader>cp', '<cmd>cprev<cr>', 'Prev item in qflist')
-nnoremap('<leader>qd', function()
-  vim.ui.input({ prompt = 'Quickfix do: ', completion = 'command' }, function(do_cmd)
-    if do_cmd then
-      vim.cmd('cfdo ' .. do_cmd)
+vim.keymap.set('n', '<leader>qd', function()
+  vim.ui.input(
+    { prompt = 'Quickfix do: ', completion = 'command' },
+    function(do_cmd)
+      if do_cmd then
+        vim.cmd('cfdo ' .. do_cmd)
+      end
     end
-  end)
-end, 'Exec cmd for all items in qf list')
+  )
+end, { desc = 'Exec cmd for all items in qf list' })
 
 -- make more regular commands center screen too
-nnoremap('n', 'nzz')
-nnoremap('N', 'Nzz')
-nnoremap('g;', 'g;zz')
-nnoremap('gi', 'zzgi')
-nnoremap('<c-d>', '<c-d>zz')
-nnoremap('<c-u>', '<c-u>zz')
-nnoremap('<c-f>', '<c-f>zz')
-nnoremap('<c-b>', '<c-b>zz')
-nnoremap('{', '<nop>')
-nnoremap('}', '<nop>')
-nnoremap('(', '(zz')
-nnoremap(')', ')zz')
+vim.keymap.set('n', 'n', 'nzz')
+vim.keymap.set('n', 'N', 'Nzz')
+vim.keymap.set('n', 'g;', 'g;zz')
+vim.keymap.set('n', 'gi', 'zzgi')
+vim.keymap.set('n', '<c-d>', '<c-d>zz')
+vim.keymap.set('n', '<c-u>', '<c-u>zz')
+vim.keymap.set('n', '<c-f>', '<c-f>zz')
+vim.keymap.set('n', '<c-b>', '<c-b>zz')
+vim.keymap.set('n', '{', '<nop>')
+vim.keymap.set('n', '}', '<nop>')
+vim.keymap.set('n', '(', '(zz')
+vim.keymap.set('n', ')', ')zz')
 
 -- make c/C change command send text to black hole register, i didn't want
 -- it anyways if I changed it probably
-nnoremap('c', '"_c')
-nnoremap('C', '"_C')
+vim.keymap.set('n', 'c', '"_c')
+vim.keymap.set('n', 'C', '"_C')
 
 -- make <c-v> paste in insert and command-line mode too
-inoremap('<c-v>', '<c-r>+', 'Paste with <c-v>', nosilent)
-cnoremap('<c-v>', '<c-r>+', 'Paste with <c-v>', nosilent)
+vim.keymap.set({ 'i', 'c' }, '<c-v>', '<c-r>+', { desc = 'Paste with <c-v>' })
 
 -- turn off search highlighting after finishing a search (nohlsearch)
-nnoremap('<leader>hl', '<cmd>noh<cr>', 'Turn off search hl')
+vim.keymap.set(
+  'n',
+  '<leader>hl',
+  '<cmd>noh<cr>',
+  { desc = 'Turn off search hl' }
+)
 
 -- take the only existing window and split it to the right
-nnoremap('<leader>wr', [[<cmd>vnew | wincmd r | wincmd l<cr>]], 'Split 1 window to right')
+vim.keymap.set(
+  'n',
+  '<leader>wr',
+  [[<cmd>vnew | wincmd r | wincmd l<cr>]],
+  { desc = 'Split 1 window to right' }
+)
 
 -- swap windows and move cursor to other window
-nnoremap('<leader>wl', [[<cmd>wincmd r | wincmd l<cr>]], 'Swap windows and move cursor')
-
--- <c-n>/<c-p> moves selected lines down/up in visual mode
---[[ nnoremap('<c-n>', '<cmd>m.+1<cr>==')
-nnoremap('<c-p>', '<cmd>m.-2<cr>==')
-vnoremap('<c-n>', '<cmd>m>+1<cr>gv=gv')
-vnoremap('<c-p>', '<cmd>m<-2<cr>gv=gv') ]]
-
--- quit all forcefully
-nnoremap('<leader>qf', '<cmd>qall!<cr>', 'Force quit all buffers')
+vim.keymap.set(
+  'n',
+  '<leader>wl',
+  [[<cmd>wincmd r | wincmd l<cr>]],
+  { desc = 'Swap windows and move cursor' }
+)
 
 -- folds management
-nnoremap('<leader>fh', 'zA', 'Toggle current fold')
-nnoremap('<leader>fo', 'zR', 'Open all folds')
-nnoremap('<leader>fc', 'zM', 'Close all folds')
-
--- Add function + user command for reviewing a PR
-vim.api.nvim_create_user_command('ReviewPR', 'lua vim.cmd("FocusDisable"); vim.cmd("DiffviewOpen main")', {})
-
--- enter in a new html tag above or below the current line
--- nnoremap('<leader>it', [[<cmd>call feedkeys("o<\<C-E>",', ''i')<cr>]])
--- nnoremap('<leader>iT', [[<cmd>call feedkeys("O<\<C-E>",', ''i')<cr>]])
+vim.keymap.set('n', '<leader>fh', 'zA', { desc = 'Toggle current fold' })
+vim.keymap.set('n', '<leader>fo', 'zR', { desc = 'Open all folds' })
+vim.keymap.set('n', '<leader>fc', 'zM', { desc = 'Close all folds' })
 
 -- Function mappings
 -- Source Here: Reload current buffer if it is a vim or lua file
-nnoremap('<leader>sh', function()
+vim.keymap.set('n', '<leader>sh', function()
   local ft = vim.api.nvim_buf_get_option(0, 'filetype')
   if ft == 'vim' then
     vim.cmd 'source %'
@@ -132,15 +121,10 @@ nnoremap('<leader>sh', function()
   else
     vim.notify('Not a lua or vim file', vim.log.levels.INFO)
   end
-end, 'Source Here (reload current file)')
-
--- Color picker wrapper
-nnoremap('<leader>cc', function()
-  vim.cmd(string.format('ConvertColorTo %s', vim.fn.input 'Convert to: '))
-end, 'Convert color')
+end, { desc = 'Source Here (reload current file)' })
 
 -- toggle wrapping
-nnoremap('<leader>tw', function()
+vim.keymap.set('n', '<leader>tw', function()
   if vim.api.nvim_win_get_option(0, 'wrap') then
     vim.api.nvim_win_set_option(0, 'wrap', false)
     vim.notify('wrapping off', vim.log.levels.INFO)
@@ -148,17 +132,17 @@ nnoremap('<leader>tw', function()
     vim.api.nvim_win_set_option(0, 'wrap', true)
     vim.notify('wrapping on', vim.log.levels.INFO)
   end
-end, 'Toggle line wrapping')
+end, { desc = 'Toggle line wrapping' })
 
-nnoremap('<leader>qa', function()
+vim.keymap.set('n', '<leader>qa', function()
   vim.cmd [[
     SessionDelete
     qall!
   ]]
-end, 'Quit session')
+end, { desc = 'Quit session' })
 
 -- change a split between horizontal and vertical
-nnoremap('<leader>ws', function()
+vim.keymap.set('n', '<leader>ws', function()
   local a = vim.api
   local windows = a.nvim_tabpage_list_wins(0)
 
@@ -178,16 +162,23 @@ nnoremap('<leader>ws', function()
     cmd_mapping = a.nvim_replace_termcodes('<c-w>L', true, false, true)
   end
   a.nvim_feedkeys(cmd_mapping, 'n', false)
-end, 'Swap split between horizontal and vertical')
+end, { desc = 'Swap split between horizontal and vertical' })
 
 -- use 'helpgrep' to grep through vim's help docs
-nnoremap('<leader>hg', function()
+vim.keymap.set('n', '<leader>hg', function()
   local pattern = vim.fn.input 'Pattern to search help docs for: '
   vim.cmd('helpgrep ' .. pattern)
-end, 'Grep the help menu')
+end, { desc = 'Grep the help menu' })
 
-nnoremap('<leader>mdn', function()
-  local webdev = { 'javascript', 'typescript', 'html', 'css', 'javascriptreact', 'typescriptreact' }
+vim.keymap.set('n', '<leader>mdn', function()
+  local webdev = {
+    'javascript',
+    'typescript',
+    'html',
+    'css',
+    'javascriptreact',
+    'typescriptreact',
+  }
   local urls = {}
   for _, ft in ipairs(webdev) do
     urls[ft] = 'https://developer.mozilla.org/en-US/search?q=%s'
@@ -197,85 +188,43 @@ nnoremap('<leader>mdn', function()
   local query = urls[current_ft]:format(input)
   local cmd = vim.fn.has 'mac' == 0 and 'xdg-open ' or 'open '
   os.execute(cmd .. query)
-end, 'Search MDN docs')
+end, { desc = 'Search MDN docs' })
 
-nnoremap('<leader>ou', function()
+vim.keymap.set('n', '<leader>ou', function()
   local uri = vim.fn.expand '<cWORD>'
   uri = vim.fn.matchstr(uri, [[https\?:\/\/[A-Za-z0-9-_\.#\/=\?%]\+]])
   if uri ~= '' then
     local cmd = vim.fn.has 'mac' == 0 and 'xdg-open ' or 'open '
     os.execute(cmd .. vim.fn.shellescape(uri, 1))
   end
-end, 'Open url in browser')
+end, { desc = 'Open url in browser' })
 
 -- search dev docs
-nnoremap('<leader>dd', function()
+vim.keymap.set('n', '<leader>dd', function()
   local query = vim.fn.input 'Search DevDocs: '
-  local encodedURL = string.format('open "https://devdocs.io/#q=%s"', query:gsub('%s', '%%20'))
+  local encodedURL =
+    string.format('open "https://devdocs.io/#q=%s"', query:gsub('%s', '%%20'))
   os.execute(encodedURL)
-end, 'Search DevDocs')
+end, { desc = 'Search DevDocs' })
 
 -- toggle relativenumber on/off for all windows
-nnoremap('<leader>tn', function()
+vim.keymap.set('n', '<leader>tn', function()
   if vim.api.nvim_win_get_option(0, 'relativenumber') then
     vim.cmd 'windo set norelativenumber'
   else
     vim.cmd 'windo set relativenumber'
   end
-end, 'Toggle relative line numbers')
+end, { desc = 'Toggle relative line numbers' })
 
--- view go documentation for a specified function
-nnoremap('<leader>gd', function()
-  vim.ui.input({ prompt = 'Keyword to search with `go doc`', completion = 'go' }, function(input)
-    local Job = require 'plenary.job'
-    local go_doc_lines = Job:new({
-      command = 'go',
-      args = { 'doc', input },
-      cwd = '.',
-      on_exit = function(j, return_val)
-        return return_val and j:result() or nil
-      end,
-    }):sync()
-    local lines = vim.o.lines
-    local columns = vim.o.columns
-    local bufnr = vim.api.nvim_create_buf(true, true)
-    local height = vim.fn.float2nr(lines * 0.5)
-    local width = vim.fn.float2nr(columns * 0.5)
-    local horizontal = vim.fn.float2nr((columns - width) / 2)
-    local vertical = vim.fn.float2nr((lines - height) / 2)
-    local opts = {
-      relative = 'editor',
-      row = vertical,
-      col = horizontal,
-      width = width,
-      height = height,
-      style = 'minimal',
-      border = 'shadow',
-    }
-    vim.api.nvim_buf_set_lines(bufnr, 1, -1, true, go_doc_lines)
-    vim.api.nvim_buf_set_option(bufnr, 'ft', 'go')
-    vim.api.nvim_buf_set_name(bufnr, 'go doc')
-    nnoremap('q', function()
-      vim.cmd 'q'
-      vim.api.nvim_buf_delete(bufnr, { force = true })
-    end, nil, { buffer = bufnr })
-    vim.api.nvim_open_win(bufnr, true, opts)
-  end)
-end, 'go doc viewer')
-
--- mappings that require an external function
-
--- turn terminal to normal mode with escape if it's not a lazygit terminal
-create_augroup('RemapTermEscapeUnlessLazygit', {
-  {
-    events = 'TermOpen',
-    pattern = '*',
-    callback = function()
-      if vim.fn.expand '%:t' ~= 'lazygit' then
-        tnoremap('<esc>', [[<c-\><c-n>]], 'Escape term', { buffer = 0 })
-      end
-    end,
-  },
+vim.keymap.set('n', '<c-n>', '<cmd>cnext<cr>', {
+  desc = 'Go to next quickfix item',
 })
-
-return maps
+vim.keymap.set('n', '<c-p>', '<cmd>cprev<cr>', {
+  desc = 'Go to previous quickfix item',
+})
+vim.keymap.set('n', '<leader>qf', '<cmd>copen<cr>', {
+  desc = 'Open quickfix list',
+})
+vim.keymap.set('n', '<leader>qc', '<cmd>cclose<cr>', {
+  desc = 'Exit quickfix list',
+})

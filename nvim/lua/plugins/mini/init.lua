@@ -1,0 +1,5 @@
+return {
+  {
+    import = 'plugins.mini',
+  },
+}

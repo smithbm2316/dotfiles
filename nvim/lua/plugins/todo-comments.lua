@@ -1,11 +1,13 @@
-local ok, todo = pcall(require, 'todo-comments')
-if not ok then
-  return
-end
-
-todo.setup {
-  highlight = {
-    exclude = { 'vim' },
-    -- currently breaks the cmdline window
+return {
+  'folke/todo-comments.nvim',
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter',
+    'nvim-lua/plenary.nvim',
+  },
+  event = 'VeryLazy',
+  opts = {
+    highlight = {
+      exclude = { 'vim' },
+    },
   },
 }

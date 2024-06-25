@@ -3,7 +3,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
   pattern = { '*.blade.php', '*.php' },
   group = 'PhpFiletypeCmds',
   callback = function()
-    inoremap('<c-i>-', function()
+    vim.keymap.set('i', '<c-i>-', function()
       -- get the current line and cursor position
       local line = vim.api.nvim_get_current_line()
       local cursor = vim.api.nvim_win_get_cursor(0)
@@ -14,9 +14,9 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
       -- update the line and cursor position
       vim.api.nvim_set_current_line(line)
       vim.api.nvim_win_set_cursor(0, cursor)
-    end, 'Insert "->" (php shortcut)')
+    end, { desc = 'Insert "->" (php shortcut)' })
 
-    inoremap('<c-i>;', function()
+    vim.keymap.set('i', '<c-i>;', function()
       -- get the current line and cursor position
       local line = vim.api.nvim_get_current_line()
       local cursor = vim.api.nvim_win_get_cursor(0)
@@ -27,9 +27,9 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
       -- update the line and cursor position
       vim.api.nvim_set_current_line(line)
       vim.api.nvim_win_set_cursor(0, cursor)
-    end, 'Insert "::" (php shortcut)')
+    end, { desc = 'Insert "::" (php shortcut)' })
 
-    inoremap('<c-i>=', function()
+    vim.keymap.set('i', '<c-i>=', function()
       -- get the current line and cursor position
       local line = vim.api.nvim_get_current_line()
       local cursor = vim.api.nvim_win_get_cursor(0)
@@ -40,6 +40,6 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
       -- update the line and cursor position
       vim.api.nvim_set_current_line(line)
       vim.api.nvim_win_set_cursor(0, cursor)
-    end, 'Insert "=>" (php shortcut)')
+    end, { desc = 'Insert "=>" (php shortcut)' })
   end,
 })

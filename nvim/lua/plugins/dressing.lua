@@ -1,9 +1,7 @@
--- override plugin's default setting of creating a FloatTitle link to FloatBorder hl_group
-vim.cmd 'highlight! default link FloatTitle DiagnosticHint'
-
-local has_dressing, dressing = pcall(require, 'dressing')
-if not has_dressing then
-  dressing.setup {
+return {
+  'stevearc/dressing.nvim',
+  event = 'VeryLazy',
+  opts = {
     input = {
       -- Set to false to disable the vim.ui.input implementation
       enabled = true,
@@ -75,5 +73,10 @@ if not has_dressing then
       -- see :help dressing_get_config
       get_config = nil,
     },
-  }
-end
+  },
+  config = function(_, opts)
+    require('dressing').setup(opts)
+    -- override plugin's default setting of creating a FloatTitle link to FloatBorder hl_group
+    vim.cmd 'highlight! default link FloatTitle DiagnosticHint'
+  end,
+}

@@ -9,6 +9,7 @@ tsconfig.tsbuildinfo
 .node-version
 # neovim project-specific configuration
 .nvimrc
+.lazy.lua
 # personal scratchpad
 .scratchpad.md
 .env.act
