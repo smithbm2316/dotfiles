@@ -15,6 +15,7 @@ return {
     aliases = {
       blade = 'html',
       edge = 'html',
+      etlua = 'html',
       templ = 'html',
     },
     skip_tags = {

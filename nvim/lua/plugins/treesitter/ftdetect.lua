@@ -18,6 +18,10 @@ local fts = {
     pattern = { '%.env%..*' },
     parser = 'bash',
   },
+  etlua = {
+    extension = 'etlua',
+    parser = 'embedded_template',
+  },
   fish = {
     extension = 'fish',
   },

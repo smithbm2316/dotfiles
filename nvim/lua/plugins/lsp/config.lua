@@ -34,11 +34,9 @@ vim.diagnostic.config {
 vim.keymap.set('n', '<leader>td', function()
   if vim.b.show_diagnostics then
     vim.diagnostic.hide()
-    ---@diagnostic disable-next-line: inject-field
     vim.b.show_diagnostics = false
   else
     vim.diagnostic.show()
-    ---@diagnostic disable-next-line: inject-field
     vim.b.show_diagnostics = true
   end
 end, { desc = 'Toggle diagnostics' })
@@ -119,6 +117,9 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = 'shadow',
 })
 
+-- TODO: refactor the diagnostic keymaps and settings into its own module, it's
+-- separate from LSP now
+--
 --- Go to a specific diagnostic message in a particular direction
 ---@param direction string value can be 'prev' or 'next', direction in which message to show
 ---@param shouldGoToAny? boolean if false (default), only go to errors and warnings, otherwise go to any message
@@ -497,6 +498,7 @@ local servers = {
     -- https://github.com/tailwindlabs/tailwindcss-intellisense/issues/84#issuecomment-1128278248
     init_options = {
       userLanguages = {
+        etlua = 'html',
         templ = 'html',
       },
     },
@@ -686,6 +688,7 @@ if null_ok then
         '*.njk',
         '*.php',
         '*.py',
+        '*.rockspec',
         '*.rs',
         '*.sass',
         '*.schema',
@@ -782,103 +785,97 @@ end
   },
 } ]]
 
----@diagnostic disable-next-line: missing-parameter
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
-
-local library_files = vim.api.nvim_get_runtime_file('', true)
--- add local nvim config to enable goto definitions, etc
-table.insert(library_files, vim.env.XDG_CONFIG_HOME .. 'nvim/lua')
-
--- load hammerspoon runtime files if in dotfiles/hammerspoon/init.lua and on OSX
-if
-  vim.fn.has 'mac' == 1
-  and vim.fn.expand '%:p'
-    == (vim.env.HOME .. '/dotfiles/hammerspoon/init.lua')
-then
-  table.insert(
-    library_files,
-    '/Applications/Hammerspoon.app/Contents/Resources/extensions/hs'
-  )
-end
-
-local neodev_ok, neodev = pcall(require, 'neodev')
-if not neodev_ok then
-  return
-end
-
-local cwd = vim.fn.getcwd()
-
-neodev.setup {
-  library = {
-    enabled = true,
-    runtime = true,
-    types = true, -- cwd:match(vim.env.HOME .. '/dotfiles/nvim') ~= nil,
-    plugins = true,
-  },
-  setup_jsonls = true,
-  pathStrict = true,
-}
-
---[[
-local testing_globals = {
-  'describe',
-  'it',
-  'before_each',
-  'after_each',
-}
---]]
-local lua_globals = {}
-
-if cwd:match(vim.env.HOME .. '/dotfiles/awesome') then
-  lua_globals = {
-    'awesome',
-    'client',
-    'mouse',
-    'root',
-    'screen',
-    'love',
-  }
-elseif cwd:match(vim.env.HOME .. '/dotfiles/hammerspoon') then
-  lua_globals = {
-    'hs',
-    'spoon',
-  }
-elseif cwd:match(vim.env.HOME .. '/dotfiles/nvim') then
-  lua_globals = {
-    'package',
-    'vim',
-  }
-end
+-- disable diangostics for .etlua files. unfortunately we have to do it via
+-- the lua_ls settings, not just with vim.diagnostic.enable(false, { bufnr = 0 })
+-- i dunno why
+-- local group_id =
+--   vim.api.nvim_create_augroup('LuaLsDiagnosticsToggler', { clear = true })
+-- vim.api.nvim_create_autocmd({ 'LspAttach', 'BufEnter' }, {
+--   -- pattern = { '*.lua', '*.tl', '*.luau', '*.etlua' },
+--   pattern = { '*.etlua' },
+--   group = group_id,
+--   callback = function()
+--     local bufnr = vim.api.nvim_get_current_buf()
+--     local attached_lsps = vim.lsp.get_clients {
+--       bufnr = bufnr,
+--       name = 'lua_ls',
+--     }
+--     if attached_lsps[1] == nil then
+--       return
+--     end
+--
+--     local client = attached_lsps[1]
+--     local ns_id = vim.lsp.diagnostic.get_namespace(client.id)
+--
+--     if client.config.settings.Lua.diagnostics.enable == false then
+--       return
+--     end
+--
+--     vim.diagnostic.reset(ns_id, bufnr)
+--     client.config.settings.Lua.diagnostics.enable = false
+--     client.notify(
+--       'workspace/didChangeConfiguration',
+--       { settings = client.config.settings }
+--     )
+--   end,
+-- })
+-- vim.api.nvim_create_autocmd({ 'LspAttach', 'BufEnter' }, {
+--   pattern = { '*.lua', '*.tl', '*.luau' },
+--   group = group_id,
+--   callback = function()
+--     local bufnr = vim.api.nvim_get_current_buf()
+--     local attached_lsps = vim.lsp.get_clients {
+--       bufnr = bufnr,
+--       name = 'lua_ls',
+--     }
+--     if attached_lsps[1] == nil then
+--       return
+--     end
+--
+--     local client = attached_lsps[1]
+--     if client.config.settings.Lua.diagnostics.enable == true then
+--       return
+--     end
+--
+--     client.config.settings.Lua.diagnostics.enable = true
+--     client.notify(
+--       'workspace/didChangeConfiguration',
+--       { settings = client.config.settings }
+--     )
+--   end,
+-- })
 
 lspconfig.lua_ls.setup {
   on_attach = M.my_on_attach,
   capabilities = M.my_capabilities,
   cmd = { 'lua-language-server' },
+  filetypes = {
+    'lua',
+    'tl',
+    'luau',
+    -- 'etlua'
+  },
   settings = {
     Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = runtime_path,
-      },
       completion = {
         callSnippet = 'Disable',
         keywordSnippet = 'Disable',
       },
       diagnostics = {
-        globals = lua_globals,
+        enable = true,
         -- disable specific diagnostic messages
+        disableScheme = { '.etlua' },
         disable = {
+          'inject-field',
           'lowercase-global',
         },
+        --[[ severity = {
+          ['inject-field'] = 'Hint',
+        }, ]]
       },
       workspace = {
         -- https://www.reddit.com/r/neovim/comments/wgu8dx/configuring_neovim_for_l%C3%B6velua_i_always_get/ij22yo9/
         checkThirdParty = false,
-        library = library_files,
       },
       -- Do not send telemetry data containing a randomized but unique identifier
       telemetry = {

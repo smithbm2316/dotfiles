@@ -11,7 +11,8 @@ return {
       cmd = 'TSPlaygroundToggle',
     },
   },
-  event = 'VeryLazy',
+  lazy = false,
+  -- event = 'VeryLazy',
   build = ':TSUpdate',
   main = 'nvim-treesitter.configs',
   opts = {
@@ -87,6 +88,7 @@ return {
       'csv',
       'diff',
       'dockerfile',
+      'embedded_template',
       'git_config',
       'git_rebase',
       'gitcommit',

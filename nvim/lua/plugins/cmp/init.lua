@@ -92,6 +92,7 @@ return {
             return true
           end,
         },
+        { name = 'lazydev', group_index = 0 },
         { name = 'luasnip', max_item_count = 5 },
       }, {
         { name = 'path' },
