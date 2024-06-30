@@ -1,7 +1,6 @@
-vim.api.nvim_create_augroup('PhpFiletypeCmds', { clear = true })
 vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
   pattern = { '*.blade.php', '*.php' },
-  group = 'PhpFiletypeCmds',
+  group = vim.api.nvim_create_augroup('PhpFiletypeCmds', { clear = true }),
   callback = function()
     vim.keymap.set('i', '<c-i>-', function()
       -- get the current line and cursor position
