@@ -23,6 +23,14 @@ export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
 export YARNBIN="$HOME/.yarn/bin"
 export VOLTA_HOME="$HOME/.volta"
 
+# luarocks and openresty setup
+export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
+eval "$(luarocks path --no-bin)"
+CWD_BIN="./bin"
+LUAROCKS_USER_BIN="$HOME/.luarocks/bin"
+LUAROCKS_PROJECT_BIN="./lua_modules/bin"
+OPENRESTY_BIN="/usr/local/openresty/bin"
+
 # Default env variables that are useful
 export EDITOR="nvim"
 export VISUAL="nvim"
@@ -45,6 +53,7 @@ if [ "$(uname -s)" = "Linux" ]; then
 fi
 
 path+=("$LOCALBIN")
+path+=("$HOME/.local/nvim/bin")
 path+=("$GOBIN")
 path+=("$VOLTA_HOME/bin")
 path+=("$DENOBIN")
@@ -52,3 +61,7 @@ path+=("$CARGOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
 path+=("$COMPOSER_VENDOR_BIN")
 path+=("$YARNBIN")
+path+=("$OPENRESTY_BIN")
+path+=("$LUAROCKS_USER_BIN")
+path+=("$LUAROCKS_PROJECT_BIN")
+path+=("$CWD_BIN")

@@ -11,34 +11,54 @@ lua() {
   curl -R -O https://www.lua.org/ftp/lua-5.1.5.tar.gz
   tar zxpfv lua-5.1.5.tar.gz
   cd lua-5.1.5 || exit
-  sudo make linux 
-  make test
-  sudo make install
+  make linux 
+  # make test && make install INSTALL_TOP="$HOME/.local"
+  make test && sudo make install
   cd ~/builds || exit
   rm -rf lua-5.1.5.tar.gz
 
   # luajit
-  luajit_latest_version=$(curl -sL https://api.github.com/repos/luajit/luajit/tags | jq -r '.[0].name' | cut -c 2-)
-  luajit_latest_filename="LuaJIT-$luajit_latest_version"
-  luajit_url="https://luajit.org/download/$luajit_latest_filename.tar.gz"
-  curl -R -O "$luajit_url"
-  tar zxvpf "$luajit_latest_filename.tar.gz"
-  cd "$luajit_latest_filename" || exit
-  make && sudo make install
-  sudo ln -sf "luajit_latest_filename" /usr/local/bin/luajit
-  cd ~/builds || exit
-  rm "$luajit_latest_filename"
+  # should be installed with neovim
+  # cd ~/builds || exit
+  # git clone https://luajit.org/git/luajit.git
+  # cd luajit || exit
+  # make PREFIX="$HOME/.local" && make install PREFIX="$HOME/.local"
+  # ln -sf "$luajit_latest_filename" "$HOME/.local/bin/luajit"
+  # cd ~/builds || exit
 
   # luarocks
-  luarocks_latest_version=$(curl -sL https://api.github.com/repos/luarocks/luarocks/tags | jq -r '.[0].name' | cut -c 2-)
-  luarocks_latest_filename="luarocks-$luarocks_latest_version"
-  luarocks_url="https://luarocks.github.io/luarocks/releases/$luarocks_latest_filename.tar.gz"
-  curl -R -O "$luarocks_url"
-  tar zxvpf "$luarocks_latest_filename.tar.gz"
-  cd "$luarocks_latest_filename" || exit
-  ./configure --with-lua-include=/usr/local/include && make && sudo make install
+  # luarocks_latest_version=$(curl -sL https://api.github.com/repos/luarocks/luarocks/tags | jq -r '.[0].name' | cut -c 2-)
+  # luarocks_latest_filename="luarocks-$luarocks_latest_version"
+  # luarocks_url="https://luarocks.github.io/luarocks/releases/$luarocks_latest_filename.tar.gz"
+  # curl -R -O "$luarocks_url"
+  # tar zxvpf "$luarocks_latest_filename.tar.gz"
+  # cd "$luarocks_latest_filename" || exit
+  # ./configure \
+  #   --prefix="$HOME/.local" \
+  #   --with-lua="$HOME/.local" \
+  #   --lua-version='5.1'  \
+  #   --with-lua-include="$HOME/.local/include" && make && make install
+  # cd ~/builds || exit
+  # rm "$luarocks_latest_filename.tar.gz"
   cd ~/builds || exit
-  rm "$luarocks_latest_filename.tar.gz"
+  git clone https://github.com/luarocks/luarocks.git
+  cd luarocks
+  ./configure \
+    --with-lua="/usr/local" \
+    --lua-version='5.1'
+  make && sudo make install
+  cd ~/builds || exit
+
+  # openresty + nginx + lapis
+  cd ~/builds || exit
+  openresty_tarball=$(gh_release_latest 'openresty/openresty' 'openresty-[0-9.]+.tar.gz')
+  tar zxf "$openresty_tarball"
+  openresty_folder="$(echo $openresty_tarball | awk -F '.tar.gz' '{ print $1 }')"
+  cd "$openresty_folder"
+  ./configure -j2
+  make -j2 && sudo make install
+  cd ~/builds || exit
+  rm "$openresty_tarball"
 }
 
 # install homebrew/linuxbrew
