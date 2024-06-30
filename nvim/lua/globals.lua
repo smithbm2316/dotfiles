@@ -86,6 +86,7 @@ _G.html_like_fts = {
   'blade',
   'django',
   'edge',
+  'etlua',
   'gohtml',
   'gohtmltmpl',
   'html',
@@ -117,3 +118,10 @@ _G.exists_in_cwd = function(...)
   end
   return file_exists
 end
+
+_G.bs = {
+  telescope = {
+    ignored = {},
+    always_ignored = {},
+  },
+}

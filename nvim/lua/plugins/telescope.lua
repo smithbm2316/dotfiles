@@ -27,37 +27,38 @@ return {
     end
 
     -- files to ignore with `file_ignore_patterns`
-    local always_ignore_these = {
-      'yarn%.lock',
-      'package%-lock%.json',
-      'pnpm%-lock%.yaml',
-      'node_modules/.*',
-      '.obsidian/.*',
-      'deno%.lock',
-      '%.git/.*',
-      '%.svg',
-      '%.png',
-      '%.jpeg',
-      '%.jpg',
-      '%.ico',
-      '%.webp',
-      '%.avif',
-      '%.heic',
-      '%.mp3',
-      '%.mp4',
-      '%.mkv',
-      '%.mov',
-      '%.wav',
-      '%.flv',
-      '%.avi',
-      '%.webm',
-      '%.env',
-      '%.env%..*',
-      '%.db',
-      '%.zip',
-    }
+    bs.telescope.always_ignored =
+      vim.tbl_deep_extend('force', bs.telescope.always_ignored, {
+        'yarn%.lock',
+        'package%-lock%.json',
+        'pnpm%-lock%.yaml',
+        'node_modules/.*',
+        '.obsidian/.*',
+        'deno%.lock',
+        '%.git/.*',
+        '%.svg',
+        '%.png',
+        '%.jpeg',
+        '%.jpg',
+        '%.ico',
+        '%.webp',
+        '%.avif',
+        '%.heic',
+        '%.mp3',
+        '%.mp4',
+        '%.mkv',
+        '%.mov',
+        '%.wav',
+        '%.flv',
+        '%.avi',
+        '%.webm',
+        '%.env',
+        '%.env%..*',
+        '%.db',
+        '%.zip',
+      })
 
-    local ignore_these = {
+    bs.telescope.ignored = vim.tbl_deep_extend('force', bs.telescope.ignored, {
       'yarn%.lock',
       'package%-lock%.json',
       'pnpm%-lock%.yaml',
@@ -103,21 +104,25 @@ return {
       'graphql%.schema%.json',
       'schema%.json',
       'go%.sum',
-    }
+    })
 
     -- if we have a `.luarc.json` file, we are probably in a love2D game folder
     -- and should ignore the `types` folder where I store any of my annotations
     -- for lua-language-server for libraries that I'm using
-    if _G.exists_in_cwd '.luarc.json' then
-      table.insert(ignore_these, 'types/.*')
-    end
+    --
+    -- TODO: add a .lazy.lua local file for this configuration in luv/lua
+    -- project directories
+    --
+    -- if _G.exists_in_cwd '.luarc.json' then
+    --   table.insert(_G.telescope_ignored, 'types/.*')
+    -- end
 
     local default_picker_opts = {
       grep_string = {
         prompt_title = 'word under cursor',
       },
       live_grep = {
-        file_ignore_patterns = ignore_these,
+        file_ignore_patterns = bs.telescope.always_ignored,
       },
       git_commits = {
         selection_strategy = 'row',
@@ -184,7 +189,7 @@ return {
         scroll_strategy = 'cycle',
         sorting_strategy = 'ascending',
         layout_strategy = 'flex',
-        file_ignore_patterns = ignore_these,
+        file_ignore_patterns = bs.telescope.ignored,
         layout_config = {
           prompt_position = 'top',
           horizontal = {
@@ -276,7 +281,7 @@ return {
     -- find_files, but don't use ignored patterns
     vim.keymap.set('n', '<leader>fa', function()
       builtin.find_files {
-        file_ignore_patterns = always_ignore_these,
+        file_ignore_patterns = bs.telescope.always_ignored,
         no_ignore = true,
         hidden = true,
       }

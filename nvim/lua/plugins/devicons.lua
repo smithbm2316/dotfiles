@@ -177,6 +177,16 @@ return {
         color = '#51a0cf',
         name = 'LuaSpec',
       },
+      rockspec = {
+        icon = '',
+        color = '#51a0cf',
+        name = 'Rockspec',
+      },
+      etlua = {
+        icon = '󰗀',
+        color = '#7079bd',
+        name = 'EtLua',
+      },
       tl = {
         icon = '󰢱',
         color = '#0095a0',
