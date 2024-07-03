@@ -12,6 +12,7 @@ export HISTSIZE=10000
 export SAVEHIST=10000
 
 # Programming languages and their dependencies
+export ANDROID_HOME=$HOME/Android/Sdk
 export CARGOBIN="$HOME/.cargo/bin"
 export COMPOSER_VENDOR_BIN="$XDG_CONFIG_HOME/composer/vendor/bin"
 export DENOBIN="$HOME/.deno/bin"
@@ -65,3 +66,5 @@ path+=("$OPENRESTY_BIN")
 path+=("$LUAROCKS_USER_BIN")
 path+=("$LUAROCKS_PROJECT_BIN")
 path+=("$CWD_BIN")
+path+=("$ANDROID_HOME/emulator")
+path+=("$ANDROID_HOME/platform-tools")
