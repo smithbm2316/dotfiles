@@ -541,7 +541,7 @@ local servers = {
     },
   },
   vimls = {},
-  vtsls = {},
+  -- vtsls = {},
 }
 
 for server, config in pairs(servers) do
@@ -751,7 +751,7 @@ if null_ok then
   end, { desc = 'Toggle auto-formatting' })
 end
 
---[[ require('typescript-tools').setup {
+require('typescript-tools').setup {
   on_attach = M.my_on_attach,
   filetypes = {
     'javascript',
@@ -770,7 +770,7 @@ end
       7016,
     },
   },
-  root_dir = util.root_pattern 'tsconfig.json',
+  root_dir = util.root_pattern 'package.json',
   settings = {
     ---@type string|string[] array of strings("fix_all"|"add_missing_imports"|
     --- "remove_unused"|"remove_unused_imports"|"organize_imports") -- or
@@ -783,7 +783,7 @@ end
     tsserver_path = vim.env.HOME
       .. '/.volta/tools/image/packages/typescript/lib/node_modules/typescript/lib/tsserver.js',
   },
-} ]]
+}
 
 -- disable diangostics for .etlua files. unfortunately we have to do it via
 -- the lua_ls settings, not just with vim.diagnostic.enable(false, { bufnr = 0 })

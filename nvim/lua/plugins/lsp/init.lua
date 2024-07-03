@@ -45,10 +45,7 @@ return {
         },
       },
     },
-    {
-      'pmizio/typescript-tools.nvim',
-      enabled = false,
-    },
+    'pmizio/typescript-tools.nvim',
     'jose-elias-alvarez/null-ls.nvim',
   },
   event = 'VeryLazy',
