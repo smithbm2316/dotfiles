@@ -1,64 +1,102 @@
 #!/usr/bin/env bash
 
-print_usage() {
-  echo "Add various default configurations to a project created with 'laravel new'"
-  echo "Usage:"
-  echo "  -n  no-starter-kit: Scaffold this project as if we aren't using Laravel Breeze"
-  echo "  -h  help: See this usage menu"
+# helper function to verify that all args passed to it received a value of "y"
+# of "Y" to confirm that I want to perform an action
+confirmed() {
+  for check in "$@"; do
+    if [[ -n $check ]] && [[ $check == [yY] ]]; then
+      return 0
+    else
+      return 1
+    fi
+  done
 }
 
-# setup flags
+# check if I used a starter kit, and convert this into a variable that tells me
+# if I didn't use a starter kit, since that's the check that I want to confirm
+# throughout this script
+echo 'Did you use a Laravel starter kit? (i.e. Breeze or Jetstream)'
+read used_starter_kit
 no_starter_kit=""
-while getopts "nh" flag; do
-  case "${flag}" in
-    n) no_starter_kit="true"
-      echo "Scaffolding project without Breeze."
-      ;;
-    h) print_usage
-      exit 1 ;;
-    *) print_usage
-      exit 1 ;;
-  esac
-done
+if confirmed $used_starter_kit; then
+  no_starter_kit=""
+else
+  no_starter_kit="y"
+fi
 
 # add the debugbar and ide-helper plugins
 composer require --dev barryvdh/laravel-debugbar barryvdh/laravel-ide-helper
 
-# add livewire and livewire Volt (if not using Breeze)
-if [ "$no_starter_kit" = "true" ]; then
-  composer require livewire/livewire livewire/volt
-  php artisan volt:install
+# add Livewire
+echo 'Should we install Livewire? (y/n)'
+read add_livewire
+if confirmed $no_starter_kit $add_livewire; then
+  composer require livewire/livewire
+
+  # add Livewire Volt
+  echo 'Should we add Livewire Volt too?'
+  read add_volt
+  if confirmed $add_volt; then
+    composer require livewire/volt
+    php artisan volt:install
+  fi
 fi
 
 # use the ide-helper plugin to generate documentation for Models and metadata
 # for phpstorm and any other ide/text-editor
-php artisan ide-helper:generate
-php artisan ide-helper:meta
-php artisan ide-helper:models --write
+ide_eloquent='php artisan ide-helper:eloquent -n'
+ide_generate='php artisan ide-helper:generate -W'
+ide_model='php artisan ide-helper:model -M'
+eval "$ide_eloquent"
+eval "$ide_generate"
+eval "$ide_model"
 echo '_ide_helper.php' >> .gitignore
 echo '_ide_helper_models.php' >> .gitignore
 
-# copy over the proper formatter config files
-cp -v "$XDG_CONFIG_HOME/laravel/.bladeformatterrc.json" .
+# copy over the pint formatter config file and .editorconfig file
 cp -v "$XDG_CONFIG_HOME/laravel/pint.json" .
+cp -v "$XDG_CONFIG_HOME/laravel/.editorconfig" .
 
 # install npm dependencies
 npm i
+
 # add https://github.com/shufo/blade-formatter to project to format blade files
-npm i -D blade-formatter
+# and fill the `$composer_scripts` variable with various scripts to run on
+# source files, depending on whether I requested to use install the blade
+# formatter or not
+add_blade_fmt=""
+ide_eloquent='php artisan ide-helper:eloquent -n'
+ide_generate='php artisan ide-helper:generate -W'
+ide_model='php artisan ide-helper:model -M'
+ide_helper_script="\"ide\": [\n"
+ide_helper_script="$ide_helper_script\t\"@$ide_eloquent\",\n"
+ide_helper_script="$ide_helper_script\t\"@$ide_generate\",\n"
+ide_helper_script="$ide_helper_script\t\"@$ide_model\"\n"
+ide_helper_script="$ide_helper_script]"
+composer_scripts=""
+if confirmed $add_blade_fmt; then
+  npm i -D blade-formatter
+  cp -v "$XDG_CONFIG_HOME/laravel/.bladeformatterrc.json" .
+
+  format_script='"format": "composer format:blade; composer format:php"'
+  format_blade_script='"format:blade": "./node_modules/.bin/blade-formatter resources/views/**/*.blade.php -w"'
+  format_php_script='"format:php": "./vendor/bin/pint"'
+  composer_scripts="$format_script,$format_blade_script,$format_php_script,$ide_helper_script"
+else
+  format_script='"format": "./vendor/bin/pint"'
+  composer_scripts="$format_script,$ide_helper_script"
+fi
 
 # add formatting scripts and ide-helper script to composer.json using `jq`
-format_script='"format": "composer format:blade; composer format:php"'
-format_blade_script='"format:blade": "./node_modules/.bin/blade-formatter resources/views/**/*.blade.php -w"'
-format_php_script='"format:php": "./vendor/bin/pint -v"'
-ide_helper_script='"ide-helper": "php artisan ide-helper:eloquent -n; php artisan ide-helper:generate -W; php artisan ide-helper:model -M"'
 jq --indent 4 \
-  ".scripts += { $format_script,$format_blade_script,$format_php_script,$ide_helper_script }" \
+  ".scripts += { $composer_scripts }" \
   composer.json > composer.tmp.json
 mv composer.tmp.json composer.json
 
 # install tailwind and configure it to be processed by Vite
-if [ "$no_starter_kit" = "true" ]; then
+echo 'Should we install Tailwind? (y/n)'
+read add_tailwind
+if confirmed $no_starter_kit $add_tailwind; then
   npm i -D tailwindcss postcss autoprefixer
   npx tailwindcss init -p
   cp -v "$XDG_CONFIG_HOME/laravel/tailwind.config.js" tailwind.config.js
@@ -72,7 +110,7 @@ fi
 cp -v "$XDG_CONFIG_HOME/laravel/AppServiceProvider.php" app/Providers/AppServiceProvider.php
 
 # overwrite the default homepage with a default HTML5 layout
-if [ "$no_starter_kit" = "true" ]; then
+if confirmed $no_starter_kit; then
   mkdir -pv resources/views/components
   cp -v "$XDG_CONFIG_HOME/laravel/layout.blade.php" resources/views/components/layout.blade.php
   cp -v "$XDG_CONFIG_HOME/laravel/welcome.blade.php" resources/views/welcome.blade.php
