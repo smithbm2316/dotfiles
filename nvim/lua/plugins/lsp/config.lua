@@ -564,7 +564,9 @@ lspconfig.intelephense.setup {
     -- auto-completion from intelephense, since for our purposes blade files
     -- are just php files
     if vim.api.nvim_buf_get_name(0):match '%.blade%.php$' ~= nil then
-      vim.cmd 'set ft=blade'
+      vim.defer_fn(function()
+        vim.cmd 'set ft=blade'
+      end, 500)
     end
   end,
   capabilities = capabilities_without_formatting,
@@ -674,7 +676,6 @@ if null_ok then
       pattern = {
         '*.astro',
         '*.bash',
-        '*.blade',
         '*.cjs',
         '*.css',
         '*.go',
