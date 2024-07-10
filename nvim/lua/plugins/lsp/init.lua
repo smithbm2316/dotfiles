@@ -48,7 +48,6 @@ return {
     'pmizio/typescript-tools.nvim',
     'jose-elias-alvarez/null-ls.nvim',
   },
-  event = 'VeryLazy',
   config = function()
     require 'plugins.lsp.config'
   end,
