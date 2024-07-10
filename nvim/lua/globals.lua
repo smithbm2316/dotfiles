@@ -125,3 +125,28 @@ _G.bs = {
     always_ignored = {},
   },
 }
+
+--- create an insert-mode mapping that
+---@param lhs string the keymap to behind
+---@param insert_chars string the characters to insert
+---@param lang string the language to include in the help text
+_G.insert_at_cursor_map = function(lhs, insert_chars, lang)
+  vim.keymap.set(
+    'i',
+    lhs,
+    function()
+      -- get the current line and cursor position
+      local line = vim.api.nvim_get_current_line()
+      local cursor = vim.api.nvim_win_get_cursor(0)
+      -- insert value of `insert_chars` at the current cursor position in the line
+      line = line:sub(1, cursor[2]) .. insert_chars .. line:sub(cursor[2] + 1)
+      -- prepare the cursor to be `#insert_chars` characters more before I update
+      -- the line contents
+      cursor[2] = cursor[2] + #insert_chars
+      -- update the line and cursor position
+      vim.api.nvim_set_current_line(line)
+      vim.api.nvim_win_set_cursor(0, cursor)
+    end,
+    { desc = string.format('Insert "%s" (%s) at cursor', insert_chars, lang) }
+  )
+end
