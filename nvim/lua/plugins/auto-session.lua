@@ -1,6 +1,5 @@
 return {
   'rmagatti/auto-session',
-  priority = 500,
   opts = {
     auto_session_root_dir = vim.fn.stdpath 'state' .. '/sessions/',
     session_lens = {

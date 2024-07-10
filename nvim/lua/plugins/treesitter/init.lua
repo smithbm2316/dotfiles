@@ -7,8 +7,6 @@ return {
       cmd = 'TSPlaygroundToggle',
     },
   },
-  lazy = false,
-  -- event = 'VeryLazy',
   build = ':TSUpdate',
   main = 'nvim-treesitter.configs',
   opts = {
@@ -140,7 +138,7 @@ return {
         files = { 'src/parser.c' },
         branch = 'main',
       },
-      filetype = 'blade',
+      filetype = 'php',
     }
 
     -- initialize treesitter
