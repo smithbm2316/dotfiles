@@ -92,6 +92,7 @@ return {
       'gosum',
       'graphql',
       'html',
+      'htmldjango',
       'http',
       'ini',
       'javascript',
@@ -167,6 +168,7 @@ return {
     )
 
     require 'plugins.treesitter.ftdetect'
+    require 'plugins.treesitter.ftplugin'
   end,
   import = 'plugins.treesitter.context',
 }

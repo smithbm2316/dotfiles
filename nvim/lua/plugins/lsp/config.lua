@@ -473,7 +473,10 @@ local servers = {
       },
     },
   },
-  pyright = {
+  pylsp = {
+    capabilities = capabilities_without_formatting,
+  },
+  --[[ pyright = {
     capabilities = capabilities_without_formatting,
     disableOrganizeImports = false,
     analysis = {
@@ -482,7 +485,7 @@ local servers = {
       diagnosticMode = 'workspace',
       autoImportCompletions = true,
     },
-  },
+  }, ]]
   --[[ sqls = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
@@ -679,6 +682,7 @@ if null_ok then
         '*.cjs',
         '*.css',
         '*.go',
+        '*.html',
         '*.js',
         '*.json',
         '*.jsonc',
