@@ -267,3 +267,8 @@ dj() {
 djm() {
   python manage.py $@
 }
+
+# shortcut for local pocketbase binary
+pb() {
+  ./pocketbase $@
+}
