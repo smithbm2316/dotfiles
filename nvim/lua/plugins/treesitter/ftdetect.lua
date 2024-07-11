@@ -1,3 +1,9 @@
+-- WebC support
+-- https://github.com/bennypowers/webc.nvim
+vim.treesitter.query.add_predicate('is-filetype?', function(_, _, bufnr, pred)
+  return vim.bo[bufnr].filetype == pred[2]
+end, { force = true })
+
 ---@alias ft string the name of a new filetype to create
 ---@alias file_exts string|string[] a string or list of strings representing a
 ---file extension
@@ -58,6 +64,10 @@ local fts = {
   },
   vhs = {
     extension = 'tape',
+  },
+  webc = {
+    extension = 'webc',
+    parser = 'html',
   },
 }
 

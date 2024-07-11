@@ -227,6 +227,11 @@ return {
         color = '#f33a2f',
         name = 'Blade',
       },
+      webc = {
+        icon = '󰗀',
+        color = '#e23c2e',
+        name = 'WebC',
+      },
     }
 
     require('nvim-web-devicons').setup {
