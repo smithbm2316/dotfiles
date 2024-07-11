@@ -130,7 +130,9 @@ _G.bs = {
 ---@param lhs string the keymap to behind
 ---@param insert_chars string the characters to insert
 ---@param lang string the language to include in the help text
-_G.insert_at_cursor_map = function(lhs, insert_chars, lang)
+---@param cursor_pos 'end'|'middle'? where to place the cursor after inserting
+_G.insert_at_cursor_map = function(lhs, insert_chars, lang, cursor_pos)
+  cursor_pos = cursor_pos or 'end'
   vim.keymap.set(
     'i',
     lhs,
@@ -140,9 +142,13 @@ _G.insert_at_cursor_map = function(lhs, insert_chars, lang)
       local cursor = vim.api.nvim_win_get_cursor(0)
       -- insert value of `insert_chars` at the current cursor position in the line
       line = line:sub(1, cursor[2]) .. insert_chars .. line:sub(cursor[2] + 1)
-      -- prepare the cursor to be `#insert_chars` characters more before I update
-      -- the line contents
-      cursor[2] = cursor[2] + #insert_chars
+      if cursor_pos == 'end' then
+        -- prepare the cursor to be `#insert_chars` characters more before I update
+        -- the line contents
+        cursor[2] = cursor[2] + #insert_chars
+      else
+        cursor[2] = cursor[2] + math.floor(#insert_chars / 2)
+      end
       -- update the line and cursor position
       vim.api.nvim_set_current_line(line)
       vim.api.nvim_win_set_cursor(0, cursor)
