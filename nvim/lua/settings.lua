@@ -10,6 +10,8 @@ vim.o.smartindent = true
 vim.o.softtabstop = 2
 vim.o.tabstop = 2
 
+vim.cmd [[filetype plugin off]]
+
 -- Global options
 vim.o.background = 'dark'
 vim.o.cursorline = true
