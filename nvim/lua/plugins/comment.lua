@@ -1,6 +1,7 @@
 return {
   'numToStr/Comment.nvim',
-  event = 'InsertEnter',
+  enabled = false,
+  event = 'VeryLazy',
   config = function()
     -- load Comment.nvim modules
     local ft = require 'Comment.ft'
