@@ -505,11 +505,12 @@ if [ "$(command -v dnf)" ]; then
   # templ lsp
   go install github.com/a-h/templ/cmd/templ@latest
 
-  # python - lsp (pyright), formatter (blue, djlint), etc
+  # python - lsp (pyright/python-lsp-server), formatter (blue, djlint), etc
   pip install \
     blue \
     djlint \
-    pyright
+    jedi \
+    python-lsp-server
 
   # sumneko_lua language server is installed with Brewfile
 

@@ -259,3 +259,11 @@ h2() {
 js() {
   npm run $@
 }
+
+# shortcut for django cli commands
+dj() {
+  django-admin $@
+}
+djm() {
+  python manage.py $@
+}
