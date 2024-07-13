@@ -85,6 +85,13 @@ return {
           -- disable "Text" completions from LSP
           -- https://github.com/hrsh7th/nvim-cmp/pull/1067
           entry_filter = function(entry, _) -- entry, ctx
+            -- don't disable "Text" completions for markdown files
+            -- https://github.com/artempyanykh/marksman/issues/295#issuecomment-1930741104
+            local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+            if ft == 'markdown' then
+              return true
+            end
+
             local kind = types.lsp.CompletionItemKind[entry:get_kind()]
             if kind == 'Text' then
               return false

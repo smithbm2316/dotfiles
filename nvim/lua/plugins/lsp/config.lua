@@ -475,7 +475,10 @@ local servers = {
   },
   pylsp = {
     capabilities = capabilities_without_formatting,
+  marksman = {
+    single_file_support = false,
   },
+  pylsp = {},
   --[[ pyright = {
     capabilities = capabilities_without_formatting,
     disableOrganizeImports = false,
