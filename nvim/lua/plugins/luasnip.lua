@@ -3,6 +3,7 @@ return {
   dependencies = {
     'rafamadriz/friendly-snippets',
   },
+  build = 'make install_jsregexp',
   event = 'InsertEnter',
   config = function()
     -- luasnip module imports

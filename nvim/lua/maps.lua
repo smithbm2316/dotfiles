@@ -228,3 +228,7 @@ vim.keymap.set('n', '<leader>qf', '<cmd>copen<cr>', {
 vim.keymap.set('n', '<leader>qc', '<cmd>cclose<cr>', {
   desc = 'Exit quickfix list',
 })
+
+vim.keymap.set('n', '<leader>rq', [[<cmd>%s/"/'/g]], {
+  desc = 'Replace [double] quotes [with single in whole file]',
+})

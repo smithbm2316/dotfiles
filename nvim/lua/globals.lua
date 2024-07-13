@@ -80,7 +80,7 @@ _G.get_css_files = function()
   return vim.split(vim.fn.globpath(vim.fn.getcwd(), '**/*.css'), '\n')
 end
 
---- list of filetypes where html-like features should be enabled
+---@type string[] list of filetypes where html features should be enabled
 _G.html_like_fts = {
   'astro',
   'blade',
@@ -102,6 +102,15 @@ _G.html_like_fts = {
   'typescript',
   'typescriptreact',
   'webc',
+}
+
+---@type string[] list of filetypes where css features should be enabled
+_G.css_like_fts = {
+  'css',
+  'less',
+  'sass',
+  'scss',
+  'stylus',
 }
 
 --- Checks if any of the provided filenames exist in the current working
