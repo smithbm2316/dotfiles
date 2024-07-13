@@ -377,7 +377,7 @@ if err != nil {{
 
     -- load rafamadriz/friendly-snippets snippets
     require('luasnip.loaders.from_vscode').lazy_load {
-      exclude = { 'css', 'go' },
+      exclude = { 'css', 'go', 'html' },
     }
     -- load my local snippets
     require('luasnip.loaders.from_vscode').lazy_load {

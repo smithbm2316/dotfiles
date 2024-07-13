@@ -268,7 +268,7 @@ local servers = {
     },
   },
   emmet_language_server = {
-    filetypes = vim.tbl_deep_extend('force', _G.html_like_fts, _G.css_like_fts),
+    filetypes = vim.tbl_extend('force', _G.html_like_fts, _G.css_like_fts),
   },
   gopls = {
     settings = {
