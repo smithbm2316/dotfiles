@@ -5,7 +5,10 @@ return {
   },
   event = 'InsertEnter',
   opts = {
-    disable_filetype = { 'TelescopePrompt', 'markdown' },
+    disable_filetype = {
+      'TelescopePrompt',
+      -- 'markdown'
+    },
     ignored_next_char = string.gsub([[ [%w%%%'%[%"%.] ]], '%s+', ''),
     pairs_map = {
       ["'"] = "'",
