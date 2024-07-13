@@ -6,6 +6,7 @@ return {
       'nvim-treesitter/playground',
       cmd = 'TSPlaygroundToggle',
     },
+    'JoosepAlviste/nvim-ts-context-commentstring',
   },
   build = ':TSUpdate',
   main = 'nvim-treesitter.configs',
