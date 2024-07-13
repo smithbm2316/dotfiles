@@ -101,6 +101,7 @@ _G.html_like_fts = {
   'templ',
   'typescript',
   'typescriptreact',
+  'webc',
 }
 
 --- Checks if any of the provided filenames exist in the current working
