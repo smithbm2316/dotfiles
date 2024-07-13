@@ -4,7 +4,6 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
   },
   group = vim.api.nvim_create_augroup('DjangoTemplateFtCmds', { clear = true }),
   callback = function()
-    vim.bo.commentstring = '{# %s #}'
     insert_at_cursor_map('<c-i>t', '{%  %}', 'template', 'middle')
   end,
 })
@@ -21,7 +20,6 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
     { clear = true }
   ),
   callback = function()
-    vim.bo.commentstring = '<%# %s %>'
     insert_at_cursor_map('<c-i>t', '<%  %>', 'template', 'middle')
     insert_at_cursor_map('<c-i>.', '<%  %>', 'template', 'middle')
     insert_at_cursor_map('<c-i>=', '<%=  %>', 'template', 'middle')
@@ -87,14 +85,6 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
         au FileType markdown nnoremap <silent> <expr> $ ScreenMovement("$")
       augroup END
     ]]
-  end,
-})
-
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'dosini' },
-  group = vim.api.nvim_create_augroup('DosiniFtCmds', { clear = true }),
-  callback = function()
-    vim.bo.commentstring = '# %s'
   end,
 })
 
