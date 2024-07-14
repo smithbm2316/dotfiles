@@ -24,7 +24,9 @@ end
 
 -- helper function for getting an App's Bundle ID
 function getAppId(app)
-  return hs.application.infoForBundlePath(string.format('/Applications/%s.app', app))['CFBundleIdentifier']
+  return hs.application.infoForBundlePath(
+    string.format('/Applications/%s.app', app)
+  )['CFBundleIdentifier']
 end
 
 -- "i used the spoon to install the spoons" - thanos
@@ -210,7 +212,11 @@ hs.hotkey.bind(cmd_hyper, 'o', nil, function()
       os.execute 'pmset sleepnow'
     end,
     ['Show current app name'] = function()
-      hs.alert.show(hs.application.frontmostApplication():name(), nil, hs.screen.primaryScreen())
+      hs.alert.show(
+        hs.application.frontmostApplication():name(),
+        nil,
+        hs.screen.primaryScreen()
+      )
     end,
     ['mouse buttons'] = function()
       tprint(hs.mouse.getButtons())
@@ -267,7 +273,11 @@ local primary_switcher = current_space_switcher(primary_filter)
 local secondary_switcher = current_space_switcher(secondary_filter)
 
 local next_app = function()
-  print(hs.screen.primaryScreen():name(), ' <-> ', hs.screen.mainScreen():name())
+  print(
+    hs.screen.primaryScreen():name(),
+    ' <-> ',
+    hs.screen.mainScreen():name()
+  )
   if hs.screen.primaryScreen():name() == hs.mouse.getCurrentScreen():name() then
     primary_switcher:next()
     print 'next primary'
@@ -290,7 +300,13 @@ hs.hotkey.bind('alt', 'j', 'next app', next_app, nil, next_app)
 hs.hotkey.bind('alt', 'k', 'prev app', prev_app, nil, prev_app)
 
 -- define custom keybindings for specific apps
-local app_keybind = function(from_modifiers, from_key, to_modifiers, to_key, app_name)
+local app_keybind = function(
+  from_modifiers,
+  from_key,
+  to_modifiers,
+  to_key,
+  app_name
+)
   local app_keybind = hs.hotkey.new(from_modifiers, from_key, nil, function()
     hs.eventtap.keyStroke(to_modifiers, to_key)
   end)

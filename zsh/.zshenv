@@ -26,7 +26,6 @@ export VOLTA_HOME="$HOME/.volta"
 
 # luarocks and openresty setup
 export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
-eval "$(luarocks path --no-bin)"
 CWD_BIN="./bin"
 LUAROCKS_USER_BIN="$HOME/.luarocks/bin"
 LUAROCKS_PROJECT_BIN="./lua_modules/bin"

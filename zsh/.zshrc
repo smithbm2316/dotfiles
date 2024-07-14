@@ -99,9 +99,19 @@ elif [ "$(uname -s)" = "Darwin" ]; then
     # SHELL=/usr/bin/zsh /usr/local/bin/keychain --eval --quiet -Q gl_vincit gh_vincit gh_personal | source
   # fi
 
+  # load ruby and rbenv
+  if [ "$(command -v rbenv)" ]; then
+    eval "$(rbenv init - zsh)"
+  fi
+
   # update $PATH to use gnu coreutils and commands instead of bsd defaults
-  # export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-  echo "On a mac, not linux >:("
+  export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+  # echo "On a mac, not linux >:("
+fi
+
+# load luarocks if it's installed
+if [ "$(command -v luarocks)" ]; then
+  eval "$(luarocks path --no-bin)"
 fi
 
 # load gitignored commands if it exists

@@ -281,6 +281,7 @@ ungoogled_chromium() {
 }
 
 ssh_keygen() {
+  mkdir -pv ~/.ssh
   cd ~/.ssh || exit
 
   echo "Enter your email for the ssh key:"
@@ -291,7 +292,9 @@ ssh_keygen() {
   ssh-keygen -t ed25519 -C "$email" -f "$key_name"
   copy_cmd=""
 
-  if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  if [ "$(uname -s)" = "Darwin" ]; then
+    copy_cmd="pbcopy"
+  elif [ "$XDG_SESSION_TYPE" = "wayland" ]; then
     if [ "$(command -v wl-copy)" ]; then
       copy_cmd="wl-copy"
     else

@@ -1,54 +1,28 @@
 {
-  "title": "Swap command and control keys",
+  "title": "Cmd -> Ctrl in terminal",
   "rules": [
     {
-      "description": "Swap command and control keys",
+      "description": "Cmd -> Ctrl in terminal",
       "manipulators": [
         {
-          "type": "basic",
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "org\\.gnu\\.Emacs",
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "type": "frontmost_application_unless"
+            }
+          ],
           "from": {
-            "key_code": "left_command",
-            "modifiers": {}
+            "key_code": "left_command"
           },
           "to": [
             {
               "key_code": "left_control"
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "right_command",
-            "modifiers": {}
-          },
-          "to": [
-            {
-              "key_code": "right_control"
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "left_control",
-            "modifiers": {}
-          },
-          "to": [
-            {
-              "key_code": "left_command"
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "right_control",
-            "modifiers": {}
-          },
-          "to": [
-            {
-              "key_code": "right_command"
             }
           ]
         }
