@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+
+# ensure that `pup` is installed before proceeding, to parse the HTML
+command -v pup >/dev/null
+if [ $? -eq 1 ]; then
+  echo 'You need to have `pup` installed to parse html'
+  echo 'https://github.com/ericchiang/pup'
+  exit 1
+fi
+
+# create the directory on my system if it doesn't exist yet
+mkdir -pv ~/code/sourcehut
+cd ~/code/sourcehut || exit
+
+# download the HTML file with the list of all sources in the sourcehut project
+if [ ! -f 'sources.html' ]; then
+  wget https://sr.ht/~sircmpwn/sourcehut/sources -O sources.html
+fi
+
+repos="$(pup 'h4 > a attr{href}' < sources.html)"
+
+echo "$repos" | tr ' ' '\n' | while read repo; do
+  local_repo_dir="$(echo $repo | awk -F '~sircmpwn/' '{ print $2 }')"
+  if [ ! -d "$local_repo_dir" ]; then
+    echo "Cloning $local_repo_dir..."
+    git clone "$repo"
+  else
+    echo "Skipping $local_repo_dir, already cloned locally"
+  fi
+done

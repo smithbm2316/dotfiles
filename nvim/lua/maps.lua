@@ -66,6 +66,7 @@ vim.keymap.set('n', '<c-d>', '<c-d>zz')
 vim.keymap.set('n', '<c-u>', '<c-u>zz')
 vim.keymap.set('n', '<c-f>', '<c-f>zz')
 vim.keymap.set('n', '<c-b>', '<c-b>zz')
+-- disable default bracket keymaps
 vim.keymap.set('n', '{', '<nop>')
 vim.keymap.set('n', '}', '<nop>')
 vim.keymap.set('n', '(', '(zz')
@@ -133,13 +134,6 @@ vim.keymap.set('n', '<leader>tw', function()
     vim.notify('wrapping on', vim.log.levels.INFO)
   end
 end, { desc = 'Toggle line wrapping' })
-
-vim.keymap.set('n', '<leader>qa', function()
-  vim.cmd [[
-    SessionDelete
-    qall!
-  ]]
-end, { desc = 'Quit session' })
 
 -- change a split between horizontal and vertical
 vim.keymap.set('n', '<leader>ws', function()
@@ -229,6 +223,6 @@ vim.keymap.set('n', '<leader>qc', '<cmd>cclose<cr>', {
   desc = 'Exit quickfix list',
 })
 
-vim.keymap.set('n', '<leader>rq', [[<cmd>%s/"/'/g]], {
+vim.keymap.set('n', '<leader>rq', [[<cmd>%s/"/'/g<cr>]], {
   desc = 'Replace [double] quotes [with single in whole file]',
 })

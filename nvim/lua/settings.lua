@@ -5,10 +5,8 @@ vim.opt.formatoptions:remove '2ac' -- t
 vim.opt.formatoptions:append 'jnrqlo'
 vim.o.colorcolumn = '+1'
 vim.o.textwidth = 80
-vim.o.shiftwidth = 2
 vim.o.smartindent = true
-vim.o.softtabstop = 2
-vim.o.tabstop = 2
+set_tab_width(2, 'global')
 
 vim.cmd [[filetype plugin off]]
 
@@ -50,7 +48,7 @@ vim.o.linebreak = true
 vim.o.relativenumber = true
 vim.o.number = true
 vim.o.signcolumn = 'yes' -- make sure this is on for gitsigns.nvim, otherwise the signcolumn changes size constantly
-vim.o.wrap = true
+vim.o.wrap = false
 
 -- Autocmds
 -- highlight yank for a brief second for visual feedback

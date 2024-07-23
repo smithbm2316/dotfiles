@@ -86,9 +86,10 @@ tmns-fzf() {
 
 # docker utilities
 dock() {
-  local cmd="$1"
-
-  case "$cmd" in
+  case "$1" in
+    up)
+      docker compose $@
+    ;;
     reset)
       # hard reset and wipe all docker containers and volumes
       # https://stackoverflow.com/questions/34658836/docker-is-in-volume-in-use-but-there-arent-any-docker-containers#42116347
@@ -131,14 +132,6 @@ json() {
       echo "Please select a choice to execute"
       ;;
   esac
-}
-
-# grep for process
-pg() {
-  handle_not_installed "gum" || return 127
-
-  local cmd="$(echo nvim | gum filter --no-strict --limit=1)"
-  pgrep --list-name "$cmd"
 }
 
 # wrapper for js

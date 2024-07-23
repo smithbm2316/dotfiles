@@ -4,7 +4,7 @@ local disabled_plugins = {
   'getscriptPlugin',
   'gzip',
   'logiPat',
-  'man',
+  -- 'man',
   -- 'matchit',
   -- 'matchparen',
   'netrw',

@@ -35,7 +35,9 @@ OPENRESTY_BIN="/usr/local/openresty/bin"
 export EDITOR="nvim"
 export VISUAL="nvim"
 export SUDO_EDITOR="nvim -u NORC"
-export MANPAGER="nvim -u NORC -c 'Man!' -"
+export MANPAGER="nvim --cmd 'lua vim.g.minimal=true' -c 'Man!' -"
+# https://wiki.archlinux.org/title/Man_page#Page_width
+export MANWIDTH=80
 
 # Application env variables
 export ABBR_USER_ABBREVIATIONS_FILE="$XDG_CONFIG_HOME/zsh/abbreviations.zsh"

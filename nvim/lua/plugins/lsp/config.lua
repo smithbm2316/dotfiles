@@ -195,7 +195,6 @@ local capabilities_without_formatting =
 -- setup language servers
 local servers = {
   astro = {
-    capabilities = capabilities_without_formatting,
     init_options = {
       typescript = {},
     },
@@ -203,6 +202,7 @@ local servers = {
   bashls = {
     filetypes = { 'sh', 'bash', 'zsh' },
   },
+  biome = {},
   cssls = {
     init_options = {
       provideFormatter = true,
@@ -232,7 +232,6 @@ local servers = {
     },
   },
   css_variables = {
-    capabilities = capabilities_without_formatting,
     cssVariables = {
       lookupFiles = {
         '**/*.less',
@@ -268,7 +267,7 @@ local servers = {
     },
   },
   emmet_language_server = {
-    filetypes = vim.tbl_extend('force', _G.html_like_fts, _G.css_like_fts),
+    filetypes = _G.html_like_fts,
   },
   gopls = {
     settings = {
@@ -299,9 +298,7 @@ local servers = {
       },
     },
   },
-  graphql = {
-    capabilities = capabilities_without_formatting,
-  },
+  graphql = {},
   html = {
     filetypes = _G.html_like_fts,
     single_file_support = false,
@@ -327,7 +324,6 @@ local servers = {
     },
   },
   htmx = {
-    capabilities = capabilities_without_formatting,
     filetypes = _G.html_like_fts,
     single_file_support = false,
     root_dir = util.root_pattern '.git',
@@ -342,6 +338,10 @@ local servers = {
       {
         fileMatch = { 'tsconfig*.json' },
         url = 'https://json.schemastore.org/tsconfig.json',
+      },
+      {
+        fileMatch = { 'jsconfig.json' },
+        url = 'https://json.schemastore.org/jsconfig.json',
       },
       {
         fileMatch = {
@@ -394,7 +394,6 @@ local servers = {
   },
   pylsp = {},
   --[[ pyright = {
-    capabilities = capabilities_without_formatting,
     disableOrganizeImports = false,
     analysis = {
       useLibraryCodeForTypes = true,
@@ -407,8 +406,7 @@ local servers = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
   tailwindcss = {
-    capabilities = capabilities_without_formatting,
-    filetypes = _G.html_like_fts,
+    filetypes = vim.tbl_extend('force', _G.html_like_fts, _G.css_like_fts),
     root_dir = util.root_pattern(
       'tailwind.config.js',
       'tailwind.config.cjs',
@@ -489,7 +487,7 @@ lspconfig.intelephense.setup {
       end, 500)
     end
   end,
-  capabilities = capabilities_without_formatting,
+  capabilities = M.my_capabilities,
   filetypes = { 'blade', 'php' },
 }
 
@@ -571,6 +569,9 @@ if null_ok then
       null_ls.builtins.formatting.fixjson,
       null_ls.builtins.formatting.prettier.with {
         prefer_local = './node_modules/.bin',
+        condition = function(utils)
+          return not utils.root_has_file { 'biome.jsonc', 'biome.json' }
+        end,
         filetypes = {
           'css',
           'sass',
@@ -636,9 +637,23 @@ if null_ok then
               go = 'gopls',
               templ = 'templ',
             }
+            local lsps_to_disable_formatting = {
+              'css_variables',
+              'graphql',
+              'htmx',
+              'intelephense',
+              'tailwindcss',
+              'tsserver',
+              'typescript-tools',
+              'pyright',
+              'pylsp',
+            }
 
             -- exit early if the given LSP doesn't support formatting
-            if not client.supports_method 'textDocument/formatting' then
+            if
+              vim.tbl_contains(lsps_to_disable_formatting, client.name)
+              or not client.supports_method 'textDocument/formatting'
+            then
               return false
             end
 
@@ -646,8 +661,8 @@ if null_ok then
             -- can use that LSP's formatter
             if ft_lsp_map[ft] == client.name then
               return true
-            -- if `null-ls` is the current formatter, then great you can use that!
-            elseif client.name == 'null-ls' then
+            -- if `null-ls` or `biome` is the current formatter, then great you can use that!
+            elseif client.name == 'null-ls' or client.name == 'biome' then
               return true
             -- only format the document with cssls if we're in a PHP project
             elseif
@@ -681,7 +696,7 @@ require('typescript-tools').setup {
     'typescriptreact',
     'javascriptreact',
   },
-  capabilities = capabilities_without_formatting,
+  capabilities = M.my_capabilities,
   -- ignore specific tsserver errors
   handlers = {
     ['textDocument/publishDiagnostics'] = require('typescript-tools.api').filter_diagnostics {

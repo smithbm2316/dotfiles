@@ -140,9 +140,8 @@ _G.bs = {
 ---@param lhs string the keymap to behind
 ---@param insert_chars string the characters to insert
 ---@param lang string the language to include in the help text
----@param cursor_pos 'end'|'middle'? where to place the cursor after inserting
-_G.insert_at_cursor_map = function(lhs, insert_chars, lang, cursor_pos)
-  cursor_pos = cursor_pos or 'end'
+---@param should_replace_char boolean? if true, replace the `|` in the `insert_chars` with the cursor
+_G.insert_at_cursor_map = function(lhs, insert_chars, lang, should_replace_char)
   vim.keymap.set(
     'i',
     lhs,
@@ -152,12 +151,18 @@ _G.insert_at_cursor_map = function(lhs, insert_chars, lang, cursor_pos)
       local cursor = vim.api.nvim_win_get_cursor(0)
       -- insert value of `insert_chars` at the current cursor position in the line
       line = line:sub(1, cursor[2]) .. insert_chars .. line:sub(cursor[2] + 1)
-      if cursor_pos == 'end' then
+      if not should_replace_char then
         -- prepare the cursor to be `#insert_chars` characters more before I update
         -- the line contents
         cursor[2] = cursor[2] + #insert_chars
       else
-        cursor[2] = cursor[2] + math.floor(#insert_chars / 2)
+        local new_cursor_pos = line:find '|' - 1
+        if not new_cursor_pos then
+          vim.notify(string.format("Couldn't find `|` in `%s`", insert_chars))
+          return
+        end
+        cursor[2] = new_cursor_pos
+        line = string.gsub(line, '|', '')
       end
       -- update the line and cursor position
       vim.api.nvim_set_current_line(line)
@@ -165,4 +170,19 @@ _G.insert_at_cursor_map = function(lhs, insert_chars, lang, cursor_pos)
     end,
     { desc = string.format('Insert "%s" (%s) at cursor', insert_chars, lang) }
   )
+end
+
+--- sets the appropriate vim settings for tab width in the current buffer. can
+--- be scoped to global or buffer local setting
+---
+---@param tab_width number size to set the tab width to
+---@param scope ('global'|'local') whether to use `vim.opt` or `vim.opt_local`
+_G.set_tab_width = function(tab_width, scope)
+  for _, setting in ipairs { 'shiftwidth', 'softtabstop', 'tabstop' } do
+    if scope == 'local' then
+      vim.opt_local[setting] = tab_width
+    else
+      vim.opt[setting] = tab_width
+    end
+  end
 end

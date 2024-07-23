@@ -281,6 +281,17 @@ if err != nil {{
           i(1),
         })
       ),
+      -- console.log shortcut
+      snip(
+        {
+          trig = 'ee',
+          name = 'ts-expect-error',
+          dscr = 'insert a ts-expect-error comment',
+        },
+        fmt([[// @ts-expect-error {reason}]], {
+          reason = i(0),
+        })
+      ),
     }
 
     local lua_snippets = {
@@ -377,7 +388,7 @@ if err != nil {{
 
     -- load rafamadriz/friendly-snippets snippets
     require('luasnip.loaders.from_vscode').lazy_load {
-      exclude = { 'css', 'go', 'html' },
+      exclude = { 'css', 'go', 'html', 'javascript' },
     }
     -- load my local snippets
     require('luasnip.loaders.from_vscode').lazy_load {

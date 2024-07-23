@@ -1,0 +1,5 @@
+# vim:ft=gitcommit
+# This template utilizes Drew DeVault's recommended practices for
+# authoring git commit messages, and can be found on his blog post about
+# "Using git with discipline". Thanks Drew!
+# https://drewdevault.com/2019/02/25/Using-git-with-discipline.html

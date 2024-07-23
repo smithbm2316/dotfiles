@@ -1,0 +1,17 @@
+# vim:ft=msmtp
+defaults
+# set up TLS + SSL settings
+port 465
+tls on
+tls_starttls off
+# by default require auth for all email accounts
+auth on
+# headers to set on the email
+set_from_header auto
+set_date_header auto
+set_msgid_header auto
+# use this as your full name when you've set a "From:" header
+from_full_name Ben Smith
+
+# the default account to use for sending mail. Set it to your public dev email
+account default : dev

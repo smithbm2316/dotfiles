@@ -1,0 +1,16 @@
+# The first line should be limited to 50         |
+# characters in length, and should complete this |
+# sentence:                                      |
+# "When applied, this commit will..."            |
+# "fix safari rendering bug for combobox" "add   |
+# support for json and atom feeds" "refactor     |
+# checkout flow to send email receipt"           |
+#                                                |
+# When applied, this commit will...              |
+
+# Add a single blank line between title & body   |
+
+# Expand on this in the extended commit description, which should be
+# hard-wrapped at 72 columns, and include details like rationale for the
+# change, tradeoffs and limitations of the approach, etc.
+

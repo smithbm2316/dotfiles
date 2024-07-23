@@ -3,4 +3,4 @@ enter    = overload(meta, enter)
 leftshift = overload(shift, macro2(0, 0, S-[))
 rightshift = overload(shift, macro2(0, 0, S-]))
 esc = playpause
-f4 = capslock
+f6 = capslock

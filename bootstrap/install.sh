@@ -143,6 +143,7 @@ dnf_packages() {
     gcc-c++ \
     keychain \
     kitty \
+    lynx \
     make \
     mozilla-openh264 \
     neovim \
@@ -159,6 +160,7 @@ dnf_packages() {
     util-linux-user \
     vim-minimal \
     vim-enhanced \
+    w3m \
     wl-clipboard \
     xclip \
     xdotool \
@@ -429,7 +431,8 @@ stow_dotfiles() {
   stow -v -t ~/.config dotfiles
   # install git submodules for zsh plugins
   cd ~/dotfiles || exit
-  git submodule
+  git submodule init
+  git submodule update
   cd ~ || exit
 }
 

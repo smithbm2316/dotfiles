@@ -3,6 +3,7 @@ return {
   'folke/which-key.nvim',
   event = 'VeryLazy',
   opts = {
+    delay = 1000,
     plugins = {
       marks = false,
       registers = false,
@@ -15,9 +16,6 @@ return {
         z = false,
         g = false,
       },
-    },
-    triggers_blacklist = {
-      n = { 'y', 'd' },
     },
   },
 }

@@ -32,16 +32,33 @@ end
 -- Add lazy to the `runtimepath`, this allows us to `require` it.
 vim.opt.rtp:prepend(lazypath)
 
-vim.cmd [[
-augroup CloseNeovimWithQFileTypes
-  au!
-  au FileType man,help,startuptime,qf,lspinfo nnoremap <buffer><silent> q :close<cr>
-augroup END
-]]
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'man' },
+  callback = function()
+    vim.keymap.set('n', 'q', '<cmd>q<cr>', {
+      buffer = true,
+      silent = true,
+    })
+  end,
+})
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'help', 'startuptime', 'qf', 'lspinfo' },
+  callback = function()
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', {
+      buffer = true,
+      silent = true,
+    })
+  end,
+})
 
 -- Setup lazy.nvim
 require('lazy').setup {
-  spec = {
+  -- load a subset of plugins in a minimal setup
+  spec = vim.g.minimal and {
+    { import = 'plugins.colorscheme' },
+    { import = 'plugins.vim-tmux-navigator' },
+  } or {
     { import = 'plugins' },
   },
   install = {
@@ -72,3 +89,8 @@ require('lazy').setup {
   },
 }
 vim.keymap.set('n', '<leader>ll', '<cmd>Lazy<cr>', { desc = 'Lazy.nvim UI' })
+
+-- make sure to run my custom ftplugins in minimal setups too
+if vim.g.minimal then
+  vim.cmd.runtime { 'lua/plugins/treesitter/ftplugins/*.lua', bang = true }
+end

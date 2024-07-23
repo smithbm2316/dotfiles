@@ -13,6 +13,9 @@ fish/fish_variables
 # ignore fzf completions and keybindings setup
 fzf/*
 
+# ignore smtp settings for git sendemail
+git/sendemail
+
 # ignore all gh cli files except for the config
 gh/*
 !gh/config.yml
@@ -91,3 +94,13 @@ qtile/__pycache__
 
 # vscodium
 VSCodium
+
+# msmtp config, only track the `msmtp/config` file itself, a
+# `msmtp/example` file to show how to configure a new smtp account that
+# will be ignored by git, and a `.gitkeep` file in the `msmtp/pwds`
+# folder so that folder always gets created (still ignoring all other
+# files in that directory)
+msmtp/*
+!msmtp/config
+!msmtp/example
+!msmtp/pwds/.gitkeep

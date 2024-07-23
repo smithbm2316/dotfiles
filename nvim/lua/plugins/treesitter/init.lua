@@ -63,6 +63,17 @@ return {
     },
     highlight = {
       enable = true,
+      -- disable treesitter highlighting for csv/tsv files so that
+      -- rainbow_csv.nvim plugin works properly
+      disable = {
+        'csv',
+        'tsv',
+        'csv_semicolon',
+        'csv_whitespace',
+        'csv_pipe',
+        'rfc_csv',
+        'rfc_semicolon',
+      },
       additional_vim_regex_highlighting = false,
     },
     indent = {
@@ -80,7 +91,7 @@ return {
       'bash',
       'blade',
       'css',
-      'csv',
+      -- 'csv',
       'diff',
       'dockerfile',
       'embedded_template',
@@ -119,7 +130,7 @@ return {
       'styled',
       'templ',
       'toml',
-      'tsv',
+      -- 'tsv',
       'tsx',
       'twig',
       'typescript',
@@ -165,11 +176,12 @@ return {
             end
           end
         end
-      end
+      end,
+      { force = true }
     )
 
     require 'plugins.treesitter.ftdetect'
-    require 'plugins.treesitter.ftplugin'
+    vim.cmd.runtime { 'lua/plugins/treesitter/ftplugins/*.lua', bang = true }
   end,
   import = 'plugins.treesitter.context',
 }

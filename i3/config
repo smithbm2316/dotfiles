@@ -1,4 +1,4 @@
-# vim: filetype=i3config
+# vim:ft=i3config:cms=#%s
 
 # -------------------------------------------------- VARIABLES
 set $mod Mod4

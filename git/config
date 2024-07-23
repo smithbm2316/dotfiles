@@ -1,64 +1,64 @@
 # vim: ft=gitconfig
 # This is Git's per-user configuration file.
-[user]
-	name = Ben Smith
-[includeIf "gitdir:~/code/"]
-  path = ./gh_personal
-[includeIf "gitdir:~/dotfiles/"]
-  path = ./gh_personal
-[includeIf "gitdir:~/vincit/"]
-  path = ./gh_personal
-[alias]
-	aa = add -A
-  cm = commit
-  cma = commit --amend
-  cmf = commit --no-verify
-  cmfa = commit --no-verify --amend
-  # cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
-  pushf = push --force-with-lease
-	pushup = push -u origin HEAD
-  s = status -u
-	i = init 
-	l = log --oneline
-	cl = clone
-  clb = "!$HOME/dotfiles/scripts/git-bare-clone.sh"
-  latest = "!glatest() { current_branch=\"$(git branch --show-current)\"; main_branch=\"${1:-main}\"; git checkout \"$main_branch\"; git pull; git checkout \"$current_branch\"; }; glatest"
-  sw = switch
-  swp = switch -
-  bra = branch -a
-  brd = branch -d
-  lb = branch
-  lbr = branch --remote
-  nb = checkout -b
-  stall = stash push -u -m
-  wt = worktree
-  wta = worktree add
-  wtr = worktree remove
-  wtls = worktree list
-  ri = rebase -i
-  rsl = reset --soft HEAD~1
-[core]
-	excludesFile = ~/.config/git/ignore
-  editor = nvim
-  pager = delta
-[color]
-	ui = auto
-[init]
-	defaultBranch = main
-[fetch]
-	prune = true
-[pull]
-	rebase = true
+[include]
+  path = './sendemail'
 [advice]
 	addIgnoredFile = false
+[alias]
+	aa = add -A
+  bra = branch -a
+  brd = branch -d
+  clb = "!$HOME/dotfiles/scripts/git-bare-clone.sh"
+	cl = clone
+  cma = commit --amend
+  # cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
+  cm = commit
+  cmfa = commit --no-verify --amend
+  cmf = commit --no-verify
+	i = init 
+  latest = "!glatest() { current_branch=\"$(git branch --show-current)\"; main_branch=\"${1:-main}\"; git checkout \"$main_branch\"; git pull; git checkout \"$current_branch\"; }; glatest"
+  lb = branch
+  lbr = branch --remote
+	l = log --oneline
+  nb = checkout -b
+  pushf = push --force-with-lease
+	pushup = push -u origin HEAD
+  ri = rebase -i
+  rsl = reset --soft HEAD~1
+  rs = restore --staged
+  s = status -u
+  stall = stash push -u -m
+  swp = switch -
+  sw = switch
+  wta = worktree add
+  wtls = worktree list
+  wtr = worktree remove
+  wt = worktree
+[color]
+	ui = auto
+[commit]
+  template = ~/dotfiles/git/templates/commit
+[core]
+	excludesFile = ~/dotfiles/git/ignore
+  editor = nvim
+  pager = delta
+[delta]
+  light = false
+  line-numbers = true
+  navigate = true
+  side-by-side = false
+[diff]
+  colorMoved = default
+[fetch]
+	prune = true
+[init]
+	defaultBranch = main
 [interactive]
   diffFilter = delta --color-only
 [merge]
   conflictstyle = diff3
-[diff]
-  colorMoved = default
-[delta]
-  navigate = true
-  light = false
-  side-by-side = false
-  line-numbers = true
+[pull]
+	rebase = true
+[user]
+	name = Ben Smith
+	email = bsmithdev@mailbox.org

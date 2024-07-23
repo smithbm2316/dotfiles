@@ -10,10 +10,4 @@ return {
     'rfc_csv',
     'rfc_semicolon',
   },
-  cmd = {
-    'RainbowDelim',
-    'RainbowDelimSimple',
-    'RainbowDelimQuoted',
-    'RainbowMultiDelim',
-  },
 }

@@ -1,0 +1,13 @@
+# vim:ft=msmtp
+# this should be a unique identifier for the account you're configuring
+account isp
+# this should be the smtp server URL that your provider gives you to send to
+host mail.isp.example
+# the email you want to send from (if using an email alias, put it here)
+from johnsmith@isp.example
+# the username used to log in to your email account
+user johnsmith@isp.example
+# store the password in an encrypted file, and tell msmtp which command to use
+# to decrypt it. This is usually used with GnuPG, as in this example. Usually
+# gpg-agent will ask once for the decryption password.
+passwordeval gpg2 --no-tty -q -d "$XDG_CONFIG_HOME/msmtp/pwds/isp.gpg"

@@ -192,11 +192,14 @@ return {
         prompt_prefix = '🔍 ',
         scroll_strategy = 'cycle',
         sorting_strategy = 'ascending',
-        layout_strategy = 'flex',
+        -- layout_strategy = 'flex',
+        layout_strategy = 'vertical',
         file_ignore_patterns = bs.telescope.ignored,
         layout_config = {
           prompt_position = 'top',
           horizontal = {
+            -- set to `false` if you want the input to be on the left and
+            -- preview on the right
             mirror = true,
             preview_cutoff = 100,
             preview_width = 0.5,
