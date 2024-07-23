@@ -12,7 +12,7 @@ cd ~/builds || exit
 git clone https://github.com/rvaiya/keyd
 cd keyd || exit
 # checkout the latest stable release
-git checkout "$(git describe --tags)"
+git checkout "$(git tag | sort -V | tail -n 1)"
 make && sudo make install
 sudo rm -rf /etc/keyd
 sudo ln -s "$HOME/dotfiles/keyd" /etc/keyd

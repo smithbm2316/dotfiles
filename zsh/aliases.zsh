@@ -10,8 +10,9 @@ elif [ -e "$(command -v exa)" ]; then
   alias lsa="exa --icons -a"
   alias tree="exa --icons --tree --all --ignore-glob 'node_modules|.git|.venv|venv'"
 else
-  alias l="ls -lA"
-  alias lsa="ls -A"
+  alias ls="ls --color=always"
+  alias l="ls --color=always -lA"
+  alias lsa="ls --color=always -A"
 fi
 
 # go version manager

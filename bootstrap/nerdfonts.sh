@@ -39,7 +39,9 @@ do
   fi
 
   echo "Installing font: $font"
-  wget -q --show-progress https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/$font.zip -P /tmp
+  wget -q --show-progress \
+    https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/$font.zip \
+    -P /tmp
   unzip -q /tmp/$font.zip -d ~/.local/share/fonts/$font/
   rm /tmp/$font.zip
 done

@@ -9,8 +9,7 @@
 # VARIABLES
 # ---------------------------------------------------------------------------- #
 # outputs
-set $monitor DP-1
-set $laptop eDP-1
+set $primary eDP-1
 # logo key. Use Mod1 for alt.
 set $mod Mod4
 set $alt Mod1
@@ -20,7 +19,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term kitty
+set $term foot
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -33,24 +32,14 @@ set $menu 'dmenu_path | dmenu | xargs swaymsg exec --
 # ---------------------------------------------------------------------------- #
 # OUTPUT CONFIGURATION (`man sway-output` / `swaymsg -t get_outputs`)
 # ---------------------------------------------------------------------------- #
-# aoc monitor should be the only enabled display
-output $monitor {
+output $primary {
   enable
-  mode 2560x1440@119.998Hz
-  # aoc 24g2 monitor:
-  # mode 1920x1080@120.00Hz
+  mode 1920x1080@60.031Hz
   pos 0 0
-  adaptive_sync on
-}
-# system76 laptop screen should start as disabled
-output $laptop {
-  disable
-  mode 1920x1080@144.028Hz
-  pos 0 1080
-  adaptive_sync on
+  adaptive_sync disabled
 }
 # set a shortcut to enable laptop screen
-bindsym $mod+$alt+s exec swaymsg 'output eDP-1 enable'
+bindsym $mod+$alt+d exec swaymsg 'output eDP-1 enable'
 # set the wallpaper for all workspaces to black
 output * bg #000000 solid_color
 
@@ -64,19 +53,21 @@ output * bg #000000 solid_color
 # ---------------------------------------------------------------------------- #
 # Example configuration:
 #
-# exec swayidle -w \
-#    timeout 300 'swaylock -f -c 000000' \
-#    timeout 600 'swaymsg "output * power off"' \
-#    resume 'swaymsg "output * power on"' \
-#    before-sleep 'swaylock -f -c 000000'
+exec swayidle -w \
+  timeout 300 'swaylock -f -c 0f172a' \
+  timeout 600 'swaymsg "output * power off"' \
+  resume 'swaymsg "output * power on"' \
+  before-sleep 'swaylock -f -c 0f172a'
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
-# auto-lock after 3 minutes of idling
-exec swayidle -w timeout 180 'swaylock -f -c 000000'
+# auto-lock after 5 minutes of idling
+exec swayidle -w timeout 300 'swaylock -f -c 0f172a'
 # manually lock 
-bindsym $mod+$alt+l exec swaylock -f -c 000000
+bindsym $mod+$alt+l exec swaylock -f -c 0f172a
+# manually sleep
+bindsym $mod+$alt+s exec swaylock -f -c 0f172a && systemctl suspend
 
 
 
@@ -290,7 +281,7 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%c'; do sleep 1; done
+    status_command while ~/dotfiles/sway/swaybar.sh; do sleep 1; done
 
     colors {
         statusline #ffffff
@@ -308,18 +299,24 @@ include /etc/sway/config.d/*
 # ---------------------------------------------------------------------------- #
 # CUSTOM SHORTCUTS
 # ---------------------------------------------------------------------------- #
+# XF86* keys: https://wiki.linuxquestions.org/wiki/XF86_keyboard_symbols
 # audio controls
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym $mod+XF86AudioMute exec ~/dotfiles/scripts/mute-mic-toggle.sh
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%-
+bindsym $mod+XF86AudioMute exec ~/dotfiles/sway/toggle-mic-mute.sh
+bindsym XF86AudioMicMute exec ~/dotfiles/sway/toggle-mic-mute.sh
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioNext exec playerctl next
 
+# adjust display brightness
+bindsym XF86MonBrightnessDown exec brightnessctl 10 s 10%-
+bindsym XF86MonBrightnessUp exec brightnessctl 10 s +10%
+
 # connect/disconnect/toggle codec for airpods
 bindsym $mod+$alt+a exec ~/dotfiles/scripts/airpods.sh connection
-bindsym $mod+$alt+c exec ~/dotfiles/scripts/airpods.sh codec
+bindsym $mod+$alt+x exec ~/dotfiles/scripts/airpods.sh codec
 
 # toggle touchpad enabled/disabled
 bindsym XF86TouchpadToggle exec ~/dotfiles/scripts/toggle-touchpad-enabled.sh
@@ -327,7 +324,7 @@ bindsym XF86TouchpadToggle exec ~/dotfiles/scripts/toggle-touchpad-enabled.sh
 # screenshots
 bindsym Print exec grim -g "$(slurp)" - | wl-copy && \
   notify-send 'Copied selection to clipboard!'
-bindsym $mod+Print exec grim -o $monitor - | wl-copy && \
+bindsym $mod+Print exec grim -o $primary - | wl-copy && \
   notify-send 'Copied screen to clipboard!'
 
 # color picker
@@ -338,12 +335,6 @@ bindsym $mod+ctrl+p exec grim -g "$(slurp -p)" -t ppm - | \
 
 # watch a video link copied to the clipboard with mpv
 bindsym $mod+y exec --no-startup-id ~/dotfiles/scripts/watch-video.sh
-
-# TODO: figure out the equivalent for wayland, this is copied
-# 
-# adjust display brightness
-# bindsym $mod+F11 exec xrandr --output $alt_display --brightness 0.6
-# bindsym $mod+F12 exec xrandr --output $alt_display --brightness 1.0
 
 
 
@@ -372,7 +363,7 @@ for_window [app_id="^[pP]avucontrol$"] {
 # STARTUP PROGRAMS
 # ---------------------------------------------------------------------------- #
 # use darkman to set theme to dark on login
-exec --no-startup-id darkman set dark
+# exec --no-startup-id darkman set dark
 # exec --no-startup-id dunst
 # exec --no-startup-id nm-applet
 # exec --no-startup-id blueman-applet
