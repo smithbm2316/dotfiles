@@ -265,3 +265,19 @@ djm() {
 pb() {
   ./pocketbase $@
 }
+
+# apt shortcuts
+apt-grep() {
+  if [ "$#" -eq 0 ]; then
+    echo 'calls: apt search --names-only $@ | less'
+    return 1
+  fi
+  apt search --names-only $@ | less
+}
+apt-installed() {
+  if [ "$#" -eq 0 ]; then
+    echo 'calls: apt list --installed | grep --color=always $@'
+    return 1
+  fi
+  apt list --installed | grep --color=always $@
+}

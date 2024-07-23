@@ -20,3 +20,9 @@ alias goenv="$GOPATH/bin/g"
 
 # alias for "make" that suppresses all output (useful when using as a task runner)
 alias mk="make -s"
+
+# better default for fc-list
+# https://github.com/danstoner/pandoc_samples/blob/master/fc-list-examples.md
+alias fc-families="fc-list : family | cut -f1 -d"," | sort | uniq"
+
+alias grep="grep --color=always"

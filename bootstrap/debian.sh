@@ -126,6 +126,7 @@ sudo apt install -y file-roller unzip
 source "$pwd/deno.sh"
 source "$pwd/firefox-dev.sh"
 source "$pwd/firefox.sh"
+source "$pwd/fonts.sh"
 source "$pwd/git-delta.sh"
 source "$pwd/google-chrome-dev.sh"
 source "$pwd/homebrew.sh"
@@ -134,9 +135,8 @@ source "$pwd/lsp-servers.sh"
 source "$pwd/lua.sh"
 source "$pwd/ly.sh"
 source "$pwd/neovim.sh"
-source "$pwd/nerdfonts.sh"
-source "$pwd/php.sh"
 source "$pwd/obsidian.sh"
+source "$pwd/php.sh"
 source "$pwd/spotify.sh"
 source "$pwd/tmux.sh"
 source "$pwd/vscodium.sh"
@@ -149,3 +149,22 @@ source "$pwd/zsh.sh"
 # aptsearch() {
 #   apt search --names-only $@ | less
 # }
+||||||| parent of 7426f47 (wip: setup on thinkpad with debian)
+
+# mpv mpv-mpris smplayer smtube ytcc yt-dlp ytfzf
+
+# aptgrep() {
+#   apt list --installed | grep --color=always $@
+# }
+# 
+# aptsearch() {
+#   apt search --names-only $@ | less
+# }
+=======
+source "$pwd/php.sh"
+source "$pwd/obsidian.sh"
+source "$pwd/spotify.sh"
+source "$pwd/tmux.sh"
+source "$pwd/vscodium.sh"
+source "$pwd/zsh.sh"
+>>>>>>> 7426f47 (wip: setup on thinkpad with debian)
