@@ -1,5 +1,5 @@
 [Desktop Entry]
 Name=Sway with Keyring
 Comment=An i3-compatible Wayland compositor
-Exec=/home/smithbm/dotfiles/sway/gnome-polkit/exec-sway.sh
+Exec=/home/smithbm/dotfiles/sway/polkit/exec-sway.sh
 Type=Application

@@ -49,6 +49,7 @@ qalc
 qalculate-gtk
 ripgrep
 slurp
+sqlite3
 stow
 sway
 swaylock

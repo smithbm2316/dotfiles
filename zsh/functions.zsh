@@ -276,8 +276,8 @@ apt-grep() {
 }
 apt-installed() {
   if [ "$#" -eq 0 ]; then
-    echo 'calls: apt list --installed | grep --color=always $@'
+    echo 'calls: dpkg -l | grep --color=always $@'
     return 1
   fi
-  apt list --installed | grep --color=always $@
+  dpkg -l | grep --color=always $@
 }

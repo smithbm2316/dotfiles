@@ -68,6 +68,7 @@ pwd="$HOME/dotfiles/bootstrap"
 . "$pwd/deno.sh"
 . "$pwd/firefox-dev.sh"
 . "$pwd/firefox.sh"
+. "$pwd/flatpak.sh"
 . "$pwd/fonts.sh"
 . "$pwd/git-delta.sh"
 # . "$pwd/google-chrome-dev.sh"
@@ -84,13 +85,3 @@ pwd="$HOME/dotfiles/bootstrap"
 . "$pwd/tmux.sh"
 . "$pwd/vscodium.sh"
 . "$pwd/zsh.sh"
-
-# install flatpak, configure it to use dl.flathub.org
-sudo apt install -y flatpak
-flatpak remote-add --if-not-exists flathub \
-  https://dl.flathub.org/repo/flathub.flatpakrepo
-# install ungoogled-chromium from flathub
-flatpak install io.github.ungoogled_software.ungoogled_chromium
-ln -s ~/dotfiles/config/applications/ungoogled-chromium.desktop \
-  ~/.local/share/applications/ungoogled-chromium.desktop
-  echo 'Installed ungoogled-chromium!'

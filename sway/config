@@ -184,7 +184,7 @@ bindsym $mod+ctrl+g move container to workspace note, workspace note
 # horizontal and vertical splits respectively.
 bindsym $mod+semicolon splith
 bindsym $mod+v splitv
-bindsym $mod+i split toggle
+bindsym $mod+i split toggle; layout tabbed
 bindsym $mod+ctrl+i split none
 
 # focus urgent workspace
@@ -304,8 +304,8 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioNext exec playerctl next
 
 # adjust display brightness
-bindsym XF86MonBrightnessDown exec brightnessctl 10 s 10%-
-bindsym XF86MonBrightnessUp exec brightnessctl 10 s +10%
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
+bindsym XF86MonBrightnessUp exec brightnessctl s +10%
 
 # connect/disconnect/toggle codec for airpods
 bindsym $mod+$alt+a exec ~/dotfiles/scripts/airpods.sh connection
@@ -328,6 +328,8 @@ bindsym $mod+ctrl+p exec grim -g "$(slurp -p)" -t ppm - | \
 
 # watch a video link copied to the clipboard with mpv
 bindsym $mod+y exec --no-startup-id ~/dotfiles/scripts/watch-video.sh
+# same as above, but launch mpv with audio-only in a foot or kitty term window
+bindsym $mod+ctrl+y exec --no-startup-id ~/dotfiles/scripts/watch-video.sh audio
 
 
 

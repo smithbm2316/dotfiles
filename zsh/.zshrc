@@ -114,6 +114,11 @@ fi
 if [ "$(command -v luarocks)" ]; then
   eval "$(luarocks path --no-bin)"
 fi
+# load fzf completions and shortcuts
+if [ "$(command -v fzf)" ]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+  source /usr/share/doc/fzf/examples/completion.zsh
+fi
 
 # load gitignored commands if it exists
 if [ -e "$ZDOTDIR/hidden.zsh" ]; then
@@ -123,6 +128,9 @@ fi
 # LOAD LAST
 # load zsh syntax highlighting
 source "$ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+# disable auto-cd into directories
+unsetopt autocd
 
 # References
 # - [Configuring zsh without dependencies - mouseless dev's config + explanation](https://thevaluable.dev/zsh-install-configure-mouseless/)

@@ -4,6 +4,6 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
   },
   group = vim.api.nvim_create_augroup('DjangoTemplateFtCmds', { clear = true }),
   callback = function()
-    insert_at_cursor_map('<c-i>t', '{% | %}', 'template', true)
+    insert_at_cursor_map('<c-u>t', '{% | %}', 'template', true)
   end,
 })

@@ -5,11 +5,11 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
     -- https://thoughtbot.com/blog/wrap-existing-text-at-80-characters-in-vim
     vim.opt_local.conceallevel = 2
     set_tab_width(2, 'local')
-    -- add a <c-i>[index] mapping to insert a new header at the cursor with the
+    -- add a <c-u>[index] mapping to insert a new header at the cursor with the
     -- appropriate amount of hashtags preceding it for the heading level
     for _, i in ipairs { 1, 2, 3, 4, 5, 6 } do
       insert_at_cursor_map(
-        string.format('<c-i>%d', i),
+        string.format('<c-u>%d', i),
         string.rep('#', i) .. ' ',
         'md'
       )

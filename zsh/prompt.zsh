@@ -9,4 +9,4 @@ zstyle ':vcs_info:git:*' formats       '(%b%u%c)'
 zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c)'
 # always load before displaying the prompt
 add-zsh-hook precmd vcs_info
-PROMPT='%F{red}%1~ %F{blue}${vcs_info_msg_0_}%f '$'\n''> '
+PROMPT='%(?..%B(%?%)%b )%F{red}%1~ %F{blue}${vcs_info_msg_0_}%f '$'\n''> '

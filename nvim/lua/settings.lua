@@ -6,6 +6,7 @@ vim.opt.formatoptions:append 'jnrqlo'
 vim.o.colorcolumn = '+1'
 vim.o.textwidth = 80
 vim.o.smartindent = true
+vim.o.smarttab = true
 set_tab_width(2, 'global')
 
 vim.cmd [[filetype plugin off]]

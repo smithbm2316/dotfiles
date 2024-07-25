@@ -10,8 +10,8 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
     { clear = true }
   ),
   callback = function()
-    insert_at_cursor_map('<c-i>t', '<% | %>', 'template', true)
-    insert_at_cursor_map('<c-i>.', '<% | %>', 'template', true)
-    insert_at_cursor_map('<c-i>=', '<%= | %>', 'template', true)
+    insert_at_cursor_map('<c-u>t', '<% | %>', 'template', true)
+    insert_at_cursor_map('<c-u>.', '<% | %>', 'template', true)
+    insert_at_cursor_map('<c-u>=', '<%= | %>', 'template', true)
   end,
 })

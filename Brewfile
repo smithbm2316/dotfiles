@@ -1,12 +1,12 @@
 # vim: ft=ruby
 brew "datasette"
 brew "difftastic"
+brew "eza" # will be available on Debian 13!
 brew "gh"
-brew "git-delta"
 brew "glow"
 brew "gum"
 brew "ijq"
-brew "lazygit"
+# brew "lazygit" # working on using git cli itself right now
 brew "lua-language-server"
 # lua-luv
 brew "luv"
@@ -18,4 +18,4 @@ brew "shellcheck"
 brew "skate"
 brew "stylua"
 brew "vhs"
-brew "youtube-dl"
+# brew "youtube-dl" # unmaintained

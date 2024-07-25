@@ -9,5 +9,5 @@
 #
 # https://github.com/fairyglade/ly/issues/228#issuecomment-758748986
 
-ln -s ~/dotfiles/sway/gnome-polkit/sway-with-keyring.desktop \
+sudo ln -s ~/dotfiles/sway/polkit/sway-custom.desktop \
   /usr/share/wayland-sessions/

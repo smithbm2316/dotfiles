@@ -10,7 +10,8 @@
   brd = branch -d
   clb = "!$HOME/dotfiles/scripts/git-bare-clone.sh"
 	cl = clone
-  cma = commit --amend
+  cma = commit --amend --no-edit
+  cmam = commit --amend
   # cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
   cm = commit
   cmfa = commit --no-verify --amend
@@ -45,8 +46,10 @@
 [delta]
   light = false
   line-numbers = true
+  line-numbers-left-format = ""
   navigate = true
   side-by-side = false
+  tabs = 2
 [diff]
   colorMoved = default
 [fetch]
