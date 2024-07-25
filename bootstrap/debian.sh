@@ -46,7 +46,7 @@ cd ~/dotfiles && git submodule init && git submodule update || \
   echo "Couldn't find ~/dotfiles, skipping git submodules for that repo" && exit 1
 
 # install base packages from packages/base.txt, removing any comments first
-sed 's/^#.*$//' ~/dotfiles/bootstrap/packages/base.txt | \
+sed 's/#.*$//' ~/dotfiles/bootstrap/packages/base.txt | \
   xargs sudo apt install
 
 # enable bluetooth
@@ -70,7 +70,7 @@ pwd="$HOME/dotfiles/bootstrap"
 . "$pwd/firefox.sh"
 . "$pwd/fonts.sh"
 . "$pwd/git-delta.sh"
-. "$pwd/google-chrome-dev.sh"
+# . "$pwd/google-chrome-dev.sh"
 . "$pwd/homebrew.sh"
 . "$pwd/keyd.sh"
 . "$pwd/lsp-servers.sh"
@@ -84,3 +84,13 @@ pwd="$HOME/dotfiles/bootstrap"
 . "$pwd/tmux.sh"
 . "$pwd/vscodium.sh"
 . "$pwd/zsh.sh"
+
+# install flatpak, configure it to use dl.flathub.org
+sudo apt install -y flatpak
+flatpak remote-add --if-not-exists flathub \
+  https://dl.flathub.org/repo/flathub.flatpakrepo
+# install ungoogled-chromium from flathub
+flatpak install io.github.ungoogled_software.ungoogled_chromium
+ln -s ~/dotfiles/config/applications/ungoogled-chromium.desktop \
+  ~/.local/share/applications/ungoogled-chromium.desktop
+  echo 'Installed ungoogled-chromium!'

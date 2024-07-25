@@ -50,6 +50,9 @@ ncspot/userstate.*
 # neovim
 nvim/.netrwhist
 
+# pulseaudio
+pulse/cookie
+
 # ignore ranger plugins
 ranger/plugins/*
 

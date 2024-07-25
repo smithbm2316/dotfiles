@@ -1,4 +1,5 @@
 bat
+bc
 blueman
 bluez
 brightnessctl
@@ -10,6 +11,7 @@ dhelp
 dunst
 fdfind
 ffmpeg
+flatpak
 foliate
 foot
 fuzzel
@@ -31,6 +33,7 @@ make
 manpages-dev
 mkcert
 mpv
+ncal
 network-manager
 network-manager-ssh
 ninja-build

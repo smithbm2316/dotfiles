@@ -93,8 +93,6 @@ if [ "$(uname -s)" = "Linux" ]; then
     alias fd="fdfind"
     # redefine for debian, where fd is renamed
     export FZF_DEFAULT_COMMAND="fdfind --type f --color=never"
-    # Alias for ncal to use normal month formatting
-    alias cal="ncal -b"
   fi
 elif [ "$(uname -s)" = "Darwin" ]; then
   # setup keychain settings if not in tmux

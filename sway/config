@@ -20,10 +20,12 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term kitty
+set $browser firefox
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu 'dmenu_path | dmenu | xargs swaymsg exec --
+set $menu fuzzel
+set $menu_all dmenu_path | dmenu | xargs swaymsg exec --
 
 
 
@@ -111,9 +113,9 @@ bindsym $mod+c kill
 # Start your launcher
 # check out https://github.com/ldelossa/sway-fzfify for fzf scripts
 # https://codeberg.org/dnkl/fuzzel works great!
-bindsym $mod+o exec fuzzel
+bindsym $mod+o exec $menu
 # use dmenu
-bindsym $mod+ctrl+o exec $menu
+bindsym $mod+ctrl+o exec $menu_all
 # more launchers https://github.com/swaywm/sway/wiki/Useful-add-ons-for-sway#launchers
 
 # Drag floating windows by holding down $mod and left mouse button.
@@ -191,8 +193,10 @@ bindsym $mod+ctrl+g move container to workspace note, workspace note
 # ---------------------------------------------------------------------------- #
 # you can "split" the current object of your focus with $mod+b or $mod+v, for
 # horizontal and vertical splits respectively.
-bindsym $mod+b splith
+bindsym $mod+semicolon splith
 bindsym $mod+v splitv
+bindsym $mod+i split toggle
+bindsym $mod+ctrl+i split none
 
 # focus urgent workspace
 bindsym $mod+u [urgent="latest"] focus
@@ -201,8 +205,6 @@ bindsym $mod+u [urgent="latest"] focus
 # layout stacking
 workspace_layout tabbed
 bindsym $mod+w layout toggle splith splitv tabbed
-bindsym $mod+i split toggle
-bindsym $mod+ctrl+i split none
 
 # Make the current focus fullscreen
 bindsym $mod+m fullscreen
@@ -218,6 +220,10 @@ bindsym $mod+space focus mode_toggle
 
 # Move focus to the parent container
 bindsym $mod+p focus parent
+
+# launch browsers
+bindsym $mod+b exec $browser
+bindsym $mod+ctrl+b exec $browser -P work
 
 
 

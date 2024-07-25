@@ -1,23 +1,25 @@
-battray
-buku
-feh
-file-roller
-httpie
-kazam
-lxappearance
-mediastreamer2-plugin-openh264
-mpv-mpris
-network-manager-gnome
-nm-tray
-obs-studio
-pass
-policykit-1-gnome
-rofi
-scrot
-smplayer
-smtube
-vokoscreen-ng
-wofi
-yt-dlp
-ytcc
-ytfzf
+buku # cli bookmark manager
+feh # lightweight image viewer
+file-roller # gui for managing archives in GNOME. tar, zip, 7z, etc
+httpie # more user-friendly http client, provides `http` & `https` commands
+kazam # gui for capturing screencasts + screenshots
+luakit # https://luakit.github.io/ - lua-based vim-style web browser
+lxappearance # configure gtk settings in xorg, made by lxde team
+mediastreamer2-plugin-openh264 # not sure, might need for h264 codec support
+mpv-mpris # might need for extra mpv support? don't know yet
+network-manager-gnome # systray applet for network manager in GNOME
+nm-tray # simple network manager systray applet
+obs-studio # self-explanatory
+pass # unix cli password manager
+policykit-1-gnome # gnome's polkit, probably don't need a polkit
+qutebrowser # https://www.qutebrowser.org/ - vim-style web browser
+rofi # exec programs (and more) with a fuzzy finder interface
+scrot # screenshot utility for x11
+smplayer # qt5 rontend for mplayer
+smtube # gui for searching and downloading youtube videos
+surf # https://surf.suckless.org/ - minimal vim-style web browser
+vokoscreen-ng # gui to record videos/screencasts
+wofi # wayland rofi clone - exec programs (and more) with a fuzzy finder interface
+yt-dlp # youtube-dl fork
+ytcc # command line tool to manage favorite youtube channels w/out an account
+ytfzf # wrapper around yt-dlp/youtube-dl with fzf

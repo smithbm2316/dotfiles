@@ -4,6 +4,7 @@
 # ---------------------------------------------------------------------------- #
 # overwrite default $primary variable
 set $primary eDP-1
+set $term foot
 
 output eDP-1 {
   enable
@@ -14,4 +15,4 @@ output eDP-1 {
 
 # set a shortcut to enable laptop screen
 bindsym $mod+$alt+d exec swaymsg 'output eDP-1 enable'
-exec_always notify-send 'loaded t480s config!'
+exec notify-send 'loaded t480s config!'
