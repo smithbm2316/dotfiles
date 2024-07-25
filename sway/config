@@ -1,4 +1,4 @@
-# vim:ft=swayconfig:cms=#%s
+# vim:ft=swayconfig
 # you can find the default config at /etc/sway/config if you need a reference
 
 
@@ -9,7 +9,7 @@
 # VARIABLES
 # ---------------------------------------------------------------------------- #
 # outputs
-set $primary eDP-1
+set $primary DP-1
 # logo key. Use Mod1 for alt.
 set $mod Mod4
 set $alt Mod1
@@ -19,7 +19,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term foot
+set $term kitty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -32,14 +32,7 @@ set $menu 'dmenu_path | dmenu | xargs swaymsg exec --
 # ---------------------------------------------------------------------------- #
 # OUTPUT CONFIGURATION (`man sway-output` / `swaymsg -t get_outputs`)
 # ---------------------------------------------------------------------------- #
-output $primary {
-  enable
-  mode 1920x1080@60.031Hz
-  pos 0 0
-  adaptive_sync disabled
-}
-# set a shortcut to enable laptop screen
-bindsym $mod+$alt+d exec swaymsg 'output eDP-1 enable'
+include "~/dotfiles/sway/machines/$(cat /etc/hostname)"
 # set the wallpaper for all workspaces to black
 output * bg #000000 solid_color
 
@@ -201,10 +194,15 @@ bindsym $mod+ctrl+g move container to workspace note, workspace note
 bindsym $mod+b splith
 bindsym $mod+v splitv
 
+# focus urgent workspace
+bindsym $mod+u [urgent="latest"] focus
+
 # switch the current container between different layout styles bindsym $mod+s
 # layout stacking
 workspace_layout tabbed
-bindsym $mod+w layout toggle split tabbed
+bindsym $mod+w layout toggle splith splitv tabbed
+bindsym $mod+i split toggle
+bindsym $mod+ctrl+i split none
 
 # Make the current focus fullscreen
 bindsym $mod+m fullscreen
@@ -276,18 +274,18 @@ bindsym $mod+r mode "resize"
 # ---------------------------------------------------------------------------- #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    position top
-    mode dock
+  position top
+  mode dock
 
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while ~/dotfiles/sway/swaybar.sh; do sleep 1; done
+  # When the status_command prints a new line to stdout, swaybar updates.
+  # The default just shows the current date and time.
+  status_command ~/dotfiles/sway/swaybar.sh
 
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #323232 #323232 #ffffff
-    }
+  colors {
+    statusline #ffffff
+    background #323232
+    inactive_workspace #323232 #323232 #ffffff
+  }
 }
 # load useful sway default settings
 include /etc/sway/config.d/*

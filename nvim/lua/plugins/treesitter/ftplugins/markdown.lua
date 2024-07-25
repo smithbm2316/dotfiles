@@ -2,12 +2,8 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'markdown' },
   group = vim.api.nvim_create_augroup('MarkdownFtCmds', { clear = true }),
   callback = function()
-    -- vim.opt_local.conceallevel = 1
-    vim.opt_local.conceallevel = 2
-    vim.opt_local.linebreak = true
     -- https://thoughtbot.com/blog/wrap-existing-text-at-80-characters-in-vim
-    vim.opt_local.textwidth = 0
-    -- vim.opt_local.wrap = true
+    vim.opt_local.conceallevel = 2
     set_tab_width(2, 'local')
     -- add a <c-i>[index] mapping to insert a new header at the cursor with the
     -- appropriate amount of hashtags preceding it for the heading level

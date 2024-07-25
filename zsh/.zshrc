@@ -52,6 +52,9 @@ bindkey -v '^e' autosuggest-accept
 
 # load fzf completions & keybindings
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
+# load tldr completions
+[ -f "$ZDOTDIR/completions/tldr-complete.zsh" ] && source \
+  "$ZDOTDIR/completions/tldr-complete.zsh"
 
 # load aliases
 autoload -Uz aliases.zsh; aliases.zsh

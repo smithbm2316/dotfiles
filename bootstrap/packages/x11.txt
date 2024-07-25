@@ -1,0 +1,13 @@
+# x11-utils/x11-server-utils meta packages install:
+# xdpyinfo xev xset xsetroot xmodmap xprop xrandr
+autorandr
+x11-server-utils
+x11-utils
+xbacklight
+xbindkeys
+xclip
+xdotool
+xinput
+xorg
+xserver-org
+xvkbd

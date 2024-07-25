@@ -1,0 +1,17 @@
+# vim:ft=swayconfig
+# ---------------------------------------------------------------------------- #
+# OUTPUT CONFIGURATION (`man sway-output` / `swaymsg -t get_outputs`)
+# ---------------------------------------------------------------------------- #
+# overwrite default $primary variable
+set $primary eDP-1
+
+output eDP-1 {
+  enable
+  mode 1920x1080@60.031Hz
+  pos 0 0
+  adaptive_sync disabled
+}
+
+# set a shortcut to enable laptop screen
+bindsym $mod+$alt+d exec swaymsg 'output eDP-1 enable'
+exec_always notify-send 'loaded t480s config!'

@@ -1,0 +1,20 @@
+# vim:ft=swayconfig
+# ---------------------------------------------------------------------------- #
+# OUTPUT CONFIGURATION (`man sway-output` / `swaymsg -t get_outputs`)
+# ---------------------------------------------------------------------------- #
+output DP-1 {
+  enable
+  mode 2560x1440@59.951Hz
+  pos 0 0
+  adaptive_sync enabled
+}
+output eDP-1 {
+  disable
+  mode 1920x1080@144.028Hz
+  pos 2560 0
+  adaptive_sync disabled
+}
+
+# set a shortcut to enable laptop screen
+bindsym $mod+$alt+d exec swaymsg 'output eDP-1 enable'
+exec notify-send 'loaded vincit76 config!'

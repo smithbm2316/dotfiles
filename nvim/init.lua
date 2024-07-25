@@ -94,3 +94,5 @@ vim.keymap.set('n', '<leader>ll', '<cmd>Lazy<cr>', { desc = 'Lazy.nvim UI' })
 if vim.g.minimal then
   vim.cmd.runtime { 'lua/plugins/treesitter/ftplugins/*.lua', bang = true }
 end
+
+vim.cmd.filetype { 'plugin', 'on' }

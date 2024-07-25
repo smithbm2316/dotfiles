@@ -1,0 +1,4 @@
+pamixer
+pasystray
+pavucontrol
+pulseaudio-utils
