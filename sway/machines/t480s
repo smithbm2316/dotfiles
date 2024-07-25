@@ -15,4 +15,29 @@ output eDP-1 {
 
 # set a shortcut to enable laptop screen
 bindsym $mod+$alt+d exec swaymsg 'output eDP-1 enable'
+
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# IDLE CONFIGURATION
+# ---------------------------------------------------------------------------- #
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+exec swayidle -w \
+  timeout 300 'swaylock -f -c 0f172a' \
+  timeout 600 'swaymsg "output * power off"' \
+  resume 'swaymsg "output * power on"' \
+  before-sleep 'swaylock -f -c 0f172a'
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# NOTIFY WHICH MACHINE WE'RE ON
+# ---------------------------------------------------------------------------- #
 exec notify-send 'loaded t480s config!'

@@ -42,27 +42,16 @@ output * bg #000000 solid_color
 
 
 
-
 # ---------------------------------------------------------------------------- #
-# IDLE CONFIGURATION
+# IDLE/LOCKING CONFIGURATION
 # ---------------------------------------------------------------------------- #
-# Example configuration:
-#
-exec swayidle -w \
-  timeout 300 'swaylock -f -c 0f172a' \
-  timeout 600 'swaymsg "output * power off"' \
-  resume 'swaymsg "output * power on"' \
-  before-sleep 'swaylock -f -c 0f172a'
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
-
-# auto-lock after 5 minutes of idling
-exec swayidle -w timeout 300 'swaylock -f -c 0f172a'
 # manually lock 
 bindsym $mod+$alt+l exec swaylock -f -c 0f172a
-# manually sleep
-bindsym $mod+$alt+s exec swaylock -f -c 0f172a && systemctl suspend
+# manually lock and suspend if we're not on the `vincit76` machine which
+# currently has issues with suspending/sleeping
+bindsym $mod+$alt+s exec [ "$(cat /etc/hostname)" != "vincit76" ] \
+  && swaylock -f -c 0f172a && systemctl suspend \
+  || notify-send "On vincit76 which can't suspend"
 
 
 

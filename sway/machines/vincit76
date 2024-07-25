@@ -17,4 +17,22 @@ output eDP-1 {
 
 # set a shortcut to enable laptop screen
 bindsym $mod+$alt+d exec swaymsg 'output eDP-1 enable'
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# IDLE CONFIGURATION
+# ---------------------------------------------------------------------------- #
+# auto-lock after 5 minutes of idling
+exec swayidle -w timeout 300 'swaylock -f -c 0f172a'
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# NOTIFY WHICH MACHINE WE'RE ON
+# ---------------------------------------------------------------------------- #
 exec notify-send 'loaded vincit76 config!'
