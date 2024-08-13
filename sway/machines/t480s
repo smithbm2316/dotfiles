@@ -10,8 +10,37 @@ output eDP-1 {
   enable
   mode 1920x1080@60.031Hz
   pos 0 0
+  # pos 0 2560
+  # pos 0 1920
   adaptive_sync disabled
 }
+
+# monitors i don't usually hook up to
+#
+# set $primary HDMI-A-2
+# output 'Dell Inc. DELL S2715H V14F36A8496L' {
+#   enable
+#   mode 1920x1080@60.000Hz 
+#   pos 0 0
+#   adaptive_sync disabled
+# }
+#
+# set $primary DP-1
+# output DP-1 {
+#   enable
+#   mode 2560x1440@120.000Hz
+#   pos 0 0
+#   adaptive_sync enabled
+# }
+#
+# set $primary DP-2
+# output 'Goldstar Company Ltd LG Ultra HD 0x00005D36' {
+#   enable
+#   mode 3840x2160@59.997Hz
+#   scale 1.5
+#   pos 0 0
+#   adaptive_sync enabled
+# }
 
 # set a shortcut to enable laptop screen
 bindsym $mod+$alt+d exec swaymsg 'output eDP-1 enable'

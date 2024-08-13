@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Pycharm Community Edition
-Exec=sh /opt/pycharm-community-2021.1/bin/pycharm.sh
-# Icon=/opt/pycharm-community-2021.1/bin/pycharm.png
-Icon=/usr/share/icons/Papirus-Dark/32x32/apps/pycharm-community.svg
-Terminal=false
-Type=Application
-StartupNotify=true
-Categories=Programming

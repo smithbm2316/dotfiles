@@ -18,3 +18,9 @@ flatpak install flathub org.mozilla.Thunderbird
 ln -s ~/dotfiles/config/applications/thunderbird.desktop \
   ~/.local/share/applications/thunderbird.desktop
 echo 'Installed thunderbird!'
+
+# install slack
+flatpak install flathub com.slack.Slack
+ln -s ~/dotfiles/config/applications/slack.desktop \
+  ~/.local/share/applications/slack.desktop
+echo 'Installed slack!'

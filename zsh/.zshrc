@@ -116,8 +116,12 @@ if [ "$(command -v luarocks)" ]; then
 fi
 # load fzf completions and shortcuts
 if [ "$(command -v fzf)" ]; then
-  source /usr/share/doc/fzf/examples/key-bindings.zsh
-  source /usr/share/doc/fzf/examples/completion.zsh
+  if [ -f '/usr/share/doc/fzf/examples/completion.zsh' ] &&  [ -f '/usr/share/doc/fzf/examples/key-bindings.zsh' ]; then
+    source /usr/share/doc/fzf/examples/completion.zsh
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+  else
+    source <(fzf --zsh)
+  fi
 fi
 
 # load gitignored commands if it exists

@@ -1,7 +1,7 @@
-handle_not_installed() {
-  local required_cmd="$1"
-  if [ -z "$(command -v $required_cmd)" ]; then
-    echo "Please install the $required_cmd to use this script"
+# helper function to check for a binary
+check_installed() {
+  if ! command -v $1 &> /dev/null; then
+    echo '`gum` not installed' && return 127
     return 127
   fi
 }
@@ -121,7 +121,7 @@ dock() {
 
 # common jq operations
 json() {
-  handle_not_installed "gum" || return 127
+  check_installed gum || return $?
 
   case "$(gum choose --limit=1 'package.json')" in
     'package.json')
@@ -149,7 +149,7 @@ json() {
 
 # git worktree helpers
 gwta() {
-  handle_not_installed "gum" || return 127
+  check_installed gum || return $?
 
   # fetch all remote branches and prune
   if [ "$1" = "-r" ] || [ "$1" = "--remote" ]; then
@@ -268,9 +268,13 @@ pb() {
 
 # apt shortcuts
 apt-grep() {
+  if [ ! "$(command -v apt)" ]; then
+    echo '`apt` not installed.'
+    exit 127
+  fi
   if [ "$#" -eq 0 ]; then
     echo 'calls: apt search --names-only $@ | less'
-    return 1
+    exit 1
   fi
   apt search --names-only $@ | less
 }
@@ -280,4 +284,60 @@ apt-installed() {
     return 1
   fi
   dpkg -l | grep --color=always $@
+}
+
+# wrapper around `go doc` that uses `bat` to provide a pager and syntax
+# highlighting for the go code that `go doc` outputs, as well as `gum` to filter
+# down the list of packages that i might be searching for
+gd() {
+  # ensure that `bat` and `gum` are installed
+  check_installed gum || return $?
+  batbin=""
+  for bin in bat batcat; do
+    # ensure that the command exists and is not an alias
+    if command -v $bin | grep -v alias &>/dev/null; then
+      batbin="$bin"
+      break
+    fi
+  done
+  if test -z $batbin; then
+    echo "Couldn't find any of $@" >&2
+    return 127
+  fi
+
+  list_flag=false
+  while getopts ':l' opt; do
+    case $opt in
+      l)
+        list_flag=true
+        ;;
+      \?)
+        echo "Invalid option: -$OPTARG" >&2
+        return 1
+        ;;
+    esac
+  done
+
+  # if there are no arguments passed, then just list all the go standard library
+  # packages with gum and let me select one to pass to `go doc`
+  if [ $# -eq 0 ]; then
+    selection="$(go list std | gum filter --limit=1)"
+    test $? -ne 0 && return 1
+    go doc $selection | $batbin -l go
+  # if there's exactly 2 arguments and the second one is a `-l` flag, list all
+  # the exports of the package supplied in the first argument with `gum`, so
+  # that I can select the `func/type/var` to then pass to `go doc` for the
+  # package that I provided.
+  elif [ $# -eq 2 ] && [ ! -z $list_flag ]; then
+    selection="$(go doc $1 |
+      sed -En 's/^(func|type|var)\s(\w+).*$/\1 \2/p' | \
+      gum filter --limit=1 | \
+      cut -d ' ' -f 2)"
+    test $? -ne 0 && return 1
+    go doc "$1.$selection" | $batbin -l go
+  # otherwise, just use colorize the exact output of `go doc` with the first
+  # argument passed to it
+  else
+    go doc $1 | $batbin -l go
+  fi
 }

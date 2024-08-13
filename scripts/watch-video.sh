@@ -22,7 +22,7 @@ else
 fi
 
 # validate that we passed a youtube link to the program first, exit early if we didn't
-if echo "$link" | grep 'youtube.com'; then
+if echo "$link" | grep 'youtube.com\|youtu.be'; then
   # check if this is a valid watch later youtube link, if so transform it to a normal video link without the playlist details attached
   if echo "$link" | grep 'list=WL'; then
     link="https://youtube.com/watch?v=$(echo "$link" | sed -nr 's/^.*[?&]v=([^?&]+?)[?&].*$/\1/p')"

@@ -242,7 +242,7 @@ return {
     vim.keymap.set('n', '<leader>gw', builtin.live_grep, { desc = 'Live grep' })
     vim.keymap.set(
       'n',
-      '<leader>/',
+      '<leader>gf',
       builtin.current_buffer_fuzzy_find,
       { desc = 'Fuzzy find in buffer' }
     )

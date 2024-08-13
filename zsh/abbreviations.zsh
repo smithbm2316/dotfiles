@@ -14,6 +14,7 @@ abbr "cf"="\$HOME/dotfiles/scripts/cf.sh"
 abbr "cp"="cp -iv"
 abbr "cwd"="basename \$PWD"
 abbr "dcu"="docker compose up"
+abbr "got"="go test ./..."
 abbr "head"="HEAD~1"
 abbr "keyevent"="xev -event keyboard | grep -o -e '(keysym .*, .*)'"
 # disable lazygit shortcut for now so that i'm forced to learn and use the

@@ -17,7 +17,7 @@ return {
     local c = ls.choice_node
     local d = ls.dynamic_node
     -- local r = ls.restore_node
-    local rep = require('luasnip.extras').rep
+    local rep = require('luasnip.extras').rep -- repeat node
     -- local events = require 'luasnip.util.events'
     local types = require 'luasnip.util.types'
     local fmt = require('luasnip.extras.fmt').fmt
@@ -93,7 +93,7 @@ return {
       -- handle error clause
       snip(
         {
-          trig = 'err',
+          trig = 'errh',
           name = 'handle error',
           desc = 'handle errors with err != nil clause',
         },
@@ -116,6 +116,26 @@ if err != nil {{
         fmt([[{vars} := {value}]], {
           vars = i(1, 'vars'),
           value = i(0, 'value'),
+        })
+      ),
+      snip(
+        {
+          trig = 'lv',
+          name = 'log a value',
+          desc = 'log.Printf/fmt.Sprintf/fmt.Printf',
+        },
+        fmt([[{func}("{format}", {val}, {repval})]], {
+          func = c(1, {
+            t 'log.Printf',
+            t 'fmt.Sprintf',
+            t 'fmt.Printf',
+          }),
+          format = c(2, {
+            t '%#v',
+            t '%T, %#v',
+          }),
+          val = i(3),
+          repval = rep(3),
         })
       ),
     }

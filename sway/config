@@ -296,6 +296,8 @@ include /etc/sway/config.d/*
 # audio controls
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
 bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%-
+bindsym $mod+XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 50%
+bindsym $mod+XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 50%
 bindsym $mod+XF86AudioMute exec ~/dotfiles/sway/toggle-mic-mute.sh
 bindsym XF86AudioMicMute exec ~/dotfiles/sway/toggle-mic-mute.sh
 bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle

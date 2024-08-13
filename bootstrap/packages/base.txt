@@ -63,5 +63,6 @@ wget
 wireplumber
 wl-clipboard
 xwayland
+yt-dlp/bookworm-backports # 403 http forbidden error with stable version
 zip
 zsh

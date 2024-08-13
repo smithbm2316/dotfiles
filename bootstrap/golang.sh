@@ -8,5 +8,5 @@ go install golang.org/x/tools/gopls@latest
 # install go101 website locally
 go install go101.org/go101@latest
 
-# install the `golds` go doc generator
-go install go101.org/golds@latest
+# install godoc command
+go install golang.org/x/tools/cmd/godoc@latest

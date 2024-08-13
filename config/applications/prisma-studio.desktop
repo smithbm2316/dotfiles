@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Prisma Studio
-Exec=/usr/local/bin/prisma-studio
-Icon=/usr/share/icons/Papirus-Dark/32x32/apps/sqldeveloper.svg
-Terminal=false
-Type=Application
-StartupNotify=true
-Categories=Internet

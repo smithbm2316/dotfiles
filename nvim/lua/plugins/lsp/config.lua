@@ -141,11 +141,11 @@ M.my_on_attach = function(_, bufnr)
   )
 
   -- lsp symbols
-  vim.keymap.set('n', '<leader>lsw', function()
-    require('telescope.builtin').lsp_dynamic_workspace_symbols()
+  vim.keymap.set('n', '<leader>lw', function()
+    require('telescope.builtin').lsp_workspace_symbols()
   end, { desc = 'Lsp workspace symbols', buffer = bufnr })
-  vim.keymap.set('n', '<leader>lsd', function()
-    require('telescope.builtin').lsp_dynamic_document_symbols()
+  vim.keymap.set('n', '<leader>gs', function()
+    require('telescope.builtin').lsp_document_symbols()
   end, { desc = 'Lsp document symbols', buffer = bufnr })
 
   -- lsp definition
