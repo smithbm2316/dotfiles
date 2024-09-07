@@ -85,3 +85,19 @@ pwd="$HOME/dotfiles/bootstrap"
 . "$pwd/tmux.sh"
 . "$pwd/vscodium.sh"
 . "$pwd/zsh.sh"
+
+# if bat is installed, update the cache so that it installs custom themes
+# already in my dotfiles for use
+if command -v batcat; then
+  batcat cache --build
+elif command -v bat; then
+  bat cache --build
+fi
+
+# more audio tools
+# https://github.com/noisetorch/NoiseTorch: supress background noise in any
+# application for your mic on linux
+# https://github.com/mijorus/whisper: listen to your mic's audio via pipewire
+#
+# https://shallowsky.com/blog/linux/pulseaudio-pavucontrol.html
+# https://www.shallowsky.com/linux/pulseaudio-command-line.html

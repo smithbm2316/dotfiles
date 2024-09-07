@@ -2,10 +2,11 @@
 # ---------------------------------------------------------------------------- #
 # OUTPUT CONFIGURATION (`man sway-output` / `swaymsg -t get_outputs`)
 # ---------------------------------------------------------------------------- #
-set $primary DP-1
-output DP-1 {
+# DP-1 / HDMI-A-1
+set $primary 'Acer Technologies XZ322QU V3 241303C163W01'
+output $primary {
   enable
-  mode 2560x1440@59.951Hz
+  mode 2560x1440@119.998Hz
   pos 0 0
   adaptive_sync enabled
 }
@@ -27,7 +28,7 @@ bindsym $mod+$alt+d exec swaymsg 'output eDP-1 enable'
 # IDLE CONFIGURATION
 # ---------------------------------------------------------------------------- #
 # auto-lock after 5 minutes of idling
-exec swayidle -w timeout 300 'swaylock -f -c 0f172a'
+# exec swayidle -w timeout 300 'swaylock -f -c 0f172a'
 
 
 

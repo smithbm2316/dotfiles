@@ -200,18 +200,18 @@ bindsym $mod+m fullscreen
 popup_during_fullscreen smart
 
 # Toggle the current focus between tiling and floating mode
-bindsym $mod+ctrl+space floating toggle
+bindsym $mod+space floating toggle
 # "sticks" a floating window to the current output so it shows on all workspaces
 bindsym $mod+$alt+space sticky toggle
 
 # Swap focus between the tiling area and the floating area
-bindsym $mod+space focus mode_toggle
+bindsym $mod+ctrl+space focus mode_toggle
 
 # Move focus to the parent container
 bindsym $mod+p focus parent
 
 # launch browsers
-bindsym $mod+b exec $browser
+bindsym $mod+b exec $browser -P personal
 bindsym $mod+ctrl+b exec $browser -P work
 
 
@@ -268,9 +268,12 @@ bindsym $mod+r mode "resize"
 # STATUS BAR
 # ---------------------------------------------------------------------------- #
 # Read `man 5 sway-bar` for more information about this section.
+font pango:IBM Plex Mono 10
+set $bar_height 24
 bar {
   position top
   mode dock
+  height $bar_height
 
   # When the status_command prints a new line to stdout, swaybar updates.
   # The default just shows the current date and time.
@@ -317,9 +320,14 @@ bindsym $mod+$alt+x exec ~/dotfiles/scripts/airpods.sh codec
 bindsym XF86TouchpadToggle exec ~/dotfiles/scripts/toggle-touchpad-enabled.sh
 
 # screenshots
+# select a portion of the screen and copy it to the clipboard
 bindsym Print exec grim -g "$(slurp)" - | wl-copy && \
   notify-send 'Copied selection to clipboard!'
-bindsym $mod+Print exec grim -o $primary - | wl-copy && \
+# select a portion of the screen and annotate it with ksnip
+bindsym $mod+Print exec grim -g "$(slurp)" - | ksnip -e - && \
+  swaymsg 'move position center'
+# copy the entire current screen to clipboard
+bindsym $mod+ctrl+Print exec grim -o $primary - | wl-copy && \
   notify-send 'Copied screen to clipboard!'
 
 # color picker
@@ -346,9 +354,24 @@ for_window [app_id="^[bB]lueman-manager$"] {
   resize set 750 500
   move position center
 }
+for_window [app_id="^org.ksnip.ksnip$"] {
+  floating enable
+  move position center
+}
 for_window [app_id="^[pP]avucontrol$"] {
   floating enable
   resize set 750 500
+  move position center
+}
+for_window [class="^[sS]lack$"] {
+  floating enable
+  # 1440 - $bar_height (24)
+  resize set 1680 1416
+  move position center
+}
+for_window [app_id="ncspot"] {
+  floating enable
+  resize set 1680 1416
   move position center
 }
 

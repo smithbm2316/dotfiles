@@ -81,7 +81,7 @@ _G.get_css_files = function()
 end
 
 ---@type string[] list of filetypes where html features should be enabled
-_G.html_like_fts = {
+_G.html_like_fts_no_jsx = {
   'astro',
   'blade',
   'django',
@@ -91,18 +91,20 @@ _G.html_like_fts = {
   'gohtmltmpl',
   'html',
   'htmldjango',
-  'javascript',
-  'javascriptreact',
   'jinja',
   'jinja.html',
   'liquid',
   'nunjucks',
   'php',
   'templ',
-  'typescript',
-  'typescriptreact',
   'webc',
 }
+
+---@type string[] list of filetypes where html features should be enabled
+_G.html_like_fts = vim.tbl_extend('force', _G.html_like_fts_no_jsx, {
+  'javascriptreact',
+  'typescriptreact',
+})
 
 ---@type string[] list of filetypes where css features should be enabled
 _G.css_like_fts = {

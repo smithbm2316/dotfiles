@@ -28,7 +28,7 @@
   rsl = reset --soft HEAD~1
   rs = restore --staged
   s = status -u
-  stall = stash push -u -m
+  st = stash push -u
   swp = switch -
   sw = switch
   wta = worktree add
@@ -62,6 +62,12 @@
   conflictstyle = diff3
 [pull]
 	rebase = true
+[stash]
+  showPatch = true
+  showStat = true
+  showIncludeUntracked = true
 [user]
 	name = Ben Smith
 	email = bsmithdev@mailbox.org
+[includeIf "gitdir/i:~/vincit/"]
+  path = ~/dotfiles/git/vincit

@@ -26,7 +26,7 @@ return {
   config = function(_, opts)
     require('cloak').setup(opts)
 
-    vim.keymap.set('n', '<leader>tc', [[<cmd>CloakToggle<cr>]], {
+    vim.keymap.set('n', '<leader>tC', [[<cmd>CloakToggle<cr>]], {
       desc = 'Toggle cloak.nvim',
     })
   end,

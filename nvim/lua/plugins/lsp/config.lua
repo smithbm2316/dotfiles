@@ -202,7 +202,21 @@ local servers = {
   bashls = {
     filetypes = { 'sh', 'bash', 'zsh' },
   },
-  biome = {},
+  --[[biome = {
+    filetypes = {
+      'css',
+      'javascript',
+      'javascriptreact',
+      'json',
+      'jsonc',
+      'typescript',
+      'typescript.tsx',
+      'typescriptreact',
+      'astro',
+      'svelte',
+      'vue',
+    },
+  },--]]
   cssls = {
     init_options = {
       provideFormatter = true,
@@ -225,13 +239,14 @@ local servers = {
           duplicateProperties = 'warning',
           hexColorLength = 'error',
           propertyIgnoredDueToDisplay = 'warning',
+          unknownAtRules = 'ignore',
           vendorPrefix = 'warning',
         },
         validate = true,
       },
     },
   },
-  css_variables = {
+  --[[css_variables = {
     cssVariables = {
       lookupFiles = {
         '**/*.less',
@@ -256,8 +271,8 @@ local servers = {
         '**/www',
       },
     },
-  },
-  denols = {
+  },--]]
+  --[[denols = {
     root_dir = util.root_pattern('deno.json', 'deno.jsonc'),
     single_file_support = false,
     settings = {
@@ -265,9 +280,9 @@ local servers = {
       lint = true,
       unstable = false,
     },
-  },
+  },--]]
   emmet_language_server = {
-    filetypes = _G.html_like_fts,
+    filetypes = _G.html_like_fts_no_jsx,
   },
   gopls = {
     settings = {
@@ -406,7 +421,7 @@ local servers = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
   tailwindcss = {
-    filetypes = vim.tbl_extend('force', _G.html_like_fts, _G.css_like_fts),
+    -- filetypes = vim.tbl_extend('force', _G.html_like_fts, _G.css_like_fts),
     root_dir = util.root_pattern(
       'tailwind.config.js',
       'tailwind.config.cjs',
@@ -496,6 +511,7 @@ if null_ok then
   null_ls.setup {
     on_attach = M.my_on_attach,
     capabilities = M.my_capabilities,
+    filetypes = {},
     sources = {
       -- code actions
       null_ls.builtins.code_actions.eslint.with {
@@ -573,9 +589,9 @@ if null_ok then
           return not utils.root_has_file { 'biome.jsonc', 'biome.json' }
         end,
         filetypes = {
-          'css',
-          'sass',
-          'scss',
+          -- 'css',
+          -- 'sass',
+          -- 'scss',
           'graphql',
           'javascript',
           'javascriptreact',

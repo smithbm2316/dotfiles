@@ -50,8 +50,6 @@ source "$ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 bindkey -M viins '^e' autosuggest-accept
 bindkey -v '^e' autosuggest-accept
 
-# load fzf completions & keybindings
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
 # load tldr completions
 [ -f "$ZDOTDIR/completions/tldr-complete.zsh" ] && source \
   "$ZDOTDIR/completions/tldr-complete.zsh"
@@ -62,29 +60,8 @@ autoload -Uz aliases.zsh; aliases.zsh
 # load functions
 autoload -Uz functions.zsh; functions.zsh
 
-# load my ssh keys on startup
-load_ssh_keys() {
-  # start up ssh-agent if it's not been started yet
-  if [ -z "$(pgrep ssh-agent)" ]; then
-    eval "$(ssh-agent -c)"
-  fi
-
-  # setup keychain settings if not in tmux and you're in an interactive shell
-  if [ -z "$TMUX" ] && [ -o interactive ]; then
-    local zsh_cmd="$(command -v zsh)"
-    local ls_cmd="$(command -v ls)"
-    local keychain_cmd="$(command -v keychain)"
-    local ssh_keys="$($ls_cmd ~/.ssh | grep -v -e pub -e known_hosts -e config)"
-    # uncomment line below to debug
-    echo "SHELL=$zsh_cmd $keychain_cmd --agents ssh --eval --quiet -Q $ssh_keys | source"
-    SHELL="$zsh_cmd" "$keychain_cmd" --eval --quiet -Q "$ssh_keys" | source && echo "Loaded $ssh_keys from ~/.ssh"
-  fi
-}
-
 # Linux settings
 if [ "$(uname -s)" = "Linux" ]; then
-  # load_ssh_keys
-
   # Debian settings
   if [ -f /etc/debian_version ]; then
     # Set `bat` as default man pager
@@ -95,11 +72,6 @@ if [ "$(uname -s)" = "Linux" ]; then
     export FZF_DEFAULT_COMMAND="fdfind --type f --color=never"
   fi
 elif [ "$(uname -s)" = "Darwin" ]; then
-  # setup keychain settings if not in tmux
-  # if [ -z $TMUX && status --is-interactive ]; then
-    # SHELL=/usr/bin/zsh /usr/local/bin/keychain --eval --quiet -Q gl_vincit gh_vincit gh_personal | source
-  # fi
-
   # load ruby and rbenv
   if [ "$(command -v rbenv)" ]; then
     eval "$(rbenv init - zsh)"

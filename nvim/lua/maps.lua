@@ -135,6 +135,15 @@ vim.keymap.set('n', '<leader>tw', function()
   end
 end, { desc = 'Toggle line wrapping' })
 
+-- toggle conceallevel
+vim.keymap.set('n', '<leader>tc', function()
+  if vim.opt_local.conceallevel:get() ~= 0 then
+    vim.opt_local.conceallevel = 0
+  else
+    vim.opt_local.conceallevel = 2
+  end
+end, { desc = 'Toggle conceallevel' })
+
 -- change a split between horizontal and vertical
 vim.keymap.set('n', '<leader>ws', function()
   local a = vim.api

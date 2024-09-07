@@ -23,6 +23,7 @@ grim
 info
 jq
 kitty
+ksnip
 libavcodec-extra
 libnotify-bin
 libpam0g

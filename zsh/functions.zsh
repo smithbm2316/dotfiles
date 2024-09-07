@@ -1,7 +1,7 @@
 # helper function to check for a binary
 check_installed() {
   if ! command -v $1 &> /dev/null; then
-    echo '`gum` not installed' && return 127
+    echo "$1 not installed" && return 127
     return 127
   fi
 }
@@ -339,5 +339,18 @@ gd() {
   # argument passed to it
   else
     go doc $1 | $batbin -l go
+  fi
+}
+
+# use qalc to calculate rems. 
+rem() {
+  check_installed qalc || return $?
+
+  if [ "$1" = "x" ]; then
+    qalc "$2*16"
+  elif [ "$1" = "/" ]; then
+    qalc "$2/16"
+  else
+    echo 'Requires 2 arguments, x or / to specify operation and value to calculate.'
   fi
 }

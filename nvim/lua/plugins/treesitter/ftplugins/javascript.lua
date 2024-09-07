@@ -10,5 +10,6 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
   group = vim.api.nvim_create_augroup('JavascriptFtCmds', { clear = true }),
   callback = function()
     insert_at_cursor_map('<c-u>/', '/** @| */', 'jsdoc', true)
+    insert_at_cursor_map('<c-u>a', '/** @| */', 'jsdoc', true)
   end,
 })

@@ -19,11 +19,12 @@ abbr "head"="HEAD~1"
 abbr "keyevent"="xev -event keyboard | grep -o -e '(keysym .*, .*)'"
 # disable lazygit shortcut for now so that i'm forced to learn and use the
 # regular git cli instead
-# abbr "lg"="lazygit"
+abbr "lg"="lazygit"
 abbr "mkdir"="mkdir -pv"
 abbr "mv"="mv -iv"
 abbr "nv"="nvim"
 abbr "pg"="pgrep"
+abbr "pgn"="ps ax | grep ' [n]vim$'"
 abbr "pk"="pkill"
 abbr "setvol50"="pactl set-sink-volume @DEFAULT_SINK@ 50%"
 abbr "sosh"="source \$XDG_CONFIG_HOME/zsh/.zshrc"

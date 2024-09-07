@@ -3,5 +3,5 @@ return {
   dependencies = {
     'hrsh7th/nvim-cmp',
   },
-  ft = _G.html_like_fts,
+  ft = _G.html_like_fts_no_jsx,
 }
