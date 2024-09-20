@@ -34,6 +34,9 @@ kitty/kitty.conf.bak
 keyd/app.log
 keyd/app.lock
 
+# ksnip
+ksnip/ksnip.conf
+
 # ignore AppSupport/ dir for iTerm2
 iTerm2/AppSupport/*
 
