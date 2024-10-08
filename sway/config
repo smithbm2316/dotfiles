@@ -313,8 +313,10 @@ bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
 bindsym XF86MonBrightnessUp exec brightnessctl s +10%
 
 # connect/disconnect/toggle codec for airpods
-bindsym $mod+$alt+a exec ~/dotfiles/scripts/airpods.sh connection
-bindsym $mod+$alt+x exec ~/dotfiles/scripts/airpods.sh codec
+bindsym $mod+$alt+a exec ~/dotfiles/scripts/bt-device.sh airpods connection
+bindsym $mod+$alt+x exec ~/dotfiles/scripts/bt-device.sh airpods codec
+# connect/disconnect/toggle codec for beats flex
+bindsym $mod+$alt+b exec ~/dotfiles/scripts/bt-device.sh beats-flex connection
 
 # toggle touchpad enabled/disabled
 bindsym XF86TouchpadToggle exec ~/dotfiles/scripts/toggle-touchpad-enabled.sh
