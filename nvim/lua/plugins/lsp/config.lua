@@ -421,11 +421,12 @@ local servers = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
   tailwindcss = {
-    -- filetypes = vim.tbl_extend('force', _G.html_like_fts, _G.css_like_fts),
+    filetypes = vim.tbl_extend('force', _G.css_like_fts, _G.html_like_fts),
     root_dir = util.root_pattern(
       'tailwind.config.js',
       'tailwind.config.cjs',
-      'tailwind.config.ts'
+      'tailwind.config.ts',
+      '.tailwind-lsp'
     ),
     -- add support for custom languages
     -- https://github.com/tailwindlabs/tailwindcss-intellisense/issues/84#issuecomment-1128278248
@@ -433,12 +434,14 @@ local servers = {
       userLanguages = {
         etlua = 'html',
         templ = 'html',
+        webc = 'html',
       },
     },
     settings = {
       tailwindCSS = {
         includeLanguages = {
           templ = 'html',
+          webc = 'html',
         },
         classAttributes = { 'class', 'className', 'class:list', 'classList' },
         codeActions = true,

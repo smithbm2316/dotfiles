@@ -7,6 +7,7 @@ return {
       build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
     },
     'nvim-tree/nvim-web-devicons',
+    'folke/trouble.nvim',
   },
   event = 'VeryLazy',
   config = function()
@@ -21,14 +22,6 @@ return {
     -- local sorters = require 'telescope.sorters'
     -- local finders = require 'telescope.finders'
     -- local conf = require('telescope.config').values
-
-    local use_trouble_source = function()
-      local ok, trouble_telescope = pcall(require, 'trouble.sources.telescope')
-      if not ok then
-        return nil
-      end
-      return trouble_telescope.open_with_trouble
-    end
 
     -- files to ignore with `file_ignore_patterns`
     bs.telescope.always_ignored =
@@ -55,7 +48,7 @@ return {
         '%.wav',
         '%.flv',
         '%.avi',
-        '%.webm',
+        '%.webm$',
         '%.env',
         '%.env%..*',
         '%.db',
@@ -94,7 +87,7 @@ return {
       '%.wav',
       '%.flv',
       '%.avi',
-      '%.webm',
+      '%.webm$',
       '%.ttf',
       '%.otf',
       '%.woff',
@@ -158,6 +151,14 @@ return {
       lsp_range_code_actions = themes.get_dropdown(),
     }
 
+    ---@type function|false
+    local open_qflist_with_trouble = false
+    local trouble_telescope_ok, trouble_telescope =
+      pcall(require, 'trouble.sources.telescope')
+    if trouble_telescope_ok then
+      open_qflist_with_trouble = trouble_telescope.open
+    end
+
     -- TELESCOPE CONFIG
     telescope.setup {
       pickers = default_picker_opts,
@@ -176,14 +177,14 @@ return {
             ['<c-x>'] = false,
             ['<c-s>'] = actions.select_horizontal,
             ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
-            ['<c-t>'] = use_trouble_source,
+            ['<c-t>'] = open_qflist_with_trouble,
             ['<c-c>'] = actions.close,
           },
           i = {
             ['<c-x>'] = false,
             ['<c-s>'] = actions.select_horizontal,
             ['<c-q>'] = actions.send_to_qflist + actions.open_qflist,
-            ['<c-t>'] = use_trouble_source,
+            ['<c-t>'] = open_qflist_with_trouble,
             ['<c-c>'] = actions.close,
             ['<c-k>'] = actions.delete_buffer,
           },

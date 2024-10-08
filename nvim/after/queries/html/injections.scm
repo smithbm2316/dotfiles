@@ -49,5 +49,5 @@
   (#not-eq? @_name "webc:type")
   (#not-eq? @_name "11ty:type")
   (#not-eq? @_name "11ty:import")
-  (#match? @_name "^((webc)?:|\\@(html|raw|text))")
+  (#match? @_name "^((webc)?:|\\@(html|raw|text|attributes))")
   (#set! injection.language "javascript"))
