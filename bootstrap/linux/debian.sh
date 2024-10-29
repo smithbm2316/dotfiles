@@ -46,7 +46,7 @@ cd ~/dotfiles && git submodule init && git submodule update || \
   echo "Couldn't find ~/dotfiles, skipping git submodules for that repo" && exit 1
 
 # install base packages from packages/base.txt, removing any comments first
-sed 's/#.*$//' ~/dotfiles/bootstrap/packages/base.txt | \
+sed 's/#.*$//' ~/dotfiles/bootstrap/linux/packages/base.txt | \
   xargs sudo apt install
 
 # enable bluetooth
