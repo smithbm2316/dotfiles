@@ -1,0 +1,3 @@
+# vim: ft=gitconfig
+[user]
+  email = bensmith@thuma.co

@@ -6,10 +6,11 @@ return {
     -- Id is automatically added at the beginning, and name at the end
     -- See :help oil-columns
     columns = {
+      -- 'permissions',
+      -- 'mtime',
+      'size',
+      -- 'type',
       'icon',
-      -- "permissions",
-      -- "size",
-      -- "mtime",
     },
     -- Buffer-local options to use for oil buffers
     buf_options = {
@@ -70,7 +71,7 @@ return {
     use_default_keymaps = true,
     view_options = {
       -- Show files and directories that start with "."
-      show_hidden = true,
+      show_hidden = false,
       -- This function defines what is considered a "hidden" file
       is_hidden_file = function(name, bufnr)
         return vim.startswith(name, '.')
@@ -145,10 +146,16 @@ return {
     require('oil').setup(opts)
 
     vim.keymap.set('n', '<leader>lc', function()
-      require('oil').toggle_float()
+      -- using the float doesn't keep track of the jumplist properly
+      -- https://github.com/stevearc/oil.nvim/issues/285
+      -- require('oil').toggle_float()
+      require('oil').open()
     end, { desc = 'List cwd' })
     vim.keymap.set('n', '<leader>lf', function()
-      require('oil').toggle_float(vim.fn.getcwd())
+      -- using the float doesn't keep track of the jumplist properly
+      -- https://github.com/stevearc/oil.nvim/issues/285
+      -- require('oil').toggle_float(vim.fn.getcwd())
+      require('oil').open(vim.fn.getcwd())
     end, { desc = 'List files' })
   end,
 }

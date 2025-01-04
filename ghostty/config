@@ -1,0 +1,14 @@
+# vim:ft=config
+theme = dark:catppuccin-mocha,light:rose-pine-dawn
+
+font-family = TX-02
+font-size = 14
+font-thicken = true
+
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
+keybind = ctrl+shift+equal=increase_font_size:1
+keybind = ctrl+shift+minus=decrease_font_size:1
+
+link-url = true
+title = " "

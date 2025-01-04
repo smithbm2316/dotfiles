@@ -12,7 +12,7 @@ export HISTSIZE=10000
 export SAVEHIST=10000
 
 # Programming languages and their dependencies
-export ANDROID_HOME=$HOME/Android/Sdk
+# export ANDROID_HOME=$HOME/Android/Sdk
 export CARGOBIN="$HOME/.cargo/bin"
 export COMPOSER_VENDOR_BIN="$XDG_CONFIG_HOME/composer/vendor/bin"
 export DENOBIN="$HOME/.deno/bin"
@@ -23,7 +23,6 @@ export GOPATH="$HOME/go"
 export LOCALBIN="$HOME/.local/bin"
 export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
 export YARNBIN="$HOME/.yarn/bin"
-export VOLTA_HOME="$HOME/.volta"
 
 # luarocks and openresty setup
 export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
@@ -46,18 +45,23 @@ export FZF_DEFAULT_COMMAND="fd -t f='--color=never'"
 export FZF_DEFAULT_OPTS="--multi --layout=reverse-list --border=rounded --tabstop=2 --bind='ctrl-d:page-down,ctrl-u:page-up'"
 export HOMEBREW_NO_ANALYTICS=1
 export ASTRO_TELEMETRY_DISABLED=1
+export KIT_DISABLE_TELEMETRY=true
 export NEXT_TELEMETRY_DISABLED=1
+export STORYBOOK_DISABLE_TELEMETRY=1
 
 if [ "$(uname -s)" = "Linux" ]; then
   export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
   export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
   export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
+elif [ "$(uname -s)" = "Darwin" ]; then
+  export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+  export HOMEBREW_PREFIX="/opt/homebrew"
+  export HOMEBREW_REPOSITORY="/opt/homebrew/Homebrew"
 fi
 
 path+=("$LOCALBIN")
 path+=("$HOME/.local/nvim/bin")
 path+=("$GOBIN")
-path+=("$VOLTA_HOME/bin")
 path+=("$DENOBIN")
 path+=("$CARGOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
@@ -67,5 +71,5 @@ path+=("$OPENRESTY_BIN")
 path+=("$LUAROCKS_USER_BIN")
 path+=("$LUAROCKS_PROJECT_BIN")
 path+=("$CWD_BIN")
-path+=("$ANDROID_HOME/emulator")
-path+=("$ANDROID_HOME/platform-tools")
+# path+=("$ANDROID_HOME/emulator")
+# path+=("$ANDROID_HOME/platform-tools")

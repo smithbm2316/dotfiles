@@ -315,7 +315,7 @@ local servers = {
   },
   graphql = {},
   html = {
-    filetypes = _G.html_like_fts,
+    filetypes = _G.html_like_fts_no_jsx,
     single_file_support = false,
     init_options = {
       configurationSection = { 'html', 'css', 'javascript' },
@@ -345,68 +345,49 @@ local servers = {
     autostart = false,
   },
   jsonls = {
-    schemas = {
-      {
-        fileMatch = { 'package.json' },
-        url = 'https://json.schemastore.org/package.json',
-      },
-      {
-        fileMatch = { 'tsconfig*.json' },
-        url = 'https://json.schemastore.org/tsconfig.json',
-      },
-      {
-        fileMatch = { 'jsconfig.json' },
-        url = 'https://json.schemastore.org/jsconfig.json',
-      },
-      {
-        fileMatch = {
-          '.prettierrc',
-          '.prettierrc.js',
-          '.prettierrc.json',
-          'prettier.config.json',
+    settings = {
+      json = {
+        schemas = {
+          {
+            fileMatch = { 'package.json' },
+            url = 'https://json.schemastore.org/package.json',
+          },
+          {
+            fileMatch = { 'tsconfig*.json' },
+            url = 'https://json.schemastore.org/tsconfig.json',
+          },
+          {
+            fileMatch = { 'jsconfig.json' },
+            url = 'https://json.schemastore.org/jsconfig.json',
+          },
+          {
+            fileMatch = {
+              '.prettierrc',
+              '.prettierrc.json',
+              'prettier.config.json',
+            },
+            url = 'https://json.schemastore.org/prettierrc.json',
+          },
+          {
+            fileMatch = { '.eslintrc', '.eslintrc.json' },
+            url = 'https://json.schemastore.org/eslintrc.json',
+          },
+          {
+            fileMatch = { 'deno.json', 'deno.jsonc' },
+            url = 'https://deno.land/x/deno/cli/schemas/config-file.v1.json',
+          },
+          {
+            fileMatch = { 'composer.json' },
+            url = 'https://getcomposer.org/schema.json',
+          },
         },
-        url = 'https://json.schemastore.org/prettierrc.json',
-      },
-      {
-        fileMatch = { '.eslintrc', '.eslintrc.json' },
-        url = 'https://json.schemastore.org/eslintrc.json',
-      },
-      {
-        fileMatch = { '.babelrc', '.babelrc.json', 'babel.config.json' },
-        url = 'https://json.schemastore.org/babelrc.json',
-      },
-      {
-        fileMatch = { 'lerna.json' },
-        url = 'https://json.schemastore.org/lerna.json',
-      },
-      {
-        fileMatch = { 'now.json', 'vercel.json' },
-        url = 'https://json.schemastore.org/now.json',
-      },
-      {
-        fileMatch = {
-          '.stylelintrc',
-          '.stylelintrc.json',
-          'stylelint.config.json',
-        },
-        url = 'https://json.schemastore.org/stylelintrc.json',
-      },
-      {
-        fileMatch = {
-          'deno.json',
-          'deno.jsonc',
-        },
-        url = 'https://deno.land/x/deno/cli/schemas/config-file.v1.json',
-      },
-      {
-        fileMatch = { 'composer.json' },
-        url = 'https://getcomposer.org/schema.json',
       },
     },
   },
   marksman = {
     single_file_support = false,
   },
+  ols = {},
   pylsp = {},
   --[[ pyright = {
     disableOrganizeImports = false,
@@ -432,6 +413,7 @@ local servers = {
     -- https://github.com/tailwindlabs/tailwindcss-intellisense/issues/84#issuecomment-1128278248
     init_options = {
       userLanguages = {
+        edge = 'html',
         etlua = 'html',
         templ = 'html',
         webc = 'html',
@@ -440,6 +422,8 @@ local servers = {
     settings = {
       tailwindCSS = {
         includeLanguages = {
+          edge = 'html',
+          etlua = 'html',
           templ = 'html',
           webc = 'html',
         },
@@ -462,8 +446,12 @@ local servers = {
           recommendedVariantOrder = 'warning',
         },
         experimental = {
+          -- classRegex = {
+          --   { 'cva\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
+          -- },
           classRegex = {
             { 'cva\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
+            { 'cx\\(([^)]*)\\)', "(?:'|\"|`)([^']*)(?:'|\"|`)" },
           },
         },
       },
@@ -476,7 +464,7 @@ local servers = {
       'lsp',
     },
   },
-  vimls = {},
+  -- vimls = {},
   -- vtsls = {},
 }
 
@@ -511,69 +499,47 @@ lspconfig.intelephense.setup {
 
 local null_ok, null_ls = pcall(require, 'null-ls')
 if null_ok then
-  null_ls.setup {
-    on_attach = M.my_on_attach,
-    capabilities = M.my_capabilities,
-    filetypes = {},
-    sources = {
-      -- code actions
-      null_ls.builtins.code_actions.eslint.with {
-        condition = function(utils)
-          return utils.root_has_file {
-            'eslint.config.js',
-            'eslint.config.cjs',
-            'eslint.config.mjs',
-            '.eslintrc',
-            '.eslintrc.cjs',
-            '.eslintrc.js',
-            '.eslintrc.json',
-            '.eslintrc.yaml',
-            '.eslintrc.yml',
-          }
-        end,
+  local eslint_condition = function(utils)
+    return utils.root_has_file {
+      'eslint.config.js',
+      'eslint.config.cjs',
+      'eslint.config.mjs',
+      '.eslintrc',
+      '.eslintrc.cjs',
+      '.eslintrc.js',
+      '.eslintrc.json',
+      '.eslintrc.yaml',
+      '.eslintrc.yml',
+    }
+  end
+
+  local null_ls_sources = {
+    null_ls.builtins.diagnostics.djlint.with {
+      filetypes = {
+        'django',
+        'htmldjango',
+        'jinja.html',
+        'liquid',
+        'nunjucks',
       },
-      -- diagnostics
-      null_ls.builtins.diagnostics.eslint.with {
-        condition = function(utils)
-          return utils.root_has_file {
-            'eslint.config.js',
-            'eslint.config.cjs',
-            'eslint.config.mjs',
-            '.eslintrc',
-            '.eslintrc.cjs',
-            '.eslintrc.js',
-            '.eslintrc.json',
-            '.eslintrc.yaml',
-            '.eslintrc.yml',
-          }
-        end,
+    },
+    -- use `write-good` prose linter in markdown
+    -- null_ls.builtins.diagnostics.write_good,
+    -- formatting
+    null_ls.builtins.formatting.djlint.with {
+      filetypes = {
+        'django',
+        'htmldjango',
+        'jinja.html',
+        'liquid',
+        'nunjucks',
       },
-      null_ls.builtins.diagnostics.djlint.with {
-        filetypes = {
-          'django',
-          'htmldjango',
-          'jinja.html',
-          'liquid',
-          'nunjucks',
-        },
-      },
-      -- use `write-good` prose linter in markdown
-      -- null_ls.builtins.diagnostics.write_good,
-      -- formatting
-      null_ls.builtins.formatting.djlint.with {
-        filetypes = {
-          'django',
-          'htmldjango',
-          'jinja.html',
-          'liquid',
-          'nunjucks',
-        },
-      },
-      -- python
-      null_ls.builtins.formatting.blue,
-      -- php
-      -- formatter for blade templates
-      --[[ null_ls.builtins.formatting.blade_formatter.with {
+    },
+    -- python
+    null_ls.builtins.formatting.blue,
+    -- php
+    -- formatter for blade templates
+    --[[ null_ls.builtins.formatting.blade_formatter.with {
         prefer_local = './node_modules/.bin',
         filetypes = { 'blade', 'php' },
         -- only enable if it's a blade file
@@ -581,35 +547,63 @@ if null_ok then
           return vim.api.nvim_buf_get_name(0):match '%.blade%.php$' ~= nil
         end,
       }, ]]
-      -- format php files with Laravel's pint package
-      null_ls.builtins.formatting.pint.with {
-        filetypes = { 'blade', 'php' },
-      },
-      null_ls.builtins.formatting.fixjson,
-      null_ls.builtins.formatting.prettier.with {
-        prefer_local = './node_modules/.bin',
-        condition = function(utils)
-          return not utils.root_has_file { 'biome.jsonc', 'biome.json' }
-        end,
-        filetypes = {
-          -- 'css',
-          -- 'sass',
-          -- 'scss',
-          'graphql',
-          'javascript',
-          'javascriptreact',
-          'typescript',
-          'typescriptreact',
-          'vue',
-          'yaml',
-        },
-        extra_args = { '--plugin-search-dir', '.' },
-      },
-      null_ls.builtins.formatting.stylua.with {
-        filetypes = { 'lua', 'luau', 'tl' },
+    -- format php files with Laravel's pint package
+    null_ls.builtins.formatting.pint.with {
+      filetypes = { 'blade', 'php' },
+    },
+    null_ls.builtins.formatting.fixjson,
+    null_ls.builtins.formatting.eslint_d.with {
+      condition = eslint_condition,
+      filetypes = {
+        'javascript',
+        'javascriptreact',
+        'typescript',
+        'typescriptreact',
       },
     },
+    null_ls.builtins.formatting.prettier.with {
+      prefer_local = './node_modules/.bin',
+      condition = function(utils)
+        return not utils.root_has_file { 'biome.jsonc', 'biome.json' }
+      end,
+      filetypes = {
+        -- 'css',
+        -- 'sass',
+        -- 'scss',
+        'graphql',
+        'javascript',
+        'javascriptreact',
+        'typescript',
+        'typescriptreact',
+        'vue',
+        'yaml',
+      },
+      extra_args = { '--plugin-search-dir', '.' },
+    },
+    null_ls.builtins.formatting.stylua.with {
+      filetypes = { 'lua', 'luau', 'tl' },
+    },
   }
+
+  local enable_eslint = false
+  if enable_eslint then
+    null_ls_sources = vim.tbl_extend('force', null_ls_sources, {
+      null_ls.builtins.code_actions.eslint_d.with {
+        condition = eslint_condition,
+      },
+      null_ls.builtins.diagnostics.eslint_d.with {
+        condition = eslint_condition,
+      },
+    })
+  end
+
+  null_ls.setup {
+    on_attach = M.my_on_attach,
+    capabilities = M.my_capabilities,
+    filetypes = {},
+    sources = null_ls_sources,
+  }
+
   create_augroup('AutoFormatting', {
     {
       events = 'BufWritePre',
@@ -628,6 +622,7 @@ if null_ok then
         '*.lua',
         '*.mjs',
         '*.njk',
+        '*.odin',
         '*.php',
         '*.py',
         '*.rockspec',
@@ -654,6 +649,7 @@ if null_ok then
               astro = 'astro',
               html = 'html',
               go = 'gopls',
+              odin = 'ols',
               templ = 'templ',
             }
             local lsps_to_disable_formatting = {

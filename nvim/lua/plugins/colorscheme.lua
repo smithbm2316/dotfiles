@@ -9,7 +9,6 @@ return {
   config = function()
     require('catppuccin').setup {
       flavour = 'mocha', -- latte, frappe, macchiato, mocha
-      -- :h background
       -- background = {
       --   light = 'latte',
       --   dark = 'mocha',
@@ -61,27 +60,46 @@ return {
         which_key = true,
       },
     }
+
     require('everforest').setup {
       ---Controls the "hardness" of the background. Options are "soft", "medium" or "hard".
       ---Default is "medium".
-      background = 'light',
+      background = 'medium',
     }
 
-    if vim.opt.background:get() == 'dark' then
-      vim.cmd [[colorscheme catppuccin-mocha]]
+    local background_to_colorscheme = {
+      light = 'everforest',
+      dark = 'catppuccin-mocha',
+    }
+
+    -- https://emmer.dev/blog/automate-your-macos-defaults/
+    -- https://www.reddit.com/r/neovim/comments/1d3hk1t/automatic_dark_mode_following_system_theme_on/
+    if vim.uv.os_uname().sysname == 'Darwin' then
+      -- Check if 'defaults' is executable
+      if vim.fn.executable 'defaults' ~= 0 then
+        -- Execute command to check if the macOS appearance is set to Dark
+        local appleInterfaceStyle =
+          vim.fn.system { 'defaults', 'read', '-g', 'AppleInterfaceStyle' }
+        if appleInterfaceStyle:find 'Dark' then
+          vim.opt.background = 'dark'
+        else
+          vim.opt.background = 'light'
+        end
+      end
     else
-      vim.cmd [[colorscheme everforest]]
+      vim.opt.background = 'dark'
     end
 
-    -- switch between light/dark theme
+    vim.cmd(
+      'colorscheme '
+        .. background_to_colorscheme[vim.opt.background:get() or 'dark']
+    )
+
     vim.keymap.set('n', '<leader>tt', function()
-      if vim.opt.background:get() == 'dark' then
-        vim.opt.background = 'light'
-        vim.cmd [[colorscheme everforest]]
-      else
-        vim.opt.background = 'dark'
-        vim.cmd [[colorscheme catppuccin-mocha]]
-      end
+      local new_colorscheme = vim.opt.background:get() == 'dark' and 'light'
+        or 'dark'
+      vim.opt.background = new_colorscheme
+      vim.cmd('colorscheme ' .. background_to_colorscheme[new_colorscheme])
     end, { desc = 'Toggle color mode' })
   end,
 }

@@ -406,6 +406,34 @@ if err != nil {{
     })
     -- why do we use a key here: https://github.com/L3MON4D3/LuaSnip/issues/81#issuecomment-1073301357
 
+    ls.add_snippets('all', {
+      -- html5 boilerplate
+      snip(
+        {
+          trig = 'html5',
+          name = 'html5',
+          dscr = 'html5 boilerplate',
+        },
+        fmt(
+          [[<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>Title</title>
+</head>
+<body>
+  {content}
+</body>
+</html>]],
+          {
+            content = i(0),
+          }
+        )
+      ),
+    })
+
     -- load rafamadriz/friendly-snippets snippets
     require('luasnip.loaders.from_vscode').lazy_load {
       exclude = { 'css', 'go', 'html', 'javascript' },

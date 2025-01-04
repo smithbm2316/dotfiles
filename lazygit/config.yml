@@ -20,7 +20,7 @@ gui:
   #   cherryPickedCommitFgColor:
   #     - cyan
   theme:
-    lightTheme: false 
+    lightTheme: false
     activeBorderColor:
       - "#a6e3a1" # Green
       - bold
@@ -37,7 +37,7 @@ gui:
     cherryPickedCommitFgColor:
       - "#89b4fa" # Blue
     unstagedChangesColor:
-      - red       # Red
+      - red # Red
 git:
   pull:
     mode: 'rebase'
@@ -76,7 +76,7 @@ keybinding:
     openFile: 'o'
     scrollUpMain: '<c-u>' # main panel scroll up
     scrollDownMain: '<c-d>' # main panel scroll down
-    executeCustomCommand: ':'
+    executeShellCommand: ':'
     # executeCustomCommand-alt: ';'
     createRebaseOptionsMenu: 'm'
     pushFiles: 'P'

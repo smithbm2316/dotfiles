@@ -248,9 +248,28 @@ h2() {
   npx shopify hydrogen $@
 }
 
-# shortcut for `npm run ...`
+# executes a `package.json` script for the currently active package manager, any
+# of `npm`, `yarn`, or `pnpm`, prioritized in that order.
 js() {
-  npm run $@
+  if [ -f "package-lock.json" ]; then
+    npm run $@
+  elif [ -f "yarn.lock" ]; then
+    yarn run $@
+  elif [ -f "pnpm-lock.yaml" ]; then
+    pnpm run $@
+  else
+    echo "Could not find lockfile"
+    exit 1
+  fi
+}
+# use `js()` function to execute the `storybook` `package.json` script with the
+# `--no-open` flag for any of `npm`, `yarn`, `pnpm`
+sb() {
+  js storybook -- --no-open
+}
+# shortcut for `node ace ...`
+ace() {
+  node ace $@
 }
 
 # shortcut for django cli commands
@@ -354,3 +373,41 @@ rem() {
     echo 'Requires 2 arguments, x or / to specify operation and value to calculate.'
   fi
 }
+
+# ssh key generation utility
+sshkg() {
+  mkdir -pv ~/.ssh
+  cd ~/.ssh || exit
+
+  echo "Enter your comment for the ssh key:"
+  read -r comment
+  echo "Enter the name for your key (will be saved to ~/.ssh):"
+  read -r key_name
+
+  ssh-keygen -t ed25519 -C "$comment" -f "$key_name"
+
+  copy_cmd=""
+  if [ "$(uname -s)" = "Darwin" ]; then
+    copy_cmd="pbcopy"
+  elif [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    if [ "$(command -v wl-copy)" ]; then
+      copy_cmd="wl-copy"
+    else
+      echo "Couldn't find 'wl-copy', please try installing it"
+      exit
+    fi
+  else
+    if [ "$(command -v xclip)" ]; then
+      copy_cmd="xclip -sel clip"
+    else
+      echo "Couldn't find 'xclip', please try installing it"
+      exit
+    fi
+  fi
+
+  "$copy_cmd" < "$HOME/.ssh/$key_name.pub" \
+    && echo "Copied public key for $key_name to clipboard" \
+    || exit
+  cd - || exit
+}
+

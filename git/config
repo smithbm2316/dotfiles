@@ -69,5 +69,5 @@
 [user]
 	name = Ben Smith
 	email = bsmithdev@mailbox.org
-[includeIf "gitdir/i:~/vincit/"]
-  path = ~/dotfiles/git/vincit
+[includeIf "gitdir/i:~/work/"]
+  path = ~/dotfiles/git/work

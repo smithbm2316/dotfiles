@@ -1,3 +1,12 @@
+vim.api.nvim_create_autocmd({ 'BufRead' }, {
+  pattern = { '*.mdx' },
+  group = vim.api.nvim_create_augroup('MdxFtCmds', { clear = true }),
+  callback = function()
+    vim.bo.commentstring = '{{-- %s --}}'
+    vim.bo.filetype = 'markdown'
+  end,
+})
+
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'markdown' },
   group = vim.api.nvim_create_augroup('MarkdownFtCmds', { clear = true }),

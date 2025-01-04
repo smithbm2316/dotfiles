@@ -12,6 +12,7 @@ return {
       env = '# %s',
       erb = '<%# %s %>',
       etlua = '<%# %s %>',
+      odin = '// %s',
       sh = '# %s',
       webc = '<!--- %s --->',
       zsh = '# %s',

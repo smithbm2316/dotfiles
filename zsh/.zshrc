@@ -73,13 +73,27 @@ if [ "$(uname -s)" = "Linux" ]; then
   fi
 elif [ "$(uname -s)" = "Darwin" ]; then
   # load ruby and rbenv
-  if [ "$(command -v rbenv)" ]; then
-    eval "$(rbenv init - zsh)"
-  fi
+  # if [ "$(command -v rbenv)" ]; then
+  #   eval "$(rbenv init - zsh)"
+  # fi
 
-  # update $PATH to use gnu coreutils and commands instead of bsd defaults
-  export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-  # echo "On a mac, not linux >:("
+  # make sure that gnu coreutils are at the end of $PATH so that they are
+  # prioritized over the BSD versions of these utilities on OSX
+  #
+  # https://gist.github.com/andreajparker/ed3b15fd670caa6e4f7e4da18ce398ac
+  export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/gawk/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/gnu-getopt/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/gnu-units/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/gnu-which/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/gnutls/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
+  # and do so for latest git too
+  export PATH="$HOMEBREW_PREFIX/opt/git/bin:$PATH"
 fi
 
 # load luarocks if it's installed
@@ -107,6 +121,36 @@ source "$ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # disable auto-cd into directories
 unsetopt autocd
+
+# load nvm
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# and set up nvm to automatically call `nvm use` in a directory with a `.nvmrc`
+# file in it
+autoload -U add-zsh-hook
+
+load-nvmrc() {
+  local nvmrc_path
+  nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version
+    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use
+    fi
+  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
 
 # References
 # - [Configuring zsh without dependencies - mouseless dev's config + explanation](https://thevaluable.dev/zsh-install-configure-mouseless/)

@@ -55,12 +55,12 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
 -- Setup lazy.nvim
 require('lazy').setup {
   -- load a subset of plugins in a minimal setup
-  spec = vim.g.minimal and {
-    { import = 'plugins.colorscheme' },
-    { import = 'plugins.vim-tmux-navigator' },
-  } or {
-    { import = 'plugins' },
-  },
+  spec = { import = 'plugins' },
+  -- spec = {
+  --   { import = 'plugins.colorscheme' },
+  --   { import = 'plugins.vim-tmux-navigator' },
+  --   { import = 'plugins.telescope' },
+  -- },
   install = {
     colorscheme = { 'catppuccin-mocha' },
   },

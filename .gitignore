@@ -91,6 +91,7 @@ zsh/zcompdump
 zsh/.zhistory
 zsh/.histfile
 zsh/.zsh_history
+zsh/.zsh_sessions
 
 # ignore emacs packages
 emacs/*

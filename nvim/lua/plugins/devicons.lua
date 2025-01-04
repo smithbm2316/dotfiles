@@ -232,6 +232,11 @@ return {
         color = '#e23c2e',
         name = 'WebC',
       },
+      odin = {
+        icon = ' ',
+        color = '#1e5085',
+        name = 'Odin',
+      },
     }
 
     require('nvim-web-devicons').setup {

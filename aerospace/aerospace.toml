@@ -1,0 +1,104 @@
+# Reference: https://github.com/i3/i3/blob/next/etc/config
+# hyper key alias gh issue: https://github.com/nikitabobko/AeroSpace/issues/224
+
+# Start AeroSpace at login
+start-at-login = true
+
+# i3 doesn't have "normalizations" feature that why we disable them here.
+# But the feature is very helpful.
+# Normalizations eliminate all sorts of weird tree configurations that don't make sense.
+# Give normalizations a chance and enable them back.
+enable-normalization-flatten-containers = false
+enable-normalization-opposite-orientation-for-nested-containers = false
+
+# See: https://nikitabobko.github.io/AeroSpace/guide#layouts
+# The 'accordion-padding' specifies the size of accordion padding
+# You can set 0 to disable the padding feature
+accordion-padding = 0
+
+# Possible values: tiles|accordion
+default-root-container-layout = 'tiles'
+
+# Possible values: horizontal|vertical|auto
+# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
+#               tall monitor (anything higher than wide) gets vertical orientation
+default-root-container-orientation = 'auto'
+
+# Mouse follows focus when focused monitor changes
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
+# Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
+# Also see: https://nikitabobko.github.io/AeroSpace/goodness#disable-hide-app
+automatically-unhide-macos-hidden-apps = true
+
+[gaps]
+inner.horizontal = 0
+inner.vertical =   0
+outer.left =       0
+outer.bottom =     0
+outer.top =        0
+outer.right =      0
+
+[mode.main.binding]
+# launch new terminal window
+ctrl-alt-shift-cmd-t = 'exec-and-forget open -n /Applications/Ghostty.app'
+# launch firefox with alternate profile
+ctrl-alt-shift-cmd-b = 'exec-and-forget sleep 1 && /Applications/Firefox.app/Contents/MacOS/firefox -P personal'
+
+# i3 wraps focus by default
+ctrl-alt-shift-cmd-h = 'focus --boundaries-action wrap-around-the-workspace left'
+ctrl-alt-shift-cmd-j = 'focus --boundaries-action wrap-around-the-workspace down'
+ctrl-alt-shift-cmd-k = 'focus --boundaries-action wrap-around-the-workspace up'
+ctrl-alt-shift-cmd-l = 'focus --boundaries-action wrap-around-the-workspace right'
+
+# Consider using 'join-with' command as a 'split' replacement if you want to enable normalizations
+ctrl-alt-shift-cmd-v = 'split horizontal'
+ctrl-alt-shift-cmd-semicolon = 'split vertical'
+ctrl-alt-shift-cmd-i = 'join-with right'
+
+# ctrl-alt-shift-cmd-i = 'fullscreen'
+ctrl-alt-shift-cmd-w = 'layout tiles accordion' # 'layout toggle split' in i3
+ctrl-alt-shift-cmd-e = 'layout horizontal vertical' # 'layout toggle split' in i3
+ctrl-alt-shift-cmd-space = 'layout floating tiling' # 'floating toggle' in i3
+
+# Not supported, because this command is redundant in AeroSpace mental model.
+# See: https://nikitabobko.github.io/AeroSpace/guide#floating-windows
+#ctrl-alt-shift-cmd-space = 'focus toggle_tiling_floating'
+
+# `focus parent`/`focus child` are not yet supported, and it's not clear whether they
+# should be supported at all https://github.com/nikitabobko/AeroSpace/issues/5
+# ctrl-alt-shift-cmd-a = 'focus parent'
+
+ctrl-alt-shift-cmd-a = 'workspace dev'
+ctrl-alt-shift-cmd-s = 'workspace www'
+ctrl-alt-shift-cmd-d = 'workspace msg'
+ctrl-alt-shift-cmd-f = 'workspace media'
+ctrl-alt-shift-cmd-g = 'workspace note'
+
+ctrl-alt-shift-cmd-c = 'close --quit-if-last-window'
+
+ctrl-alt-shift-cmd-r = 'mode resize'
+ctrl-alt-shift-cmd-q = 'mode service'
+
+[mode.resize.binding]
+h = 'resize width -50'
+j = 'resize height +50'
+k = 'resize height -50'
+l = 'resize width +50'
+enter = 'mode main'
+esc = 'mode main'
+
+[mode.service.binding]
+h = 'move left'
+j = 'move down'
+k = 'move up'
+l = 'move right'
+a = 'move-node-to-workspace dev'
+s = 'move-node-to-workspace www'
+d = 'move-node-to-workspace msg'
+f = 'move-node-to-workspace media'
+g = 'move-node-to-workspace note'
+r = ['reload-config', 'mode main']
+enter = 'mode main'
+esc = 'mode main'
