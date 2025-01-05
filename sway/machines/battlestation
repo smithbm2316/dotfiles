@@ -1,0 +1,20 @@
+# vim:ft=swayconfig
+# ---------------------------------------------------------------------------- #
+# OUTPUT CONFIGURATION (`man sway-output` / `swaymsg -t get_outputs`)
+# ---------------------------------------------------------------------------- #
+# overwrite default $primary variable
+set $primary DP-2
+
+output DP-2 {
+  enable
+  mode 2560x1440@165.002Hz
+  pos 0 0
+  adaptive_sync disabled
+}
+
+
+
+# ---------------------------------------------------------------------------- #
+# NOTIFY WHICH MACHINE WE'RE ON
+# ---------------------------------------------------------------------------- #
+exec notify-send 'loaded battlestation config!'

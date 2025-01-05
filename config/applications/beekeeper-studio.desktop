@@ -1,7 +1,8 @@
 [Desktop Entry]
 Name=Beekeeper Studio
-Exec=/home/smithbm/appimages/beekeeper-studio.AppImage
+Exec=/home/smithbm/.local/bin/beekeeper-studio
 Icon=/usr/share/icons/Papirus-Dark/32x32/apps/beekeeper-studio.svg
 Terminal=false
 Type=Application
 StartupNotify=false
+Categories=Development

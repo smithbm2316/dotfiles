@@ -1,5 +1,5 @@
 [global]
-font IBM Plex Sans
+font = "Berkeley Mono 9.5 @wght=Medium"
 
 # Allow a small subset of html markup:
 #   <b>bold</b>

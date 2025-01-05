@@ -62,14 +62,11 @@ autoload -Uz functions.zsh; functions.zsh
 
 # Linux settings
 if [ "$(uname -s)" = "Linux" ]; then
-  # Debian settings
-  if [ -f /etc/debian_version ]; then
-    # Set `bat` as default man pager
-    alias bat="batcat"
-    # Alias for fd package
-    alias fd="fdfind"
-    # redefine for debian, where fd is renamed
-    export FZF_DEFAULT_COMMAND="fdfind --type f --color=never"
+  if [ -f /etc/debian_version ]; then fi
+
+  # load ssh keys with keychain
+  if [ "$(command -v keychain)" ]; then
+    eval "$(keychain --eval --quiet $(ls -1 ~/.ssh | grep -iv -e .pub -e config -e known_hosts | xargs))"
   fi
 elif [ "$(uname -s)" = "Darwin" ]; then
   # load ruby and rbenv

@@ -5,7 +5,7 @@
 # install flatpak, configure it to use dl.flathub.org
 sudo apt install -y flatpak
 flatpak remote-add --if-not-exists flathub \
-  https://dl.flathub.org/repo/flathub.flatpakrepo
+  https://dl.flathub.org/repo/flathub.flatpakrepo || exit 1
 
 # install ungoogled-chromium from flathub
 flatpak install io.github.ungoogled_software.ungoogled_chromium
@@ -14,13 +14,13 @@ ln -s ~/dotfiles/config/applications/ungoogled-chromium.desktop \
 echo 'Installed ungoogled-chromium!'
 
 # install thunderbird
-flatpak install flathub org.mozilla.Thunderbird
-ln -s ~/dotfiles/config/applications/thunderbird.desktop \
-  ~/.local/share/applications/thunderbird.desktop
-echo 'Installed thunderbird!'
+# flatpak install flathub org.mozilla.Thunderbird
+# ln -s ~/dotfiles/config/applications/thunderbird.desktop \
+#   ~/.local/share/applications/thunderbird.desktop
+# echo 'Installed thunderbird!'
 
 # install slack
-flatpak install flathub com.slack.Slack
-ln -s ~/dotfiles/config/applications/slack.desktop \
-  ~/.local/share/applications/slack.desktop
-echo 'Installed slack!'
+# flatpak install flathub com.slack.Slack
+# ln -s ~/dotfiles/config/applications/slack.desktop \
+#   ~/.local/share/applications/slack.desktop
+# echo 'Installed slack!'

@@ -41,7 +41,7 @@ export MANWIDTH=80
 # Application env variables
 export ABBR_USER_ABBREVIATIONS_FILE="$XDG_CONFIG_HOME/zsh/abbreviations.zsh"
 export CALIBRE_USE_DARK_PALETTE=1
-export FZF_DEFAULT_COMMAND="fd -t f='--color=never'"
+export FZF_DEFAULT_COMMAND="fd --type f --color=never"
 export FZF_DEFAULT_OPTS="--multi --layout=reverse-list --border=rounded --tabstop=2 --bind='ctrl-d:page-down,ctrl-u:page-up'"
 export HOMEBREW_NO_ANALYTICS=1
 export ASTRO_TELEMETRY_DISABLED=1

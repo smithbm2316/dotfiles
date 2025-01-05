@@ -40,10 +40,8 @@ mkdir -pv ~/builds ~/code ~/notes ~/work
 # clone my dotfiles into $HOME and symlink my dotfiles to `$XDG_CONFIG_HOME`
 # (~/.config) using `~/stow`. Make sure to update git submodules
 cd ~ || exit
-git clone https://github.com/smithbm2316/dotfiles.git ~/dotfiles
+git clone https://github.com/smithbm2316/dotfiles.git ~/dotfiles --recurse-submodules
 stow -v -t ~/.config dotfiles
-cd ~/dotfiles && git submodule init && git submodule update || \
-  echo "Couldn't find ~/dotfiles, skipping git submodules for that repo" && exit 1
 
 # install base packages from packages/base.txt, removing any comments first
 sed 's/#.*$//' ~/dotfiles/bootstrap/linux/packages/base.txt | \
@@ -59,9 +57,6 @@ sudo systemctl enable bluetooth
 # sudo dnf config-manager --set-enabled fedora-cisco-openh264
 # sudo dnf install gstreamer1-plugin-openh264 mozilla-openh264
 # Afterwards you need open Firefox, go to menu → Add-ons → Plugins and enable OpenH264 plugin.
-
-# backports:
-# kitty sway
 
 # set a variable to where this script is found
 pwd="$HOME/dotfiles/bootstrap"

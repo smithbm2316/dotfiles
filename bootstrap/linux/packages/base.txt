@@ -2,6 +2,7 @@ bat
 bc
 blueman
 bluez
+blackbird-gtk-theme
 brightnessctl
 build-essential
 cloc
@@ -9,7 +10,8 @@ cmake
 curl
 dhelp
 dunst
-fdfind
+elementary-xfce-icon-theme
+fd-find
 ffmpeg
 flatpak
 foliate
@@ -20,9 +22,11 @@ g++
 gcc
 git
 grim
+htop
 info
 jq
-kitty
+# kitty
+keychain
 ksnip
 libavcodec-extra
 libnotify-bin
@@ -38,8 +42,8 @@ ncal
 network-manager
 network-manager-ssh
 ninja-build
-papirus-icon-theme
 parallel
+pavucontrol
 pgcli
 pipewire
 pkg-config
@@ -54,6 +58,7 @@ sqlite3
 stow
 sway
 swaylock
+thunar
 tree
 unzip
 util-linux
@@ -64,6 +69,5 @@ wget
 wireplumber
 wl-clipboard
 xwayland
-yt-dlp/bookworm-backports # 403 http forbidden error with stable version
 zip
 zsh

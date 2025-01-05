@@ -79,7 +79,7 @@ npm i -g \
 # install odin programming language and its LSP + formatter
 mkdir -pv ~/builds
 cd ~/builds || exit
-git clone git@github.com:DanielGavin/ols.git
+git clone https://github.com/DanielGavin/ols.git
 cd ols || exit
 ./build.sh
 ./odinfmt.sh

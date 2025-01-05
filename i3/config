@@ -1,334 +1,302 @@
-# vim:ft=i3config:cms=#%s
+# vim:ft=i3config
+# you can find the default config at /etc/sway/config if you need a reference
 
-# -------------------------------------------------- VARIABLES
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# VARIABLES
+# ---------------------------------------------------------------------------- #
+# outputs
+set $primary DP-2
+# logo key. Use Mod1 for alt.
 set $mod Mod4
 set $alt Mod1
+# home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
+# Your preferred terminal emulator
+set $term ghostty
+set $browser firefox
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+set $menu rofi
+set $menu_all dmenu_path | dmenu | xargs swaymsg exec --
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# SETTINGS
+# ---------------------------------------------------------------------------- #
+focus_follows_mouse yes
+mouse_warping output
+# focus_wrapping workspace
+focus_on_window_activation smart
+default_border pixel 2
+default_floating_border pixel 4
+# TODO: `no_focus` disable certain windows from being focused automatically 
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# KEY BINDINGS
+# ---------------------------------------------------------------------------- #
+# Start a terminal
+bindsym $mod+t exec $term
+
+# Kill focused window
+bindsym $mod+c kill
+
+# Start your launcher
+# check out https://github.com/ldelossa/sway-fzfify for fzf scripts
+# https://codeberg.org/dnkl/fuzzel works great!
+bindsym $mod+o exec $menu
+# use dmenu
+bindsym $mod+ctrl+o exec $menu_all
+# more launchers https://github.com/swaywm/sway/wiki/Useful-add-ons-for-sway#launchers
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
 floating_modifier $mod
-set $primary_display DP-1
-set $alt_display eDP-1
-# set up displays early
-exec --no-startup-id ~/dotfiles/config/vincit.sh
 
-# -------------------------------------------------- THEME
-set $bgFocused #232126
-set $bgUnfocused #312f44
-set $textFocused #e0def4
-set $textUnfocused #817c9c 
-set $borderFocused #3e8fb0
-set $borderUnfocused #312f44
-set $borderUrgent #eb6f92
-set $bgUrgent #eb6f92
-set $textUrgent #eb6f92
-set $indicatorFocused #c4a7e7
-set $textInactiveWorkspace #9ccfd8
-set $barSeparator #ea9a97
-set $powderBlue #3e8fb0
-set $oldLavender #817c9c
-font pango:BlexMono Nerd Font Mono:style=Medium 11
+# Reload the configuration file
+bindsym $mod+ctrl+r reload
 
-# ------------------------------------------------- SWAY OUTPUTS
-# output $alt_display {
-#   mode 1920x1080@144Hz
-#   pos 0 0
-#   bg ~/pictures/retrowave-car-overlooking-city.jpeg fill
-# }
-# output $primary_display {
-#   mode 1920x1080@120Hz
-#   pos 1920 0
-#   adaptive_sync on
-#   bg ~/pictures/retrowave-car-overlooking-city.jpeg fill
-# }
+# Exit sway (logs you out of your Wayland session)
+# bindsym $mod+ctrl+q exec 
 
-# i3bar/swaybar
-bar {
-  status_command i3status --config ~/dotfiles/i3/i3status
-  # gaps 0
-  # pango_markup enabled
-  # status_edge_padding 4
-  # status_padding 4
-  # icon_theme Papirus
-  binding_mode_indicator yes
-  mode dock
-  position top
-  strip_workspace_name no
-  strip_workspace_numbers no
-  workspace_buttons yes
-  tray_padding 4
-  tray_output primary
-  colors {
-    background $bgFocused
-    statusline $textFocused
-    separator $oldLavender
-    focused_background $bgFocused
-    focused_statusline $textFocused
-    focused_separator $oldLavender
-    focused_workspace $powderBlue $powderBlue $bgFocused
-    active_workspace $bgUnfocused $bgUnfocused $textFocused
-    inactive_workspace $bgUnfocused $bgUnfocused $textFocused
-    urgent_workspace $bgUrgent $bgUrgent $textFocused
-    binding_mode $barSeparator $barSeparator $bgFocused
-  }
-}
 
-# set GTK settings
-exec gsettings set org.gnome.desktop.interface gtk-theme 'rose-pine-moon-gtk'
-exec gsettings set org.gnome.desktop.interface icon-theme 'rose-pine-moon-icons'
-exec gsettings set org.gnome.desktop.interface font-name 'Inter 11'
 
-# -------------------------------------------------- POWER OPTIONS
-#i3help restart i3 inplace
-bindsym $mod+ctrl+r reload, mode "default"
 
-# -------------------------------------------------- SWITCH FOCUS
+# ---------------------------------------------------------------------------- #
+# MOVING AROUND
+# ---------------------------------------------------------------------------- #
+# Move your focus around
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
+# Or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
-# -------------------------------------------------- MOVE WINDOW IN STACK
+# Move the focused window with the same, but add ctrl
 bindsym $mod+ctrl+$left move left
 bindsym $mod+ctrl+$down move down
 bindsym $mod+ctrl+$up move up
 bindsym $mod+ctrl+$right move right
+# Ditto, with arrow keys
+bindsym $mod+ctrl+Left move left
+bindsym $mod+ctrl+Down move down
+bindsym $mod+ctrl+Up move up
+bindsym $mod+ctrl+Right move right
 
-# -------------------------------------------------- LAYOUT KEYBINDINGS
-bindsym $mod+v split h
-bindsym $mod+s split v
-# Fullscreen
-bindsym $mod+f fullscreen toggle
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# WORKSPACES
+# ---------------------------------------------------------------------------- #
+# switch to workspace
+bindsym $mod+a workspace dev
+bindsym $mod+s workspace web
+bindsym $mod+d workspace msg
+bindsym $mod+f workspace spot
+bindsym $mod+g workspace note
+# move focused container to workspace
+bindsym $mod+ctrl+a move container to workspace dev, workspace dev
+bindsym $mod+ctrl+s move container to workspace web, workspace web
+bindsym $mod+ctrl+d move container to workspace msg, workspace msg
+bindsym $mod+ctrl+f move container to workspace spot, workspace spot
+bindsym $mod+ctrl+g move container to workspace note, workspace note
+# note: workspaces can have any name you want, not just numbers.
+# we just use 1-10 as the default.
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# LAYOUT STUFF
+# ---------------------------------------------------------------------------- #
+# you can "split" the current object of your focus with $mod+b or $mod+v, for
+# horizontal and vertical splits respectively.
+bindsym $mod+semicolon splith
+bindsym $mod+v splitv
+bindsym $mod+i split toggle; layout tabbed
+bindsym $mod+ctrl+i split none
+
+# focus urgent workspace
+bindsym $mod+u [urgent="latest"] focus
+
+# switch the current container between different layout styles bindsym $mod+s
+# layout stacking
+workspace_layout tabbed
+bindsym $mod+w layout toggle splith splitv tabbed
+
+# Make the current focus fullscreen
+bindsym $mod+m fullscreen
 popup_during_fullscreen smart
 
-bindsym $mod+ctrl+s sticky toggle
-# cycle layouts
-bindsym $mod+w layout toggle splith tabbed
-bindsym $mod+ctrl+f floating toggle
-# swap focus between floating and non-floating windows
-bindsym $mod+space focus mode_toggle
-# focus urgent
-bindsym $mod+u [urgent="latest"] focus
-# focus parent
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+space floating toggle
+# "sticks" a floating window to the current output so it shows on all workspaces
+bindsym $mod+$alt+space sticky toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+ctrl+space focus mode_toggle
+
+# Move focus to the parent container
 bindsym $mod+p focus parent
-# focus young one (child)
-# bindsym $mod+y focus child
 
-# -------------------------------------------------- WORKSPACE MOVEMENT
-bindsym $mod+ctrl+m move workspace to output left
-bindsym $mod+m focus output left
-bindsym $mod+ctrl+n move container to output left, focus output left
-bindsym $mod+a workspace back_and_forth
-bindsym $mod+semicolon workspace next
-bindsym $mod+comma workspace prev
-bindsym $mod+ctrl+semicolon move container to workspace next, workspace next, mode "default"
-bindsym $mod+ctrl+comma move container to workspace prev, workspace prev, mode "default"
+# launch browsers
+bindsym $mod+b exec $browser
+# use on work machines where you need separate profiles, not on personal
+# bindsym $mod+b exec $browser -P personal
+# bindsym $mod+ctrl+b exec $browser -P work
 
-# -------------------------------------------------- PULSEAUDIO CONTROLS
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym $mod+XF86AudioMute exec ~/dotfiles/scripts/mute-mic-toggle.sh
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# SCRATCHPAD
+# ---------------------------------------------------------------------------- #
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+ctrl+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# RESIZING CONTAINERS
+# ---------------------------------------------------------------------------- #
+mode "resize" {
+  # left will shrink the containers width
+  # right will grow the containers width
+  # up will shrink the containers height
+  # down will grow the containers height
+  bindsym $left resize shrink width 32px
+  bindsym $down resize grow height 32px
+  bindsym $up resize shrink height 32px
+  bindsym $right resize grow width 32px
+  
+  # Ditto, with arrow keys
+  bindsym Left resize shrink width 32px
+  bindsym Down resize grow height 32px
+  bindsym Up resize shrink height 32px
+  bindsym Right resize grow width 32px
+  
+  # Return to default mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# STATUS BAR
+# ---------------------------------------------------------------------------- #
+font pango:Berkeley Mono Medium SemiCondensed 9.5
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# CUSTOM SHORTCUTS
+# ---------------------------------------------------------------------------- #
+# XF86* keys: https://wiki.linuxquestions.org/wiki/XF86_keyboard_symbols
+# audio controls
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%-
+bindsym $mod+XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 50%
+bindsym $mod+XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 50%
+bindsym $mod+XF86AudioMute exec ~/dotfiles/sway/toggle-mic-mute.sh
+bindsym XF86AudioMicMute exec ~/dotfiles/sway/toggle-mic-mute.sh
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioNext exec playerctl next
-bindsym $mod+F11 exec xrandr --output $alt_display --brightness 0.6
-bindsym $mod+F12 exec xrandr --output $alt_display --brightness 1.0
-bindsym $mod+ctrl+a exec ~/dotfiles/scripts/airpods.sh connection
-bindsym $mod+F10 exec ~/dotfiles/scripts/toggle-touchpad-dir.sh
+
+# adjust display brightness
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
+bindsym XF86MonBrightnessUp exec brightnessctl s +10%
+
+# connect/disconnect/toggle codec for airpods
+bindsym $mod+$alt+a exec ~/dotfiles/scripts/bt-device.sh airpods connection
+bindsym $mod+$alt+x exec ~/dotfiles/scripts/bt-device.sh airpods codec
+# connect/disconnect/toggle codec for beats flex
+bindsym $mod+$alt+b exec ~/dotfiles/scripts/bt-device.sh beats-flex connection
+
+# toggle touchpad enabled/disabled
 bindsym XF86TouchpadToggle exec ~/dotfiles/scripts/toggle-touchpad-enabled.sh
 
-# -------------------------------------------------- WORKSPACES
-set $wsNotes "0:notes"
-set $wsDev "1:dev"
-set $wsWeb "2:web"
-set $wsMessages "3:messages"
-set $wsVibes "4:vibes"
-set $wsMisc "5:misc"
+# screenshots
+# select a portion of the screen and copy it to the clipboard
+bindsym Print exec grim -g "$(slurp)" - | wl-copy && \
+  notify-send 'Copied selection to clipboard!'
+# select a portion of the screen and annotate it with ksnip
+bindsym $mod+Print exec grim -g "$(slurp)" - | ksnip -e - && \
+  swaymsg 'move position center'
+# copy the entire current screen to clipboard
+bindsym $mod+ctrl+Print exec grim -o $primary - | wl-copy && \
+  notify-send 'Copied screen to clipboard!'
 
-# -------------------------------------------------- WORKSPACE RESTRICTIONS
-workspace_layout tabbed
-workspace $wsNotes output $primary_display
-workspace $wsDev output $primary_display
-workspace $wsWeb output $primary_display
-workspace $wsMessages output $primary_display
-workspace $wsVibes output $primary_display
-workspace $wsMisc output $primary_display
+# color picker
+bindsym $mod+ctrl+p exec grim -g "$(slurp -p)" -t ppm - | \
+  convert - -format '%[pixel:p{0,0}]' txt:- | \
+  sed -n 's/.*\(#[A-Za-z0-9]\{3,6\}\).*/\1/p' - | \
+  wl-copy
 
-# -------------------------------------------------- SWITCH TO WORKSPACE
-bindsym $mod+0 workspace $wsNotes, mode "default"
-bindsym $mod+1 workspace $wsDev, mode "default"
-bindsym $mod+2 workspace $wsWeb, mode "default"
-bindsym $mod+3 workspace $wsMessages, mode "default"
-bindsym $mod+4 workspace $wsVibes, mode "default"
-bindsym $mod+5 workspace $wsMisc, mode "default"
-
-# -------------------------------------------------- MOVE WINDOW TO WORKSPACE
-bindsym $mod+ctrl+0 move container to workspace $wsNotes, workspace $wsNotes, mode "default"
-bindsym $mod+ctrl+1 move container to workspace $wsDev, workspace $wsDev, mode "default"
-bindsym $mod+ctrl+2 move container to workspace $wsWeb, workspace $wsWeb, mode "default"
-bindsym $mod+ctrl+3 move container to workspace $wsMessages, workspace $wsMessages, mode "default"
-bindsym $mod+ctrl+4 move container to workspace $wsVibes, workspace $wsVibes, mode "default"
-bindsym $mod+ctrl+5 move container to workspace $wsMisc, workspace $wsMisc, mode "default"
-
-bindsym $mod+shift+0 move container to workspace $wsNotes, mode "default"
-bindsym $mod+shift+1 move container to workspace $wsDev, mode "default"
-bindsym $mod+shift+2 move container to workspace $wsWeb, mode "default"
-bindsym $mod+shift+3 move container to workspace $wsMessages, mode "default"
-bindsym $mod+shift+4 move container to workspace $wsVibes, mode "default"
-bindsym $mod+shift+5 move container to workspace $wsMisc, mode "default"
-
-# -------------------------------------------------- MISCELLANEOUS KEYBINDS
-# Focus follows the mouse!
-focus_follows_mouse no
-mouse_warping output
-# make sure that focus does not wrap to other displays
-# https://www.reddit.com/r/i3wm/comments/w3bsay/how_to_focus_updown_but_restricted_to_the_focused/
-focus_wrapping workspace
-# When launching a new app, focus should go to it
-focus_on_window_activation focus
-#i3help start a terminal
-bindsym $mod+t exec kitty --title 'kitty'
-# kill focused window
-bindsym $mod+c kill
-#i3help Rofi application launcher
-bindsym $mod+o exec --no-startup-id ~/dotfiles/rofi/rofi.sh drun
-#i3help Rofi cli program launcher
-bindsym $mod+ctrl+p exec --no-startup-id ~/dotfiles/rofi/rofi.sh powermenu
-#i3help Rofi exec program
-bindsym $mod+e exec --no-startup-id ~/dotfiles/rofi/rofi.sh run
-#i3help Rofi open windows
-bindsym $alt+Tab exec --no-startup-id ~/dotfiles/rofi/rofi.sh window
-#i3help Rofi calculator with qalc
-bindsym $mod+q exec --no-startup-id ~/dotfiles/rofi/rofi.sh calc
-#i3help Rofi Emoji picker
-bindsym $mod+ctrl+e exec --no-startup-id ~/dotfiles/rofi/rofi.sh emoji
-# Screenshot
-bindsym Print exec flameshot gui -c -s
-bindsym ctrl+Print exec flameshot gui
-bindsym $mod+Print exec flameshot screen --clipboard
 # watch a video link copied to the clipboard with mpv
 bindsym $mod+y exec --no-startup-id ~/dotfiles/scripts/watch-video.sh
+# same as above, but launch mpv with audio-only in a terminal window
+bindsym $mod+ctrl+y exec --no-startup-id ~/dotfiles/scripts/watch-video.sh audio
 
-# -------------------------------------------------- RESIZE MODE
-mode "resize" {
-  # These bindings trigger as soon as you enter the resize mode
 
-  #i3help h shrinks width
-  bindsym $left resize shrink width 5 px or 5 ppt
-  #i3help j grows height
-  bindsym $down resize grow height 5 px or 5 ppt
-  #i3help k grows height
-  bindsym $up resize shrink height 5 px or 5 ppt
-  #i3help right grows width
-  bindsym $right resize grow width 5 px or 5 ppt
 
-  #i3help leave resize mode
-  bindsym Return mode "default"
-  #i3help leave resize mode
-  bindsym Escape mode "default"
-}
 
-#i3help enter resize mode
-bindsym $mod+r mode "resize"
 
-# -------------------------------------------------- WINDOW COLORS
-# property name, border, background, text, indicator
-client.focused          $borderFocused $bgFocused $textFocused $indicatorFocused $borderFocused
-client.unfocused        $borderUnfocused $bgUnfocused $textUnfocused $bgUnfocused $borderUnfocused
-client.focused_inactive $borderUnfocused $bgUnfocused $textUnfocused $bgUnfocused $borderUnfocused
-client.urgent           $borderUrgent $bgUrgent $textUrgent $textUrgent $borderUrgent
-client.placeholder      $borderUnfocused $bgUnfocused $textUnfocused $barSeparator $borderUnfocused
-client.background       $bgUnfocused
-
-#i3 window colors
-default_border pixel 2
-default_floating_border pixel 4
-
-# -------------------------------------------------- SCRATCHPAD
-bindsym $mod+ctrl+t [class=kitty title="^scratchpad$"] scratchpad show
-bindsym $mod+shift+t exec kitty --title "scratchpad"
-
-# -------------------------------------------------- WARPD
-bindsym $mod+ctrl+g exec warpd --grid
-bindsym $mod+g exec warpd --hint
-bindsym $mod+shift+g exec warpd --normal
-
-# -------------------------------------------------- ONESHOTS
-# bindsym $mod+i exec '/home/smithbm/.local/bin/todofi.sh'
-bindsym $mod+b exec kitty --session ~/dotfiles/kitty/sessions/buku.conf
-bindsym $mod+ctrl+v exec kitty --session ~/dotfiles/kitty/sessions/mtg.conf
-
-# -------------------------------------------------- DEFAULT WORKSPACES
-# DEV
-assign [class="^[bB]rave-browser$"] $wsDev
-# assign [app_id="^[bB]rave-browser$"] $wsDev
-# WEB
-assign [class="^[fF]irefox$"] $wsWeb
-# assign [app_id="^[fF]irefox$"] $wsWeb
-# MESSAGING
-assign [class="^[sS]lack$"] $wsMessages 
-# assign [app_id="^[sS]lack$"] $wsMessages 
-assign [class="^[dD]iscord$"] $wsMessages 
-# assign [app_id="^[dD]iscord$"] $wsMessages 
-# VIBES
-# Spotify is annoying and doesn't work with regular "assign"
-for_window [class="^[sS]potify$"] move to workspace $wsVibes
-# for_window [app_id="^[sS]potify$"] move to workspace $wsVibes
-assign [class="^[nN]cspot$"] $wsVibes
-# assign [app_id="^[nN]cspot$"] $wsVibes
-assign [title="^[nN]cspot$"] $wsVibes
-# obs-studio
-assign [class="^[oO]bs$"] $wsVibes
-# assign [app_id="^[oO]bs$"] $wsVibes
-# NOTES
-assign [class="^[oO]bsidian$"] $wsNotes 
-# assign [app_id="^[oO]bsidian$"] $wsNotes 
-
-# -------------------------------------------------- APP EXCEPTIONS
-# Zoom meetings
-for_window [class="zoom\s?"] floating enable, resize set 750 500, move position center
-# for_window [app_id="zoom\s?"] floating enable, resize set 750 500, move position center
+# ---------------------------------------------------------------------------- #
+# APP-SPECIFIC EXCEPTIONS/CONFIGURATIONS (`man 5 sway` / `swaymsg -t get_tree`)
+# ---------------------------------------------------------------------------- #
 # set bluetooth manager & pulse audio control apps to float centrally
-for_window [class="^[bB]lueman-manager$"] floating enable, resize set 750 500, move position center
-# for_window [app_id="^[bB]lueman-manager$"] floating enable, resize set 750 500, move position center
-for_window [class="^[pP]avucontrol$"] floating enable, resize set 750 500, move position center
-# for_window [app_id="^[pP]avucontrol$"] floating enable, resize set 750 500, move position center
-# terminal scratchpad
-for_window [class=kitty title="^scratchpad$"] floating enable, resize set 750 500, move position center, move scratchpad
-# for_window [app_id=kitty title="^scratchpad$"] floating enable, resize set 750 500, move position center, move scratchpad
-# move all floating windows to center automatically, except windows with the WM_TITLE of "scratchpad"
-for_window [floating title="^(?!scratchpad).*$"] move position center
-# for oneshot terminal jobs, handle them like scratchpads
-for_window [class=kitty title="^oneshot:.*$"] floating enable, resize set 750 500, move position center
-
-# -------------------------------------------------- AUTOSTART
-# exec bluetoothctl disconnect E8:85:4B:4A:82:86; bluetoothctl block E8:85:4B:4A:82:86 &
-# exec picom
-exec --no-startup-id dunst
-exec --no-startup-id nitrogen --restore
-exec --no-startup-id xset r rate 250 25
-exec --no-startup-id nm-applet
-exec --no-startup-id blueman-applet
-exec --no-startup-id imwheel
-exec --no-startup-id pasystray
-exec --no-startup-id battray
-exec --no-startup-id flameshot
-exec --no-startup-id keyd-application-mapper -d
-exec --no-startup-id pactl load-module module-switch-on-connect
-# exec_always --no-startup-id $HOME/dotfiles/polybar/launch.sh
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c "#382f47" --nofork
-
-# programs to use on startup
-# exec swaymsg focus output $primary_display
-exec --no-startup-id i3-msg workspace $wsDev; exec --no-startup-id /home/smithbm/appimages/sizzy.AppImage
-exec --no-startup-id i3-msg workspace $wsDev; exec --no-startup-id kitty --title 'kitty'
-exec --no-startup-id i3-msg workspace $wsDev; exec --no-startup-id 1password
-exec --no-startup-id i3-msg workspace $wsWeb; exec --no-startup-id firefox
-exec --no-startup-id i3-msg workspace $wsMessages; exec --no-startup-id slack
-
-# start up scratchpad instances
-# exec --no-startup-id kitty --title "scratchpad"
+# for_window [app_id="^[bB]lueman-manager$"] {
+#   floating enable
+#   resize set 750 500
+#   move position center
+# }
+# for_window [app_id="^org.ksnip.ksnip$"] {
+#   floating enable
+#   move position center
+# }
+# for_window [app_id="^[pP]avucontrol$"] {
+#   floating enable
+#   resize set 750 500
+#   move position center
+# }

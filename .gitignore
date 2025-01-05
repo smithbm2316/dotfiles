@@ -68,7 +68,7 @@ spicetify/Themes/*
 # ignore tmux plugins dir
 tmux/*.log
 tmux/plugins/*
-!tmux/plugins/tpm
+tmux/plugins/tpm
 !tmux/plugins/.gitkeep
 
 # ignore compiled files for xmonad

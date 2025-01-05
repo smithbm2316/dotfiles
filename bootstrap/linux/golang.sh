@@ -6,7 +6,7 @@ curl -sSL https://git.io/g-install | sh -s
 go install golang.org/x/tools/gopls@latest
 
 # install go101 website locally
-go install go101.org/go101@latest
+# go install go101.org/go101@latest
 
 # install godoc command
 go install golang.org/x/tools/cmd/godoc@latest

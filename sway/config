@@ -19,7 +19,8 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term kitty
+# set $term ghostty
+set $term foot
 set $browser firefox
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -211,8 +212,10 @@ bindsym $mod+ctrl+space focus mode_toggle
 bindsym $mod+p focus parent
 
 # launch browsers
-bindsym $mod+b exec $browser -P personal
-bindsym $mod+ctrl+b exec $browser -P work
+bindsym $mod+b exec $browser
+# use on work machines where you need separate profiles, not on personal
+# bindsym $mod+b exec $browser -P personal
+# bindsym $mod+ctrl+b exec $browser -P work
 
 
 
@@ -268,7 +271,7 @@ bindsym $mod+r mode "resize"
 # STATUS BAR
 # ---------------------------------------------------------------------------- #
 # Read `man 5 sway-bar` for more information about this section.
-font pango:IBM Plex Mono 10
+font pango:Berkeley Mono Medium SemiCondensed 9.5
 set $bar_height 24
 bar {
   position top
@@ -340,7 +343,7 @@ bindsym $mod+ctrl+p exec grim -g "$(slurp -p)" -t ppm - | \
 
 # watch a video link copied to the clipboard with mpv
 bindsym $mod+y exec --no-startup-id ~/dotfiles/scripts/watch-video.sh
-# same as above, but launch mpv with audio-only in a foot or kitty term window
+# same as above, but launch mpv with audio-only in a terminal window
 bindsym $mod+ctrl+y exec --no-startup-id ~/dotfiles/scripts/watch-video.sh audio
 
 
@@ -393,5 +396,5 @@ for_window [app_id="ncspot"] {
 # exec --no-startup-id battray
 
 # programs to use on startup, start in descending order
-# exec swaymsg 'workspace web; exec firefox'
-# exec swaymsg 'workspace dev; exec kitty'
+# exec swaymsg 'workspace web; exec $browser'
+# exec swaymsg 'workspace dev; exec $term'
