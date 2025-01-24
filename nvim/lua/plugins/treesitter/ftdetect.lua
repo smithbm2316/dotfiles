@@ -36,8 +36,9 @@ local fts = {
     extension = 'etlua',
     parser = 'embedded_template',
   },
-  fish = {
-    extension = 'fish',
+  gotmpl = {
+    extension = { 'tmpl' },
+    parser = 'gotmpl',
   },
   json = {
     pattern = {
@@ -54,16 +55,6 @@ local fts = {
   nunjucks = {
     extension = 'njk',
     parser = 'twig',
-  },
-  tmpl = {
-    extension = 'tmpl',
-    parser = 'html',
-  },
-  templ = {
-    extension = 'templ',
-  },
-  vhs = {
-    extension = 'tape',
   },
   webc = {
     extension = 'webc',
@@ -98,10 +89,18 @@ for ft, cfg in pairs(fts) do
 
   -- set the file extension(s) for the new filetype to be created if there are
   -- any to include in what's passed to the `extension` key of `vim.filetype.add`
-  ---@type table<ft, file_exts>|nil
+  ---@type table<string, string>|nil
   local extensions = nil
   if cfg.extension then
-    extensions = { [ft] = cfg.extension }
+    extensions = {}
+    if type(cfg.extension) == 'table' and type(cfg.extension) then
+      ---@diagnostic disable-next-line: param-type-mismatch
+      for _, ext in pairs(cfg.extension) do
+        extensions[ext] = ft
+      end
+    else
+      extensions = { [cfg.extension] = ft }
+    end
   end
 
   vim.filetype.add {

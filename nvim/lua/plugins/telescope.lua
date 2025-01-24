@@ -200,8 +200,8 @@ return {
         prompt_prefix = '🔍 ',
         scroll_strategy = 'cycle',
         sorting_strategy = 'ascending',
-        -- layout_strategy = 'flex',
-        layout_strategy = 'vertical',
+        layout_strategy = 'flex',
+        -- layout_strategy = 'vertical',
         file_ignore_patterns = bs.telescope.ignored,
         layout_config = {
           prompt_position = 'top',
@@ -217,7 +217,7 @@ return {
             preview_cutoff = 0.4,
           },
           flex = {
-            flip_columns = 128,
+            flip_columns = 200,
           },
           height = 0.94,
           width = 0.86,

@@ -87,8 +87,7 @@ _G.html_like_fts_no_jsx = {
   'django',
   'edge',
   'etlua',
-  'gohtml',
-  'gohtmltmpl',
+  'gotmpl',
   'html',
   'htmldjango',
   'jinja',
@@ -96,6 +95,7 @@ _G.html_like_fts_no_jsx = {
   'liquid',
   'nunjucks',
   'php',
+  'tmpl',
   'templ',
   'webc',
 }

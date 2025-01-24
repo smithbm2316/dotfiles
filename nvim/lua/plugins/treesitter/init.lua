@@ -102,6 +102,7 @@ return {
       'go',
       'gomod',
       'gosum',
+      'gotmpl',
       'graphql',
       'html',
       'htmldjango',
