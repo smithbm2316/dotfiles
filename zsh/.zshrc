@@ -79,6 +79,7 @@ elif [ "$(uname -s)" = "Darwin" ]; then
   #
   # https://gist.github.com/andreajparker/ed3b15fd670caa6e4f7e4da18ce398ac
   export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/diffutils/bin:$PATH"
   export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
   export PATH="$HOMEBREW_PREFIX/opt/gawk/libexec/gnubin:$PATH"
   export PATH="$HOMEBREW_PREFIX/opt/gnu-getopt/libexec/gnubin:$PATH"
@@ -91,6 +92,22 @@ elif [ "$(uname -s)" = "Darwin" ]; then
   export PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
   # and do so for latest git too
   export PATH="$HOMEBREW_PREFIX/opt/git/bin:$PATH"
+
+  # and prioritize their respective man paths
+  export MANPATH="$HOMEBREW_PREFIX/opt/coreutils/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/diffutils/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/findutils/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/gawk/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/gnu-getopt/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/gnu-sed/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/gnu-tar/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/gnu-time/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/gnu-units/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/gnu-which/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/gnutls/share/man:$MANPATH"
+  export MANPATH="$HOMEBREW_PREFIX/opt/grep/share/man:$MANPATH"
+  # and do so for latest git too
+  export MANPATH="$HOMEBREW_PREFIX/opt/git/share/man:$MANPATH"
 fi
 
 # load luarocks if it's installed

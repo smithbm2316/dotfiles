@@ -9,4 +9,4 @@ go install golang.org/x/tools/gopls@latest
 # go install go101.org/go101@latest
 
 # install godoc command
-go install golang.org/x/tools/cmd/godoc@latest
+# go install golang.org/x/tools/cmd/godoc@latest

@@ -2,11 +2,14 @@ return {
   'catppuccin/nvim',
   name = 'catppuccin',
   dependencies = {
-    'neanias/everforest-nvim',
+    'zenbones-theme/zenbones.nvim',
   },
   priority = 1000,
   lazy = false,
   config = function()
+    -- disable lush integration for zenbones
+    vim.g.bones_compat = 1
+
     require('catppuccin').setup {
       flavour = 'mocha', -- latte, frappe, macchiato, mocha
       -- background = {
@@ -61,15 +64,9 @@ return {
       },
     }
 
-    require('everforest').setup {
-      ---Controls the "hardness" of the background. Options are "soft", "medium" or "hard".
-      ---Default is "medium".
-      background = 'medium',
-    }
-
     local background_to_colorscheme = {
-      light = 'everforest',
-      dark = 'catppuccin-mocha',
+      light = 'seoulbones',
+      dark = 'catppuccin',
     }
 
     -- https://emmer.dev/blog/automate-your-macos-defaults/

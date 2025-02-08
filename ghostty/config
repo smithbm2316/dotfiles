@@ -1,12 +1,13 @@
 # vim:ft=config
-theme = dark:catppuccin-mocha,light:rose-pine-dawn
+theme = dark:catppuccin-mocha,light:seoulbones_light
 
 font-family = Berkeley Mono
 font-style = Medium SemiCondensed
 font-style-italic = Medium SemiCondensed Oblique
 font-style-bold = ExtraBold SemiCondensed
 font-style-bold-italic = ExtraBold SemiCondensed Oblique
-font-size = 12.5
+# font-size = 12.5
+font-size = 13
 
 keybind = ctrl+shift+c=copy_to_clipboard
 keybind = ctrl+shift+v=paste_from_clipboard
@@ -18,5 +19,5 @@ title = " "
 
 confirm-close-surface = false
 
-window-decoration = false
-macos-titlebar-style = hidden
+# window-decoration = false
+macos-titlebar-style = transparent

@@ -158,11 +158,12 @@
                     },
                     {
                         "description": "hyper+c quits app (fires cmd+q)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "c",
-                                    "modifiers": { "mandatory": ["left_control", "left_command", "left_option", "left_shift"] }
+                                    "modifiers": { "mandatory": ["left_command", "left_option", "left_shift"] }
                                 },
                                 "to": [
                                     {
@@ -185,7 +186,7 @@
                                 "to": [
                                     {
                                         "key_code": "left_shift",
-                                        "modifiers": ["left_control", "left_command", "left_option"]
+                                        "modifiers": ["left_control", "left_shift", "left_option"]
                                     }
                                 ],
                                 "to_if_alone": [{ "key_code": "return_or_enter" }],
@@ -204,10 +205,52 @@
                                 "to": [
                                     {
                                         "key_code": "left_shift",
-                                        "modifiers": ["left_control", "left_command", "left_option"]
+                                        "modifiers": ["left_control", "left_shift", "left_option"]
                                     }
                                 ],
                                 "to_if_alone": [{ "key_code": "escape" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "PrintScreen screenshots with Cmd+Shift+4",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "print_screen",
+                                    "modifiers": {
+                                        "mandatory": [],
+                                        "optional": []
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "4",
+                                        "modifiers": ["left_command", "left_shift"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Cmd+PrintScreen screenshots with Cmd+Shift+5",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "print_screen",
+                                    "modifiers": {
+                                        "mandatory": ["left_command"],
+                                        "optional": []
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "5",
+                                        "modifiers": ["left_command", "left_shift"]
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
@@ -280,6 +323,12 @@
             ],
             "name": "Default profile",
             "selected": true,
+            "simple_modifications": [
+                {
+                    "from": { "key_code": "f5" },
+                    "to": [{ "key_code": "caps_lock" }]
+                }
+            ],
             "virtual_hid_keyboard": {
                 "country_code": 0,
                 "keyboard_type_v2": "ansi"

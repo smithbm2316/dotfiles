@@ -93,7 +93,7 @@ return {
       -- handle error clause
       snip(
         {
-          trig = 'errh',
+          trig = 'er',
           name = 'handle error',
           desc = 'handle errors with err != nil clause',
         },

@@ -26,3 +26,9 @@ alias mk="make -s"
 alias fc-families="fc-list : family | cut -f1 -d"," | sort | uniq"
 
 alias grep="grep --color=always"
+
+# go 1.24rc alias
+# go124path="$(command -v go1.24rc2)"
+# if [ ! -z "$go124path" ]; then
+#   alias go="$go124path"
+# fi
