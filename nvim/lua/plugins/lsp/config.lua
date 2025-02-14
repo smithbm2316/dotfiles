@@ -168,30 +168,6 @@ M.my_on_attach = function(_, bufnr)
   )
 end
 
-M.my_capabilities = vim.tbl_deep_extend(
-  'force',
-  require('cmp_nvim_lsp').default_capabilities(
-    vim.lsp.protocol.make_client_capabilities()
-  ),
-  {
-    textDocument = {
-      completion = {
-        completionItem = {
-          snippetSupport = true,
-        },
-      },
-    },
-  }
-)
-
-local capabilities_without_formatting =
-  vim.tbl_deep_extend('force', M.my_capabilities, {
-    textDocument = {
-      formatting = false,
-      rangeFormatting = false,
-    },
-  })
-
 -- setup language servers
 local servers = {
   astro = {
@@ -471,7 +447,19 @@ local servers = {
 for server, config in pairs(servers) do
   lspconfig[server].setup(vim.tbl_deep_extend('force', {
     on_attach = M.my_on_attach,
-    capabilities = M.my_capabilities,
+    capabilities = vim.tbl_deep_extend(
+      'force',
+      require('blink.cmp').get_lsp_capabilities(config.capabilities),
+      {
+        textDocument = {
+          completion = {
+            completionItem = {
+              snippetSupport = true,
+            },
+          },
+        },
+      }
+    ),
   }, config))
 end
 

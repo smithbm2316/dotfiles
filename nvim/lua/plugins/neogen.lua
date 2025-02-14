@@ -1,9 +1,6 @@
 return {
   'danymat/neogen',
   version = '*',
-  dependencies = {
-    'L3MON4D3/LuaSnip',
-  },
   cmd = 'Neogen',
   keys = {
     {
@@ -13,6 +10,7 @@ return {
     },
   },
   opts = {
+    snippet_engine = 'nvim',
     languages = {
       lua = {
         template = {

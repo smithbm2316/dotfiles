@@ -1,5 +1,6 @@
 return {
   'mustache/vim-mustache-handlebars',
+  enabled = false,
   ft = { 'hbs', 'html.mustache', 'mustache' },
   config = function()
     local ft = vim.api.nvim_get_option_value('ft', { buf = 0 })

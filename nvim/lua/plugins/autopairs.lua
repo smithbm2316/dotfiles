@@ -1,5 +1,6 @@
 return {
   'windwp/nvim-autopairs',
+  enabled = false,
   dependencies = {
     'nvim-treesitter/nvim-treesitter',
   },
@@ -7,7 +8,6 @@ return {
   opts = {
     disable_filetype = {
       'TelescopePrompt',
-      -- 'markdown'
     },
     ignored_next_char = string.gsub([[ [%w%%%'%[%"%.] ]], '%s+', ''),
     pairs_map = {
@@ -31,15 +31,5 @@ return {
         require('nvim-autopairs').remove_rule [["]]
       end,
     })
-
-    -- If you want insert `(` after select function or method item
-    local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-    local cmp = require 'cmp'
-    cmp.event:on(
-      'confirm_done',
-      cmp_autopairs.on_confirm_done {
-        map_char = { tex = '' },
-      }
-    )
   end,
 }

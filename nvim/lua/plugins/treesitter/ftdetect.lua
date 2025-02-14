@@ -40,6 +40,10 @@ local fts = {
     extension = { 'tmpl' },
     parser = 'gotmpl',
   },
+  jet = {
+    extension = { 'jet' },
+    parser = 'gotmpl',
+  },
   json = {
     pattern = {
       '.djlintrc',

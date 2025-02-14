@@ -44,7 +44,8 @@ return {
       color_overrides = {},
       custom_highlights = {},
       integrations = {
-        cmp = true,
+        blink_cmp = true,
+        cmp = false,
         dap = true,
         harpoon = true,
         gitsigns = true,

@@ -3,6 +3,7 @@ local version = vim.version()
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
+    'saghen/blink.cmp',
     'nvim-lua/plenary.nvim',
     {
       'folke/neodev.nvim',

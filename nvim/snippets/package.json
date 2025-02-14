@@ -1,11 +1,9 @@
 {
-  "name": "bens-snippets",
+  "name": "my-snippets",
   "contributes": {
     "snippets": [
       {
-        "language": [
-          "go"
-        ],
+        "language": "go",
         "path": "./go.json"
       }
     ]

@@ -107,6 +107,11 @@ return {
         color = '#519aba',
         name = 'GolangHTMLTemplate',
       },
+      jet = {
+        icon = '󰗀',
+        color = '#8873cb',
+        name = 'Jet',
+      },
       templ = {
         icon = '󰗀',
         color = '#dbbd30',
