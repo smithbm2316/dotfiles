@@ -1,0 +1,11 @@
+{
+  "protected require": {
+    "prefix": "preq",
+    "body": [
+      "local ok, $2 = pcall(require, '$1')",
+      "if not ok then",
+      "\treturn $0",
+      "end"
+    ]
+  }
+}

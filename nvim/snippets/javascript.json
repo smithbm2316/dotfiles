@@ -1,0 +1,14 @@
+{
+  "import": {
+    "prefix": "im",
+    "body": "import $1 from '$0';"
+  },
+  "console.log": {
+    "prefix": "log",
+    "body": "console.log($0);"
+  },
+  "@ts-expect-error": {
+    "prefix": "tse",
+    "body": "// @ts-expect-error $0"
+  }
+}
