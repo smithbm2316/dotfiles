@@ -1,7 +1,7 @@
 return {
   'saghen/blink.cmp',
   -- optional: provides snippets for the snippet source
-  dependencies = 'rafamadriz/friendly-snippets',
+  -- dependencies = 'rafamadriz/friendly-snippets',
 
   -- use a release tag to download pre-built binaries
   version = '*',
@@ -46,7 +46,7 @@ return {
         auto_show = true,
         treesitter_highlighting = true,
       },
-      ghost_text = { enabled = true },
+      ghost_text = { enabled = false },
     },
 
     -- Experimental signature help support
@@ -77,12 +77,13 @@ return {
         lua = { 'lazydev', 'lsp', 'snippets', 'path', 'buffer' },
       },
       providers = {
-        lazydev = {
-          name = 'LazyDev',
-          module = 'lazydev.integrations.blink',
-          -- make lazydev completions top priority (see `:h blink.cmp`)
-          score_offset = 100,
-        },
+        snippets = { score_offset = 100 },
+        -- lsp = { score_offset = 90 },
+        -- lazydev = {
+        --   name = 'LazyDev',
+        --   module = 'lazydev.integrations.blink',
+        --   score_offset = 90,
+        -- },
       },
     },
   },
