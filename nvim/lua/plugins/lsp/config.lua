@@ -178,21 +178,6 @@ local servers = {
   bashls = {
     filetypes = { 'sh', 'bash', 'zsh' },
   },
-  --[[biome = {
-    filetypes = {
-      'css',
-      'javascript',
-      'javascriptreact',
-      'json',
-      'jsonc',
-      'typescript',
-      'typescript.tsx',
-      'typescriptreact',
-      'astro',
-      'svelte',
-      'vue',
-    },
-  },--]]
   cssls = {
     init_options = {
       provideFormatter = true,
@@ -248,15 +233,30 @@ local servers = {
       },
     },
   },--]]
-  --[[denols = {
-    root_dir = util.root_pattern('deno.json', 'deno.jsonc'),
-    single_file_support = false,
-    settings = {
-      enabled = true,
-      lint = true,
-      unstable = false,
+  -- denols = {
+  --   root_dir = util.root_pattern('deno.json', 'deno.jsonc'),
+  --   single_file_support = false,
+  --   settings = {
+  --     enabled = true,
+  --     lint = true,
+  --     unstable = false,
+  --   },
+  -- },
+  eslint = {
+    -- TODO: find a way to implement eslint_d instead
+    cmd = { 'vscode-eslint-language-server', '--stdio' },
+    root_dir = util.root_pattern {
+      'eslint.config.js',
+      'eslint.config.cjs',
+      'eslint.config.mjs',
+      '.eslintrc',
+      '.eslintrc.cjs',
+      '.eslintrc.js',
+      '.eslintrc.json',
+      '.eslintrc.yaml',
+      '.eslintrc.yml',
     },
-  },--]]
+  },
   emmet_language_server = {
     filetypes = _G.html_like_fts_no_jsx,
   },
@@ -444,22 +444,21 @@ local servers = {
   -- vtsls = {},
 }
 
+M.my_capabilities =
+  vim.tbl_extend('force', require('blink.cmp').get_lsp_capabilities(), {
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = true,
+        },
+      },
+    },
+  })
+
 for server, config in pairs(servers) do
   lspconfig[server].setup(vim.tbl_deep_extend('force', {
     on_attach = M.my_on_attach,
-    capabilities = vim.tbl_deep_extend(
-      'force',
-      require('blink.cmp').get_lsp_capabilities(config.capabilities),
-      {
-        textDocument = {
-          completion = {
-            completionItem = {
-              snippetSupport = true,
-            },
-          },
-        },
-      }
-    ),
+    capabilities = M.my_capabilities,
   }, config))
 end
 
@@ -484,212 +483,6 @@ lspconfig.intelephense.setup {
   capabilities = M.my_capabilities,
   filetypes = { 'blade', 'php' },
 }
-
-local null_ok, null_ls = pcall(require, 'null-ls')
-if null_ok then
-  local eslint_condition = function(utils)
-    return utils.root_has_file {
-      'eslint.config.js',
-      'eslint.config.cjs',
-      'eslint.config.mjs',
-      '.eslintrc',
-      '.eslintrc.cjs',
-      '.eslintrc.js',
-      '.eslintrc.json',
-      '.eslintrc.yaml',
-      '.eslintrc.yml',
-    }
-  end
-
-  local null_ls_sources = {
-    null_ls.builtins.diagnostics.djlint.with {
-      filetypes = {
-        'django',
-        'htmldjango',
-        'jinja.html',
-        'liquid',
-        'nunjucks',
-      },
-    },
-    -- use `write-good` prose linter in markdown
-    -- null_ls.builtins.diagnostics.write_good,
-    -- formatting
-    null_ls.builtins.formatting.djlint.with {
-      filetypes = {
-        'django',
-        'htmldjango',
-        'jinja.html',
-        'liquid',
-        'nunjucks',
-      },
-    },
-    -- python
-    null_ls.builtins.formatting.blue,
-    -- php
-    -- formatter for blade templates
-    --[[ null_ls.builtins.formatting.blade_formatter.with {
-        prefer_local = './node_modules/.bin',
-        filetypes = { 'blade', 'php' },
-        -- only enable if it's a blade file
-        runtime_condition = function(params)
-          return vim.api.nvim_buf_get_name(0):match '%.blade%.php$' ~= nil
-        end,
-      }, ]]
-    -- format php files with Laravel's pint package
-    null_ls.builtins.formatting.pint.with {
-      filetypes = { 'blade', 'php' },
-    },
-    null_ls.builtins.formatting.fixjson,
-    null_ls.builtins.formatting.eslint_d.with {
-      condition = eslint_condition,
-      filetypes = {
-        'javascript',
-        'javascriptreact',
-        'typescript',
-        'typescriptreact',
-      },
-    },
-    null_ls.builtins.formatting.prettier.with {
-      prefer_local = './node_modules/.bin',
-      condition = function(utils)
-        return not utils.root_has_file { 'biome.jsonc', 'biome.json' }
-      end,
-      filetypes = {
-        -- 'css',
-        -- 'sass',
-        -- 'scss',
-        'graphql',
-        'javascript',
-        'javascriptreact',
-        'typescript',
-        'typescriptreact',
-        'vue',
-        'yaml',
-      },
-      extra_args = { '--plugin-search-dir', '.' },
-    },
-    null_ls.builtins.formatting.stylua.with {
-      filetypes = { 'lua', 'luau', 'tl' },
-    },
-  }
-
-  local enable_eslint = false
-  if enable_eslint then
-    null_ls_sources = vim.tbl_extend('force', null_ls_sources, {
-      null_ls.builtins.code_actions.eslint_d.with {
-        condition = eslint_condition,
-      },
-      null_ls.builtins.diagnostics.eslint_d.with {
-        condition = eslint_condition,
-      },
-    })
-  end
-
-  null_ls.setup {
-    on_attach = M.my_on_attach,
-    capabilities = M.my_capabilities,
-    filetypes = {},
-    sources = null_ls_sources,
-  }
-
-  create_augroup('AutoFormatting', {
-    {
-      events = 'BufWritePre',
-      pattern = {
-        '*.astro',
-        '*.bash',
-        '*.cjs',
-        '*.css',
-        '*.go',
-        '*.html',
-        '*.js',
-        '*.json',
-        '*.jsonc',
-        '*.jsx',
-        '*.liquid',
-        '*.lua',
-        '*.mjs',
-        '*.njk',
-        '*.odin',
-        '*.php',
-        '*.py',
-        '*.rockspec',
-        '*.rs',
-        '*.sass',
-        '*.schema',
-        '*.scss',
-        '*.sh',
-        '*.templ',
-        '*.tl',
-        '*.ts',
-        '*.tsx',
-        '*.zsh',
-      },
-      callback = function()
-        vim.lsp.buf.format {
-          async = false,
-          filter = function(client)
-            --- the current filetype
-            --- @type string
-            local ft = vim.api.nvim_buf_get_option(0, 'filetype')
-            --- keys in the table represent filetypes, values represent the name of LSP servers
-            local ft_lsp_map = {
-              astro = 'astro',
-              html = 'html',
-              go = 'gopls',
-              odin = 'ols',
-              templ = 'templ',
-            }
-            local lsps_to_disable_formatting = {
-              'css_variables',
-              'graphql',
-              'htmx',
-              'intelephense',
-              'tailwindcss',
-              'tsserver',
-              'typescript-tools',
-              'pyright',
-              'pylsp',
-            }
-
-            -- exit early if the given LSP doesn't support formatting
-            if
-              vim.tbl_contains(lsps_to_disable_formatting, client.name)
-              or not client.supports_method 'textDocument/formatting'
-            then
-              return false
-            end
-
-            -- if our LSP client's name is valid for the current filetype, we
-            -- can use that LSP's formatter
-            if ft_lsp_map[ft] == client.name then
-              return true
-            -- if `null-ls` or `biome` is the current formatter, then great you can use that!
-            elseif client.name == 'null-ls' or client.name == 'biome' then
-              return true
-            -- only format the document with cssls if we're in a PHP project
-            elseif
-              client.name == 'cssls'
-              and (ft == 'css' or ft == 'scss')
-              and util.root_pattern 'composer.json'(
-                  vim.api.nvim_buf_get_name(0)
-                )
-                ~= nil
-            then
-              return true
-            else
-              return false
-            end
-          end,
-          timeout_ms = 5000,
-        }
-      end,
-    },
-  })
-  vim.keymap.set('n', '<leader>tf', function()
-    toggle_augroup 'AutoFormatting'
-  end, { desc = 'Toggle auto-formatting' })
-end
 
 require('typescript-tools').setup {
   on_attach = M.my_on_attach,
@@ -725,76 +518,11 @@ require('typescript-tools').setup {
   },
 }
 
--- disable diangostics for .etlua files. unfortunately we have to do it via
--- the lua_ls settings, not just with vim.diagnostic.enable(false, { bufnr = 0 })
--- i dunno why
--- local group_id =
---   vim.api.nvim_create_augroup('LuaLsDiagnosticsToggler', { clear = true })
--- vim.api.nvim_create_autocmd({ 'LspAttach', 'BufEnter' }, {
---   -- pattern = { '*.lua', '*.tl', '*.luau', '*.etlua' },
---   pattern = { '*.etlua' },
---   group = group_id,
---   callback = function()
---     local bufnr = vim.api.nvim_get_current_buf()
---     local attached_lsps = vim.lsp.get_clients {
---       bufnr = bufnr,
---       name = 'lua_ls',
---     }
---     if attached_lsps[1] == nil then
---       return
---     end
---
---     local client = attached_lsps[1]
---     local ns_id = vim.lsp.diagnostic.get_namespace(client.id)
---
---     if client.config.settings.Lua.diagnostics.enable == false then
---       return
---     end
---
---     vim.diagnostic.reset(ns_id, bufnr)
---     client.config.settings.Lua.diagnostics.enable = false
---     client.notify(
---       'workspace/didChangeConfiguration',
---       { settings = client.config.settings }
---     )
---   end,
--- })
--- vim.api.nvim_create_autocmd({ 'LspAttach', 'BufEnter' }, {
---   pattern = { '*.lua', '*.tl', '*.luau' },
---   group = group_id,
---   callback = function()
---     local bufnr = vim.api.nvim_get_current_buf()
---     local attached_lsps = vim.lsp.get_clients {
---       bufnr = bufnr,
---       name = 'lua_ls',
---     }
---     if attached_lsps[1] == nil then
---       return
---     end
---
---     local client = attached_lsps[1]
---     if client.config.settings.Lua.diagnostics.enable == true then
---       return
---     end
---
---     client.config.settings.Lua.diagnostics.enable = true
---     client.notify(
---       'workspace/didChangeConfiguration',
---       { settings = client.config.settings }
---     )
---   end,
--- })
-
 lspconfig.lua_ls.setup {
   on_attach = M.my_on_attach,
   capabilities = M.my_capabilities,
   cmd = { 'lua-language-server' },
-  filetypes = {
-    'lua',
-    'tl',
-    'luau',
-    -- 'etlua'
-  },
+  filetypes = { 'lua', 'tl' },
   settings = {
     Lua = {
       completion = {
@@ -824,28 +552,5 @@ lspconfig.lua_ls.setup {
     },
   },
 }
-
-local rt_ok, rt = pcall(require, 'rust-tools')
-if rt_ok then
-  rt.setup {
-    server = {
-      on_attach = M.my_on_attach,
-      capabilities = M.my_capabilities,
-      settings = {
-        -- to enable rust-analyzer settings visit:
-        -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-        ['rust-analyzer'] = {
-          -- enable clippy on save
-          checkOnSave = {
-            command = 'clippy',
-            enable = true,
-          },
-        },
-      },
-    },
-  }
-  -- enable inlay hints
-  rt.inlay_hints.enable()
-end
 
 return M
