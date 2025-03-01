@@ -4,12 +4,14 @@ return {
   cmd = { 'ConformInfo', 'FormatEnable', 'FormatDisable' },
   keys = {
     {
-      '<leader>lf',
+      '<leader>tf',
       function()
         if vim.b.disable_autoformat or vim.g.disable_autoformat then
           vim.cmd 'FormatEnable'
+          vim.notify('Autoformatting enabled!', vim.log.levels.INFO)
         else
           vim.cmd 'FormatDisable'
+          vim.notify('Autoformatting disabled!', vim.log.levels.INFO)
         end
       end,
       desc = 'Toggle auto-formatting',
@@ -28,14 +30,12 @@ return {
       if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
         return
       end
-      return { timeout_ms = 500, lsp_format = 'fallback' }
+      return {
+        lsp_format = 'fallback',
+        timeout_ms = 500,
+        -- undojoin = true,
+      }
     end,
-    -- If this is set, Conform will run the formatter asynchronously after save.
-    -- It will pass the table to conform.format().
-    -- This can also be a function that returns the table.
-    format_after_save = {
-      lsp_format = 'fallback',
-    },
     -- Set the log level. Use `:ConformInfo` to see the location of the log file.
     log_level = vim.log.levels.ERROR,
     -- Conform will notify you when a formatter errors
@@ -44,7 +44,8 @@ return {
     notify_no_formatters = true,
   },
   config = function(_, opts)
-    local prettier_fmt = { 'prettierd', 'prettier', stop_after_first = true }
+    -- local prettier_fmt = { 'prettierd', 'prettier', stop_after_first = true }
+    local jsfmt = { 'prettierd', 'eslint_d' }
 
     opts.formatters_by_ft = {
       -- django = { 'djlint' },
@@ -55,15 +56,15 @@ return {
       -- tmpl = { 'djlint' },
       blade = { 'pint' },
       go = { 'gofmt' }, -- 'goimports'
-      graphql = prettier_fmt,
-      javascript = prettier_fmt,
-      javascriptreact = prettier_fmt,
+      graphql = jsfmt,
+      javascript = jsfmt,
+      javascriptreact = jsfmt,
       json = { 'fixjson' },
       lua = { 'stylua' },
       php = { 'pint' },
       tl = { 'stylua' },
-      typescript = prettier_fmt,
-      typescriptreact = prettier_fmt,
+      typescript = jsfmt,
+      typescriptreact = jsfmt,
     }
 
     require('conform').setup(opts)

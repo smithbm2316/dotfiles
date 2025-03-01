@@ -242,21 +242,6 @@ local servers = {
   --     unstable = false,
   --   },
   -- },
-  eslint = {
-    -- TODO: find a way to implement eslint_d instead
-    cmd = { 'vscode-eslint-language-server', '--stdio' },
-    root_dir = util.root_pattern {
-      'eslint.config.js',
-      'eslint.config.cjs',
-      'eslint.config.mjs',
-      '.eslintrc',
-      '.eslintrc.cjs',
-      '.eslintrc.js',
-      '.eslintrc.json',
-      '.eslintrc.yaml',
-      '.eslintrc.yml',
-    },
-  },
   emmet_language_server = {
     filetypes = _G.html_like_fts_no_jsx,
   },

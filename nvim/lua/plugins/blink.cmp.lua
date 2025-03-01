@@ -77,13 +77,13 @@ return {
         lua = { 'lazydev', 'lsp', 'snippets', 'path', 'buffer' },
       },
       providers = {
-        snippets = { score_offset = 100 },
+        -- snippets = { score_offset = 100 },
         -- lsp = { score_offset = 90 },
-        -- lazydev = {
-        --   name = 'LazyDev',
-        --   module = 'lazydev.integrations.blink',
-        --   score_offset = 90,
-        -- },
+        lazydev = {
+          name = 'LazyDev',
+          module = 'lazydev.integrations.blink',
+          -- score_offset = 90,
+        },
       },
     },
   },
