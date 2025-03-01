@@ -40,10 +40,11 @@ brew "wget"
 # casks
 cask "ankerwork"
 # cask "betterdisplay" # useful for managing screen resolutions
+cask "brave-browser"
 cask "docker"
 cask "domzilla-caffeine"
-cask "firefox"
-cask "firefox@developer-edition"
+# cask "firefox"
+# cask "firefox@developer-edition"
 cask "itsycal"
 cask "kap"
 cask "karabiner-elements"

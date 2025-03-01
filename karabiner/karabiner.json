@@ -84,7 +84,8 @@
                                             "^org\\.mozilla\\.firefox$",
                                             "^org\\.mozilla\\.firefoxdeveloperedition$",
                                             "^com\\.google\\.Chrome$",
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.brave\\.Browser$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
