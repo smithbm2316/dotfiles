@@ -45,32 +45,34 @@ return {
   },
   config = function(_, opts)
     local jsfmt = function(bufnr)
-      local eslintFilenames = {
-        'eslint.config.js',
-        'eslint.config.cjs',
-        'eslint.config.mjs',
-        '.eslintrc',
-        '.eslintrc.cjs',
-        '.eslintrc.js',
-        '.eslintrc.json',
-        '.eslintrc.yaml',
-        '.eslintrc.yml',
-      }
-      local prettierFilenames = {
-        '.prettierrc',
-        '.prettierignore',
-        '.prettierrc.json',
-        '.prettierrc.js',
-        'prettier.config.js',
-      }
+      local lspconfig_util = require 'lspconfig.util'
+      local root_pattern = lspconfig_util.root_pattern
+      local cwd = vim.fn.getcwd()
 
-      if
-        require('lspconfig.util').root_pattern(eslintFilenames)(vim.fn.getcwd())
+      if root_pattern { 'deno.json', 'deno.jsonc' }(cwd) ~= nil then
+        -- fallback to lsp formatting if in a deno project
+        return {}
+      elseif
+        root_pattern {
+          'eslint.config.js',
+          'eslint.config.cjs',
+          'eslint.config.mjs',
+          '.eslintrc',
+          '.eslintrc.cjs',
+          '.eslintrc.js',
+          '.eslintrc.json',
+          '.eslintrc.yaml',
+          '.eslintrc.yml',
+        }(cwd)
       then
         if
-          require('lspconfig.util').root_pattern(prettierFilenames)(
-            vim.fn.getcwd()
-          )
+          root_pattern {
+            '.prettierrc',
+            '.prettierignore',
+            '.prettierrc.json',
+            '.prettierrc.js',
+            'prettier.config.js',
+          }(cwd)
         then
           return { 'prettierd', 'eslint_d' }
         else
