@@ -14,8 +14,10 @@
         "language": [
           "javascript",
           "javascriptreact",
+          "svelte",
           "typescript",
-          "typescriptreact"
+          "typescriptreact",
+          "vue"
         ],
         "path": "./javascript.json"
       },

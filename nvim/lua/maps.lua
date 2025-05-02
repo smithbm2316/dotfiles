@@ -175,12 +175,14 @@ end, { desc = 'Grep the help menu' })
 
 vim.keymap.set('n', '<leader>mdn', function()
   local webdev = {
-    'javascript',
-    'typescript',
-    'html',
     'css',
+    'html',
+    'javascript',
     'javascriptreact',
+    'svelte',
+    'typescript',
     'typescriptreact',
+    'vue',
   }
   local urls = {}
   for _, ft in ipairs(webdev) do
@@ -219,10 +221,10 @@ vim.keymap.set('n', '<leader>tn', function()
   end
 end, { desc = 'Toggle relative line numbers' })
 
-vim.keymap.set('n', '<c-n>', '<cmd>cnext<cr>', {
+vim.keymap.set('n', '<c-n>', '<cmd>cnext<cr>zz', {
   desc = 'Go to next quickfix item',
 })
-vim.keymap.set('n', '<c-p>', '<cmd>cprev<cr>', {
+vim.keymap.set('n', '<c-p>', '<cmd>cprev<cr>zz', {
   desc = 'Go to previous quickfix item',
 })
 vim.keymap.set('n', '<leader>qf', '<cmd>copen<cr>', {

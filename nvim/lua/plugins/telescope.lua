@@ -44,12 +44,13 @@ return {
         '%.mp3',
         '%.mp4',
         '%.png',
-        '%.svg',
         '%.wav',
         '%.webm$',
         '%.webp',
         '%.zip',
+        '.nuxt/.*', -- nuxt
         '.obsidian/.*',
+        '.output/.*', -- nuxt
         '__snapshots__/.*', -- thuma ichabod
         'deno%.lock',
         'node_modules/.*',
@@ -87,8 +88,10 @@ return {
       '%.woff2',
       '%.zip',
       '.gitkeep',
+      '.nuxt/.*', -- nuxt
       '.obsidian.vimrc',
       '.obsidian/.*',
+      '.output/.*', -- nuxt
       '.yarn/.*',
       '__generated__/.*', -- kcrw project
       '__snapshots__/.*', -- thuma ichabod

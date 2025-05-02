@@ -44,8 +44,42 @@ return {
     notify_no_formatters = true,
   },
   config = function(_, opts)
-    -- local prettier_fmt = { 'prettierd', 'prettier', stop_after_first = true }
-    local jsfmt = { 'prettierd', 'eslint_d' }
+    local jsfmt = function(bufnr)
+      local eslintFilenames = {
+        'eslint.config.js',
+        'eslint.config.cjs',
+        'eslint.config.mjs',
+        '.eslintrc',
+        '.eslintrc.cjs',
+        '.eslintrc.js',
+        '.eslintrc.json',
+        '.eslintrc.yaml',
+        '.eslintrc.yml',
+      }
+      local prettierFilenames = {
+        '.prettierrc',
+        '.prettierignore',
+        '.prettierrc.json',
+        '.prettierrc.js',
+        'prettier.config.js',
+      }
+
+      if
+        require('lspconfig.util').root_pattern(eslintFilenames)(vim.fn.getcwd())
+      then
+        if
+          require('lspconfig.util').root_pattern(prettierFilenames)(
+            vim.fn.getcwd()
+          )
+        then
+          return { 'prettierd', 'eslint_d' }
+        else
+          return { 'eslint_d' }
+        end
+      else
+        return { 'prettierd' }
+      end
+    end
 
     opts.formatters_by_ft = {
       -- django = { 'djlint' },
@@ -56,15 +90,17 @@ return {
       -- tmpl = { 'djlint' },
       blade = { 'pint' },
       go = { 'gofmt' }, -- 'goimports'
-      graphql = jsfmt,
+      graphql = { 'prettierd' },
       javascript = jsfmt,
       javascriptreact = jsfmt,
       json = { 'fixjson' },
       lua = { 'stylua' },
       php = { 'pint' },
+      svelte = jsfmt,
       tl = { 'stylua' },
       typescript = jsfmt,
       typescriptreact = jsfmt,
+      vue = jsfmt,
     }
 
     require('conform').setup(opts)

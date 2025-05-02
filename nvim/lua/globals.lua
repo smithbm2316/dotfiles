@@ -95,15 +95,17 @@ _G.html_like_fts_no_jsx = {
   'liquid',
   'nunjucks',
   'php',
-  'tmpl',
   'templ',
+  'tmpl',
   'webc',
 }
 
 ---@type string[] list of filetypes where html features should be enabled
 _G.html_like_fts = vim.tbl_extend('force', _G.html_like_fts_no_jsx, {
   'javascriptreact',
+  'svelte',
   'typescriptreact',
+  'vue',
 })
 
 ---@type string[] list of filetypes where css features should be enabled

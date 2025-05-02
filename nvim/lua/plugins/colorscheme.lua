@@ -11,7 +11,7 @@ return {
     vim.g.bones_compat = 1
 
     require('catppuccin').setup {
-      flavour = 'mocha', -- latte, frappe, macchiato, mocha
+      flavour = 'macchiato', -- latte, frappe, macchiato, mocha
       -- background = {
       --   light = 'latte',
       --   dark = 'mocha',

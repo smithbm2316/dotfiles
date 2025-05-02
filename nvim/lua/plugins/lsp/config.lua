@@ -362,13 +362,17 @@ local servers = {
   --[[ sqls = {
     root_dir = util.root_pattern('.sqllsrc.json', 'package.json', '.git'),
   }, ]]
+  svelte = {},
   tailwindcss = {
     filetypes = vim.tbl_extend('force', _G.css_like_fts, _G.html_like_fts),
     root_dir = util.root_pattern(
       'tailwind.config.js',
       'tailwind.config.cjs',
       'tailwind.config.ts',
-      '.tailwind-lsp'
+      '.tailwind-lsp',
+      'nuxt.config.ts',
+      'svelte.config.js',
+      'svelte.config.ts'
     ),
     -- add support for custom languages
     -- https://github.com/tailwindlabs/tailwindcss-intellisense/issues/84#issuecomment-1128278248
@@ -407,9 +411,6 @@ local servers = {
           recommendedVariantOrder = 'warning',
         },
         experimental = {
-          -- classRegex = {
-          --   { 'cva\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
-          -- },
           classRegex = {
             { 'cva\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
             { 'cx\\(([^)]*)\\)', "(?:'|\"|`)([^']*)(?:'|\"|`)" },
@@ -425,6 +426,19 @@ local servers = {
       'lsp',
     },
   },
+  ts_ls = {
+    filetypes = { 'svelte', 'vue' },
+    init_options = {
+      plugins = {
+        {
+          name = '@vue/typescript-plugin',
+          location = '/Users/smithbm/.config/nvm/versions/node/v23.4.0/lib/node_modules/@vue/language-server',
+          languages = { 'vue' },
+        },
+      },
+    },
+  },
+  volar = {},
   -- vimls = {},
   -- vtsls = {},
 }

@@ -4,7 +4,15 @@ vim.diagnostic.config {
   virtual_text = false,
   virtual_lines = false,
   signs = {
-    severity = { min = vim.diagnostic.severity.WARN },
+    severity = {
+      min = vim.diagnostic.severity.WARN,
+    },
+    text = {
+      [vim.diagnostic.severity.ERROR] = _G.diagnostic_icons.error,
+      [vim.diagnostic.severity.WARN] = _G.diagnostic_icons.warn,
+      [vim.diagnostic.severity.INFO] = _G.diagnostic_icons.info,
+      [vim.diagnostic.severity.HINT] = _G.diagnostic_icons.hint,
+    },
   },
   update_in_insert = false,
   float = {
@@ -77,26 +85,3 @@ end, { desc = 'Telescope diagnostics' })
 -- define buffer-local variable for toggling diangostic buffer decorations
 ---@diagnostic disable-next-line: inject-field
 vim.b.show_diagnostics = true
-
--- define signcolumn lsp diagnostic icons
--- define diagnostic icons/highlights for signcolumn and other stuff
-local define_icon = function(long_name, short_name, icon)
-  vim.fn.sign_define('DiagnosticSign' .. short_name, {
-    text = icon,
-    texthl = 'Diagnostic' .. short_name,
-    linehl = '',
-    numhl = '',
-  })
-
-  vim.fn.sign_define('LspDiagnosticsSign' .. long_name, {
-    text = icon,
-    texthl = 'LspDiagnosticsSign' .. long_name,
-    linehl = '',
-    numhl = '',
-  })
-end
-
-define_icon('Error', 'Error', _G.diagnostic_icons.error)
-define_icon('Warning', 'Warn', _G.diagnostic_icons.warn)
-define_icon('Information', 'Info', _G.diagnostic_icons.info)
-define_icon('Hint', 'Hint', _G.diagnostic_icons.hint)
