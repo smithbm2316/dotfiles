@@ -15,12 +15,12 @@ abbr "cp"="cp -iv"
 abbr "cwd"="basename \$PWD"
 abbr "dcu"="docker compose up"
 abbr "got"="go test ./..."
-abbr "jst"="js test -- run"
+abbr "jst"="jsr test -- run"
 abbr "head"="HEAD~1"
 abbr "keyevent"="xev -event keyboard | grep -o -e '(keysym .*, .*)'"
 # disable lazygit shortcut for now so that i'm forced to learn and use the
 # regular git cli instead
-abbr "lg"="lazygit"
+# abbr "lg"="lazygit"
 abbr "lite"="litecli"
 abbr "mkdir"="mkdir -pv"
 abbr "mv"="mv -iv"
@@ -34,3 +34,15 @@ abbr "tma"="tmux attach -t "
 abbr "tmls"="tmux ls"
 abbr "yeet"="rm -rf"
 abbr "ytdl"="youtube-dl"
+
+# git shortcuts
+abbr g="git"
+abbr gcm="git commit"
+abbr gl="git l"
+abbr gs="git status -s"
+# git switch
+abbr gsw="git switch"
+abbr grs="git reset"
+# abbr "gr"="git reset"
+# reset
+# restore

@@ -15,8 +15,8 @@ else
   alias lsa="ls --color=always -A"
 fi
 
-# go version manager
-alias goenv="$GOPATH/bin/g"
+# go version manager: https://github.com/stefanmaric/g
+alias gvm="$GOPATH/bin/g"
 
 # alias for "make" that suppresses all output (useful when using as a task runner)
 alias mk="make -s"
@@ -26,3 +26,6 @@ alias mk="make -s"
 alias fc-families="fc-list : family | cut -f1 -d"," | sort | uniq"
 
 alias grep="grep --color=always"
+
+# add all to a wip commit
+alias wip="git add . && git commit --no-verify --message 'wip'"

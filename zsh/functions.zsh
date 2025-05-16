@@ -224,60 +224,77 @@ ppgrep() {
   pgrep "$@" | xargs --no-run-if-empty ps fp;
 }
 
-# start a local http server for specific folders on my machine
-serve() {
-  case "$1" in
-    books)
-      # the books in my $HOME/books folder
-      npx http-server --port 1337 ~/books
-      ;;
-    *)
-      echo "Please choose a valid option from: books"
-      exit 1
-      ;;
-  esac
-}
-
-# shortcut for `php artisan ...`
-art() {
-  php artisan $@
-}
-
-# shortcut for `npx shopify hydrogen ...`
-h2() {
-  npx shopify hydrogen $@
-}
-
 # executes a `package.json` script for the currently active package manager, any
 # of `npm`, `yarn`, or `pnpm`, prioritized in that order.
 js() {
   if [ -f "package-lock.json" ]; then
-    npm run $@
-  elif [ -f "yarn.lock" ]; then
-    yarn run $@
+    npm $@
+  elif [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then
+    if [ "$#" -eq 0 ]; then
+      deno --help
+    else
+      deno $@
+    fi
   elif [ -f "pnpm-lock.yaml" ]; then
-    pnpm run $@
+    pnpm $@
+  elif [ -f "yarn.lock" ]; then
+    if [ "$#" -eq 0 ]; then
+      yarn --help
+    else
+      yarn $@
+    fi
   else
-    echo "Could not find lockfile"
-    exit 1
+    echo "No lockfile found, falling back to npm"
+    npm $@
   fi
 }
-# use `js()` function to execute the `storybook` `package.json` script with the
-# `--no-open` flag for any of `npm`, `yarn`, `pnpm`
-sb() {
-  js storybook -- --no-open
-}
-# shortcut for `node ace ...`
-ace() {
-  node ace $@
+
+jsr() {
+  if [ -f "package-lock.json" ]; then
+    npm run $@
+  elif [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then
+    deno task $@
+  elif [ -f "pnpm-lock.yaml" ]; then
+    pnpm run $@
+  elif [ -f "yarn.lock" ]; then
+    yarn run $@
+  else
+    echo "No lockfile found, falling back to npm"
+    npm run $@
+  fi
 }
 
-# shortcut for django cli commands
-dj() {
-  django-admin $@
+jse() {
+  if [ -f "package-lock.json" ]; then
+    npx $@
+  elif [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then
+    deno run $@
+  elif [ -f "pnpm-lock.yaml" ]; then
+    pnpm exec $@
+  elif [ -f "yarn.lock" ]; then
+    yarn exec $@
+  else
+    echo "No lockfile found, falling back to npm"
+    npx $@
+  fi
 }
-djm() {
-  python manage.py $@
+
+jsx() {
+  if [ -f "package-lock.json" ]; then
+    npx $@
+  elif [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then
+    deno run $@
+  elif [ -f "pnpm-lock.yaml" ]; then
+    pnpm dlx $@
+  else
+    echo "No lockfile found, falling back to npm"
+    npx $@
+  fi
+}
+
+# execute a `storybook` package.json script with the `--no-open` flag
+sb() {
+  jsr storybook -- --no-open
 }
 
 # shortcut for local pocketbase binary
@@ -411,3 +428,44 @@ sshkg() {
   cd - || exit
 }
 
+chp() {
+  check_installed gum || return $?
+
+  branch="$(git branch --no-color --format='%(refname:short)' --sort=-committerdate | gum filter --no-sort --limit=1)"
+  if [ -z "$branch" ]; then
+    echo 'No branch selected, exiting.'
+    exit 1
+  fi
+
+  commit_line="$(git log --oneline --no-color "$branch" | gum filter --no-sort --limit=1)"
+  if [ -z "$commit_line" ]; then
+    echo 'No commit selected, exiting.'
+    exit 1
+  fi
+
+  commit_sha="$(echo "$commit_line" | cut -d ' ' -f 1)"
+  git cherry-pick "$commit_sha"
+}
+
+gcp() {
+  paste_cmd=""
+  if [ "$(uname -s)" = "Darwin" ]; then
+    paste_cmd="pbpaste"
+  elif [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    if [ "$(command -v wl-paste)" ]; then
+      paste_cmd="wl-paste"
+    else
+      echo "Couldn't find 'wl-copy', please try installing it"
+      exit
+    fi
+  else
+    if [ "$(command -v xclip)" ]; then
+      paste_cmd="xclip -sel clip -o"
+    else
+      echo "Couldn't find 'xclip', please try installing it"
+      exit
+    fi
+  fi
+
+  "$paste_cmd" | xargs git cherry-pick
+}
