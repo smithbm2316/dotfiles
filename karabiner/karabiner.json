@@ -4,6 +4,30 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Ctrl-P -> Up in non-terminal apps",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Terminal$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.mitchellh\\.ghostty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "p",
+                                    "modifiers": { "mandatory": ["left_command"] }
+                                },
+                                "to": [{ "key_code": "up_arrow" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Make shift keys double as curly braces on tap",
                         "manipulators": [
                             {
@@ -31,7 +55,7 @@
                         ]
                     },
                     {
-                        "description": "Ctrl -> Cmd in terminal",
+                        "description": "Ctrl -> Cmd in specific apps",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -41,7 +65,8 @@
                                             "^net\\.kovidgoyal\\.kitty$",
                                             "^com\\.github\\.wez\\.wezterm$",
                                             "^com\\.mitchellh\\.ghostty$",
-                                            "^com\\.vscodium"
+                                            "^com\\.vscodium",
+                                            "^md\\.obsidian$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -53,7 +78,7 @@
                         ]
                     },
                     {
-                        "description": "Cmd -> Ctrl in terminal",
+                        "description": "Cmd -> Ctrl in specific apps",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -63,13 +88,38 @@
                                             "^net\\.kovidgoyal\\.kitty$",
                                             "^com\\.github\\.wez\\.wezterm$",
                                             "^com\\.mitchellh\\.ghostty$",
-                                            "^com\\.vscodium"
+                                            "^com\\.vscodium",
+                                            "^md\\.obsidian$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": { "key_code": "left_command" },
                                 "to": [{ "key_code": "left_control" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Ctrl-N -> Down in non-terminal apps",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Terminal$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.mitchellh\\.ghostty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "n",
+                                    "modifiers": { "mandatory": ["left_command"] }
+                                },
+                                "to": [{ "key_code": "down_arrow" }],
                                 "type": "basic"
                             }
                         ]
@@ -85,7 +135,8 @@
                                             "^org\\.mozilla\\.firefoxdeveloperedition$",
                                             "^com\\.google\\.Chrome$",
                                             "^com\\.apple\\.Safari$",
-                                            "^com\\.brave\\.Browser$"
+                                            "^com\\.brave\\.Browser$",
+                                            "^app\\.zen-browser\\.zen$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
