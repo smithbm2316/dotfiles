@@ -1,5 +1,5 @@
 # vim:ft=config
-theme = dark:catppuccin-mocha,light:seoulbones_light
+theme = dark:catppuccin-macchiato,light:seoulbones_light
 
 font-family = Berkeley Mono
 font-style = Medium SemiCondensed
@@ -21,3 +21,4 @@ confirm-close-surface = false
 
 # window-decoration = false
 macos-titlebar-style = transparent
+auto-update = off
