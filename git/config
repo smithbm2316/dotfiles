@@ -1,73 +1,97 @@
 # vim: ft=gitconfig
-# This is Git's per-user configuration file.
-[include]
-  path = './sendemail'
 [advice]
 	addIgnoredFile = false
-[alias]
-	aa = add -A
-  bra = branch -a
-  brd = branch -d
-  clb = "!$HOME/dotfiles/scripts/git-bare-clone.sh"
-	cl = clone
-  cma = commit --amend --no-edit
-  cmam = commit --amend
-  # cma = "!gcma() { git add -A; git commit -m \"$1\"; }; gcma"
-  cm = commit
-  cmfa = commit --no-verify --amend
-  cmf = commit --no-verify
-	i = init 
-  latest = "!glatest() { current_branch=\"$(git branch --show-current)\"; main_branch=\"${1:-main}\"; git checkout \"$main_branch\"; git pull; git checkout \"$current_branch\"; }; glatest"
-  lb = branch
-  lbr = branch --remote
-	l = log --oneline
-  nb = checkout -b
-  pushf = push --force-with-lease
-	pushup = push -u origin HEAD
-  ri = rebase -i
-  rsl = reset --soft HEAD~1
-  rs = restore --staged
-  s = status -u
-  st = stash push -u
-  swp = switch -
-  sw = switch
-  wta = worktree add
-  wtls = worktree list
-  wtr = worktree remove
-  wt = worktree
+
+[branch]
+  sort = -committerdate # sort branches by most recently committed date first
+
 [color]
+  grep = auto
 	ui = auto
+
+[color.diff]
+  context = white
+  meta = normal bold
+  old = red
+  oldMoved = magenta italic
+  new = green
+  newMoved = cyan italic
+
+[column]
+  ui = auto
+
 [commit]
-  template = ~/dotfiles/git/templates/commit
+  # template = ~/dotfiles/git/templates/commit
+  verbose = true # show diff output in commit template
+
 [core]
 	excludesFile = ~/dotfiles/git/ignore
   editor = nvim
-  pager = delta
+  # pager = delta
+
 [delta]
   light = false
   line-numbers = true
   line-numbers-left-format = ""
   navigate = true
-  side-by-side = false
+  side-by-side = true
   tabs = 2
+
 [diff]
-  colorMoved = default
+  algorithm = histogram
+  colorMoved = plain # show a different color when changes are moved rather than added/deleted
+  mnemonicPrefix = true # shows i/w/c (index/working directory/commit) instead of a/b/c in diffs
+  renames = true # detects if a file was renamed
+  tool = nvimdiff # use neovim as the default `git difftool`
+
 [fetch]
-	prune = true
+  all = true # use --all flag by default
+	prune = true # automatically prune local branches if their remote tracking branch no longer exists
+  pruneTags = true # automatically prune local tags if they are not found on the remote
+
+[gpg]
+  format = ssh # sign commits and branches with ssh key
+
+[help]
+  autocorrect = prompt # if you mistype a command, git will suggest an option to you and ask you confirm y/n if you want to accept its suggestion
+
 [init]
 	defaultBranch = main
-[interactive]
-  diffFilter = delta --color-only
+
 [merge]
-  conflictstyle = diff3
+  conflictstyle = zdiff3
+
+[push]
+  autoSetupRemote = true
+  default = simple # (default since 2.0)
+  followTags = true
+
 [pull]
-	rebase = true
+	rebase = true # always rebase when pulling changes
+
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+
 [stash]
+  showIncludeUntracked = true
   showPatch = true
   showStat = true
-  showIncludeUntracked = true
+
+[tag]
+  sort = version:refname
+
 [user]
 	name = Ben Smith
-	email = bsmithdev@mailbox.org
-[includeIf "gitdir/i:~/work/"]
+	email = ben@bensmith.sh
+
+[include]
+  path = ~/dotfiles/git/alias
+[include]
+  path = ~/dotfiles/git/sendemail
+[include]
+  path = ~/dotfiles/git/personal
+# docs: https://git-scm.com/docs/git-config#_includes
+[includeIf "gitdir:~/work/**"]
   path = ~/dotfiles/git/work

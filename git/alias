@@ -1,0 +1,55 @@
+# vim: ft=gitconfig
+[alias]
+	aa = add -A
+
+  b = branch
+  ba = branch --all
+  bd = branch -d
+  bdd = branch -D
+  br = branch --remote
+  sw = switch
+
+  clb = "!$HOME/dotfiles/scripts/git-bare-clone.sh"
+	cl = clone
+
+  cm = commit
+  cma = commit --amend --no-edit
+  cmf = commit --no-verify
+  cmfa = commit --amend --no-edit --no-verify
+
+  # `git log` with patches shown with difftastic.
+  logd = -c diff.external=difft log -p --ext-diff
+  # Show the most recent commit with difftastic.
+  showd = -c diff.external=difft show --ext-diff
+  # `git diff` with difftastic.
+  difft = -c diff.external=difft diff
+
+  f = fetch --all
+
+  fp = format-patch
+
+	i = init 
+
+	l = log --oneline -n 10
+  lo = log --oneline
+  lst = log --stat
+
+  pf = push --force-with-lease
+  pup = push -u origin HEAD
+
+  ra = rebase --abort
+  rc = rebase --continue
+  ri = rebase --interactive
+
+  rsl = reset --soft HEAD^
+
+  rs = restore --staged
+
+  s = status # -s
+
+  st = stash push -u
+
+  wt = worktree
+  wta = worktree add
+  wtls = worktree list
+  wtr = worktree remove

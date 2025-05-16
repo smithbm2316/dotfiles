@@ -1,0 +1,14 @@
+# vim: ft=gitconfig
+# note: you can use the `includeIf` directive to conditionally include
+# this file as part of your global git config depending on different
+# circumstances. if say you have two github accounts for different
+# repositories on the same computer, you can conditionally include a
+# `user.email` in your global git config depending on which folder on
+# your computer you're cd'd into (i.e. have a `~/personal` and `~/work`
+# folder on your machine where git will include the personal email
+# config if inside any subdirectory of `~/personal`). This directive is
+# the "gitdir:/path/to/dir".
+#
+# i.e. [includeIf "gitdir/i:~/work/"]
+[user]
+  email = ben@bensmith.sh
