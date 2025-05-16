@@ -4,14 +4,16 @@
   "bracketSpacing": true,
   "jsxBracketSameLine": false,
   "jsxSingleQuote": true,
-  "pluginSearchDirs": ["."],
-  "printWidth": 80,
+  "pluginSearchDirs": [
+    "."
+  ],
+  "printWidth": 120,
   "proseWrap": "preserve",
   "quoteProps": "as-needed",
-  "semi": true,
+  "semi": false,
   "singleAttributePerLine": false,
-  "singleQuote": false,
+  "singleQuote": true,
   "tabWidth": 2,
-  "trailingComma": "es5",
+  "trailingComma": "all",
   "useTabs": false
 }
