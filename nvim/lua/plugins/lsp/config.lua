@@ -171,12 +171,10 @@ local capabilities = require('blink.cmp').get_lsp_capabilities {
   },
 }
 
-vim.lsp.config('*', {
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
-
-return {
+local global_lsp_config = {
   on_attach = on_attach,
   capabilities = capabilities,
 }
+vim.lsp.config('*', global_lsp_config)
+
+return global_lsp_config

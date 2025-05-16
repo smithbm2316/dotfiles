@@ -21,6 +21,6 @@ return {
         -- },
       },
     },
-    'pmizio/typescript-tools.nvim',
+    -- 'pmizio/typescript-tools.nvim',
   },
 }

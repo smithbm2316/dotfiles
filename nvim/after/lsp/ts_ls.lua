@@ -6,16 +6,30 @@ local error_codes_to_hide = {
   -- ignore "Could not find a declaration file for module ..." error
   7016,
 }
+local lsp_config = require 'plugins.lsp.config'
 
 return {
-  root_markers = { 'package.json' },
+  capabilities = lsp_config.capabilities,
+  on_attach = lsp_config.on_attach,
+
+  root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
   root_dir = function(_, on_dir)
     if not _G.root_pattern { 'deno.json', 'deno.jsonc' } then
       on_dir(vim.fn.getcwd())
     end
   end,
   -- filetypes = vim.tbl_extend('force', _G.js_ts_fts, _G.frontend_js_fts),
-  filetypes = _G.js_ts_fts,
+  filetypes = {
+    'javascript',
+    'javascriptreact',
+    'typescript',
+    'typescriptreact',
+    'vue',
+    'svelte',
+  },
+  init_options = {
+    hostInfo = 'neovim',
+  },
   --[[handlers = {
     ---@param err lsp.ResponseError
     ---@param result lsp.PublishDiagnosticsParams
