@@ -1,9 +1,10 @@
 return {
   'mfussenegger/nvim-lint',
-  dependencies = { 'neovim/nvim-lspconfig' },
+  -- dependencies = { 'neovim/nvim-lspconfig' },
   config = function()
     local lint = require 'lint'
     local eslint_namespaces_to_ignore = {
+      '@cspell/spellchecker',
       'perfectionist/.*',
       'prettier/prettier',
       'sonarjs/*',
@@ -52,40 +53,20 @@ return {
       text = {},
     }
 
-    local jsfts = {
-      'javascript',
-      'javascriptreact',
-      'svelte',
-      'typescript',
-      'typescriptreact',
-      'vue',
-    }
-    local eslintFilenames = {
-      'eslint.config.js',
-      'eslint.config.cjs',
-      'eslint.config.mjs',
-      '.eslintrc',
-      '.eslintrc.cjs',
-      '.eslintrc.js',
-      '.eslintrc.json',
-      '.eslintrc.yaml',
-      '.eslintrc.yml',
-    }
+    local filetypes_for_eslint =
+      vim.tbl_extend('force', _G.js_ts_fts, _G.frontend_js_fts)
 
-    vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufWritePost' }, {
+    vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufRead', 'BufWritePost' }, {
       callback = function()
         if not vim.diagnostic.is_enabled { bufnr = 0 } then
           return
         end
 
         local ft = vim.api.nvim_get_option_value('filetype', { buf = 0 })
-        local enable_eslint = true
+
         if
-          vim.tbl_contains(jsfts, ft)
-          and require('lspconfig.util').root_pattern(eslintFilenames)(
-            vim.fn.getcwd()
-          )
-          and enable_eslint
+          vim.tbl_contains(filetypes_for_eslint, ft)
+          and root_pattern(_G.config_files.eslint)
         then
           -- You can call `try_lint` with a linter name or a list of names to always
           -- run specific linters, independent of the `linters_by_ft` configuration

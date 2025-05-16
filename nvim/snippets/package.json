@@ -24,6 +24,10 @@
       {
         "language": "lua",
         "path": "./lua.json"
+      },
+      {
+        "language": "svelte",
+        "path": "./svelte.json"
       }
     ]
   }

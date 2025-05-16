@@ -1,14 +1,8 @@
-local lspconfig = require 'lspconfig'
-local util = require 'lspconfig.util'
--- local configs = require 'lspconfig.configs'
-
--- functions to hook into
-local M = {}
-
 -- ~/.local/state/nvim/lsp.log
 vim.lsp.set_log_level(vim.log.levels.WARN)
+
 -- lsp renamer function that provides extra information
-M.lsp_rename = function()
+function lsp_rename()
   local curr_name = vim.fn.expand '<cword>'
   vim.ui.input({
     prompt = 'LSP Rename: ',
@@ -83,10 +77,9 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = 'shadow',
 })
 
----
 ---@param _ any a reference to the lsp client
 ---@param bufnr number the buffer number
-M.my_on_attach = function(_, bufnr)
+function on_attach(_, bufnr)
   -- show hover
   vim.keymap.set(
     'n',
@@ -115,7 +108,7 @@ M.my_on_attach = function(_, bufnr)
   vim.keymap.set(
     'n',
     '<leader>rn',
-    M.lsp_rename,
+    lsp_rename,
     { desc = 'Lsp rename symbol', buffer = bufnr }
   )
 
@@ -168,20 +161,22 @@ M.my_on_attach = function(_, bufnr)
   )
 end
 
-M.my_capabilities =
-  vim.tbl_extend('force', require('blink.cmp').get_lsp_capabilities(), {
-    textDocument = {
-      completion = {
-        completionItem = {
-          snippetSupport = true,
-        },
+local capabilities = require('blink.cmp').get_lsp_capabilities {
+  textDocument = {
+    completion = {
+      completionItem = {
+        snippetSupport = true,
       },
     },
-  })
+  },
+}
 
 vim.lsp.config('*', {
-  on_attach = M.my_on_attach,
-  capabilities = M.my_capabilities,
+  on_attach = on_attach,
+  capabilities = capabilities,
 })
 
-return M
+return {
+  on_attach = on_attach,
+  capabilities = capabilities,
+}

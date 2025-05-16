@@ -1,30 +1,4 @@
 local disabled_servers = {
-  css_variables = {
-    cssVariables = {
-      lookupFiles = {
-        '**/*.less',
-        '**/*.scss',
-        '**/*.sass',
-        '**/*.css',
-      },
-      blacklistFolders = {
-        '**/.cache',
-        '**/.DS_Store',
-        '**/.git',
-        '**/.hg',
-        '**/.next',
-        '**/.svn',
-        '**/bower_components',
-        '**/CVS',
-        '**/dist',
-        '**/node_modules',
-        '**/tests',
-        '**/tmp',
-        -- personal website build folder
-        '**/www',
-      },
-    },
-  },
   emmet_language_server = {
     filetypes = _G.html_like_fts_no_jsx,
   },

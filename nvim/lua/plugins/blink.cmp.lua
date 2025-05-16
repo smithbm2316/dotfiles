@@ -73,8 +73,14 @@ return {
     sources = {
       default = { 'lsp', 'snippets', 'path', 'buffer' },
       per_filetype = {
-        markdown = { 'path', 'buffer' },
-        lua = { 'lazydev', 'lsp', 'snippets', 'path', 'buffer' },
+        markdown = { 'path' },
+        lua = {
+          'lazydev',
+          'lsp',
+          'snippets',
+          'path',
+          'buffer',
+        },
       },
       providers = {
         -- snippets = { score_offset = 100 },

@@ -128,9 +128,9 @@ return {
       grep_string = {
         prompt_title = 'word under cursor',
       },
-      live_grep = {
-        file_ignore_patterns = bs.telescope.always_ignored,
-      },
+      -- live_grep = {
+      --   file_ignore_patterns = bs.telescope.always_ignored,
+      -- },
       git_commits = {
         selection_strategy = 'row',
         prompt_title = 'git log',
@@ -169,19 +169,20 @@ return {
       open_qflist_with_trouble = trouble_telescope.open
     end
 
+    local base_vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+    }
+
     -- TELESCOPE CONFIG
     telescope.setup {
       pickers = default_picker_opts,
       defaults = {
-        vimgrep_arguments = {
-          'rg',
-          '--color=never',
-          '--no-heading',
-          '--with-filename',
-          '--line-number',
-          '--column',
-          '--smart-case',
-        },
+        vimgrep_arguments = base_vimgrep_arguments,
         mappings = {
           n = {
             ['<c-x>'] = false,
@@ -254,7 +255,100 @@ return {
       builtin.grep_string,
       { desc = 'Grep string' }
     )
-    vim.keymap.set('n', '<leader>gw', builtin.live_grep, { desc = 'Live grep' })
+
+    vim.keymap.set('n', '<leader>gw', function()
+      builtin.live_grep {
+        prompt_title = 'live_grep',
+      }
+    end, { desc = 'Live grep' })
+    -- use live_grep with case sensitive enabled
+    vim.keymap.set('n', '<leader>gW', function()
+      local vimgrep_arguments = vim.list_slice(base_vimgrep_arguments)
+      table.insert(vimgrep_arguments, '--case-sensitive')
+
+      builtin.live_grep {
+        prompt_title = 'live_grep case sensitive',
+        vimgrep_arguments = vimgrep_arguments,
+      }
+    end, { desc = 'Live grep all' })
+    vim.keymap.set('n', '<leader>ga', function()
+      local vimgrep_arguments = vim.list_slice(base_vimgrep_arguments)
+      vim.list_extend(vimgrep_arguments, {
+        '--no-ignore-dot',
+      })
+      builtin.live_grep {
+        file_ignore_patterns = nil,
+        prompt_title = 'live_grep',
+        vimgrep_arguments = vimgrep_arguments,
+      }
+    end, { desc = 'Live grep all' })
+
+    -- TODO: you can grep only open files? might be useful
+    --
+    --[[vim.keymap.set('n', '<leader>go', function()
+      builtin.live_grep {
+        grep_open_files = true,
+        prompt_title = 'live_grep open files',
+      }
+    end, { desc = 'Live grep open files' })--]]
+
+    --[[
+    vim.keymap.set('n', '<leader>gw', function()
+      local vimgrep_arguments = vim.list_slice(base_vimgrep_arguments)
+      -- filter out test files, mock data files, spec files, and story files by default
+      -- stylua: ignore
+      -- vim.list_extend(vimgrep_arguments, {
+      --   '-T', 'mockdata',
+      --   '-T', 'spec',
+      --   '-T', 'stories',
+      --   '-T', 'test',
+      --   '-T', 'contentfulmigrations'
+      -- })
+      --
+      -- dump(vimgrep_arguments)
+
+      builtin.live_grep {
+        prompt_title = 'live_grep',
+        -- vimgrep_arguments = vimgrep_arguments,
+      }
+    end, { desc = 'Live grep' })
+    -- use live_grep with case sensitive enabled
+    vim.keymap.set('n', '<leader>gW', function()
+      local vimgrep_arguments = vim.list_slice(base_vimgrep_arguments)
+      -- filter out test files, mock data files, spec files, and story files by default
+      -- stylua: ignore
+      vim.list_extend(vimgrep_arguments, {
+        '-T', 'mockdata',
+        '-T', 'spec',
+        '-T', 'stories',
+        '-T', 'test',
+        '-T', 'contentfulmigrations',
+        '--case-sensitive'
+      })
+      builtin.live_grep {
+        prompt_title = 'live_grep case sensitive',
+        vimgrep_arguments = vimgrep_arguments,
+      }
+    end, { desc = 'Live grep case sensitive' })
+
+    -- don't exclude test files, mock data files, spec files, and story files
+    vim.keymap.set('n', '<leader>gaw', function()
+      builtin.live_grep {
+        prompt_title = 'live_grep all',
+      }
+    end, { desc = 'Live grep all' })
+    -- don't exclude test files, mock data files, spec files, and story files
+    vim.keymap.set('n', '<leader>gaW', function()
+      local case_sensitive_vimgrep_arguments =
+        vim.list_slice(base_vimgrep_arguments)
+      table.insert(case_sensitive_vimgrep_arguments, '--case-sensitive')
+      builtin.live_grep {
+        prompt_title = 'live_grep all case sensitive',
+        vimgrep_arguments = case_sensitive_vimgrep_arguments,
+      }
+    end, { desc = 'Live grep all case sensitive' })
+    --]]
+
     vim.keymap.set(
       'n',
       '<leader>gf',
@@ -332,21 +426,6 @@ return {
         prompt_title = 'grep in dotfiles',
       }
     end, { desc = 'Grep in dotfiles' })
-
-    -- use live_grep with case sensitive enabled
-    vim.keymap.set('n', '<leader>gW', function()
-      builtin.live_grep {
-        prompt_title = 'live_grep case sensitive',
-        vimgrep_arguments = {
-          'rg',
-          '--color=never',
-          '--no-heading',
-          '--with-filename',
-          '--line-number',
-          '--column',
-        },
-      }
-    end, { desc = 'Live grep case sensitive' })
 
     -- grep inside of neovim config
     vim.keymap.set('n', '<leader>gin', function()

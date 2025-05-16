@@ -45,39 +45,17 @@ return {
   },
   config = function(_, opts)
     local jsfmt = function(bufnr)
-      local lspconfig_util = require 'lspconfig.util'
-      local root_pattern = lspconfig_util.root_pattern
-      local cwd = vim.fn.getcwd()
-
-      if root_pattern { 'deno.json', 'deno.jsonc' }(cwd) ~= nil then
-        -- fallback to lsp formatting if in a deno project
+      -- fallback to lsp formatting if in a deno project
+      if root_pattern { 'deno.json', 'deno.jsonc' } then
         return {}
+      -- if it's a work project where we use eslint and prettier for formatting
+      -- and auto-fixing, then run both in sequence
       elseif
-        root_pattern {
-          'eslint.config.js',
-          'eslint.config.cjs',
-          'eslint.config.mjs',
-          '.eslintrc',
-          '.eslintrc.cjs',
-          '.eslintrc.js',
-          '.eslintrc.json',
-          '.eslintrc.yaml',
-          '.eslintrc.yml',
-        }(cwd)
+        string.match(vim.fn.getcwd(), 'smithbm/work') ~= nil
+        and root_pattern(_G.config_files.eslint)
       then
-        if
-          root_pattern {
-            '.prettierrc',
-            '.prettierignore',
-            '.prettierrc.json',
-            '.prettierrc.js',
-            'prettier.config.js',
-          }(cwd)
-        then
-          return { 'prettierd', 'eslint_d' }
-        else
-          return { 'eslint_d' }
-        end
+        return { 'eslint_d', 'prettierd' }
+      -- otherwise just run prettier
       else
         return { 'prettierd' }
       end

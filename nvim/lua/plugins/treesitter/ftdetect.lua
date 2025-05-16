@@ -19,10 +19,8 @@ end, { force = true })
 
 ---@type table<ft, CustomFiletype> A table containing new filetype definitions
 local fts = {
-  env = {
-    filename = { '.env' },
+  bash = {
     pattern = { '%.env%..*' },
-    parser = 'bash',
   },
   ego = {
     extension = 'ego',

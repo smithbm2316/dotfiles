@@ -7,5 +7,13 @@
       "\treturn $0",
       "end"
     ]
+  },
+  "stylua-ignore": {
+    "prefix": "sti",
+    "body": "-- stylua: ignore"
+  },
+  "stylua-ignore-block": {
+    "prefix": "stib",
+    "body": "-- stylua: ignore start $1\n$0\n-- stylua: ignore end"
   }
 }

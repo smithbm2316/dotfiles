@@ -86,6 +86,7 @@ return {
       enable = true,
     },
     ensure_installed = {
+      'astro',
       'awk',
       'bash',
       'blade',
@@ -141,7 +142,6 @@ return {
       'vue',
       'xml',
       'yaml',
-      -- 'astro',
       -- 'glimmer',
       -- 'tsv',
     },

@@ -1,20 +1,15 @@
+local lsp_functions = require 'plugins.lsp.config'
 local root_markers = { 'deno.json', 'deno.jsonc' }
 
 return {
-  filetypes = {
-    'javascript',
-    'javascriptreact',
-    'typescript',
-    'typescriptreact',
-  },
+  capabilities = lsp_functions.capabilities,
+  filetypes = _G.js_ts_fts,
   root_markers = root_markers,
   root_dir = function(_, on_dir)
-    local cwd = vim.fn.getcwd()
-    local found_root = require('lspconfig.util').root_pattern(root_markers)(cwd)
-
-    if found_root ~= nil then
-      on_dir(cwd)
+    if root_pattern(root_markers) then
+      on_dir(vim.fn.getcwd())
     end
   end,
+  on_attach = lsp_functions.on_attach,
   single_file_support = false,
 }
