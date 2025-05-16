@@ -61,7 +61,7 @@ volta install node
 volta install node@latest
 
 npm i -g \
-  @olrtg/emmet-language-server \
+  @fsouza/prettierd \
   @tailwindcss/language-server \
   bash-language-server \
   css-variables-language-server \
@@ -69,12 +69,16 @@ npm i -g \
   fixjson \
   graphql-language-service-cli \
   pnpm \
-  prettier \
   typescript \
   typescript-language-server \
-  vscode-langservers-extracted \
-  write-good \
-  yarn
+  vscode-langservers-extracted
+  
+  # @astrojs/language-server
+  # @olrtg/emmet-language-server
+  # @vue/language-server
+  # svelte-language-server
+  # write-good
+  # yarn
 
 # install odin programming language and its LSP + formatter
 mkdir -pv ~/builds
