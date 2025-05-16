@@ -21,6 +21,7 @@ export GOTELEMETRY=off
 export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
 export LOCALBIN="$HOME/.local/bin"
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
 export YARNBIN="$HOME/.yarn/bin"
 
