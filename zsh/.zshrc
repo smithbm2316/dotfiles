@@ -1,7 +1,12 @@
+# Add deno completions to search path
+if [[ ":$FPATH:" != *":/Users/smithbm/.config/zsh/completions:"* ]]; then export FPATH="/Users/smithbm/.config/zsh/completions:$FPATH"; fi
 # automatically cd into a directory without the cd command
 setopt autocd
 setopt extendedglob
-setopt nomatch
+# don't enable the zsh glob pattern '^' to negate matches, it messes with the
+# common git pattern of using 'HEAD^' for the most recent commit
+# https://github.com/ohmyzsh/ohmyzsh/issues/449
+unsetopt nomatch
 setopt notify
 setopt prompt_subst
 # don't write duplicate events to history file
