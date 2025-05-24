@@ -35,7 +35,7 @@ brew "pgcli"
 brew "postgresql"
 brew "ripgrep"
 brew "sqlite-utils"
-brew "tldr"
+brew "tlrc"
 brew "tmux"
 # brew "watchman" # osx doesn't have a native filewatcher iirc like inotify-tools?
 brew "wget"
