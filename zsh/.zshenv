@@ -14,16 +14,18 @@ export SAVEHIST=10000
 # Programming languages and their dependencies
 # export ANDROID_HOME=$HOME/Android/Sdk
 export CARGOBIN="$HOME/.cargo/bin"
-export COMPOSER_VENDOR_BIN="$XDG_CONFIG_HOME/composer/vendor/bin"
+# export COMPOSER_VENDOR_BIN="$XDG_CONFIG_HOME/composer/vendor/bin"
 export DENOBIN="$HOME/.deno/bin"
 export GOPROXY=direct
 export GOTELEMETRY=off
 export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
 export LOCALBIN="$HOME/.local/bin"
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
+export PHP_INI_SCAN_DIR="$XDG_CONFIG_HOME/herd-lite/bin:$PHP_INI_SCAN_DIR"
 export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 export YARNBIN="$HOME/.yarn/bin"
+
 
 # luarocks and openresty setup
 export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
@@ -67,7 +69,8 @@ path+=("$GOBIN")
 path+=("$DENOBIN")
 path+=("$CARGOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
-path+=("$COMPOSER_VENDOR_BIN")
+# path+=("$COMPOSER_VENDOR_BIN")
+path+=("$PHP_INI_SCAN_DIR")
 path+=("$YARNBIN")
 path+=("$OPENRESTY_BIN")
 path+=("$LUAROCKS_USER_BIN")

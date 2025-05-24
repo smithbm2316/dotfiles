@@ -79,6 +79,13 @@ elif [ "$(uname -s)" = "Darwin" ]; then
   #   eval "$(rbenv init - zsh)"
   # fi
 
+  # load chruby ruby version loader to enable .ruby-version file auto-switching
+  # of ruby version
+  if [ -f "$HOMEBREW_PREFIX/opt/chruby/share/chruby/chruby.sh" ]; then
+    source "$HOMEBREW_PREFIX/opt/chruby/share/chruby/chruby.sh"
+    source "$HOMEBREW_PREFIX/opt/chruby/share/chruby/auto.sh"
+  fi
+
   # make sure that gnu coreutils are at the end of $PATH so that they are
   # prioritized over the BSD versions of these utilities on OSX
   #

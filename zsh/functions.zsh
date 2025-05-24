@@ -285,7 +285,9 @@ jsx() {
   elif [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then
     deno run $@
   elif [ -f "pnpm-lock.yaml" ]; then
-    pnpm dlx $@
+    pnpm exec $@
+  elif [ -f "yarn.lock" ]; then
+    yarn exec $@
   else
     echo "No lockfile found, falling back to npm"
     npx $@
