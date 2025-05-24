@@ -126,6 +126,7 @@ return {
       'query',
       'rasi',
       'regex',
+      'ruby',
       'scss',
       'sql',
       'ssh_config',
@@ -185,7 +186,7 @@ return {
       { force = true }
     )
 
-    require 'plugins.treesitter.ftdetect'
+    -- require 'plugins.treesitter.ftdetect'
     vim.cmd.runtime { 'lua/plugins/treesitter/ftplugins/*.lua', bang = true }
   end,
   import = 'plugins.treesitter.context',

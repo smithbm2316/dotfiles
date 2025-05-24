@@ -8,6 +8,7 @@ return {
       djangohtml = '{# %s #}',
       dosini = '# %s',
       ego = '<%# %s %>',
+      eta = '{{# %s }}',
       ejs = '<%# %s %>',
       env = '# %s',
       erb = '<%# %s %>',

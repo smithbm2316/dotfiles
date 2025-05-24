@@ -30,6 +30,10 @@ local fts = {
     extension = 'ejs',
     parser = 'embedded_template',
   },
+  eta = {
+    extension = 'eta',
+    parser = 'embedded_template',
+  },
   etlua = {
     extension = 'etlua',
     parser = 'embedded_template',
