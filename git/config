@@ -65,6 +65,7 @@
   autoSetupRemote = true
   default = simple # (default since 2.0)
   followTags = true
+  useForceIfIncludes = true
 
 [pull]
 	rebase = true # always rebase when pulling changes

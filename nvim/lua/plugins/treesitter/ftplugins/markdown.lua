@@ -28,8 +28,8 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
 
     -- https://www.reddit.com/r/neovim/comments/zmvk7j/comment/j0dsq99
     -- https://stackoverflow.com/a/50415982
-    vim.opt_local.textwidth = 0
-    vim.opt_local.wrapmargin = 80
+    vim.opt_local.textwidth = 80
+    -- vim.opt_local.wrapmargin = 80
     vim.opt_local.wrap = true
     vim.opt_local.linebreak = true
     -- vim.opt_local.columns = 80

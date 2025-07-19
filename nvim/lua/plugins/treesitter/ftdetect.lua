@@ -38,21 +38,9 @@ local fts = {
     extension = 'etlua',
     parser = 'embedded_template',
   },
-  gotmpl = {
-    extension = { 'tmpl' },
-    parser = 'gotmpl',
-  },
   jet = {
     extension = { 'jet' },
     parser = 'gotmpl',
-  },
-  json = {
-    pattern = {
-      '.djlintrc',
-      '.eslintrc',
-      '.parcelrc',
-      '.prettierrc',
-    },
   },
   jinja = {
     extension = { 'j2', 'jinja' },

@@ -7,6 +7,14 @@
     "prefix": "imd",
     "body": "import $1 from '$0';"
   },
+  "console.error": {
+    "prefix": "error",
+    "body": "console.error($0);"
+  },
+  "console.warn": {
+    "prefix": "warn",
+    "body": "console.warn($0);"
+  },
   "console.log": {
     "prefix": "log",
     "body": "console.log($0);"
@@ -14,6 +22,10 @@
   "console.debug": {
     "prefix": "debug",
     "body": "console.debug($0);"
+  },
+  "console.dir infinity": {
+    "prefix": "dinf",
+    "body": "console.dir($0, { depth: Infinity });"
   },
   "console.debug JSON stringified": {
     "prefix": "debugs",
@@ -34,5 +46,9 @@
   "eslint-disable-block": {
     "prefix": "esdb",
     "body": "/* eslint-disable $1 */\n$0\n/* eslint-enable $1 */"
+  },
+  "selectors": {
+    "prefix": "select",
+    "body": "import { selectors } from './selectors';"
   }
 }

@@ -35,6 +35,10 @@ return {
           fileMatch = { 'composer.json' },
           url = 'https://getcomposer.org/schema.json',
         },
+        {
+          fileMatch = { 'sqlc.json' },
+          url = 'https://www.schemastore.org/sqlc-2.0.json',
+        },
       },
     },
   },

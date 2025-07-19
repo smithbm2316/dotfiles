@@ -134,6 +134,7 @@
                                             "^org\\.mozilla\\.firefox$",
                                             "^org\\.mozilla\\.firefoxdeveloperedition$",
                                             "^com\\.google\\.Chrome$",
+                                            "^org\\.chromium\\.Chromium$",
                                             "^com\\.apple\\.Safari$",
                                             "^com\\.brave\\.Browser$",
                                             "^app\\.zen-browser\\.zen$"
@@ -347,6 +348,19 @@
                 },
                 {
                     "identifiers": { "is_keyboard": true },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "caps_lock" },
+                            "to": [{ "key_code": "escape" }]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 825,
+                        "vendor_id": 1241
+                    },
                     "simple_modifications": [
                         {
                             "from": { "key_code": "caps_lock" },

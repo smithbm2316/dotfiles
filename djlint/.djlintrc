@@ -1,0 +1,19 @@
+{
+  "close_void_tags": false,
+  "format_attribute_template_tags": true,
+  "format_css": true,
+  "css": {
+    "indent_size": 2
+  },
+  "format_js": true,
+  "js": {
+    "indent_size": 2
+  },
+  "indent": 2,
+  "line_break_after_multiline_tag": false,
+  "max_attribute_length": 80,
+  "max_line_length": 120,
+  "preserve_blank_lines": true,
+  "preserve_leading_space": true,
+  "use_gitignore": true
+}

@@ -7,7 +7,7 @@ return {
       '@cspell/spellchecker',
       'perfectionist/.*',
       'prettier/prettier',
-      'sonarjs/*',
+      -- 'sonarjs/*',
     }
 
     -- yay for this update: https://github.com/mfussenegger/nvim-lint/pull/768
@@ -40,9 +40,10 @@ return {
     )
 
     lint.linters_by_ft = {
-      -- disable defaults
+      -- empty table disables defaults for nvim-lint
       clojure = {},
       dockerfile = {},
+      gotmpl = { 'htmlhint' },
       inko = {},
       janet = {},
       json = {},
@@ -51,6 +52,7 @@ return {
       ruby = {},
       terraform = {},
       text = {},
+      tmpl = { 'htmlhint' },
     }
 
     local filetypes_for_eslint =
@@ -59,6 +61,10 @@ return {
     vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufRead', 'BufWritePost' }, {
       callback = function()
         if not vim.diagnostic.is_enabled { bufnr = 0 } then
+          return
+        end
+
+        if string.find(vim.fn.getcwd(), '/ichabod$') ~= nil then
           return
         end
 

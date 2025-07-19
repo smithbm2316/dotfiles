@@ -45,8 +45,10 @@ outer.right =      0
 [mode.main.binding]
 # launch new terminal window
 alt-shift-ctrl-t = 'exec-and-forget open -n /Applications/Ghostty.app'
-# launch firefox with alternate profile
-alt-shift-ctrl-b = 'exec-and-forget sleep 1 && /Applications/Firefox.app/Contents/MacOS/firefox -P personal'
+# launch firefox main profile
+alt-shift-ctrl-b = 'exec-and-forget sleep 1 && /Applications/Firefox.app/Contents/MacOS/firefox -P thuma'
+# launch firefox alternate profile
+cmd-alt-shift-ctrl-b = 'exec-and-forget sleep 1 && /Applications/Firefox.app/Contents/MacOS/firefox -P personal'
 
 # i3 wraps focus by default
 alt-shift-ctrl-h = 'focus --boundaries-action wrap-around-the-workspace left'

@@ -270,7 +270,7 @@ return {
         prompt_title = 'live_grep case sensitive',
         vimgrep_arguments = vimgrep_arguments,
       }
-    end, { desc = 'Live grep all' })
+    end, { desc = 'Live grep case sensitive' })
     vim.keymap.set('n', '<leader>ga', function()
       local vimgrep_arguments = vim.list_slice(base_vimgrep_arguments)
       vim.list_extend(vimgrep_arguments, {

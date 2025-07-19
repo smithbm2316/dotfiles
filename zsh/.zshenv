@@ -20,6 +20,7 @@ export GOPROXY=direct
 export GOTELEMETRY=off
 export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
+# export GOROOT="$HOME/.go"
 export LOCALBIN="$HOME/.local/bin"
 export PHP_INI_SCAN_DIR="$XDG_CONFIG_HOME/herd-lite/bin:$PHP_INI_SCAN_DIR"
 export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"

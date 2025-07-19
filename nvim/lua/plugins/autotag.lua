@@ -15,8 +15,10 @@ return {
     aliases = {
       blade = 'html',
       edge = 'html',
+      gotmpl = 'html',
       etlua = 'html',
       templ = 'html',
+      tmpl = 'html',
     },
     skip_tags = {
       'area',

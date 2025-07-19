@@ -1,5 +1,12 @@
 return {
   'saghen/blink.cmp',
+  dependencies = {
+    -- needed for nvim-html-css
+    {
+      'saghen/blink.compat',
+      lazy = true,
+    },
+  },
   -- optional: provides snippets for the snippet source
   -- dependencies = 'rafamadriz/friendly-snippets',
 
@@ -71,7 +78,13 @@ return {
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      default = { 'lsp', 'snippets', 'path', 'buffer' },
+      default = {
+        'lsp',
+        -- 'html-css'
+        'snippets',
+        'path',
+        'buffer',
+      },
       per_filetype = {
         markdown = { 'path' },
         lua = {
@@ -90,6 +103,10 @@ return {
           module = 'lazydev.integrations.blink',
           -- score_offset = 90,
         },
+        -- ['html-css'] = {
+        --   name = 'html-css',
+        --   module = 'blink.compat.source',
+        -- },
       },
     },
   },
