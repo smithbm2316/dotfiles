@@ -25,7 +25,5 @@ alias mk="make -s"
 # https://github.com/danstoner/pandoc_samples/blob/master/fc-list-examples.md
 alias fc-families="fc-list : family | cut -f1 -d"," | sort | uniq"
 
-alias grep="grep --color=always"
-
 # add all to a wip commit
 alias wip="git add . && git commit --no-verify --message 'wip'"
