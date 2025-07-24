@@ -18,9 +18,8 @@ abbr "got"="go test ./..."
 abbr "jst"="jsr test -- run"
 abbr "grep"="grep --color=always"
 abbr "head"="HEAD~1"
+abbr "imix"="iex -S mix"
 abbr "keyevent"="xev -event keyboard | grep -o -e '(keysym .*, .*)'"
-# disable lazygit shortcut for now so that i'm forced to learn and use the
-# regular git cli instead
 abbr "lg"="lazygit"
 abbr "lite"="litecli"
 abbr "mkdir"="mkdir -pv"
