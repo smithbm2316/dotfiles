@@ -1,0 +1,49 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-20250514",
+  "small_model": "anthropic/claude-sonnet-4-20250514",
+  "autoupdate": false,
+  "share": "disabled",
+  "theme": "catppuccin",
+  "keybinds": {
+    "leader": "ctrl+x",
+    "messages_page_up": "ctrl+b",
+    "messages_page_down": "ctrl+f",
+    "messages_half_page_up": "ctrl+u",
+    "messages_half_page_down": "ctrl+d",
+    "messages_first": "ctrl+g",
+    "messages_last": "ctrl+shift+g"
+  },
+  "mode": {
+    "plan": {
+      "tools": {
+        "bash": false,
+        "edit": false,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "patch": false,
+        "read": true,
+        "todoread": true,
+        "todowrite": false,
+        "webfetch": false,
+        "write": false
+      }
+    },
+    "build": {
+      "tools": {
+        "bash": false,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "patch": true,
+        "read": true,
+        "todoread": true,
+        "todowrite": true,
+        "webfetch": false,
+        "write": true
+      }
+    }
+  }
+}
