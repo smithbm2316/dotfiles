@@ -44,6 +44,6 @@ abbr gs="git status -s"
 # git switch
 abbr gsw="git switch"
 abbr grs="git reset"
-# abbr "gr"="git reset"
+abbr grh="git reset --soft head^"
 # reset
 # restore

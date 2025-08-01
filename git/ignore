@@ -16,5 +16,9 @@ tsconfig.tsbuildinfo
 .scratchpad.md
 .env.act
 .tailwind-lsp
+
 # cursor rules
 .cursorrules
+
+# hide AGENTS.md files for now
+AGENTS.md
