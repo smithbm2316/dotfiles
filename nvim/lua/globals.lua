@@ -88,6 +88,7 @@ _G.html_like_fts_no_jsx = {
   'edge',
   'etlua',
   'gotmpl',
+  'heex',
   'html',
   'htmldjango',
   'jinja',

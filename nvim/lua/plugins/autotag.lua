@@ -16,6 +16,7 @@ return {
       blade = 'html',
       edge = 'html',
       gotmpl = 'html',
+      heex = 'html',
       etlua = 'html',
       templ = 'html',
       tmpl = 'html',

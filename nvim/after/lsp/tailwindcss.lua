@@ -1,5 +1,6 @@
 local root_markers = {
   '.tailwind-lsp',
+  'mix.exs',
   'nuxt.config.ts',
   'svelte.config.js',
   'svelte.config.ts',
@@ -8,8 +9,12 @@ local root_markers = {
   'tailwind.config.ts',
 }
 
+local filetypes = vim.tbl_extend('force', _G.css_like_fts, _G.html_like_fts)
+table.insert(filetypes, 'elixir')
+table.insert(filetypes, 'eelixir')
+
 return {
-  filetypes = vim.tbl_extend('force', _G.css_like_fts, _G.html_like_fts),
+  filetypes = filetypes,
   root_markers = root_markers,
   root_dir = function(_, on_dir)
     -- local cwd = vim.fn.getcwd()
