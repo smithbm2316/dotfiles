@@ -1,0 +1,54 @@
+{
+  "import": {
+    "prefix": "imp",
+    "body": "import { $1 } from '$0';"
+  },
+  "import default": {
+    "prefix": "imd",
+    "body": "import $1 from '$0';"
+  },
+  "console.error": {
+    "prefix": "error",
+    "body": "console.error($0);"
+  },
+  "console.warn": {
+    "prefix": "warn",
+    "body": "console.warn($0);"
+  },
+  "console.log": {
+    "prefix": "log",
+    "body": "console.log($0);"
+  },
+  "console.debug": {
+    "prefix": "debug",
+    "body": "console.debug($0);"
+  },
+  "console.dir infinity": {
+    "prefix": "dinf",
+    "body": "console.dir($0, { depth: Infinity });"
+  },
+  "console.debug JSON stringified": {
+    "prefix": "debugs",
+    "body": "console.debug(JSON.stringify({ $0 }, null, 2));"
+  },
+  "@ts-expect-error": {
+    "prefix": "tse",
+    "body": "// @ts-expect-error $0"
+  },
+  "eslint-disable-next-line": {
+    "prefix": "esdl",
+    "body": "// eslint-disable-next-line $0"
+  },
+  "eslint-disable-file": {
+    "prefix": "esdf",
+    "body": "// eslint-disable-next-line eslint-comments/disable-enable-pair\n/* eslint-disable $0 */"
+  },
+  "eslint-disable-block": {
+    "prefix": "esdb",
+    "body": "/* eslint-disable $1 */\n$0\n/* eslint-enable $1 */"
+  },
+  "selectors": {
+    "prefix": "select",
+    "body": "import { selectors } from './selectors';"
+  }
+}

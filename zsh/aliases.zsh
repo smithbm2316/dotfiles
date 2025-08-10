@@ -32,7 +32,7 @@ alias wip="git add . && git commit --no-verify --message 'wip'"
 alias grep="grep --color=always"
 
 # setup alias for neovim nightly
-alias nv="$HOME/.local/nvim-nightly/bin/nvim -u $XDG_CONFIG_HOME/nvim-nightly/init.lua"
+alias nv="$HOME/.local/nvim-nightly/bin/nvim"
 
 # update dotfiles symlinks if necessary
 alias dotsup="cd $HOME && stow -vt ~/.config dotfiles && cd -"
