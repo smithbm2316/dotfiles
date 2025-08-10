@@ -185,16 +185,17 @@ bindsym $mod+ctrl+g move container to workspace note, workspace note
 # horizontal and vertical splits respectively.
 bindsym $mod+semicolon splith
 bindsym $mod+v splitv
-bindsym $mod+i split toggle; layout tabbed
+# stacking tabbed
+bindsym $mod+i split toggle; layout stacking
 bindsym $mod+ctrl+i split none
 
 # focus urgent workspace
 bindsym $mod+u [urgent="latest"] focus
 
 # switch the current container between different layout styles bindsym $mod+s
-# layout stacking
-workspace_layout tabbed
-bindsym $mod+w layout toggle splith splitv tabbed
+# stacking tabbed
+workspace_layout stacking
+bindsym $mod+w layout toggle splith splitv stacking
 
 # Make the current focus fullscreen
 bindsym $mod+m fullscreen
@@ -271,7 +272,7 @@ bindsym $mod+r mode "resize"
 # STATUS BAR
 # ---------------------------------------------------------------------------- #
 # Read `man 5 sway-bar` for more information about this section.
-font pango:Berkeley Mono Medium SemiCondensed 9.5
+font pango:Berkeley Mono SemiCondensed 10.5
 set $bar_height 24
 bar {
   position top
