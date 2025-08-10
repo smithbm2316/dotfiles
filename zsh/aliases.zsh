@@ -27,3 +27,12 @@ alias fc-families="fc-list : family | cut -f1 -d"," | sort | uniq"
 
 # add all to a wip commit
 alias wip="git add . && git commit --no-verify --message 'wip'"
+
+# always use color for grep
+alias grep="grep --color=always"
+
+# setup alias for neovim nightly
+alias nv="$HOME/.local/nvim-nightly/bin/nvim -u $XDG_CONFIG_HOME/nvim-nightly/init.lua"
+
+# update dotfiles symlinks if necessary
+alias dotsup="cd $HOME && stow -vt ~/.config dotfiles && cd -"

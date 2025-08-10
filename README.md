@@ -3,6 +3,8 @@
 ```sh
 # TLDR: here's the command you need to install everything now
 stow -vt ~/.config dotfiles
+# can also use the following alias to run the above command:
+dotsup
 ```
 
 The are my personal configuration files, feel free to steal anything you find interesting! I tend to update them relatively regularly with new apps or settings I add. The most interesting/useful dotfiles I probably have are my neovim config, my various window manager dotfiles (awesomewm, i3, spectrwm, and xmonad folders; I use awesomewm at the moment), and how I actually set up my dotfiles (I use a cli program called **gnu stow**, but I use it a bit differently than most tutorials online, I'll explain that process below). If you have any questions feel free to open an issue and answer the best that I can!
