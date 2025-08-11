@@ -31,6 +31,7 @@ ksnip
 libavcodec-extra
 libnotify-bin
 libpam0g
+libpam-gnome-keyring
 libspa-0.2-bluetooth
 litecli
 lynx
