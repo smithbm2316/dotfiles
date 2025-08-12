@@ -31,8 +31,6 @@ vim.keymap.set(
   { desc = 'Swap windows and move cursor' }
 )
 
-vim.keymap.set('n', '<leader>qa', '<cmd>qa!<cr>', { desc = 'quit forcefully' })
-
 vim.keymap.set('n', 'ga', '<c-^>', { desc = 'Go to alternate file' })
 
 -- comment maps
@@ -109,3 +107,10 @@ vim.keymap.set('n', '<leader>qc', '<cmd>cclose<cr>', {
 vim.keymap.set('n', '<leader>rq', [[<cmd>%s/"/'/g<cr>]], {
   desc = 'Replace [double] quotes [with single in whole file]',
 })
+
+vim.keymap.set(
+  'n',
+  '<leader>fm',
+  [[/\C^\s\+-]],
+  { desc = 'Find in manpage shortcut' }
+)

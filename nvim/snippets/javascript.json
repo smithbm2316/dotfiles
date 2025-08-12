@@ -20,15 +20,15 @@
     "body": "console.log($0);"
   },
   "console.debug": {
-    "prefix": "debug",
+    "prefix": "logd",
     "body": "console.debug($0);"
   },
   "console.dir infinity": {
-    "prefix": "dinf",
+    "prefix": "loginf",
     "body": "console.dir($0, { depth: Infinity });"
   },
   "console.debug JSON stringified": {
-    "prefix": "debugs",
+    "prefix": "logdj",
     "body": "console.debug(JSON.stringify({ $0 }, null, 2));"
   },
   "@ts-expect-error": {

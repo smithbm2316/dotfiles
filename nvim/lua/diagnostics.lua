@@ -39,37 +39,43 @@ vim.keymap.set('n', '<leader>td', function()
   end
 end, { desc = 'Toggle diagnostics' })
 
--- TODO: refactor the diagnostic keymaps and settings into its own module, it's
--- separate from LSP now
---
---- Go to a specific diagnostic message in a particular direction
----@param direction string value can be 'prev' or 'next', direction in which message to show
----@param shouldGoToAny? boolean if false (default), only go to errors and warnings, otherwise go to any message
-function goto_diagnostic_msg(direction, shouldGoToAny)
-  vim.diagnostic['goto_' .. direction] {
-    float = true,
-    wrap = true,
-    severity = not shouldGoToAny and {
-      min = vim.diagnostic.severity.WARN,
-    } or nil,
-  }
-  vim.wo.linebreak = true
-end
-
 -- prev diagnostic
 vim.keymap.set('n', '<leader>dp', function()
-  goto_diagnostic_msg 'prev'
+  vim.diagnostic.jump {
+    count = -1,
+    float = true,
+    severity = { min = vim.diagnostic.severity.WARN },
+    wrap = true,
+  }
+  vim.wo.linebreak = true
 end, { desc = 'Previous diagnostic' })
 vim.keymap.set('n', '<leader>dP', function()
-  goto_diagnostic_msg('prev', true)
+  vim.diagnostic.jump {
+    count = -1,
+    float = true,
+    severity = { min = vim.diagnostic.severity.HINT },
+    wrap = true,
+  }
+  vim.wo.linebreak = true
 end, { desc = 'Previous diagnostic' })
-
 -- next diagnostic
 vim.keymap.set('n', '<leader>dn', function()
-  goto_diagnostic_msg 'next'
+  vim.diagnostic.jump {
+    count = 1,
+    float = true,
+    severity = { min = vim.diagnostic.severity.WARN },
+    wrap = true,
+  }
+  vim.wo.linebreak = true
 end, { desc = 'Next diagnostic' })
 vim.keymap.set('n', '<leader>dN', function()
-  goto_diagnostic_msg('next', true)
+  vim.diagnostic.jump {
+    count = 1,
+    float = true,
+    severity = { min = vim.diagnostic.severity.HINT },
+    wrap = true,
+  }
+  vim.wo.linebreak = true
 end, { desc = 'Next diagnostic' })
 
 -- show diagnostics on current line in floating window: hover diagnostics for line

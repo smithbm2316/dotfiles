@@ -55,6 +55,16 @@ _G.config_files = {
   },
 }
 
+-- quickly print a lua table to :messages
+_G.dump = function(obj, use_notify)
+  if use_notify then
+    vim.notify(obj, vim.log.levels.DEBUG, { timeout = false })
+  else
+    print(vim.inspect(obj))
+  end
+  return obj
+end
+
 ---@param patterns string[]
 ---@return boolean
 _G.root_pattern = function(patterns)

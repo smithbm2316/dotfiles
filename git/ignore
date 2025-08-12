@@ -22,3 +22,6 @@ tsconfig.tsbuildinfo
 
 # hide AGENTS.md files for now
 AGENTS.md
+
+# hide local neovim session files
+Session.vim
