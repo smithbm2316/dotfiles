@@ -1,5 +1,5 @@
 ---@type string[] list of filetypes where html features should be enabled
-_G.html_like_fts_no_jsx = {
+html_like_fts_no_jsx = {
   'blade',
   'gotmpl',
   'html',
@@ -11,13 +11,13 @@ _G.html_like_fts_no_jsx = {
 }
 
 ---@type string[] list of filetypes where html features should be enabled
-_G.html_like_fts = vim.tbl_extend('force', _G.html_like_fts_no_jsx, {
+html_like_fts = vim.tbl_extend('force', html_like_fts_no_jsx, {
   'javascriptreact',
   'typescriptreact',
 })
 
 ---@type string[] list of filetypes where css features should be enabled
-_G.css_like_fts = {
+css_like_fts = {
   'css',
   'less',
   'sass',
@@ -25,7 +25,7 @@ _G.css_like_fts = {
 }
 
 ---@type string[] list of filetypes to enable JS/TS features for
-_G.js_ts_fts = {
+js_ts_fts = {
   'javascript',
   'javascriptreact',
   'typescript',
@@ -34,7 +34,7 @@ _G.js_ts_fts = {
 
 --- record of config files like eslint and prettier that i might want to match
 --- against on the local filesystem
-_G.config_files = {
+config_files = {
   eslint = {
     'eslint.config.js',
     'eslint.config.cjs',
@@ -55,9 +55,26 @@ _G.config_files = {
   },
 }
 
+diagnostic_icons = {
+  [vim.diagnostic.severity.ERROR] = '!', -- '',
+  [vim.diagnostic.severity.WARN] = '?', -- '',
+  [vim.diagnostic.severity.INFO] = '@', -- '󱠃',
+  [vim.diagnostic.severity.HINT] = '*', -- '',
+}
+
+-- quickly print a lua table to :messages
+dump = function(obj, use_notify)
+  if use_notify then
+    vim.notify(obj, vim.log.levels.DEBUG, { timeout = false })
+  else
+    print(vim.inspect(obj))
+  end
+  return obj
+end
+
 ---@param patterns string[]
 ---@return boolean
-_G.root_pattern = function(patterns)
+root_pattern = function(patterns)
   for name, type in vim.fs.dir '.' do
     if type == 'file' and vim.tbl_contains(patterns, name) then
       return true
@@ -65,14 +82,4 @@ _G.root_pattern = function(patterns)
   end
 
   return false
-end
-
--- override `vim.notify` globally to ignore the annoying error below from
--- getting printed to my `:messages`
-local notify = vim.notify
-vim.notify = function(msg, ...)
-  if msg:match 'Inlay Hints request failed. File not opened' then
-    return
-  end
-  notify(msg, ...)
 end

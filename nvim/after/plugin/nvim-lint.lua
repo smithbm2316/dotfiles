@@ -64,8 +64,8 @@ vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufRead', 'BufWritePost' }, {
     local ft = vim.api.nvim_get_option_value('filetype', { buf = 0 })
 
     if
-      vim.tbl_contains(_G.js_ts_fts, ft)
-      and root_pattern(_G.config_files.eslint)
+      vim.tbl_contains(js_ts_fts, ft)
+      and root_pattern(config_files.eslint)
     then
       -- You can call `try_lint` with a linter name or a list of names to always
       -- run specific linters, independent of the `linters_by_ft` configuration

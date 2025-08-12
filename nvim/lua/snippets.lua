@@ -1,0 +1,42 @@
+-- local Snippets = {
+--   preq = [[local ok, ${2:pkgvar} = pcall(require, '${1:pkg}')
+-- if not ok then
+--   return ${0:result}
+-- end]],
+-- }
+--
+-- vim.keymap.set({ 'i', 's' }, '<c-j>', function()
+--   local _bufnr, lnum, col_end, offset, _ = unpack(vim.fn.getpos '.')
+--   local curr_line = vim.api.nvim_get_current_line()
+--
+--   local col_start = col_end - 1
+--   while col_start > 0 do
+--     local char = curr_line:sub(col_start, col_start)
+--     if char == ' ' then
+--       col_start = col_start + 1
+--       break
+--     end
+--     col_start = col_start - 1
+--   end
+--
+--   local trigger = curr_line:sub(col_start, col_end)
+--   vim.notify(string.format('%q', trigger))
+--   if Snippets[trigger] ~= nil then
+--     vim.notify 'trigger found'
+--     local new_curr_line = curr_line:sub(0, col_start - 1)
+--     vim.notify(new_curr_line)
+--     vim.api.nvim_set_current_line(new_curr_line)
+--     vim.snippet.expand(Snippets[trigger])
+--   end
+-- end, { desc = 'load snippet' })
+--
+-- vim.keymap.set({ 'i', 's' }, '<c-l>', function()
+--   vim.snippet.jump(1)
+-- end, {
+--   desc = 'snippet jump forward',
+-- })
+-- vim.keymap.set({ 'i', 's' }, '<c-h>', function()
+--   vim.snippet.jump(-1)
+-- end, {
+--   desc = 'snippet jump forward',
+-- })

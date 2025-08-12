@@ -1,35 +1,56 @@
+---@type fun(expand?: boolean): fun(): vim.api.keyset.win_config
+local get_win_config = function(expand)
+  return function()
+    local columns = vim.api.nvim_get_option_value('columns', {})
+    local lines = vim.api.nvim_get_option_value('lines', {})
+
+    local col = 0
+    local width = columns
+    local height = math.ceil(lines * 0.5)
+    if columns > 140 then
+      width = expand and math.ceil(columns * 0.6) or math.ceil(columns * 0.4)
+      col = width
+    end
+
+    ---@type vim.api.keyset.win_config
+    return {
+      relative = 'editor',
+      -- anchor = 'NE',
+      row = 0,
+      col = col,
+      width = width,
+      height = height,
+      style = 'minimal',
+      border = 'double',
+      mouse = true,
+    }
+  end
+end
+
 require('mini.pick').setup {
   mappings = {
-    delete_left = '', -- default '<c-u>'
+    delete_left = nil, -- default '<c-u>'
     scroll_down = '<c-d>',
     scroll_up = '<c-u>',
+    choose_in_vsplit = '<c-v>',
     -- TODO: implement a mapping that sends all items to quickfix/location list
     -- TODO: fix mapping to delete selected buffer in "Pick buffers" picker so
     -- that it redraws the screen
   },
   window = {
-    config = function()
-      local width = vim.api.nvim_get_option 'columns'
-      local height = vim.api.nvim_get_option 'lines'
-      return {
-        relative = 'editor',
-        anchor = 'NE',
-        row = 0,
-        col = width,
-        width = math.ceil(width * 0.5),
-        height = math.ceil(height * 0.5),
-        style = 'minimal',
-        border = 'double',
-        mouse = true,
-      }
-    end,
+    config = get_win_config(),
   },
 }
+require('mini.extra').setup()
+vim.ui.select = MiniPick.ui_select
 
 -- Files pickers
-vim.keymap.set('n', '<leader>fj', function()
-  MiniPick.builtin.files()
-end, { desc = 'Find files (mini.pick)' })
+vim.keymap.set(
+  'n',
+  '<leader>fj',
+  MiniPick.builtin.files,
+  { desc = '[f]ind and [j]ump to file in cwd (mini.pick)' }
+)
 
 vim.keymap.set('n', '<leader>fd', function()
   MiniPick.builtin.files(nil, {
@@ -38,7 +59,7 @@ vim.keymap.set('n', '<leader>fd', function()
       name = 'Files (~/dotfiles)',
     },
   })
-end, { desc = 'Find dotfiles (mini.pick)' })
+end, { desc = '[f]ind [d]otfiles (mini.pick)' })
 
 vim.keymap.set('n', '<leader>fn', function()
   MiniPick.builtin.files(nil, {
@@ -47,7 +68,7 @@ vim.keymap.set('n', '<leader>fn', function()
       name = 'Files (~/dotfiles/nvim)',
     },
   })
-end, { desc = 'Find nvim files (mini.pick)' })
+end, { desc = '[f]ind [n]vim files (mini.pick)' })
 
 vim.keymap.set('n', '<leader>fs', function()
   MiniPick.builtin.files(nil, {
@@ -56,16 +77,18 @@ vim.keymap.set('n', '<leader>fs', function()
       name = 'Files (~/dotfiles/nvim-stable)',
     },
   })
-end, { desc = 'Find nvim-stable files (mini.pick)' })
+end, { desc = '[f]ind nvim-[s]table files (mini.pick)' })
 
 -- Grep Live pickers
 vim.keymap.set('n', '<leader>gw', function()
-  MiniPick.builtin.grep_live()
-end, { desc = 'Grep word (mini.pick)' })
+  MiniPick.builtin.grep_live(nil, {
+    window = { config = get_win_config(true) },
+  })
+end, { desc = '[g]rep [w]ord (mini.pick)' })
 
 -- vim.keymap.set('n', '<leader>gW', function()
 --   MiniPick.builtin.grep_live()
--- end, { desc = 'Grep word case-sensitive (mini.pick)' })
+-- end, { desc = '[g]rep [W]ord case-sensitive (mini.pick)' })
 
 vim.keymap.set('n', '<leader>gid', function()
   MiniPick.builtin.grep_live(nil, {
@@ -73,29 +96,32 @@ vim.keymap.set('n', '<leader>gid', function()
       cwd = vim.env.HOME .. '/dotfiles',
       name = 'Grep live (~/dotfiles)',
     },
+    window = { config = get_win_config(true) },
   })
-end, { desc = 'Grep in dotfiles (mini.pick)' })
+end, { desc = '[g]rep [i]n [d]otfiles (mini.pick)' })
 vim.keymap.set('n', '<leader>gin', function()
   MiniPick.builtin.grep_live(nil, {
     source = {
       cwd = vim.env.HOME .. '/dotfiles/nvim',
       name = 'Grep live (~/dotfiles/nvim)',
     },
+    window = { config = get_win_config(true) },
   })
-end, { desc = 'Grep in nvim files (mini.pick)' })
+end, { desc = '[g]rep [i]n [n]vim files (mini.pick)' })
 vim.keymap.set('n', '<leader>gis', function()
   MiniPick.builtin.grep_live(nil, {
     source = {
       cwd = vim.env.HOME .. '/dotfiles/nvim-stable',
       name = 'Grep live (~/dotfiles/nvim-stable)',
     },
+    window = { config = get_win_config(true) },
   })
 end, { desc = 'Grep in nvim-stable files (mini.pick)' })
 
 -- Miscellaneous pickers
 vim.keymap.set('n', '<leader>gh', function()
   MiniPick.builtin.help()
-end, { desc = 'Grep help (mini.pick)' })
+end, { desc = '[g]rep [h]elp (mini.pick)' })
 
 vim.keymap.set('n', '<leader>jb', function()
   MiniPick.builtin.buffers(nil, {
@@ -111,11 +137,34 @@ vim.keymap.set('n', '<leader>jb', function()
       },
     },
   })
-end, { desc = 'Jump to buffer (mini.pick)' })
+end, { desc = '[j]ump to [b]uffer (mini.pick)' })
 
-vim.keymap.set('n', '<leader>tp', function()
-  MiniPick.builtin.resume()
-end, { desc = 'Previous Pick picker (mini.pick)' })
+vim.keymap.set(
+  'n',
+  '<leader>tp',
+  MiniPick.builtin.resume,
+  { desc = '[t]elescope [p]revious Pick picker (mini.pick)' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>jp',
+  MiniPick.builtin.resume,
+  { desc = '[j]ump to [p]revious Pick picker (mini.pick)' }
+)
+
+-- keymaps using 'mini.extra' pickers
+vim.keymap.set(
+  'n',
+  '<leader>gk',
+  MiniExtra.pickers.keymaps,
+  { desc = '[g]rep [k]eymaps' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>ge',
+  MiniExtra.pickers.commands,
+  { desc = '[g]rep [e]x-commands' }
+)
 
 -- Adding custom picker to pick `register` entries
 MiniPick.registry.registry = function()

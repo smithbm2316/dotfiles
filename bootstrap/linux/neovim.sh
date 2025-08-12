@@ -1,10 +1,10 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 if [ "$(command -v apt)" ]; then
   sudo apt install -y build-essential cmake curl gettext ninja-build unzip 
-elif [ "$(command -v dnf)" ]; then
-  sudo dnf -y install ninja-build cmake gcc make unzip gettext curl glibc-gconv-extra
+elif [ "$(uname -s)" = "Darwin" ] && [ "$(command -v brew)" ]; then
+  brew install ninja cmake gettext curl
 else
-  echo 'Neither `apt` or `dnf` is installed, exiting...'
+  echo 'Not a debian or macos system, exiting...'
   exit 1
 fi
 
@@ -13,10 +13,11 @@ if [ ! -d "neovim" ]; then
   git clone https://github.com/neovim/neovim
 fi
 cd neovim || exit
-git checkout stable
+git checkout master
 git pull
 make distclean
 # CMAKE_BUILD_TYPE=RelWithDebInfo if you want extra debug info for the build
-make CMAKE_BUILD=Release \
-  CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local/nvim"
+# CMAKE_BUILD_TYPE=Release full optimized neovim build
+make CMAKE_BUILD_TYPE=RelWithDebInfo \
+  CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local/nvim-nightly"
 make install
