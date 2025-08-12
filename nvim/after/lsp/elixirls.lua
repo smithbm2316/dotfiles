@@ -1,5 +1,6 @@
 return {
   cmd = { 'elixir-ls' },
   filetypes = { 'elixir', 'eelixir', 'heex', 'surface' },
-  root_markers = { 'mix.exs' },
+  root_dir = root_pattern { 'mix.exs' },
+  single_file_support = false,
 }

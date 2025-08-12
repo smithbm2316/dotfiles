@@ -1,8 +1,8 @@
 return {
-  filetypes = { 'css' },
-  init_options = {
-    provideFormatter = false,
-  },
+  cmd = { 'vscode-css-language-server', '--stdio' },
+  filetypes = { 'css', 'sass', 'scss', 'less' },
+  init_options = { provideFormatter = false },
+  root_dir = root_pattern { 'package.json', '.git' },
   settings = {
     -- settings docs:
     -- https://code.visualstudio.com/Docs/languages/CSS#_customizing-css-scss-and-less-settings
@@ -35,5 +35,9 @@ return {
       },
       validate = true,
     },
+    sass = { validate = true },
+    scss = { validate = true },
+    less = { validate = true },
   },
+  single_file_support = false,
 }

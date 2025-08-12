@@ -25,7 +25,7 @@ vim.o.path = '.,,'
 vim.o.relativenumber = true
 vim.o.shiftwidth = 2
 vim.o.showmode = false
-vim.o.showtabline = 0
+vim.o.showtabline = 1
 vim.o.signcolumn = 'yes'
 vim.o.smartcase = true
 vim.o.smartindent = true
@@ -42,6 +42,7 @@ vim.o.wildmenu = true
 vim.o.wildmode = 'full'
 vim.o.wildoptions = 'pum'
 vim.o.wrap = false
+vim.opt.completeopt = { 'fuzzy', 'menu', 'menuone', 'noinsert' }
 vim.opt.formatoptions:append 'jnrqlo'
 vim.opt.formatoptions:remove '2ac' -- t
 vim.opt.shortmess:append 'c'
@@ -103,3 +104,50 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank { on_visual = false }
   end,
 })
+
+local disabled_vim_plugins = {
+  '2html_plugin',
+  'getscript',
+  'getscriptPlugin',
+  'gzip',
+  'logiPat',
+  -- 'man',
+  -- 'matchit',
+  -- 'matchparen',
+  'netrw',
+  'netrwFileHandlers',
+  'netrwPlugin',
+  'netrwSettings',
+  'remote_plugins',
+  'rplugin',
+  'rrhelper',
+  'shada',
+  'shada_plugin',
+  'spec',
+  -- 'spellfile',
+  -- 'spellfile_plugin',
+  'tar',
+  'tarPlugin',
+  'tohtml',
+  'tutor',
+  'tutor_mode_plugin',
+  'vimball',
+  'vimballPlugin',
+  'zip',
+  'zipPlugin',
+}
+
+-- disable highlighting pairs for matchup
+vim.g.matchup_matchparen_enabled = 0
+
+-- disable remote plugin providers
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_python_provider = 0
+vim.g.loaded_pythonx_provider = 0
+vim.g.loaded_ruby_provider = 0
+
+for _, plugin in ipairs(disabled_vim_plugins) do
+  vim.g['loaded_' .. plugin] = 1
+end

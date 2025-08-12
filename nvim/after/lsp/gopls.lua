@@ -1,5 +1,8 @@
 return {
+  cmd = { 'gopls' },
   filetypes = { 'go' },
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/gopls.lua
+  root_dir = root_pattern { 'go.mod', 'go.sum', '.air.toml' },
   settings = {
     gopls = {
       analyses = {

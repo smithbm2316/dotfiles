@@ -1,6 +1,6 @@
 return {
-  filetypes = _G.html_like_fts_no_jsx,
-  single_file_support = false,
+  cmd = { 'vscode-html-language-server', '--stdio' },
+  filetypes = html_like_fts_no_jsx,
   init_options = {
     configurationSection = { 'html', 'css', 'javascript' },
     embeddedLanguages = {
@@ -8,6 +8,10 @@ return {
       javascript = true,
     },
     provideFormatter = false,
+  },
+  root_dir = root_pattern {
+    'package.json',
+    '.git',
   },
   settings = {
     css = {
@@ -21,4 +25,5 @@ return {
       },
     },
   },
+  single_file_support = false,
 }

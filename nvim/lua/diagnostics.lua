@@ -2,18 +2,15 @@
 vim.diagnostic.config {
   underline = false,
   virtual_text = false,
+  -- https://gpanders.com/blog/whats-new-in-neovim-0-11/#virtual-lines
   virtual_lines = false,
   signs = {
     severity = {
       min = vim.diagnostic.severity.WARN,
     },
-    text = {
-      [vim.diagnostic.severity.ERROR] = '',
-      [vim.diagnostic.severity.WARN] = '',
-      [vim.diagnostic.severity.INFO] = '󱠃',
-      [vim.diagnostic.severity.HINT] = '',
-    },
+    text = diagnostic_icons,
   },
+  -- TODO: ideally this should work? idk why it isn't right now
   update_in_insert = false,
   float = {
     header = 'Diagnostic',
@@ -28,7 +25,10 @@ vim.diagnostic.config {
   },
 }
 
--- toggle diagnostics
+-- define buffer-local variable for toggling diangostic buffer decorations
+---@diagnostic disable-next-line: inject-field
+vim.b.show_diagnostics = true
+
 vim.keymap.set('n', '<leader>td', function()
   if vim.b.show_diagnostics then
     vim.diagnostic.hide()
@@ -37,51 +37,52 @@ vim.keymap.set('n', '<leader>td', function()
     vim.diagnostic.show()
     vim.b.show_diagnostics = true
   end
-end, { desc = 'Toggle diagnostics' })
+end, { desc = '[t]oggle [d]iagnostics on/off' })
 
--- TODO: refactor the diagnostic keymaps and settings into its own module, it's
--- separate from LSP now
---
---- Go to a specific diagnostic message in a particular direction
----@param direction string value can be 'prev' or 'next', direction in which message to show
----@param shouldGoToAny? boolean if false (default), only go to errors and warnings, otherwise go to any message
-function goto_diagnostic_msg(direction, shouldGoToAny)
-  vim.diagnostic['goto_' .. direction] {
+vim.keymap.set('n', '<leader>dp', function()
+  vim.diagnostic.jump {
+    count = -1,
     float = true,
+    severity = { min = vim.diagnostic.severity.WARN },
     wrap = true,
-    severity = not shouldGoToAny and {
-      min = vim.diagnostic.severity.WARN,
-    } or nil,
   }
   vim.wo.linebreak = true
-end
-
--- prev diagnostic
-vim.keymap.set('n', '<leader>dp', function()
-  goto_diagnostic_msg 'prev'
-end, { desc = 'Previous diagnostic' })
+end, { desc = '[d]iagnostics [p]revious' })
 vim.keymap.set('n', '<leader>dP', function()
-  goto_diagnostic_msg('prev', true)
-end, { desc = 'Previous diagnostic' })
+  vim.diagnostic.jump {
+    count = -1,
+    float = true,
+    severity = { min = vim.diagnostic.severity.HINT },
+    wrap = true,
+  }
+  vim.wo.linebreak = true
+end, { desc = '[d]iagnostics [P]revious' })
 
--- next diagnostic
 vim.keymap.set('n', '<leader>dn', function()
-  goto_diagnostic_msg 'next'
-end, { desc = 'Next diagnostic' })
+  vim.diagnostic.jump {
+    count = 1,
+    float = true,
+    severity = { min = vim.diagnostic.severity.WARN },
+    wrap = true,
+  }
+  vim.wo.linebreak = true
+end, { desc = '[d]iagnostics [n]ext' })
 vim.keymap.set('n', '<leader>dN', function()
-  goto_diagnostic_msg('next', true)
-end, { desc = 'Next diagnostic' })
+  vim.diagnostic.jump {
+    count = 1,
+    float = true,
+    severity = { min = vim.diagnostic.severity.HINT },
+    wrap = true,
+  }
+  vim.wo.linebreak = true
+end, { desc = '[d]iagnostics [N]ext (ALL diagnostic)' })
 
--- show diagnostics on current line in floating window: hover diagnostics for line
 vim.keymap.set('n', '<leader>dh', function()
   vim.diagnostic.open_float { popup_bufnr_opts = { border = 'single' } }
-end, { desc = 'Hover diagnostic message' })
+end, { desc = '[d]iagnostics hover' })
 
--- lsp diagnostics
 vim.keymap.set('n', '<leader>dl', function()
-  require('telescope.builtin').diagnostics()
-end, { desc = 'Telescope diagnostics' })
-
--- define buffer-local variable for toggling diangostic buffer decorations
----@diagnostic disable-next-line: inject-field
-vim.b.show_diagnostics = true
+  MiniExtra.pickers.diagnostic()
+end, {
+  desc = '[d]iagnostics [l]ist picker (mini.extra)',
+})

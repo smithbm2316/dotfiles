@@ -118,6 +118,8 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+vim.treesitter.language.register('bash', { 'sh', 'bash', 'zsh' })
+
 -- https://github.com/bennypowers/template-literal-comments.nvim
 vim.treesitter.query.add_predicate('is-filetype?', function(_, _, bufnr, pred)
   return vim.bo[bufnr].filetype == pred[2]

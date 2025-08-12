@@ -3,7 +3,7 @@ function jsfmt(bufnr)
   -- and auto-fixing, then run both in sequence
   if
     string.match(vim.fn.getcwd(), vim.env.HOME .. '/work/') ~= nil
-    and root_pattern(_G.config_files.eslint)
+    and root_pattern(config_files.eslint)
   then
     return { 'eslint_d', 'prettierd' }
     -- otherwise just run prettier

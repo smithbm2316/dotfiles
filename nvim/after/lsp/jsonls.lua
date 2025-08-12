@@ -1,5 +1,7 @@
 return {
+  cmd = { 'vscode-json-language-server', '--stdio' },
   filetypes = { 'json', 'jsonc', 'json5' },
+  root_dir = root_pattern { '.git' },
   settings = {
     json = {
       schemas = {

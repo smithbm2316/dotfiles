@@ -1,23 +1,22 @@
-local root_markers = {
-  '.tailwind-lsp',
-  'tailwind.config.cjs',
-  'tailwind.config.js',
-  'tailwind.config.ts',
-}
-
 return {
-  filetypes = vim.tbl_extend('force', _G.css_like_fts, _G.html_like_fts),
-  root_markers = root_markers,
+  cmd = { 'tailwindcss-language-server', '--stdio' },
+  filetypes = vim.tbl_extend('force', css_like_fts, html_like_fts),
   root_dir = function(_, on_dir)
-    if _G.root_pattern(root_markers) then
+    if
+      root_pattern {
+        '.tailwind-lsp',
+        'tailwind.config.cjs',
+        'tailwind.config.mjs',
+        'tailwind.config.js',
+        'tailwind.config.ts',
+      }
+    then
       on_dir(vim.fn.getcwd())
     end
   end,
   -- add support for custom languages
   -- https://github.com/tailwindlabs/tailwindcss-intellisense/issues/84#issuecomment-1128278248
-  init_options = {
-    userLanguages = {},
-  },
+  init_options = { userLanguages = {} },
   settings = {
     tailwindCSS = {
       -- includeLanguages = {},
@@ -47,4 +46,5 @@ return {
       },
     },
   },
+  single_file_support = false,
 }

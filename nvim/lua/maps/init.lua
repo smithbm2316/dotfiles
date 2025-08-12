@@ -16,6 +16,14 @@ vim.keymap.set(
   { desc = 'Clear search highlighting' }
 )
 
+-- https://stackoverflow.com/a/4257175
+vim.keymap.set(
+  'n',
+  '*',
+  [[<cmd>keepjumps normal! mi*`i<cr>]],
+  { desc = 'remap * to stay on current occurence' }
+)
+
 -- window maps
 vim.keymap.set('n', '<leader>wr', function()
   vim.cmd 'vnew | wincmd r | wincmd l'
@@ -30,8 +38,6 @@ vim.keymap.set(
   '<cmd>wincmd r | wincmd l<cr>',
   { desc = 'Swap windows and move cursor' }
 )
-
-vim.keymap.set('n', '<leader>qa', '<cmd>qa!<cr>', { desc = 'quit forcefully' })
 
 vim.keymap.set('n', 'ga', '<c-^>', { desc = 'Go to alternate file' })
 
@@ -67,16 +73,17 @@ vim.keymap.set('n', ')', ')zz')
 
 -- toggle maps
 vim.keymap.set('n', '<leader>tw', function()
-  if vim.api.nvim_win_get_option(0, 'wrap') then
-    vim.api.nvim_win_set_option(0, 'wrap', false)
+  if vim.api.nvim_get_option_value('wrap', { win = 0 }) then
+    vim.api.nvim_set_option_value('wrap', false, { win = 0 })
     vim.notify('wrapping off', vim.log.levels.INFO)
   else
-    vim.api.nvim_win_set_option(0, 'wrap', true)
+    vim.api.nvim_set_option_value('wrap', true, { win = 0 })
     vim.notify('wrapping on', vim.log.levels.INFO)
   end
 end, { desc = 'Toggle line wrapping' })
 
 vim.keymap.set('n', '<leader>tc', function()
+  ---@diagnostic disable-next-line: undefined-field
   if vim.opt_local.conceallevel:get() ~= 0 then
     vim.opt_local.conceallevel = 0
   else
@@ -85,10 +92,10 @@ vim.keymap.set('n', '<leader>tc', function()
 end, { desc = 'Toggle conceallevel' })
 
 vim.keymap.set('n', '<leader>tn', function()
-  if vim.api.nvim_win_get_option(0, 'relativenumber') then
-    vim.cmd 'windo set norelativenumber'
+  if vim.api.nvim_get_option_value('relativenumber', { win = 0 }) then
+    vim.api.nvim_set_option_value('relativenumber', false, { win = 0 })
   else
-    vim.cmd 'windo set relativenumber'
+    vim.api.nvim_set_option_value('relativenumber', true, { win = 0 })
   end
 end, { desc = 'Toggle relative line numbers' })
 
@@ -109,3 +116,17 @@ vim.keymap.set('n', '<leader>qc', '<cmd>cclose<cr>', {
 vim.keymap.set('n', '<leader>rq', [[<cmd>%s/"/'/g<cr>]], {
   desc = 'Replace [double] quotes [with single in whole file]',
 })
+
+vim.keymap.set(
+  'n',
+  '<leader>fm',
+  [[/\C^\s\+-]],
+  { desc = 'Find in manpage shortcut' }
+)
+
+vim.keymap.set(
+  'n',
+  '<leader>qr',
+  '<cmd>restart<cr>',
+  { desc = '[q]uit and [r]estart' }
+)
