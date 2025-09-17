@@ -1,8 +1,8 @@
 bat
 bc
+blackbird-gtk-theme
 blueman
 bluez
-blackbird-gtk-theme
 brightnessctl
 build-essential
 cloc
@@ -13,6 +13,7 @@ dunst
 elementary-xfce-icon-theme
 fd-find
 ffmpeg
+file-roller
 flatpak
 foliate
 foot
@@ -21,19 +22,20 @@ fzf
 g++
 gcc
 git
+gnome-keyring
 grim
 htop
 info
 jq
-# kitty
 keychain
 ksnip
 libavcodec-extra
 libnotify-bin
-libpam0g
 libpam-gnome-keyring
+libpam0g
 libspa-0.2-bluetooth
 litecli
+lxappearance
 lynx
 make
 manpages-dev
@@ -44,11 +46,13 @@ network-manager
 network-manager-ssh
 ninja-build
 parallel
+pass
 pavucontrol
 pgcli
 pipewire
 pkg-config
 playerctl
+policykit-1-gnome
 pup
 python3
 qalc

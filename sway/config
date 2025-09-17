@@ -62,8 +62,8 @@ bindsym $mod+$alt+s exec [ "$(cat /etc/hostname)" != "vincit76" ] \
 # INPUT CONFIGURATION (`man sway-input` / `swaymsg -t get_inputs`)
 # ---------------------------------------------------------------------------- #
 input "type:keyboard" {
-  repeat_rate 70
-  repeat_delay 290
+  repeat_rate 45
+  repeat_delay 300
 } 
 input "type:touchpad" {
   dwt enabled
