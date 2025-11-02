@@ -29,10 +29,17 @@ end, { desc = '[q]uit [a]ll and delete current session' })
 vim.api.nvim_create_autocmd('VimEnter', {
   group = vim.api.nvim_create_augroup('AutoloadMiniSession', { clear = true }),
   callback = function(_args)
+    -- before starting a new session, make sure that we only do it if neovim
+    -- was called with 0 arguments
+    local cli_args = vim.tbl_filter(function(arg)
+      return string.match(arg, 'nvim$') == nil and arg ~= '--embed'
+    end, vim.v.argv)
+
     if
       type(MiniSessions) == 'table'
       and type(MiniSessions.detected) == 'table'
       and MiniSessions.detected[LOCAL_SESSION_FILE] == nil
+      and #cli_args == 0
     then
       MiniSessions.write(LOCAL_SESSION_FILE)
       -- vim.notify 'Began and saved a new session.'
