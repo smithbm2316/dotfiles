@@ -1,5 +1,4 @@
 # vim: ft=ruby
-brew "eza"
 brew "gh"
 brew "glow"
 brew "gum"

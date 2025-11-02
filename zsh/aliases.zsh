@@ -1,19 +1,7 @@
-# ls/exa aliases
-if [ -e "$(command -v eza)" ]; then
-  alias l="eza --icons -la"
-  alias ls="eza --icons"
-  alias lsa="eza --icons -a"
-  alias tree="eza --icons --tree --all --ignore-glob 'node_modules|.git|.venv|venv'"
-elif [ -e "$(command -v exa)" ]; then
-  alias l="exa --icons -la"
-  alias ls="exa --icons"
-  alias lsa="exa --icons -a"
-  alias tree="exa --icons --tree --all --ignore-glob 'node_modules|.git|.venv|venv'"
-else
-  alias ls="ls --color=always"
-  alias l="ls --color=always -lA"
-  alias lsa="ls --color=always -A"
-fi
+# turn on automatic colors for ls
+alias ls="ls --color=auto"
+alias l="ls --color=auto -lhA"
+alias tree="tree -a -I 'node_modules|.git|.venv|venv'"
 
 # go version manager: https://github.com/stefanmaric/g
 alias gvm="$GOPATH/bin/g"
