@@ -47,7 +47,7 @@ require('oil').setup {
     ['gy'] = 'actions.copy_entry_path',
     ['<CR>'] = 'actions.select',
     ['<C-n>'] = 'actions.select',
-    ['<C-v>'] = 'actions.select_vsplit',
+    ['<C-v>'] = false, -- 'actions.select_vsplit',
     ['<C-s>'] = 'actions.select_split',
     ['<C-t>'] = 'actions.select_tab',
     ['gp'] = 'actions.preview',
