@@ -19,8 +19,5 @@ alias wip="git add . && git commit --no-verify --message 'wip'"
 # always use color for grep
 alias grep="grep --color=always"
 
-# setup alias for neovim nightly
-alias nvim="$HOME/.local/nvim-nightly/bin/nvim"
-
 # update dotfiles symlinks if necessary
 alias dotsup="cd $HOME && stow -vt ~/.config dotfiles && cd -"

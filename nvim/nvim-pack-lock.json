@@ -1,0 +1,49 @@
+{
+  "plugins": {
+    "ReplaceWithRegister": [],
+    "cloak.nvim": [],
+    "conform.nvim": [],
+    "edge.nvim": [],
+    "gitsigns.nvim": [],
+    "mini.bufremove": {
+      "version": "'stable'"
+    },
+    "mini.completion": {
+      "version": "'stable'"
+    },
+    "mini.extra": {
+      "version": "'stable'"
+    },
+    "mini.icons": {
+      "version": "'stable'"
+    },
+    "mini.notify": {
+      "version": "'stable'"
+    },
+    "mini.pairs": {
+      "version": "'stable'"
+    },
+    "mini.pick": {
+      "version": "'stable'"
+    },
+    "mini.sessions": {
+      "version": "'stable'"
+    },
+    "mini.snippets": {
+      "version": "'stable'"
+    },
+    "mini.statusline": {
+      "version": "'stable'"
+    },
+    "nvim": [],
+    "nvim-lint": [],
+    "nvim-treesitter": [],
+    "oil.nvim": [],
+    "vim-edge-template": [],
+    "vim-repeat": [],
+    "vim-sort-motion": [],
+    "vim-surround": [],
+    "vim-system-copy": [],
+    "vim-tmux-navigator": []
+  }
+}

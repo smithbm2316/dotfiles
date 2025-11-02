@@ -15,8 +15,8 @@ fi
 cd neovim || exit
 git checkout stable
 git pull
-make distclean
+
 # CMAKE_BUILD_TYPE=RelWithDebInfo if you want extra debug info for the build
-make CMAKE_BUILD=Release \
-  CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local/nvim"
+make distclean
+make CMAKE_BUILD=Release CMAKE_INSTALL_PREFIX=$HOME/.local/nvim
 make install
