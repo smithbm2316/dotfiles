@@ -25,6 +25,8 @@ local plugins = {
   'tpope/vim-repeat',
   'tpope/vim-surround',
   'vim-scripts/ReplaceWithRegister',
+  'watzon/vim-edge-template',
+  'markgarrigan/edge.nvim',
 
   -- to vendor:
   -- 01. steschwa/css-tools.nvim

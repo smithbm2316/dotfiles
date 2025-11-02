@@ -1,0 +1,5 @@
+require('edge').setup {
+  indent_width = 2,
+  layout_is_block = true,
+  register_null_ls = false,
+}
