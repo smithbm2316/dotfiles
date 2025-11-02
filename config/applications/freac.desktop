@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=fre:ac
+Exec=/home/smithbm/.local/bin/freac
+Icon=/usr/share/icons/elementary-xfce/apps/32/rip.png
+Terminal=false
+Type=Application
+StartupNotify=false
+Categories=Audio
