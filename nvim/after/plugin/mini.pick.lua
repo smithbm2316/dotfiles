@@ -29,10 +29,42 @@ end
 
 require('mini.pick').setup {
   mappings = {
-    delete_left = nil, -- default '<c-u>'
-    scroll_down = '<c-d>',
-    scroll_up = '<c-u>',
+    caret_left = '<left>',
+    caret_right = '<right>',
+
+    choose = '<cr>',
+    choose_in_split = '<c-s>',
+    choose_in_tabpage = '<c-t>',
     choose_in_vsplit = '<c-v>',
+    choose_marked = '<m-cr>',
+
+    delete_char = '<bs>',
+    delete_char_right = '<del>',
+    delete_left = '<c-u>',
+    delete_word = '<c-w>',
+
+    mark = '<c-x>',
+    mark_all = '<c-a>',
+
+    move_down = '<c-n>',
+    move_start = '<c-g>',
+    move_up = '<c-p>',
+
+    paste = '<c-r>',
+
+    refine = '<c-k>', -- default <c-space>
+    refine_marked = '<c-j>', -- default <m-space>
+
+    scroll_down = '<c-f>',
+    scroll_left = '<c-h>',
+    scroll_right = '<c-l>',
+    scroll_up = '<c-b>',
+
+    stop = '<esc>',
+
+    toggle_info = '<s-tab>',
+    toggle_preview = '<tab>',
+
     -- TODO: implement a mapping that sends all items to quickfix/location list
     -- TODO: fix mapping to delete selected buffer in "Pick buffers" picker so
     -- that it redraws the screen
