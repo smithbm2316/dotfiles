@@ -2,8 +2,13 @@
   "plugins": {
     "ReplaceWithRegister": [],
     "cloak.nvim": [],
-    "conform.nvim": [],
-    "edge.nvim": [],
+    "conform.nvim": {
+      "rev": "cde4da5"
+    },
+    "edge.nvim": {
+      "rev": "042a1cf",
+      "src": "https://github.com/markgarrigan/edge.nvim"
+    },
     "gitsigns.nvim": [],
     "mini.bufremove": {
       "version": "'stable'"
@@ -35,11 +40,18 @@
     "mini.statusline": {
       "version": "'stable'"
     },
-    "nvim": [],
-    "nvim-lint": [],
+    "nvim": {
+      "rev": "234fc04"
+    },
+    "nvim-lint": {
+      "rev": "8c694e1"
+    },
     "nvim-treesitter": [],
     "oil.nvim": [],
-    "vim-edge-template": [],
+    "vim-edge-template": {
+      "rev": "c336aa3",
+      "src": "https://github.com/watzon/vim-edge-template"
+    },
     "vim-repeat": [],
     "vim-sort-motion": [],
     "vim-surround": [],
