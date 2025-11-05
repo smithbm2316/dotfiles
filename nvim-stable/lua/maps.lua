@@ -25,6 +25,13 @@ vim.keymap.set(
   { desc = 'Global buffer search' }
 )
 
+vim.keymap.set(
+  'n',
+  '<leader>fm',
+  [[/\C^\s\+-]],
+  { desc = 'Find in manpage shortcut' }
+)
+
 -- make gu toggle between upper and lower case instead of just upper
 vim.keymap.set({ 'n', 'v' }, 'gl', 'gu', { desc = 'Lowercase' })
 vim.keymap.set({ 'n', 'v' }, 'gL', 'g~', { desc = 'Toggle case' })

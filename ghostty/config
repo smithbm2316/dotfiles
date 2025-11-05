@@ -1,5 +1,5 @@
 # vim:ft=config
-theme = dark:catppuccin-macchiato,light:seoulbones_light
+theme = dark:Catppuccin Macchiato,light:Seoulbones Light
 
 font-family = Berkeley Mono
 font-style = Medium SemiCondensed

@@ -471,3 +471,19 @@ gcp() {
 
   "$paste_cmd" | xargs git cherry-pick
 }
+
+agent() {
+  check_installed cursor-agent || return $?
+
+  case "$1" in
+    ask)
+      cursor-agent 'Do not write any code, please answer the following question:'
+    ;;
+    plan)
+      cursor-agent 'Do not write any code, help me plan/scope the following out:'
+    ;;
+    *)
+      cursor-agent $@
+    ;;
+  esac
+}
