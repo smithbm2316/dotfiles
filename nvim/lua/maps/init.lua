@@ -130,3 +130,68 @@ vim.keymap.set(
   '<cmd>restart<cr>',
   { desc = '[q]uit and [r]estart' }
 )
+
+vim.keymap.set({ 'n' }, '<leader>gl', function()
+  local line_num = vim.api.nvim_win_get_cursor(0)[1]
+  local bufname = vim.api.nvim_buf_get_name(0)
+  local cwd = vim.fn.getcwd()
+
+  local match_start, match_end = string.find(bufname, cwd)
+  if match_start == nil or match_end == nil then
+    return
+  end
+  local filename = string.sub(bufname, match_end + 1)
+
+  ---@param cmd string[]
+  ---@return string, number
+  local get_git_branch_from_cmd = function(cmd)
+    local branch_cmd = vim.system(cmd, { text = true }):wait()
+
+    if branch_cmd.stdout == nil then
+      return '', 0
+    else
+      return branch_cmd.stdout:gsub('origin/', ''):gsub('\n', '')
+    end
+  end
+
+  local default_git_branch = get_git_branch_from_cmd {
+    'git',
+    'rev-parse',
+    '--abbrev-ref',
+    'origin/HEAD',
+  }
+
+  -- local current_git_branch = get_git_info 'git branch --show-current'
+  local current_git_branch_ref =
+    get_git_branch_from_cmd { 'git', 'symbolic-ref', '-q', 'HEAD' }
+
+  local current_git_branch_with_remote = get_git_branch_from_cmd {
+    'git',
+    'for-each-ref',
+    [[--format=%(upstream:short)]],
+    current_git_branch_ref,
+  }
+
+  local branch = ''
+  if current_git_branch_with_remote ~= '' then
+    branch = current_git_branch_with_remote
+  else
+    branch = default_git_branch
+  end
+
+  -- TODO:
+  -- * update this to support more than just Github as a git source forge to link to
+  -- * update this to support pulling the Git repo URL from the .git/config file
+  local git_url = string.format(
+    [[https://github.com/thuma-co/astra/blob/%s%s#L%i]],
+    branch,
+    filename,
+    line_num
+  )
+
+  -- copy the URL to clipboard
+  vim.fn.setreg('+', git_url)
+
+  -- open the URL in my browser
+  vim.ui.open(git_url)
+end, { desc = '[g]it repo [l]ink' })
