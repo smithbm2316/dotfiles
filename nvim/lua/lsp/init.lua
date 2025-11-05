@@ -1,4 +1,4 @@
-vim.lsp.set_log_level(vim.log.levels.WARN)
+vim.lsp.log.set_level(vim.log.levels.WARN)
 
 local valid_mini_extra_lsp_pickers = {
   'declaration',
