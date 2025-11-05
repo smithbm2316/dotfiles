@@ -39,4 +39,4 @@ test:*.test.{ts,tsx,js,jsx}
 --hidden
 
 # Don't go into the .git/ directory
-# --glob=!.git/*
+--glob=!.git/*
