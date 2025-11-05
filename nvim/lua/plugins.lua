@@ -6,16 +6,16 @@ local plugins = {
   'christoomey/vim-sort-motion',
   'christoomey/vim-system-copy',
   'christoomey/vim-tmux-navigator',
-  { 'echasnovski/mini.bufremove', 'stable' },
-  { 'echasnovski/mini.completion', 'stable' },
-  { 'echasnovski/mini.extra', 'stable' },
-  { 'echasnovski/mini.icons', 'stable' },
-  { 'echasnovski/mini.notify', 'stable' },
-  { 'echasnovski/mini.pairs', 'stable' },
-  { 'echasnovski/mini.pick', 'stable' },
-  { 'echasnovski/mini.sessions', 'stable' },
-  { 'echasnovski/mini.statusline', 'stable' },
-  { 'echasnovski/mini.snippets', 'stable' },
+  { 'nvim-mini/mini.bufremove', 'stable' },
+  { 'nvim-mini/mini.completion', 'stable' },
+  { 'nvim-mini/mini.extra', 'stable' },
+  { 'nvim-mini/mini.icons', 'stable' },
+  { 'nvim-mini/mini.notify', 'stable' },
+  { 'nvim-mini/mini.pairs', 'stable' },
+  { 'nvim-mini/mini.pick', 'stable' },
+  { 'nvim-mini/mini.sessions', 'stable' },
+  { 'nvim-mini/mini.statusline', 'stable' },
+  { 'nvim-mini/mini.snippets', 'stable' },
   'laytan/cloak.nvim',
   'lewis6991/gitsigns.nvim', -- mini.diff, mini.git
   'mfussenegger/nvim-lint',
@@ -33,13 +33,13 @@ local plugins = {
   -- 02. Jezda1337/nvim-html-css
 
   -- to add:
-  -- { 'echasnovski/mini.ai',  'stable' },
-  -- { 'echasnovski/mini.align', 'stable' },
-  -- { 'echasnovski/mini.comment', 'stable' },
-  -- { 'echasnovski/mini.fuzzy', 'stable' },
-  -- { 'echasnovski/mini.indentscope', 'stable' },
-  -- { 'echasnovski/mini.operators', 'stable' },
-  -- { 'echasnovski/mini.splitjoin', 'stable' },
+  -- { 'nvim-mini/mini.ai',  'stable' },
+  -- { 'nvim-mini/mini.align', 'stable' },
+  -- { 'nvim-mini/mini.comment', 'stable' },
+  -- { 'nvim-mini/mini.fuzzy', 'stable' },
+  -- { 'nvim-mini/mini.indentscope', 'stable' },
+  -- { 'nvim-mini/mini.operators', 'stable' },
+  -- { 'nvim-mini/mini.splitjoin', 'stable' },
 }
 
 ---converts a PluginConfig input into a vim.pack.Spec-compliant table with some
