@@ -64,4 +64,14 @@ return {
     desc = 'selectors',
     prefix = 'select',
   },
+  {
+    body = '/** $1 */',
+    desc = 'js-docstring-line',
+    prefix = 'jsdl',
+  },
+  {
+    body = '/**\n * $1\n */',
+    desc = 'js-docstring-multiline',
+    prefix = 'jsdm',
+  },
 }
