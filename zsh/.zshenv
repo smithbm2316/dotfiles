@@ -36,10 +36,9 @@ LUAROCKS_PROJECT_BIN="./lua_modules/bin"
 # OPENRESTY_BIN="/usr/local/openresty/bin"
 
 # Default env variables that are useful
-NVIM_NIGHTLY_BIN="$HOME/.local/nvim-nightly/bin/nvim"
-export EDITOR="$NVIM_NIGHTLY_BIN"
-export VISUAL="$NVIM_NIGHTLY_BIN"
-export MANPAGER="$NVIM_NIGHTLY_BIN --cmd 'lua vim.g.minimal=true' -c 'Man!' -"
+export EDITOR="nvim"
+export VISUAL="nvim"
+export MANPAGER="nvim --cmd 'lua vim.g.minimal=true' -c 'Man!' -"
 # https://wiki.archlinux.org/title/Man_page#Page_width
 export MANWIDTH=80
 
