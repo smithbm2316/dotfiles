@@ -7,15 +7,15 @@ local plugins = {
   'christoomey/vim-system-copy',
   'christoomey/vim-tmux-navigator',
   { 'nvim-mini/mini.bufremove', 'stable' },
-  -- { 'nvim-mini/mini.completion', 'stable' },
   { 'nvim-mini/mini.extra', 'stable' },
   { 'nvim-mini/mini.icons', 'stable' },
   { 'nvim-mini/mini.notify', 'stable' },
   { 'nvim-mini/mini.pairs', 'stable' },
   { 'nvim-mini/mini.pick', 'stable' },
   { 'nvim-mini/mini.sessions', 'stable' },
-  { 'nvim-mini/mini.statusline', 'stable' },
   { 'nvim-mini/mini.snippets', 'stable' },
+  { 'nvim-mini/mini.splitjoin', 'stable' },
+  { 'nvim-mini/mini.statusline', 'stable' },
   'laytan/cloak.nvim',
   'lewis6991/gitsigns.nvim', -- mini.diff, mini.git
   'mfussenegger/nvim-lint',
@@ -42,7 +42,6 @@ local plugins = {
   -- { 'nvim-mini/mini.fuzzy', 'stable' },
   -- { 'nvim-mini/mini.indentscope', 'stable' },
   -- { 'nvim-mini/mini.operators', 'stable' },
-  -- { 'nvim-mini/mini.splitjoin', 'stable' },
 }
 
 ---converts a PluginConfig input into a vim.pack.Spec-compliant table with some

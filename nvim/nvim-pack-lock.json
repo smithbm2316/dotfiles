@@ -43,6 +43,11 @@
     "mini.snippets": {
       "version": "'stable'"
     },
+    "mini.splitjoin": {
+      "rev": "70240d5",
+      "src": "https://github.com/nvim-mini/mini.splitjoin",
+      "version": "'stable'"
+    },
     "mini.statusline": {
       "version": "'stable'"
     },

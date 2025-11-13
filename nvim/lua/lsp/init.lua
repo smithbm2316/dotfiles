@@ -110,21 +110,12 @@ vim.lsp.handlers['textDocument/hover'] = function()
   }
 end
 
-local completion_capabilities = {}
-local mini_completion_ok, mini_completion = pcall(require, 'mini.completion')
-local blink_ok, blink = pcall(require, 'blink.cmp')
-if mini_completion_ok then
-  completion_capabilities = mini_completion.get_lsp_capabilities()
-elseif blink_ok then
-  completion_capabilities = blink.get_lsp_capabilities()
-end
-
 ---@type vim.lsp.Config
 local global_lsp_config = {
   capabilities = vim.tbl_deep_extend(
     'force',
     vim.lsp.protocol.make_client_capabilities(),
-    completion_capabilities
+    require('blink.cmp').get_lsp_capabilities()
   ),
 }
 
