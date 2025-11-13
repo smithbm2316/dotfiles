@@ -1,29 +1,27 @@
+---@type vim.lsp.Config
 return {
   cmd = { 'tailwindcss-language-server', '--stdio' },
-  filetypes = vim.tbl_extend('force', css_like_fts, html_like_fts),
-  root_dir = function(_, on_dir)
-    if
-      root_pattern {
-        '.tailwind-lsp',
-        'tailwind.config.cjs',
-        'tailwind.config.mjs',
-        'tailwind.config.js',
-        'tailwind.config.ts',
-      }
-    then
-      on_dir(vim.fn.getcwd())
-    end
-  end,
+  filetypes = vim.list_extend(
+    vim.list_slice(_G.css_like_fts),
+    _G.html_like_fts
+  ),
+  root_markers = {
+    '.tailwind-lsp',
+    'tailwind.config.cjs',
+    'tailwind.config.mjs',
+    'tailwind.config.js',
+    'tailwind.config.ts',
+  },
   -- add support for custom languages
   -- https://github.com/tailwindlabs/tailwindcss-intellisense/issues/84#issuecomment-1128278248
   init_options = { userLanguages = {} },
   settings = {
     tailwindCSS = {
-      -- includeLanguages = {},
       classAttributes = { 'class', 'className', 'class:list', 'classList' },
+      classFunctions = { 'tw', 'clsx', 'cva', 'cx', 'cn' },
       codeActions = true,
       colorDecorators = true,
-      emmetCompletions = false,
+      emmetCompletions = true,
       hovers = true,
       rootFontSize = 16,
       showPixelEquivalents = true,
@@ -46,5 +44,16 @@ return {
       },
     },
   },
-  single_file_support = false,
+  before_init = function(_, config)
+    if not config.settings then
+      config.settings = {}
+    end
+    if not config.settings.editor then
+      config.settings.editor = {}
+    end
+    if not config.settings.editor.tabSize then
+      config.settings.editor.tabSize = vim.lsp.util.get_effective_tabstop()
+    end
+  end,
+  workspace_required = true,
 }

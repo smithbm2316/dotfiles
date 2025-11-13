@@ -1,6 +1,7 @@
+---@type vim.lsp.Config
 return {
   cmd = { 'graphql-lsp', 'server', '-m', 'stream' },
-  filetypes = { 'graphql', 'typescriptreact', 'javascriptreact' },
+  filetypes = { 'graphql' },
   root_dir = root_pattern {
     'tsconfig.json',
     'jsconfig.json',

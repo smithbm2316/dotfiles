@@ -3,6 +3,7 @@
 -- settings for the lua lsp. for now though, this works fine for me.
 -- lua-language-server config options: https://luals.github.io/wiki/settings/
 
+---@type vim.lsp.Config
 return {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua', 'tl' },
