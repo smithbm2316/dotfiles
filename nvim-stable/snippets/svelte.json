@@ -1,6 +1,0 @@
-{
-  "svelte-ignore-line": {
-    "prefix": "svil",
-    "body": "<!-- svelte-ignore $0 -->"
-  }
-}

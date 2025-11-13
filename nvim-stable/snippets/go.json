@@ -1,6 +1,0 @@
-{
-  "if err != nil": {
-    "prefix": "iferr",
-    "body": "if err != nil {\n\t$0\n}"
-  }
-}
