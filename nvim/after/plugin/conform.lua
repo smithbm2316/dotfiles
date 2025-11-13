@@ -5,10 +5,13 @@ function jsfmt(bufnr)
     string.match(vim.fn.getcwd(), vim.env.HOME .. '/work/') ~= nil
     and root_pattern(config_files.eslint)
   then
-    return { 'eslint_d', 'prettierd' }
-    -- otherwise just run prettier
+    return { 'eslint_d', 'prettier' }
+  -- if we are in a deno project, use the Deno fmt command
+  elseif #vim.fs.find { 'deno.json', 'deno.jsonc' } > 0 then
+    return { 'deno_fmt' }
+  -- otherwise just run prettier
   else
-    return { 'prettierd' }
+    return { 'prettier' }
   end
 end
 
@@ -32,11 +35,13 @@ require('conform').setup {
     }
   end,
   formatters_by_ft = {
+    edge = { 'prettier' },
     go = { 'gofmt' },
-    graphql = { 'prettierd' },
+    graphql = { 'prettier' },
     javascript = jsfmt,
     javascriptreact = jsfmt,
     json = { 'fixjson' },
+    -- jsonc = { 'fixjson' },
     lua = { 'stylua' },
     typescript = jsfmt,
     typescriptreact = jsfmt,
