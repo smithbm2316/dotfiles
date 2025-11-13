@@ -1,1 +1,8 @@
-require('mini.icons').setup {}
+require('mini.icons').setup {
+  extension = {
+    edge = {
+      glyph = '󱩅',
+      hl = 'MiniIconsCyan',
+    },
+  },
+}

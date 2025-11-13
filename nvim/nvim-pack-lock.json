@@ -1,6 +1,11 @@
 {
   "plugins": {
     "ReplaceWithRegister": [],
+    "blink.cmp": {
+      "rev": "327fff9",
+      "src": "https://github.com/saghen/blink.cmp",
+      "version": "1.0.0 - 2.0.0"
+    },
     "cloak.nvim": [],
     "conform.nvim": {
       "rev": "cde4da5"
@@ -10,10 +15,11 @@
       "src": "https://github.com/markgarrigan/edge.nvim"
     },
     "gitsigns.nvim": [],
-    "mini.bufremove": {
-      "version": "'stable'"
+    "lush.nvim": {
+      "rev": "9c60ec2",
+      "src": "https://github.com/rktjmp/lush.nvim"
     },
-    "mini.completion": {
+    "mini.bufremove": {
       "version": "'stable'"
     },
     "mini.extra": {
@@ -44,7 +50,7 @@
       "rev": "234fc04"
     },
     "nvim-lint": {
-      "rev": "8c694e1"
+      "rev": "2536f1b"
     },
     "nvim-treesitter": [],
     "oil.nvim": [],
@@ -56,6 +62,10 @@
     "vim-sort-motion": [],
     "vim-surround": [],
     "vim-system-copy": [],
-    "vim-tmux-navigator": []
+    "vim-tmux-navigator": [],
+    "zenbones.nvim": {
+      "rev": "a934bc0",
+      "src": "https://github.com/zenbones-theme/zenbones.nvim"
+    }
   }
 }

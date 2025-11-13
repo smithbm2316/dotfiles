@@ -1,7 +1,7 @@
 require('catppuccin').setup {
   flavour = 'macchiato', -- latte, frappe, macchiato, mocha
   background = {
-    light = 'latte',
+    light = nil,
     dark = 'macchiato',
   },
   transparent_background = false,
@@ -53,6 +53,10 @@ require('catppuccin').setup {
   },
 }
 
+-- ensure that terminal colorscheme uses corresponding light/dark theme so that
+-- your cursor is an appropriate color
+-- https://github.com/zenbones-theme/zenbones.nvim/issues/139#issuecomment-1768613153
+
 local background_to_colorscheme = {
   light = 'seoulbones',
   dark = 'catppuccin',
@@ -82,5 +86,7 @@ vim.cmd(
 )
 
 vim.keymap.set('n', '<leader>tt', function()
-  vim.opt.background = vim.opt.background:get() == 'dark' and 'light' or 'dark'
+  local new_bg = vim.opt.background:get() == 'dark' and 'light' or 'dark'
+  vim.opt.background = new_bg
+  vim.cmd('colorscheme ' .. background_to_colorscheme[new_bg])
 end, { desc = 'Toggle color mode' })

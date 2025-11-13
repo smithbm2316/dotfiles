@@ -47,7 +47,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       { desc = '[g]oto lsp [h]over info', buffer = ev.buf }
     )
     -- `:help lsp-defaults` keybindings to disable default binding for hover
-    vim.keymap.del('n', 'K', { buffer = ev.buf })
+    -- vim.keymap.del('n', 'K', { buffer = ev.buf })
 
     vim.keymap.set(
       { 'n', 'i' },
@@ -110,27 +110,33 @@ vim.lsp.handlers['textDocument/hover'] = function()
   }
 end
 
+local completion_capabilities = {}
+local mini_completion_ok, mini_completion = pcall(require, 'mini.completion')
+local blink_ok, blink = pcall(require, 'blink.cmp')
+if mini_completion_ok then
+  completion_capabilities = mini_completion.get_lsp_capabilities()
+elseif blink_ok then
+  completion_capabilities = blink.get_lsp_capabilities()
+end
+
 ---@type vim.lsp.Config
 local global_lsp_config = {
   capabilities = vim.tbl_deep_extend(
     'force',
     vim.lsp.protocol.make_client_capabilities(),
-    require('mini.completion').get_lsp_capabilities()
+    completion_capabilities
   ),
 }
 
 vim.lsp.config('*', global_lsp_config)
 
 vim.lsp.inlay_hint.enable(false)
-vim.lsp.enable {
-  'bashls',
-  'cssls',
-  'elixirls',
-  'gopls',
-  'graphql',
-  'html',
-  'jsonls',
-  'lua_ls',
-  'tailwindcss',
-  'ts_ls',
-}
+
+---@type string[]
+local enabled_lsps = {}
+for fname, type in vim.fs.dir(vim.env.HOME .. '/dotfiles/nvim/after/lsp') do
+  if type == 'file' then
+    table.insert(enabled_lsps, fname:sub(1, #fname - 4))
+  end
+end
+vim.lsp.enable(enabled_lsps)

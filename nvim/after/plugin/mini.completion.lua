@@ -1,9 +1,14 @@
-require('mini.completion').setup {
-  -- delay = {
-  --   completion = 250,
-  --   info = 250,
-  --   signature = 250,
-  -- },
+local ok, mini_completion = pcall(require, 'mini.completion')
+if not ok then
+  return
+end
+
+mini_completion.setup {
+  delay = {
+    completion = 250,
+    info = 250,
+    signature = 250,
+  },
   mappings = {
     force_twostep = '<c-y>',
     force_fallback = nil,

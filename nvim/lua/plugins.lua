@@ -1,4 +1,4 @@
----@alias PluginConfig string|[string, string, string|nil]
+---@alias PluginConfig string|[string, string|vim.VersionRange, string|nil]
 
 ---@type PluginConfig[]
 local plugins = {
@@ -7,7 +7,7 @@ local plugins = {
   'christoomey/vim-system-copy',
   'christoomey/vim-tmux-navigator',
   { 'nvim-mini/mini.bufremove', 'stable' },
-  { 'nvim-mini/mini.completion', 'stable' },
+  -- { 'nvim-mini/mini.completion', 'stable' },
   { 'nvim-mini/mini.extra', 'stable' },
   { 'nvim-mini/mini.icons', 'stable' },
   { 'nvim-mini/mini.notify', 'stable' },
@@ -20,11 +20,14 @@ local plugins = {
   'lewis6991/gitsigns.nvim', -- mini.diff, mini.git
   'mfussenegger/nvim-lint',
   'nvim-treesitter/nvim-treesitter',
+  { 'saghen/blink.cmp', vim.version.range '1.*' },
   'stevearc/conform.nvim',
   'stevearc/oil.nvim',
   'tpope/vim-repeat',
   'tpope/vim-surround',
   'vim-scripts/ReplaceWithRegister',
+  'rktjmp/lush.nvim',
+  'zenbones-theme/zenbones.nvim',
   'watzon/vim-edge-template',
   'markgarrigan/edge.nvim',
 
@@ -65,9 +68,11 @@ local plugin_info_to_spec = function(plug)
 
   -- optional fields
   vim.validate('plug[2]', plug[2], function(version)
-    return type(version) == 'string' or version == nil
+    return type(version) == 'string'
+      or type(version) == 'table'
+      or version == nil
   end)
-  ---@type string|nil
+  ---@type string|vim.VersionRange|nil
   local version = plug[2]
 
   vim.validate('plug[3]', plug[3], function(git_url_prefix)

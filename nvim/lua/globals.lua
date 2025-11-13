@@ -1,6 +1,8 @@
 ---@type string[] list of filetypes where html features should be enabled
-html_like_fts_no_jsx = {
+_G.html_like_fts_no_jsx = {
+  'astro',
   'blade',
+  'edge',
   'gotmpl',
   'html',
   'jinja',
@@ -11,13 +13,13 @@ html_like_fts_no_jsx = {
 }
 
 ---@type string[] list of filetypes where html features should be enabled
-html_like_fts = vim.tbl_extend('force', html_like_fts_no_jsx, {
-  'javascriptreact',
-  'typescriptreact',
-})
+_G.html_like_fts = vim.list_extend(
+  { 'javascriptreact', 'typescriptreact' },
+  _G.html_like_fts_no_jsx
+)
 
 ---@type string[] list of filetypes where css features should be enabled
-css_like_fts = {
+_G.css_like_fts = {
   'css',
   'less',
   'sass',
@@ -25,7 +27,7 @@ css_like_fts = {
 }
 
 ---@type string[] list of filetypes to enable JS/TS features for
-js_ts_fts = {
+_G.js_ts_fts = {
   'javascript',
   'javascriptreact',
   'typescript',
@@ -34,7 +36,7 @@ js_ts_fts = {
 
 --- record of config files like eslint and prettier that i might want to match
 --- against on the local filesystem
-config_files = {
+_G.config_files = {
   eslint = {
     'eslint.config.js',
     'eslint.config.cjs',
@@ -55,7 +57,7 @@ config_files = {
   },
 }
 
-diagnostic_icons = {
+_G.diagnostic_icons = {
   [vim.diagnostic.severity.ERROR] = '!', -- '',
   [vim.diagnostic.severity.WARN] = '?', -- '',
   [vim.diagnostic.severity.INFO] = '@', -- '󱠃',
@@ -63,7 +65,7 @@ diagnostic_icons = {
 }
 
 -- quickly print a lua table to :messages
-dump = function(obj, use_notify)
+_G.dump = function(obj, use_notify)
   if use_notify then
     vim.notify(obj, vim.log.levels.DEBUG, { timeout = false })
   else
@@ -74,7 +76,7 @@ end
 
 ---@param patterns string[]
 ---@return boolean
-root_pattern = function(patterns)
+_G.root_pattern = function(patterns)
   for name, type in vim.fs.dir '.' do
     if type == 'file' and vim.tbl_contains(patterns, name) then
       return true

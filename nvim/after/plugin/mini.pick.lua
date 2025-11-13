@@ -197,6 +197,28 @@ vim.keymap.set(
   MiniExtra.pickers.commands,
   { desc = '[g]rep [e]x-commands' }
 )
+-- vim.keymap.set(
+--   'n',
+--   '<leader>gc',
+--   MiniExtra.pickers.colorschemes,
+--   { desc = '[g]rep [c]olorschemes' }
+-- )
+vim.keymap.set(
+  'n',
+  '<leader>gd',
+  MiniExtra.pickers.diagnostic,
+  { desc = '[g]rep [d]iagnostics' }
+)
+vim.keymap.set('n', '<leader>gp', function()
+  local items = vim.tbl_keys(MiniExtra.pickers)
+  table.sort(items)
+
+  MiniPick.start {
+    source = {
+      items = items,
+    },
+  }
+end, { desc = '[g]rep [p]ickers' })
 
 -- Adding custom picker to pick `register` entries
 MiniPick.registry.registry = function()
