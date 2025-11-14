@@ -35,7 +35,7 @@ require('conform').setup {
     }
   end,
   formatters_by_ft = {
-    edge = { 'prettier' },
+    -- edge = { 'prettier' },
     go = { 'gofmt' },
     graphql = { 'prettier' },
     javascript = jsfmt,

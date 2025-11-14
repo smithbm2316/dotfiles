@@ -27,9 +27,8 @@ local plugins = {
   'tpope/vim-surround',
   'vim-scripts/ReplaceWithRegister',
   'zenbones-theme/zenbones.nvim',
-  'rktjmp/lush.nvim', -- dependency for zenbones.nvim
-  'watzon/vim-edge-template',
-  'markgarrigan/edge.nvim',
+  -- 'watzon/vim-edge-template',
+  -- 'markgarrigan/edge.nvim',
 
   -- to vendor:
   -- 01. steschwa/css-tools.nvim
