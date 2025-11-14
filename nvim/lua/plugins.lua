@@ -26,8 +26,8 @@ local plugins = {
   'tpope/vim-repeat',
   'tpope/vim-surround',
   'vim-scripts/ReplaceWithRegister',
-  'rktjmp/lush.nvim',
   'zenbones-theme/zenbones.nvim',
+  'rktjmp/lush.nvim', -- dependency for zenbones.nvim
   'watzon/vim-edge-template',
   'markgarrigan/edge.nvim',
 
