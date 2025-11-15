@@ -18,5 +18,5 @@ git pull
 
 # CMAKE_BUILD_TYPE=RelWithDebInfo if you want extra debug info for the build
 make distclean
-make CMAKE_BUILD=Release CMAKE_INSTALL_PREFIX=$HOME/.local/nvim
+make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local/nvim CMAKE_BUILD_TYPE=Release"
 make install

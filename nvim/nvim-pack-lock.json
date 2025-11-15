@@ -19,24 +19,34 @@
       "version": "'stable'"
     },
     "mini.extra": {
+      "rev": "87be97ac00a8827e8380156cfef7222afb38f8bd",
+      "src": "https://github.com/nvim-mini/mini.extra",
       "version": "'stable'"
     },
     "mini.icons": {
       "version": "'stable'"
     },
     "mini.notify": {
+      "rev": "3a06b21dd0b335b95d125eae813276113b5e9ce7",
+      "src": "https://github.com/nvim-mini/mini.notify",
       "version": "'stable'"
     },
     "mini.pairs": {
+      "rev": "69864a2efb36c030877421634487fd90db1e4298",
+      "src": "https://github.com/nvim-mini/mini.pairs",
       "version": "'stable'"
     },
     "mini.pick": {
       "version": "'stable'"
     },
     "mini.sessions": {
+      "rev": "dd7fe484dfcbf270a788e9291545df509cdb9691",
+      "src": "https://github.com/nvim-mini/mini.sessions",
       "version": "'stable'"
     },
     "mini.snippets": {
+      "rev": "d005684e620e76eb2a5fbbbd211a1eba7212b4aa",
+      "src": "https://github.com/nvim-mini/mini.snippets",
       "version": "'stable'"
     },
     "mini.splitjoin": {
@@ -45,6 +55,8 @@
       "version": "'stable'"
     },
     "mini.statusline": {
+      "rev": "e331175f10d9f400b42523b3890841aba202ce16",
+      "src": "https://github.com/nvim-mini/mini.statusline",
       "version": "'stable'"
     },
     "nvim": {
