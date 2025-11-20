@@ -1,8 +1,11 @@
 require('mini.icons').setup {
-  -- extension = {
-  --   edge = {
-  --     glyph = '󱩅',
-  --     hl = 'MiniIconsCyan',
-  --   },
-  -- },
+  extension = {
+    dbml = {
+      glyph = '󰮆',
+    },
+    -- edge = {
+    --   glyph = '󱩅',
+    --   hl = 'MiniIconsCyan',
+    -- },
+  },
 }

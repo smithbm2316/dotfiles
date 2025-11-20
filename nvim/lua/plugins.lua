@@ -6,6 +6,7 @@ local plugins = {
   'christoomey/vim-sort-motion',
   'christoomey/vim-system-copy',
   'christoomey/vim-tmux-navigator',
+  'jidn/vim-dbml',
   { 'nvim-mini/mini.bufremove', 'stable' },
   { 'nvim-mini/mini.extra', 'stable' },
   { 'nvim-mini/mini.icons', 'stable' },

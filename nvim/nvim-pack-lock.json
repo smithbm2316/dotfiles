@@ -67,6 +67,10 @@
     },
     "nvim-treesitter": [],
     "oil.nvim": [],
+    "vim-dbml": {
+      "rev": "c684576",
+      "src": "https://github.com/jidn/vim-dbml"
+    },
     "vim-repeat": [],
     "vim-sort-motion": [],
     "vim-surround": [],
