@@ -21,12 +21,12 @@ dots() {
 }
 
 # fuzzy find for a file to edit and open it
-f() {
-  local file_to_open="$(fzf --preview='head -80 {}')"
-  if [ -f "$PWD/$file_to_open" ]; then
-    eval "$EDITOR $file_to_open"
-  fi
-}
+# f() {
+#   local file_to_open="$(fzf --preview='head -80 {}')"
+#   if [ -f "$PWD/$file_to_open" ]; then
+#     eval "$EDITOR $file_to_open"
+#   fi
+# }
 
 # handle common tmux session options
 # - if a valid session is passed to the function, connect to it
