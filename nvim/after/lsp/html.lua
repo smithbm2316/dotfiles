@@ -10,10 +10,7 @@ return {
     },
     provideFormatter = false,
   },
-  root_dir = root_pattern {
-    'package.json',
-    '.git',
-  },
+  root_markers = { '.git' },
   settings = {
     css = {
       completion = {

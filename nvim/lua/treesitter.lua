@@ -74,7 +74,7 @@ require('nvim-treesitter.configs').setup {
     'go',
     'gomod',
     'gosum',
-    'gotmpl',
+    -- 'gotmpl',
     'graphql',
     'heex',
     'html',
