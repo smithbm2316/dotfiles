@@ -472,6 +472,11 @@ gcp() {
   "$paste_cmd" | xargs git cherry-pick
 }
 
+# go version manager: https://github.com/stefanmaric/g
+gvm() {
+  GOROOT="$HOME/.go" $GOPATH/bin/g $@
+}
+
 agent() {
   check_installed cursor-agent || return $?
 

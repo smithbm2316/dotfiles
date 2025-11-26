@@ -3,9 +3,6 @@ alias ls="ls --color=auto"
 alias l="ls --color=auto -lhA"
 alias tree="tree -a -I 'node_modules|.git|.venv|venv'"
 
-# go version manager: https://github.com/stefanmaric/g
-alias gvm="$GOPATH/bin/g"
-
 # alias for "make" that suppresses all output (useful when using as a task runner)
 alias mk="make -s"
 
