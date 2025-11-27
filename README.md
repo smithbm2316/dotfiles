@@ -3,6 +3,7 @@
 ```sh
 # TLDR: here's the command you need to install everything now
 stow -vt ~/.config dotfiles
+ln -s $HOME/dotfiles/.npmrc $HOME/.npmrc
 # can also use the following alias to run the above command:
 dotsup
 ```
