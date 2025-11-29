@@ -2,7 +2,7 @@
   "plugins": {
     "ReplaceWithRegister": [],
     "blink.cmp": {
-      "rev": "327fff9",
+      "rev": "b19413d",
       "src": "https://github.com/saghen/blink.cmp",
       "version": "1.0.0 - 2.0.0"
     },

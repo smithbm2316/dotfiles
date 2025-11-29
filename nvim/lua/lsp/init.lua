@@ -92,6 +92,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>lt', function()
       mini_extra_or_builtin_action 'type_definition'
     end, { desc = '[g]oto lsp [t]ype definition', buffer = ev.buf })
+
+    vim.keymap.set('n', '<leader>lR', function()
+      for _, client in ipairs(vim.lsp.get_clients()) do
+        vim.notify('Restarting ' .. client.name .. ' server...')
+        vim.lsp.enable(client.name, false)
+        vim.lsp.enable(client.name, true)
+        vim.notify('Restarted ' .. client.name .. ' server successfully!')
+      end
+    end, { desc = '[l]sp [R]estart servers', buffer = ev.buf })
   end,
 })
 
