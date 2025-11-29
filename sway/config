@@ -1,5 +1,7 @@
 # vim:ft=swayconfig
 # you can find the default config at /etc/sway/config if you need a reference
+# load useful sway default settings
+include /etc/sway/config.d/*
 
 
 
@@ -161,15 +163,15 @@ bindsym $mod+ctrl+Right move right
 # ---------------------------------------------------------------------------- #
 # switch to workspace
 bindsym $mod+a workspace dev
-bindsym $mod+s workspace web
-bindsym $mod+d workspace msg
-bindsym $mod+f workspace spot
+bindsym $mod+s workspace www
+bindsym $mod+d workspace msgs
+bindsym $mod+f workspace bops
 bindsym $mod+g workspace note
 # move focused container to workspace
 bindsym $mod+ctrl+a move container to workspace dev, workspace dev
-bindsym $mod+ctrl+s move container to workspace web, workspace web
-bindsym $mod+ctrl+d move container to workspace msg, workspace msg
-bindsym $mod+ctrl+f move container to workspace spot, workspace spot
+bindsym $mod+ctrl+s move container to workspace www, workspace www
+bindsym $mod+ctrl+d move container to workspace msgs, workspace msgs
+bindsym $mod+ctrl+f move container to workspace bops, workspace bops
 bindsym $mod+ctrl+g move container to workspace note, workspace note
 # note: workspaces can have any name you want, not just numbers.
 # we just use 1-10 as the default.
@@ -272,7 +274,7 @@ bindsym $mod+r mode "resize"
 # STATUS BAR
 # ---------------------------------------------------------------------------- #
 # Read `man 5 sway-bar` for more information about this section.
-font pango:Berkeley Mono SemiCondensed 10.5
+font pango:Berkeley Mono SemiCondensed 11
 set $bar_height 24
 bar {
   position top
@@ -289,8 +291,6 @@ bar {
     inactive_workspace #323232 #323232 #ffffff
   }
 }
-# load useful sway default settings
-include /etc/sway/config.d/*
 
 
 
@@ -397,5 +397,6 @@ for_window [app_id="ncspot"] {
 # exec --no-startup-id battray
 
 # programs to use on startup, start in descending order
-# exec swaymsg 'workspace web; exec $browser'
+# exec swaymsg 'workspace www; exec $browser'
 # exec swaymsg 'workspace dev; exec $term'
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
