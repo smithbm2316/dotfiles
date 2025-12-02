@@ -8,9 +8,5 @@ require('mini.icons').setup {
       glyph = '󰅴',
       hl = 'MiniIconsOrange',
     },
-    -- edge = {
-    --   glyph = '󱩅',
-    --   hl = 'MiniIconsCyan',
-    -- },
   },
 }

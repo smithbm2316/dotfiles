@@ -2,7 +2,6 @@
 _G.html_like_fts_no_jsx = {
   'astro',
   'blade',
-  -- 'edge',
   'gotmpl',
   'html',
   'jinja',
