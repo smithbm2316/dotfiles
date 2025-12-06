@@ -12,25 +12,16 @@ export HISTSIZE=10000
 export SAVEHIST=10000
 
 # Programming languages and their dependencies
-export CARGOBIN="$HOME/.cargo/bin"
-# export COMPOSER_VENDOR_BIN="$XDG_CONFIG_HOME/composer/vendor/bin"
 export DENOBIN="$HOME/.deno/bin"
 export GOPROXY=direct
 export GOTELEMETRY=off
 export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
 export LOCALBIN="$HOME/.local/bin"
-export OPENCODE_BIN="$HOME/.opencode/bin"
-export PHP_INI_SCAN_DIR="$XDG_CONFIG_HOME/herd-lite/bin:$PHP_INI_SCAN_DIR"
+export PHP_INI_SCAN_DIR="$XDG_CONFIG_HOME/herd-lite/bin"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
-export YARNBIN="$HOME/.yarn/bin"
-
-# luarocks and openresty setup
-export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
-CWD_BIN="./bin"
-LUAROCKS_USER_BIN="$HOME/.luarocks/bin"
-LUAROCKS_PROJECT_BIN="./lua_modules/bin"
 
 # Default env variables that are useful
 export EDITOR="nvim"
@@ -63,16 +54,11 @@ fi
 
 path+=("$LOCALBIN")
 path+=("$HOME/.local/nvim/bin")
+path+=("$PNPM_HOME")
 path+=("$GOBIN")
 path+=("$DENOBIN")
-path+=("$CARGOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
-# path+=("$COMPOSER_VENDOR_BIN")
 path+=("$PHP_INI_SCAN_DIR")
-path+=("$YARNBIN")
-path+=("$OPENCODE_BIN")
-path+=("$LUAROCKS_USER_BIN")
-path+=("$LUAROCKS_PROJECT_BIN")
 path+=("$CWD_BIN")
 
 # https://github.com/sharkdp/vivid/blob/master/themes/catppuccin-macchiato.yml
