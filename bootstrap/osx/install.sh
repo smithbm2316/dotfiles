@@ -55,38 +55,32 @@ mkdir -pv ~/code ~/work
 brew bundle install --file ~/dotfiles/bootstrap/Brewfile
 brew bundle install --file ~/dotfiles/bootstrap/osx/Brewfile
 
-# install node
-curl https://get.volta.sh | bash
-volta install node
-volta install node@latest
+# install node and pnpm
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+pnpm env use --global lts
 
-npm i -g \
+# install language servers 
+pnpm i -g \
   @fsouza/prettierd \
+  @olrtg/emmet-language-server \
   @tailwindcss/language-server \
   bash-language-server \
-  css-variables-language-server \
+  contentful-cli \
+  corepack \
   eslint_d \
   fixjson \
-  graphql-language-service-cli \
-  pnpm \
-  typescript \
+  htmlhint \
   typescript-language-server \
+  typescript \
   vscode-langservers-extracted
-  
-  # @astrojs/language-server
-  # @olrtg/emmet-language-server
-  # @vue/language-server
-  # svelte-language-server
-  # write-good
-  # yarn
 
 # install odin programming language and its LSP + formatter
-mkdir -pv ~/builds
-cd ~/builds || exit
-git clone https://github.com/DanielGavin/ols.git
-cd ols || exit
-./build.sh
-./odinfmt.sh
-mkdir -pv ~/.local/bin
-ln -s ~/builds/ols/ols ~/.local/bin/ols
-ln -s ~/builds/ols/odinfmt ~/.local/bin/odinfmt
+# mkdir -pv ~/builds
+# cd ~/builds || exit
+# git clone https://github.com/DanielGavin/ols.git
+# cd ols || exit
+# ./build.sh
+# ./odinfmt.sh
+# mkdir -pv ~/.local/bin
+# ln -s ~/builds/ols/ols ~/.local/bin/ols
+# ln -s ~/builds/ols/odinfmt ~/.local/bin/odinfmt
