@@ -1,5 +1,5 @@
 ; Priorities of the highlight queries are raised, so that they overrule the
-; often surrounding and overlapping highlights from the non-gotmpl injections.
+; often surrounding and overlapping highlights from the non-gohtml injections.
 ;
 ; Identifiers
 ([

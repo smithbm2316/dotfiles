@@ -1,6 +1,6 @@
 vim.filetype.add {
   extension = {
-    tmpl = 'gotmpl',
+    tmpl = 'gohtml',
   },
   filename = {
     ['.env'] = 'sh',

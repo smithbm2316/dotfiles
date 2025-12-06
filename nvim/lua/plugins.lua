@@ -28,6 +28,7 @@ local plugins = {
   'tpope/vim-surround',
   'vim-scripts/ReplaceWithRegister',
   'zenbones-theme/zenbones.nvim',
+  'zhisme/copy_with_context.nvim',
 
   -- to vendor:
   -- 01. steschwa/css-tools.nvim

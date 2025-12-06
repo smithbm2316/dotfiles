@@ -39,7 +39,7 @@ lint.linters_by_ft = {
   -- empty table disables defaults for nvim-lint
   clojure = {},
   dockerfile = {},
-  gotmpl = { 'htmlhint' },
+  gohtml = { 'htmlhint' },
   inko = {},
   janet = {},
   json = {},

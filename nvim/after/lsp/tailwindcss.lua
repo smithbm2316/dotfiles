@@ -14,7 +14,9 @@ return {
   },
   -- add support for custom languages
   -- https://github.com/tailwindlabs/tailwindcss-intellisense/issues/84#issuecomment-1128278248
-  init_options = { userLanguages = {} },
+  init_options = {
+    includeLanguages = {},
+  },
   settings = {
     tailwindCSS = {
       classAttributes = { 'class', 'className', 'class:list', 'classList' },
