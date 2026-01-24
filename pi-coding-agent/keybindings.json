@@ -1,0 +1,26 @@
+{
+  "cursorDown": [
+    "down",
+    "ctrl+n"
+  ],
+  "cursorUp": [
+    "up",
+    "ctrl+p"
+  ],
+  "cycleModelBackward": "ctrl+shift+x",
+  "cycleModelForward": "ctrl+x",
+  "deleteWordBackward": [
+    "ctrl+w",
+    "alt+backspace"
+  ],
+  "selectDown": [
+    "down",
+    "ctrl+n"
+  ],
+  "selectUp": [
+    "up",
+    "ctrl+p"
+  ],
+  "selectModel": "ctrl+q",
+  "cycleThinkingLevel": "ctrl+r"
+}

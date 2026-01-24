@@ -116,3 +116,11 @@ msmtp/*
 !msmtp/config
 !msmtp/example
 !msmtp/pwds/.gitkeep
+
+# pi coding agent: https://buildwithpi.ai/
+pi-coding-agent/*
+!pi-coding-agent/keybindings.json
+!pi-coding-agent/models.json
+!pi-coding-agent/settings.json
+!pi-coding-agent/extensions/
+.pi/**

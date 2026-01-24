@@ -1,0 +1,48 @@
+{
+  "amp.tab.clipboard.enabled": false,
+  "amp.git.commit.ampThread.enabled": false,
+  "amp.git.commit.coauthor.enabled": false,
+  "amp.permissions": [
+    {
+      "tool": "Bash",
+      "matches": {
+        "cmd": [
+          "git status",
+          "git diff*",
+          "npm test*",
+          "npm run test*",
+          "git show*"
+        ]
+      },
+      "action": "allow"
+    },
+    {
+      "tool": "Bash",
+      "matches": {
+        "cmd": "*"
+      },
+      "action": "ask"
+    },
+    {
+      "tool": "todo_read",
+      "action": "allow"
+    },
+    {
+      "tool": "todo_write",
+      "action": "allow"
+    },
+    {
+      "tool": "skill",
+      "action": "allow"
+    },
+    {
+      "tool": "Read",
+      "action": "ask"
+    },
+    {
+      "tool": "*",
+      "action": "ask"
+    }
+  ]
+}
+

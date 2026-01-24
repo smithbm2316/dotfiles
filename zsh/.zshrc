@@ -41,6 +41,7 @@ bindkey -M viins '^e' autosuggest-accept
 bindkey -v '^e' autosuggest-accept
 
 # set up directory shortcuts
+# https://www.arp242.net/zshrc.html#directory-shortcuts
 hash -d astra=$HOME/work/astra
 hash -d code=$HOME/code
 hash -d dots=$HOME/dotfiles
