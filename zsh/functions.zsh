@@ -250,7 +250,12 @@ js() {
 }
 
 jsr() {
-  if [ -f "package-lock.json" ]; then
+  check_installed gum || return $?
+  check_installed jq || return $?
+
+  if [ "$#" -eq 0 ] && [ -f "package.json" ]; then
+    jsr "$(jq '.scripts | keys | .[]' -r package.json | gum filter)"
+  elif [ -f "package-lock.json" ]; then
     npm run $@
   elif [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then
     deno task $@
