@@ -75,6 +75,16 @@ return {
       vim.lsp.buf.rename()
       return vim.NIL
     end,
+    -- filter out diagnostic messages that I don't want to see
+    ['textDocument/publishDiagnostics'] = function(_, result, ctx)
+      if result.diagnostics then
+        result.diagnostics = vim.tbl_filter(function(d)
+          -- 80001 corresponds to: "File is a CommonJS module; it may be converted to an ES module." message
+          return d.code ~= 80001
+        end, result.diagnostics)
+      end
+      vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx)
+    end,
   },
   commands = {
     ['editor.action.showReferences'] = function(command, ctx)

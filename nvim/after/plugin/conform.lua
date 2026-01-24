@@ -1,18 +1,18 @@
-function jsfmt(bufnr)
-  -- if it's a work project where we use eslint and prettier for formatting
-  -- and auto-fixing, then run both in sequence
-  if
-    string.match(vim.fn.getcwd(), vim.env.HOME .. '/work/') ~= nil
-    and root_pattern(config_files.eslint)
-  then
-    return { 'eslint_d', 'prettier' }
+local deno_configs = {
+  ['deno.json'] = true,
+  ['deno.jsonc'] = true,
+}
+
+function jsfmt()
   -- if we are in a deno project, use the Deno fmt command
-  elseif #vim.fs.find { 'deno.json', 'deno.jsonc' } > 0 then
-    return { 'deno_fmt' }
-  -- otherwise just run prettier
-  else
-    return { 'prettier' }
+  for name, type in vim.fs.dir(vim.fn.getcwd()) do
+    if type == 'file' and deno_configs[name] then
+      return { 'deno_fmt' }
+    end
   end
+
+  -- otherwise just run prettier
+  return { 'prettier' }
 end
 
 require('conform').setup {
