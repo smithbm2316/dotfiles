@@ -42,6 +42,7 @@ require('conform').setup {
     json = { 'fixjson' },
     -- jsonc = { 'fixjson' },
     lua = { 'stylua' },
+    python = { 'ruff_fmt' },
     typescript = jsfmt,
     typescriptreact = jsfmt,
   },

@@ -47,6 +47,8 @@ require('nvim-treesitter.configs').setup {
       'csv_pipe',
       'rfc_csv',
       'rfc_semicolon',
+      'htmldjango',
+      'htmldjango.jinja',
     },
     additional_vim_regex_highlighting = false,
   },

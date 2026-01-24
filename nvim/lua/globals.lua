@@ -4,6 +4,8 @@ _G.html_like_fts_no_jsx = {
   'blade',
   'gohtml',
   'html',
+  'htmldjango',
+  'htmldjango.jinja',
   'jinja',
   'liquid',
   'nunjucks',

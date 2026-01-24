@@ -6,6 +6,7 @@ local plugins = {
   'christoomey/vim-sort-motion',
   'christoomey/vim-system-copy',
   'christoomey/vim-tmux-navigator',
+  'HiPhish/jinja.vim',
   'jidn/vim-dbml',
   { 'nvim-mini/mini.bufremove', 'stable' },
   { 'nvim-mini/mini.extra', 'stable' },
@@ -19,6 +20,7 @@ local plugins = {
   { 'nvim-mini/mini.statusline', 'stable' },
   'laytan/cloak.nvim',
   'lewis6991/gitsigns.nvim', -- mini.diff, mini.git
+  'lukas-reineke/indent-blankline.nvim',
   'mfussenegger/nvim-lint',
   'nvim-treesitter/nvim-treesitter',
   { 'saghen/blink.cmp', vim.version.range '1.*' },
