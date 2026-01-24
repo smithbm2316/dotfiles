@@ -34,7 +34,10 @@
   lo = log --oneline
   lst = log --stat
 
+  pn = push --no-verify
   pf = push --force-with-lease
+  pfn = push --force-with-lease --no-verify
+  pnf = push --force-with-lease --no-verify
   pup = push -u origin HEAD
 
   ra = rebase --abort
