@@ -20,9 +20,7 @@ export GOPATH="$HOME/go"
 export LOCALBIN="$HOME/.local/bin"
 export PHP_INI_SCAN_DIR="$XDG_CONFIG_HOME/herd-lite/bin"
 export PNPM_HOME="$HOME/.local/share/pnpm"
-export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/.prettierrc"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
-export OPENCODE_BIN="$HOME/.opencode/bin"
 export PI_CODING_AGENT_DIR="$HOME/dotfiles/pi-coding-agent"
 
 # Default env variables that are useful
@@ -61,7 +59,6 @@ path+=("$GOBIN")
 path+=("$DENOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
 path+=("$PHP_INI_SCAN_DIR")
-path+=("$OPENCODE_BIN")
 path+=("$CWD_BIN")
 
 # https://github.com/sharkdp/vivid/blob/master/themes/catppuccin-macchiato.yml
