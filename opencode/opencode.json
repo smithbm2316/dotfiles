@@ -40,5 +40,40 @@
     "websearch": "deny"
   },
   "default_agent": "plan",
-  "model": "openai/gpt-5.2-codex"
+  "model": "openai/gpt-5.2-codex",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "models": {
+        "deepseek-r1:32b": {
+          "name": "deepseek-r1:32b"
+        },
+        "deepseek-r1:14b": {
+          "name": "deepseek-r1:14b"
+        },
+        "deepseek-r1:8b": {
+          "name": "deepseek-r1:8b"
+        },
+        "functiongemma:270m": {
+          "name": "functiongemma:270m"
+        },
+        "gemma:270m": {
+          "name": "gemma:270m"
+        },
+        "gemma:27b": {
+          "name": "gemma:27b"
+        },
+        "gpt-oss:20b": {
+          "name": "gpt-oss:20b"
+        },
+        "mistral-small3.2:24b": {
+          "name": "mistral-small3.2:24b"
+        },
+        "qwen3-coder:30b": {
+          "name": "qwen3-coder:30b"
+        }
+      }
+    }
+  }
 }
