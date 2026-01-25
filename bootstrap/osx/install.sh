@@ -61,15 +61,10 @@ pnpm env use --global lts
 
 # install language servers 
 pnpm i -g \
-  @fsouza/prettierd \
   @olrtg/emmet-language-server \
   @tailwindcss/language-server \
   bash-language-server \
-  contentful-cli \
-  corepack \
-  eslint_d \
   fixjson \
-  htmlhint \
   typescript-language-server \
   typescript \
   vscode-langservers-extracted
