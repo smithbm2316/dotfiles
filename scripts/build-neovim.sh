@@ -13,7 +13,8 @@ if [ ! -d "neovim" ]; then
   git clone https://github.com/neovim/neovim
 fi
 cd neovim || exit
-git checkout stable
+# git checkout stable
+git checkout master
 git pull
 
 # CMAKE_BUILD_TYPE=RelWithDebInfo if you want extra debug info for the build
