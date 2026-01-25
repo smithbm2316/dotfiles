@@ -9,6 +9,7 @@ output DP-2 {
   enable
   mode 2560x1440@165.002Hz
   pos 0 0
+  scale 1.0
   adaptive_sync disabled
 }
 

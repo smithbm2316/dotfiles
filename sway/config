@@ -274,8 +274,8 @@ bindsym $mod+r mode "resize"
 # STATUS BAR
 # ---------------------------------------------------------------------------- #
 # Read `man 5 sway-bar` for more information about this section.
-font pango:Berkeley Mono SemiCondensed 11
-set $bar_height 24
+font pango:Berkeley Mono SemiCondensed 10
+set $bar_height 20
 bar {
   position top
   mode dock
