@@ -1,0 +1,17 @@
+chromium-widevine
+gnome-keyring
+info
+libavcodec-extra
+libnotify-bin
+libpam-gnome-keyring
+libpam0g
+libspa-0.2-bluetooth
+lxappearance
+mkcert
+ncal
+network-manager
+network-manager-ssh
+ninja-build
+policykit-1-gnome
+qalculate-gtk
+xfce-polkit
