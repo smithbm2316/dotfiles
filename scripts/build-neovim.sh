@@ -3,11 +3,16 @@ if [ "$(command -v apt)" ]; then
   sudo apt install -y build-essential cmake curl gettext ninja-build unzip 
 elif [ "$(command -v dnf)" ]; then
   sudo dnf -y install ninja-build cmake gcc make unzip gettext curl glibc-gconv-extra
+elif [ "$(command -v xbps-install)" ]; then
+  sudo xbps-install -Sy base-devel cmake curl git
 else
   echo 'Neither `apt` or `dnf` is installed, exiting...'
   exit 1
 fi
 
+if [ ! -d "$HOME/builds" ]; then
+  mkdir -pv $HOME/builds
+fi
 cd ~/builds || exit
 if [ ! -d "neovim" ]; then
   git clone https://github.com/neovim/neovim

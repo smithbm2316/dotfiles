@@ -1,0 +1,11 @@
+# copy to /etc/greetd/config.toml
+[terminal]
+vt = 7
+
+[default_session]
+command = "tuigreet -c sway --power-shutdown 'sudo shutdown -h now' --power-reboot 'sudo shutdown -r now'"
+user = "$USER"
+
+[initial_session]
+command = "sway"
+user = "$USER"
