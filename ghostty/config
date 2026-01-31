@@ -1,5 +1,6 @@
 # vim:ft=config
-theme = dark:Catppuccin Macchiato,light:Seoulbones Light
+theme = catppuccin-macchiato
+# theme = dark:catppuccin-macchiato,light:seoulbones_light
 
 font-family = Berkeley Mono
 font-style = Medium SemiCondensed
@@ -11,9 +12,12 @@ font-size = 13
 link-url = true
 title = " "
 
-# window-decoration = false
+confirm-close-surface = false
+ 
 macos-titlebar-style = transparent
 auto-update = off
+
+async-backend = epoll
 
 # send a notification on commands when ghostty is unfocused
 notify-on-command-finish = unfocused
