@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-distro="$(sed -nE 's/^ID="?(.*)"?$/\1/p' /etc/os-release)"
+distro="$(sed -nE 's/^ID="?(\w*)"?$/\1/p' /etc/os-release)"
 volume=""
 battery_status=""
 battery_percent=""

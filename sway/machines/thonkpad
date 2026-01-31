@@ -1,0 +1,31 @@
+# vim:ft=swayconfig
+# ---------------------------------------------------------------------------- #
+# OUTPUT CONFIGURATION (`man sway-output` / `swaymsg -t get_outputs`)
+# ---------------------------------------------------------------------------- #
+
+set $primary eDP-1
+output eDP-1 {
+  enable
+  mode 1920x1080@60.031Hz
+  pos 0 0
+  adaptive_sync disabled
+}
+
+output HDMI-A-2 {
+  disable
+  mode 2560x1440@120.000Hz
+  pos 0 0
+  adaptive_sync disabled
+}
+
+bindsym $mod+$alt+d exec swaymsg 'output eDP-1 disable; output HDMI-A-2 enable; set $primary HDMI-A-2'
+bindsym $mod+$alt+l exec swaymsg 'output eDP-1 enable; output HDMI-A-2 disable; set $primary eDP-1'
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# NOTIFY WHICH MACHINE WE'RE ON
+# ---------------------------------------------------------------------------- #
+exec notify-send 'loaded thonkpad config!'
