@@ -23,3 +23,19 @@ alias dotsup="cd $HOME && stow -vt ~/.config dotfiles && cd -"
 # macos quarantine to permit the cursor cli to run
 # https://forum.cursor.com/t/cursor-agent-merkle-tree-napi-darwin-arm64-node-not-opened/155056/3
 alias fixcursor="xattr -rd com.apple.quarantine /opt/homebrew/Caskroom/cursor-cli/"
+
+# alias "c" and "p" for unified copy and pasting utilities across mac/linux
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  alias c="wl-copy"
+  alias p="wl-paste"
+elif [ "$XDG_SESSION_TYPE" = "x11" ]; then
+  alias c="xclip -sel clip"
+  alias p="xclip -sel clip -o"
+elif [ "$(uname -s)" = "Darwin" ]; then
+  alias c="pbcopy"
+  alias p="pbpaste"
+fi
+
+if [ "$(sed -nE 's/^ID="?(\w*)"?$/\1/p' /etc/os-release)" = "void" ]; then
+  alias svu="SVDIR=$XDG_CONFIG_HOME/service sv"
+fi
