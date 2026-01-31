@@ -42,10 +42,10 @@ git:
   pull:
     mode: 'rebase'
   autoFetch: true
-  paging:
-    colorArg: 'always'
-    # pager: delta --dark --paging=never
-    externalDiffCommand: 'difft --color=always'
+  pagers:
+    - colorArg: 'always'
+      # pager: delta --dark --paging=never
+      externalDiffCommand: 'difft --color=always'
 confirmOnQuit: false
 reporting: 'off'
 keybinding:
