@@ -24,3 +24,19 @@ alias pichat="pi --no-tools"
 
 # enable experimental plan mode for opencode with alias
 alias oc="OPENCODE_EXPERIMENTAL_PLAN_MODE=1 opencode"
+
+# alias "c" and "p" for unified copy and pasting utilities across mac/linux
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  alias c="wl-copy"
+  alias p="wl-paste"
+elif [ "$XDG_SESSION_TYPE" = "x11" ]; then
+  alias c="xclip -sel clip"
+  alias p="xclip -sel clip -o"
+elif [ "$(uname -s)" = "Darwin" ]; then
+  alias c="pbcopy"
+  alias p="pbpaste"
+fi
+
+if [ "$(sed -nE 's/^ID="?(\w*)"?$/\1/p' /etc/os-release)" = "void" ]; then
+  alias svu="SVDIR=$XDG_CONFIG_HOME/service sv"
+fi
