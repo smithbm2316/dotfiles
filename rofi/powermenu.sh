@@ -1,109 +1,29 @@
 #!/usr/bin/env bash
+# Use rofi to call systemctl for shutdown, reboot, etc
+# Adapted from https://github.com/orestisfl/dotfiles/blob/b2a0c96034f9a837389322e33ee176706f895b13/executables/bin/i3-rofi-actions
+set -e
 
-## Author : Aditya Shakya (adi1090x)
-## Github : @adi1090x
-#
-## Rofi   : Power Menu
-#
-## Available Styles
-#
-## style-1   style-2   style-3   style-4   style-5
+declare -A options
+declare -a options_order
 
-# Current Theme
-dir="$HOME/dotfiles/rofi/themes/"
-theme='powermenu'
-
-# CMDs
-uptime="$(uptime -p)"
-host=$(hostname)
-
-# Options
-shutdown='⏻ Shutdown'
-reboot=' Reboot'
-lock=' Lock'
-suspend=' Suspend'
-logout=' Logout'
-yes=' Yes'
-no='ﰸ No'
-
-# Rofi CMD
-rofi_cmd() {
-	rofi -dmenu \
-		-p "$host" \
-		-mesg "$uptime" \
-		-theme "${dir}/${theme}.rasi"
+function add_option() {
+  options["$1"]="$2"
+  options_order+=("$1")
 }
 
-# Confirmation CMD
-confirm_cmd() {
-	rofi -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 250px;}' \
-		-theme-str 'mainbox {children: [ "message", "listview" ];}' \
-		-theme-str 'listview {columns: 2; lines: 1;}' \
-		-theme-str 'element-text {horizontal-align: 0.5;}' \
-		-theme-str 'textbox {horizontal-align: 0.5;}' \
-		-dmenu \
-		-p 'Confirmation' \
-		-mesg 'Are you Sure?' \
-		-theme "${dir}/${theme}.rasi"
-}
+# Fill options.
+add_option 'Sleep' 'swaylock -f -c 0f172a && zzz'
+add_option 'Shutdown' 'shutdown -h now'
+add_option 'Reboot' 'shutdown -r now'
+add_option 'Log out' 'swaymsg exit'
+add_option 'Lock' 'swaylock -f -c 0f172a'
+# add_option "Hibernate" "systemctl hibernate"
+options_keys=$(printf '%s\n' "${options_order[@]}")  # Get keys as a string, seperated by newlines.
+options_len=$(echo -e "$options_keys"|wc -l)
+echo -e "$options_keys"
 
-# Ask for confirmation
-confirm_exit() {
-	echo -e "$yes\n$no" | confirm_cmd
-}
+launcher="rofi -matching fuzzy -l $options_len -dmenu -i -p 'Pick action: '"
+selection=$(echo -e "$options_keys" | eval "$launcher" | tr -d '\r\n')
+echo "$selection : ${options[$selection]}"
 
-# Pass variables to rofi dmenu
-run_rofi() {
-	echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown" | rofi_cmd
-}
-
-# Execute Command
-run_cmd() {
-	selected="$(confirm_exit)"
-	if [[ "$selected" == "$yes" ]]; then
-		if [[ $1 == '--shutdown' ]]; then
-			systemctl poweroff
-		elif [[ $1 == '--reboot' ]]; then
-			systemctl reboot
-		elif [[ $1 == '--logout' ]]; then
-			if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
-				openbox --exit
-			elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
-				bspc quit
-			elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
-				i3-msg exit
-			elif [[ "$DESKTOP_SESSION" == 'sway' ]]; then
-				swaymsg 'exit'
-			elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
-				qdbus org.kde.ksmserver /KSMServer logout 0 0 0
-			elif [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
-        qtile cmd-obj -o cmd -f shutdown
-			fi
-		fi
-	else
-		exit 0
-	fi
-}
-
-# Actions
-chosen="$(run_rofi)"
-case ${chosen} in
-  "$shutdown")
-    run_cmd --shutdown
-      ;;
-  "$reboot")
-    run_cmd --reboot
-      ;;
-  "$lock")
-    i3lock -c "#908caa"
-      ;;
-  "$suspend")
-    playerctl pause
-    amixer set Master mute
-    i3lock -c "#908caa"
-    systemctl suspend
-      ;;
-  "$logout")
-    run_cmd --logout
-      ;;
-esac
+eval "${options[$selection]}"

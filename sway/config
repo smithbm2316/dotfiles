@@ -27,7 +27,7 @@ set $browser firefox
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu fuzzel
+set $menu rofi -show drun
 set $menu_all dmenu_path | dmenu | xargs swaymsg exec --
 
 
@@ -40,22 +40,6 @@ set $menu_all dmenu_path | dmenu | xargs swaymsg exec --
 include "~/dotfiles/sway/machines/$(cat /etc/hostname)"
 # set the wallpaper for all workspaces to black
 output * bg #000000 solid_color
-
-
-
-
-
-# ---------------------------------------------------------------------------- #
-# IDLE/LOCKING CONFIGURATION
-# ---------------------------------------------------------------------------- #
-# manually lock 
-bindsym $mod+$alt+l exec swaylock -f -c 0f172a
-# manually lock and suspend if we're not on the `vincit76` machine which
-# currently has issues with suspending/sleeping
-bindsym $mod+$alt+s exec [ "$(cat /etc/hostname)" != "vincit76" ] \
-  && swaylock -f -c 0f172a && systemctl suspend \
-  || notify-send "On vincit76 which can't suspend"
-
 
 
 
@@ -121,9 +105,7 @@ floating_modifier $mod normal
 bindsym $mod+ctrl+r reload
 
 # Exit sway (logs you out of your Wayland session)
-bindsym $mod+ctrl+q exec swaynag -t warning -m \
-  'You pressed the exit shortcut. Do you really want to exit sway?' \
-  -B 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+ctrl+q exec ~/dotfiles/rofi/powermenu.sh
 
 
 
@@ -274,8 +256,8 @@ bindsym $mod+r mode "resize"
 # STATUS BAR
 # ---------------------------------------------------------------------------- #
 # Read `man 5 sway-bar` for more information about this section.
-font pango:Berkeley Mono SemiCondensed 10
-set $bar_height 20
+font pango:Ubuntu Mono 11
+set $bar_height 22
 bar {
   position top
   mode dock
