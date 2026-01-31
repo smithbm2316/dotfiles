@@ -1,13 +1,9 @@
 # vim:ft=config
-theme = dark:Catppuccin Macchiato,light:Seoulbones Light
+theme = catppuccin-macchiato
+# theme = dark:catppuccin-macchiato,light:seoulbones_light
 
-font-family = Berkeley Mono
-font-style = Medium SemiCondensed
-font-style-italic = Medium SemiCondensed Oblique
-font-style-bold = ExtraBold SemiCondensed
-font-style-bold-italic = ExtraBold SemiCondensed Oblique
-# font-size = 12.5
-font-size = 13
+font-family = Fira Code
+font-size = 14.0
 
 keybind = ctrl+shift+c=copy_to_clipboard
 keybind = ctrl+shift+v=paste_from_clipboard
@@ -19,6 +15,7 @@ title = " "
 
 confirm-close-surface = false
 
-# window-decoration = false
 macos-titlebar-style = transparent
 auto-update = off
+
+async-backend = epoll
