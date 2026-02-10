@@ -121,6 +121,7 @@ msmtp/*
 pi-coding-agent/*
 !pi-coding-agent/keybindings.json
 !pi-coding-agent/models.json
+!pi-coding-agent/sandbox.json
 !pi-coding-agent/settings.json
 !pi-coding-agent/extensions/
 .pi/**

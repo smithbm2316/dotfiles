@@ -497,3 +497,8 @@ agent() {
     ;;
   esac
 }
+
+# sandboxed pi
+spi() {
+  pi -e ~/dotfiles/pi-coding-agent/sandbox $@
+}

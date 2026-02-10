@@ -1,0 +1,58 @@
+{
+  "enabled": true,
+  "network": {
+    "allowedDomains": [
+      "*.github.com",
+      "*.npmjs.org",
+      "*.pypi.org",
+      "api.github.com",
+      "github.com",
+      "npmjs.org",
+      "pypi.org",
+      "raw.githubusercontent.com",
+      "registry.npmjs.org",
+      "registry.yarnpkg.com"
+    ],
+    "deniedDomains": []
+  },
+  "filesystem": {
+    "denyRead": [
+      "*.key",
+      "*.pem",
+      ".env",
+      ".env.*",
+      "~/.aws",
+      "~/.gnupg",
+      "~/.password-store",
+      "~/.ssh",
+      "~/.zsh_sessions",
+      "~/Desktop",
+      "~/Documents",
+      "~/Downloads",
+      "~/Pictures",
+      "~/notes",
+      "~/wiki"
+    ],
+    "allowWrite": [
+      ".",
+      "/tmp"
+    ],
+    "denyWrite": [
+      "*.key",
+      "*.pem",
+      ".env",
+      ".env.*",
+      "~/.aws",
+      "~/.gnupg",
+      "~/.password-store",
+      "~/.ssh",
+      "~/.zsh_sessions",
+      "~/Desktop",
+      "~/Documents",
+      "~/Downloads",
+      "~/Pictures",
+      "~/notes",
+      "~/wiki"
+    ]
+  }
+}
