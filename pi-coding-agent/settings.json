@@ -20,5 +20,8 @@
     "openai-codex/gpt-5.1-codex-mini",
     "openai-codex/gpt-5.3-codex"
   ],
+  "extensions": [
+    "+extensions/preset.ts"
+  ],
   "packages": []
 }
