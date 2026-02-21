@@ -1,22 +1,24 @@
 {
-  "lastChangelogVersion": "0.52.9",
+  "lastChangelogVersion": "0.54.0",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.3-codex",
-  "quietStartup": true,
-  "defaultThinkingLevel": "medium",
+  "quietStartup": false,
+  "defaultThinkingLevel": "xhigh",
   "hideThinkingBlock": false,
+  "tools": [
+    "bash",
+    "edit",
+    "find",
+    "grep",
+    "ls",
+    "read",
+    "write"
+  ],
   "enabledModels": [
-    "openai-codex/gpt-5.1-codex-mini",
-    "mistral/mistral-large-latest",
-    "ollama/gpt-oss:20b",
     "anthropic/claude-opus-4-6",
-    "anthropic/claude-sonnet-4-5",
-    "anthropic/claude-haiku-4-5",
-    "anthropic/claude-haiku-4-5-20251001",
-    "anthropic/claude-3-haiku-20240307",
-    "anthropic/claude-3-5-haiku-20241022",
-    "anthropic/claude-3-5-haiku-latest",
-    "openai-codex/gpt-5.3-codex",
-    "google-gemini-cli/gemini-3-flash-preview"
-  ]
+    "ollama/gpt-oss:20b",
+    "openai-codex/gpt-5.1-codex-mini",
+    "openai-codex/gpt-5.3-codex"
+  ],
+  "packages": []
 }
