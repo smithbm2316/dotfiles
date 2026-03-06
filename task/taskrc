@@ -1,0 +1,100 @@
+# vim:ft=ini
+data.location=~/.local/share/task
+hooks.location=~/.config/task/hooks
+news.version=3.4.2
+
+rule.precedence.color=deleted,completed,active,keyword.,tag.,project.,overdue,scheduled,due.today,due,blocked,blocking,recurring,tagged,uda.
+
+verbose=1
+
+# default.project=inbox
+default.command=default
+
+report.default.columns=id,description.count,state,priority,project,tags,depends,start.age,entry.age,recur,scheduled.countdown,due.relative,until.remaining,urgency
+report.default.context=1
+report.default.description=Most urgent tasks
+report.default.filter=status:pending -WAITING limit:page
+report.default.labels=ID,Description,State,P,Project,Tag,Deps,Age,Recur,S,Due,Until,Description,Urg
+report.default.sort=urgency-
+
+uda.state.type=string
+
+# General decoration
+color.label=
+color.label.sort=
+color.alternate=
+color.header=bold magenta
+color.footnote=cyan
+color.warning=yellow
+color.error=bold black on red
+color.debug=cyan
+
+# Task state
+color.completed=
+color.deleted=
+color.active=bold black on green
+color.recurring=cyan
+color.scheduled=
+color.until=
+color.blocked=underline bold white
+color.blocking=underline white
+
+# Project
+color.project.none=
+
+# Priority
+color.uda.priority.H=bold red
+# yellow
+color.uda.priority.M=
+# green
+color.uda.priority.L=
+color.uda.priority.none=
+
+# State
+color.uda.state.ip=yellow
+color.uda.state.cr=blue
+color.uda.state.pr=magenta
+color.uda.state.none=
+
+# Tags
+color.tag.next=cyan
+color.tag.none=
+color.tagged=
+
+# Due
+color.due.today=bold red
+color.due=red
+color.overdue=bold magenta
+
+# Report: burndown
+color.burndown.done=black on green
+color.burndown.pending=black on red
+color.burndown.started=black on yellow
+
+# Report: history
+color.history.add=bold black on green
+color.history.delete=bold black on red
+color.history.done=bold black on blue
+
+# Report: summary
+color.summary.background=bold white on black
+color.summary.bar=bold black on cyan
+
+# Command: calendar
+color.calendar.due.today=black on yellow
+color.calendar.due=black on yellow
+color.calendar.holiday=black on magenta
+color.calendar.scheduled=
+color.calendar.overdue=black on red
+color.calendar.today=black on blue
+color.calendar.weekend=
+color.calendar.weeknumber=cyan
+
+# Command: sync
+color.sync.added=green
+color.sync.changed=yellow
+color.sync.rejected=red
+
+# Command: undo
+color.undo.after=green
+color.undo.before=red

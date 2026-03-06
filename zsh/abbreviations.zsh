@@ -20,9 +20,10 @@ abbr "pg"="pgrep"
 abbr "pgn"="ps ax | grep ' [n]vim$'"
 abbr "pk"="pkill"
 abbr "sosh"="source \$XDG_CONFIG_HOME/zsh/.zshrc"
-abbr "task"="./Taskfile"
+abbr "taskf"="./Taskfile"
 abbr "tma"="tmux attach -t "
 abbr "yeet"="rm -rf"
+# abbr "yeet"="trash -v"
 
 # git shortcuts
 abbr g="git"
