@@ -195,3 +195,23 @@ vim.keymap.set({ 'n' }, '<leader>gl', function()
   -- open the URL in my browser
   vim.ui.open(git_url)
 end, { desc = '[g]it repo [l]ink' })
+
+-- use pandoc to take a hard-wrapped file and convert it to soft wrapped.
+-- specifically to be used with hard-wrapped markdown that I need to paste into
+-- another place that requires soft wrapping, i.e. notion or slack
+vim.keymap.set(
+  'n',
+  '<leader>fs',
+  [[<cmd>!pandoc --wrap=none % -o %<cr>]],
+  { desc = '[f]ormat current file to [s]oft wrapping with pandoc' }
+)
+
+-- convert an entire soft wrapped file to hard wrapped. particularly useful for
+-- converting a soft-wrapped markdown file to hard-wrapped with vim's gq
+-- formatting command
+vim.keymap.set(
+  'n',
+  '<leader>fh',
+  [[<cmd>normal ggVGgq<cr>]],
+  { desc = '[f]ormat current file to [h]ard wrapping' }
+)

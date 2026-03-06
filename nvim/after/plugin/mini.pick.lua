@@ -117,15 +117,6 @@ vim.keymap.set('n', '<leader>fn', function()
   })
 end, { desc = '[f]ind [n]vim files (mini.pick)' })
 
-vim.keymap.set('n', '<leader>fs', function()
-  MiniPick.builtin.files(nil, {
-    source = {
-      cwd = vim.env.HOME .. '/dotfiles/nvim-stable',
-      name = 'Files (~/dotfiles/nvim-stable)',
-    },
-  })
-end, { desc = '[f]ind nvim-[s]table files (mini.pick)' })
-
 -- Grep Live pickers
 vim.keymap.set('n', '<leader>gw', function()
   MiniPick.builtin.grep_live(nil, {

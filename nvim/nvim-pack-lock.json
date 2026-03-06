@@ -5,7 +5,7 @@
       "src": "https://github.com/vim-scripts/ReplaceWithRegister"
     },
     "blink.cmp": {
-      "rev": "b19413d214068f316c78978b08264ed1c41830ec",
+      "rev": "4b18c32adef2898f95cdef6192cbd5796c1a332d",
       "src": "https://github.com/saghen/blink.cmp",
       "version": "1.0.0 - 2.0.0"
     },
@@ -14,19 +14,19 @@
       "src": "https://github.com/laytan/cloak.nvim"
     },
     "conform.nvim": {
-      "rev": "c2526f1cde528a66e086ab1668e996d162c75f4f",
+      "rev": "40dcec5555f960b0a04340d76eabdf4efe78599d",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "copy_with_context.nvim": {
-      "rev": "09243b8",
+      "rev": "96a7742ab49b54482be63652cd32a9b96b38c769",
       "src": "https://github.com/zhisme/copy_with_context.nvim"
     },
     "gitsigns.nvim": {
-      "rev": "abf82a65f185bd54adc0679f74b7d6e1ada690c9",
+      "rev": "7c4faa3540d0781a28588cafbd4dd187a28ac6e3",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "indent-blankline.nvim": {
-      "rev": "005b56001b2cb30bfa61b7986bc50657816ba4ba",
+      "rev": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03",
       "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
     },
     "jinja.vim": {
@@ -88,11 +88,11 @@
       "version": "'stable'"
     },
     "nvim": {
-      "rev": "beaf41a30c26fd7d6c386d383155cbd65dd554cd",
+      "rev": "c4d475e4b5684747cde9b3f849186af7837d4397",
       "src": "https://github.com/catppuccin/nvim"
     },
     "nvim-lint": {
-      "rev": "ca6ea12daf0a4d92dc24c5c9ae22a1f0418ade37",
+      "rev": "606b823a57b027502a9ae00978ebf4f5d5158098",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-treesitter": {
@@ -100,7 +100,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "oil.nvim": {
-      "rev": "f55b25e493a7df76371cfadd0ded5004cb9cd48a",
+      "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "vim-dbml": {
@@ -124,11 +124,11 @@
       "src": "https://github.com/christoomey/vim-system-copy"
     },
     "vim-tmux-navigator": {
-      "rev": "c45243dc1f32ac6bcf6068e5300f3b2b237e576a",
+      "rev": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432",
       "src": "https://github.com/christoomey/vim-tmux-navigator"
     },
     "zenbones.nvim": {
-      "rev": "4635a3f46d1066975d1074cd9f61f93cb1e32f64",
+      "rev": "22b7fb75593412e0dc81b4bdefae718e9e84aa82",
       "src": "https://github.com/zenbones-theme/zenbones.nvim"
     }
   }
