@@ -66,7 +66,8 @@
                                             "^com\\.github\\.wez\\.wezterm$",
                                             "^com\\.mitchellh\\.ghostty$",
                                             "^com\\.vscodium",
-                                            "^md\\.obsidian$"
+                                            "^md\\.obsidian$",
+                                            "^dev\\.zed\\.Zed$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -89,7 +90,8 @@
                                             "^com\\.github\\.wez\\.wezterm$",
                                             "^com\\.mitchellh\\.ghostty$",
                                             "^com\\.vscodium",
-                                            "^md\\.obsidian$"
+                                            "^md\\.obsidian$",
+                                            "^dev\\.zed\\.Zed$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
