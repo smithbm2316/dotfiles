@@ -1,0 +1,13 @@
+{
+	"name": "my-pi-extensions",
+	"private": true,
+	"type": "module",
+	"dependencies": {
+		"@anthropic-ai/sandbox-runtime": "^0.0.26"
+	},
+	"devDependencies": {
+		"@mariozechner/pi-coding-agent": "^0.55.1",
+		"@mariozechner/pi-tui": "^0.55.1",
+		"@types/node": "^25.3.2"
+	}
+}

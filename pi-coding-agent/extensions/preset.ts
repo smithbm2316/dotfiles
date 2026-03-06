@@ -38,12 +38,12 @@
  * CLI flags always override preset values.
  */
 
+import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
+import { DynamicBorder } from "@mariozechner/pi-coding-agent";
+import { Container, Key, SelectList, Text, type SelectItem } from "@mariozechner/pi-tui";
 import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { DynamicBorder } from "@mariozechner/pi-coding-agent";
-import { Container, Key, type SelectItem, SelectList, Text } from "@mariozechner/pi-tui";
 
 // Preset configuration
 interface Preset {
@@ -57,6 +57,8 @@ interface Preset {
   tools?: string[];
   /** Instructions to append to system prompt */
   instructions?: string;
+  /** Set this preset as the default when opening pi */
+  default?: boolean
 }
 
 interface PresetsConfig {
@@ -68,7 +70,9 @@ interface PresetsConfig {
  * Project-local presets override global presets with the same name.
  */
 function loadPresets(cwd: string): PresetsConfig {
-  const globalPath = join(homedir(), "dotfiles", "pi-coding-agent", "presets.json");
+  const globalPath = process.env.PI_CODING_AGENT_DIR
+    ? join(process.env.PI_CODING_AGENT_DIR, "presets.json")
+    : join(homedir(), ".pi", "agent", "presets.json");
   const projectPath = join(cwd, ".pi", "presets.json");
 
   let globalPresets: PresetsConfig = {};
@@ -107,7 +111,6 @@ export default function presetExtension(pi: ExtensionAPI) {
   pi.registerFlag("preset", {
     description: "Preset configuration to use",
     type: "string",
-    default: "read",
   });
 
   /**
@@ -372,6 +375,12 @@ export default function presetExtension(pi: ExtensionAPI) {
       } else {
         const available = Object.keys(presets).join(", ") || "(none defined)";
         ctx.ui.notify(`Unknown preset "${presetFlag}". Available: ${available}`, "warning");
+      }
+    } else {
+      const [presetName, preset] = Object.entries(presets).find(([_, p]) => p.default) ?? [undefined, undefined]
+      if (presetName && preset) {
+        await applyPreset(presetName, preset, ctx);
+        ctx.ui.notify(`Preset "${presetName}" activated`, "info");
       }
     }
 

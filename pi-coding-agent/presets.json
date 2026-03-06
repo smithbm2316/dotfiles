@@ -1,4 +1,19 @@
 {
+  "implement": {
+    "default": true,
+    "provider": "openai-codex",
+    "model": "gpt-5.3-codex",
+    "defaultThinkingLevel": "xhigh",
+    "tools": [
+      "bash",
+      "edit",
+      "find",
+      "grep",
+      "ls",
+      "read",
+      "write"
+    ]
+  },
   "read": {
     "provider": "openai-codex",
     "model": "gpt-5.3-codex",
@@ -13,26 +28,12 @@
   "plan": {
     "provider": "openai-codex",
     "model": "gpt-5.3-codex",
-    "defaultThinkingLevel": "high",
+    "defaultThinkingLevel": "xhigh",
     "tools": [
       "read",
       "grep",
       "find",
       "ls"
-    ]
-  },
-  "implement": {
-    "provider": "openai-codex",
-    "model": "gpt-5.3-codex",
-    "defaultThinkingLevel": "xhigh",
-    "tools": [
-      "bash",
-      "edit",
-      "find",
-      "grep",
-      "ls",
-      "read",
-      "write"
     ]
   },
   "chat": {

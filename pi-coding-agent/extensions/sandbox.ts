@@ -37,13 +37,13 @@
  * Linux also requires: bubblewrap, socat, ripgrep
  */
 
+import { SandboxManager, type SandboxRuntimeConfig } from "@anthropic-ai/sandbox-runtime";
+import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { createBashTool, type BashOperations } from "@mariozechner/pi-coding-agent";
 import { spawn } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { SandboxManager, type SandboxRuntimeConfig } from "@anthropic-ai/sandbox-runtime";
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { type BashOperations, createBashTool } from "@mariozechner/pi-coding-agent";
 
 interface SandboxConfig extends SandboxRuntimeConfig {
   enabled?: boolean;
@@ -75,12 +75,14 @@ const DEFAULT_CONFIG: SandboxConfig = {
 
 function loadConfig(cwd: string): SandboxConfig {
   const projectConfigPath = join(cwd, ".pi", "sandbox.json");
-  const globalConfigPath = join(homedir(), ".pi", "agent", "sandbox.json");
+  const globalConfigPath = process.env.PI_CODING_AGENT_DIR
+    ? join(process.env.PI_CODING_AGENT_DIR, "extensions", "sandbox.json")
+    : join(homedir(), ".pi", "agent", "sandbox.json");
 
   let globalConfig: Partial<SandboxConfig> = {};
   let projectConfig: Partial<SandboxConfig> = {};
 
-  if (existsSync(globalConfigPath)) {
+  if (globalConfigPath && existsSync(globalConfigPath)) {
     try {
       globalConfig = JSON.parse(readFileSync(globalConfigPath, "utf-8"));
     } catch (e) {
