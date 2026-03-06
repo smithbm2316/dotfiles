@@ -23,5 +23,8 @@
   "extensions": [
     "+extensions/preset.ts"
   ],
-  "packages": []
+  "packages": [
+    "git:github.com/Whamp/pi-token-burden",
+    "git:git@github.com:lajarre/pi-vim.git"
+  ]
 }
