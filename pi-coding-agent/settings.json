@@ -1,10 +1,12 @@
 {
-  "lastChangelogVersion": "0.54.0",
-  "defaultProvider": "openai-codex",
+  "lastChangelogVersion": "0.56.3",
+  "branchSummary.skipPrompt": true,
   "defaultModel": "gpt-5.3-codex",
-  "quietStartup": false,
+  "defaultProvider": "openai-codex",
   "defaultThinkingLevel": "xhigh",
   "hideThinkingBlock": false,
+  "quietStartup": true,
+  "treeFilterMode": "user-only",
   "tools": [
     "bash",
     "edit",
