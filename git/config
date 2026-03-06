@@ -27,14 +27,15 @@
 [core]
 	excludesFile = ~/dotfiles/git/ignore
   editor = nvim
-  # pager = delta
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
 
 [delta]
-  light = false
   line-numbers = true
-  line-numbers-left-format = ""
   navigate = true
-  side-by-side = true
+  side-by-side = false
   tabs = 2
 
 [diff]

@@ -44,8 +44,7 @@ git:
   autoFetch: true
   paging:
     colorArg: 'always'
-    # pager: delta --dark --paging=never
-    externalDiffCommand: 'difft --color=always'
+    pager: delta --paging=never
 confirmOnQuit: false
 reporting: 'off'
 keybinding:
