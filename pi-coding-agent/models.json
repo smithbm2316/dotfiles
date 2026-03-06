@@ -6,10 +6,32 @@
       "apiKey": "ollama",
       "models": [
         {
-          "id": "gpt-oss:20b"
+          "id": "devstral-small-2:24b",
+          "contextWindow": 393216
         },
         {
-          "id": "glm-4.7-flash:q4_K_M"
+          "id": "glm-4.7-flash:q4_K_M",
+          "contextWindow": 202752,
+          "reasoning": true
+        },
+        {
+          "id": "gpt-oss:20b",
+          "contextWindow": 131072,
+          "reasoning": true
+        },
+        {
+          "id": "ministral-3:14b",
+          "contextWindow": 262144
+        },
+        {
+          "id": "qwen3.5:35b",
+          "contextWindow": 262144,
+          "reasoning": true
+        },
+        {
+          "id": "qwen3.5:9b",
+          "contextWindow": 262144,
+          "reasoning": true
         }
       ]
     }

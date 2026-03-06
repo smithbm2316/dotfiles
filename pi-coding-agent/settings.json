@@ -7,6 +7,15 @@
   "hideThinkingBlock": false,
   "quietStartup": true,
   "treeFilterMode": "user-only",
+  "enabledModels": [
+    "openai-codex/gpt-5.3-codex",
+    "opencode-go/kimi-k2.5",
+    "opencode-go/minimax-m2.5",
+    "openai-codex/gpt-5.4",
+    "openai-codex/gpt-5.3-codex-spark",
+    "anthropic/claude-opus-4-6",
+    "opencode-go/glm-5"
+  ],
   "tools": [
     "bash",
     "edit",
@@ -15,12 +24,6 @@
     "ls",
     "read",
     "write"
-  ],
-  "enabledModels": [
-    "anthropic/claude-opus-4-6",
-    "ollama/gpt-oss:20b",
-    "openai-codex/gpt-5.1-codex-mini",
-    "openai-codex/gpt-5.3-codex"
   ],
   "extensions": [
     "+extensions/preset.ts"
