@@ -1,0 +1,5 @@
+version: "1"
+git_protocol: ssh
+aliases:
+  mine: '!gh pr ls -S "is:pr is:open author:@me" --json number,title,isDraft,headRefName,updatedAt --template "$(<~/dotfiles/gh/templates/mine.tmpl)"'
+  reviews: '!gh pr ls -S "is:pr is:open draft:false -author:@me user-review-requested:@me -review:approved" --json number,title,author,headRefName,updatedAt --template "$(<~/dotfiles/gh/templates/reviews.tmpl)"'
