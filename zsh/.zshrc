@@ -56,6 +56,16 @@ autoload -Uz aliases.zsh; aliases.zsh
 # load functions
 autoload -Uz functions.zsh; functions.zsh
 
+# load hidden file if exists
+if [ -f "$ZDOTDIR/hidden.zsh" ]; then
+  autoload -Uz hidden.zsh; hidden.zsh
+fi
+
+# load jj completions
+if command -v jj &> /dev/null; then
+  source <(COMPLETE=zsh jj)
+fi
+
 # os-specific adjustments
 case "$OSTYPE" in
   linux*)
@@ -78,6 +88,7 @@ case "$OSTYPE" in
     export PATH="$HOMEBREW_PREFIX/opt/gnu-which/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/gnutls/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
+    export PATH="$HOMEBREW_PREFIX/opt/man-db/libexec/bin:$PATH"
     # and do so for latest git too
     export PATH="$HOMEBREW_PREFIX/opt/git/bin:$PATH"
 
@@ -94,6 +105,7 @@ case "$OSTYPE" in
     export MANPATH="$HOMEBREW_PREFIX/opt/gnu-which/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/gnutls/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/grep/share/man:$MANPATH"
+    export MANPATH="$HOMEBREW_PREFIX/opt/man-db/share/man/:$MANPATH"
     # and do so for latest git too
     export MANPATH="$HOMEBREW_PREFIX/opt/git/share/man:$MANPATH"
     ;;

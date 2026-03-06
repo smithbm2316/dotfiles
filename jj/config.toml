@@ -1,0 +1,33 @@
+[user]
+name = 'Ben Smith'
+email = 'ben@bensmith.sh'
+
+[ui]
+default-command = 'ls'
+pager = 'delta -s'
+diff-formatter = ':git'
+
+[colors]
+change_id = 'bright red'
+bookmark = 'bright red'
+bookmarks = 'bright red'
+local_bookmarks = 'bright red'
+remote_bookmarks = 'bright red'
+'working_copy change_id' = 'bright red'
+'working_copy bookmark' = 'bright red'
+'working_copy bookmarks' = 'bright red'
+'working_copy local_bookmarks' = 'bright red'
+'working_copy remote_bookmarks' = 'bright red'
+
+[aliases]
+ls = ['log', '-r', '(trunk()..@):: | (trunk()..@)-']
+ll = ['log', '-r', 'present(@) | ancestors(immutable_heads().., 2) | trunk()']
+l = ['ll']
+s = ['status']
+# adapted from: https://danverbraganza.com/writings/most-frequent-jj-commands#jj-tug
+tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
+
+[[--scope]]
+--when.repositories = ['~/work']
+[--scope.user]
+email = 'bensmith@thuma.co'
