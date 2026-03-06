@@ -9,6 +9,7 @@
   ],
   "cycleModelBackward": "ctrl+shift+x",
   "cycleModelForward": "ctrl+x",
+  "cycleThinkingLevel": "ctrl+r",
   "deleteWordBackward": [
     "ctrl+w",
     "alt+backspace"
@@ -17,10 +18,11 @@
     "down",
     "ctrl+n"
   ],
+  "selectModel": "ctrl+q",
   "selectUp": [
     "up",
     "ctrl+p"
   ],
-  "selectModel": "ctrl+q",
-  "cycleThinkingLevel": "ctrl+r"
+  "toggleSessionNamedFilter": "ctrl+o",
+  "toggleSessionPath": "ctrl+x"
 }
