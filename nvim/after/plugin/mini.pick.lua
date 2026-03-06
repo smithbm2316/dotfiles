@@ -4,26 +4,41 @@ local get_win_config = function(expand)
     local columns = vim.api.nvim_get_option_value('columns', {})
     local lines = vim.api.nvim_get_option_value('lines', {})
 
-    local col = 0
-    local width = columns
-    local height = math.ceil(lines * 0.5)
-    if columns > 140 then
-      width = expand and math.ceil(columns * 0.6) or math.ceil(columns * 0.4)
-      col = width
-    end
-
     ---@type vim.api.keyset.win_config
-    return {
-      relative = 'editor',
-      -- anchor = 'NE',
-      row = 0,
-      col = col,
-      width = width,
-      height = height,
+    local base_win_config = {
+      height = math.ceil(lines * 0.5),
       style = 'minimal',
       border = 'double',
       mouse = true,
     }
+
+    if columns <= 200 then
+      return vim.tbl_extend(
+        'force',
+        base_win_config,
+        ---@type vim.api.keyset.win_config
+        {
+          anchor = 'NW',
+          row = 0,
+          col = 0,
+          width = columns,
+        }
+      )
+    else
+      local width = expand and math.ceil(columns * 0.6)
+        or math.ceil(columns * 0.4)
+      return vim.tbl_extend(
+        'force',
+        base_win_config,
+        ---@type vim.api.keyset.win_config
+        {
+          relative = 'editor',
+          row = 0,
+          col = width,
+          width = width,
+        }
+      )
+    end
   end
 end
 

@@ -1,7 +1,7 @@
 local columns = vim.api.nvim_get_option_value('columns', {})
 local anchor = 'NW'
 local col = 0
-if columns <= 140 then
+if columns <= 180 then
   anchor = 'NE'
   col = columns
 end
