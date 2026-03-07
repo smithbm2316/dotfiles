@@ -60,9 +60,12 @@ tmn() {
   local session="$1"
   if [ -z "$session" ]; then
     tmux \
-      new -n code -s "$(basename $PWD)" \; \
-      neww -n serve \; \
-      splitw -t serve -v
+      new -n editor -s "$(basename $PWD)" \; \
+      splitw -h -t editor -l 60% \; \
+      neww -n agent \; \
+      splitw -h -t agent -l 60% \; \
+      selectw -t editor \; \
+      selectp -t 2
   else
     tmux new -s "$session"
   fi
@@ -210,13 +213,13 @@ cpenv() {
     done
 }
 
-gwa() {
-  local based_off_of="origin/$2"
-  if [ -z "$2" ]; then
-    based_off_of="origin/main"
-  fi
-  git worktree add -b "ben-smith/$1" "$1" "$based_off_of"
-}
+# gwa() {
+#   local based_off_of="origin/$2"
+#   if [ -z "$2" ]; then
+#     based_off_of="origin/main"
+#   fi
+#   git worktree add -b "ben-smith/$1" "$1" "$based_off_of"
+# }
 
 # show more options when using pgrep
 # https://serverfault.com/a/77167
@@ -496,9 +499,4 @@ agent() {
       cursor-agent $@
     ;;
   esac
-}
-
-# sandboxed pi
-spi() {
-  pi -e ~/dotfiles/pi-coding-agent/sandbox $@
 }
