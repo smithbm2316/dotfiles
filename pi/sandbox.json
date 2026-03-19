@@ -5,9 +5,25 @@
     "deniedDomains": []
   },
   "filesystem": {
-    "denyRead": ["/Users", "/home", "~"],
-    "allowRead": [".", "~/.local/share/pnpm"],
-    "allowWrite": [".", "/tmp"],
-    "denyWrite": [".env", ".env.*", "*.pem", "*.key"]
+    "denyRead": [
+      "/Users",
+      "/home",
+      "~"
+    ],
+    "allowRead": [
+      ".",
+      "~/.local/share/pnpm",
+      "~/.local/bin"
+    ],
+    "allowWrite": [
+      ".",
+      "/tmp"
+    ],
+    "denyWrite": [
+      ".env",
+      ".env.*",
+      "*.pem",
+      "*.key"
+    ]
   }
 }

@@ -1,20 +1,23 @@
 {
-  "lastChangelogVersion": "0.60.0",
+  "lastChangelogVersion": "0.61.0",
   "branchSummary.skipPrompt": true,
-  "defaultModel": "gpt-5.4",
-  "defaultProvider": "openai-codex",
-  "defaultThinkingLevel": "xhigh",
-  "hideThinkingBlock": false,
+  "hideThinkingBlock": true,
+  "defaultProvider": "opencode-go",
+  "defaultModel": "kimi-k2.5",
+  "defaultThinkingLevel": "high",
   "quietStartup": true,
   "treeFilterMode": "user-only",
   "enabledModels": [
-    "openai-codex/gpt-5.4",
-    "openai-codex/gpt-5.3-codex",
     "opencode-go/kimi-k2.5",
-    "opencode-go/minimax-m2.5",
-    "openai-codex/gpt-5.3-codex-spark",
+    "openai-codex/gpt-5.4",
     "anthropic/claude-opus-4-6",
-    "opencode-go/glm-5"
+    "openai-codex/gpt-5.3-codex",
+    "openai-codex/gpt-5.4-mini",
+    "openai-codex/gpt-5.3-codex-spark",
+    "opencode/mimo-v2-omni-free",
+    "opencode/mimo-v2-pro-free",
+    "opencode/nemotron-3-super-free",
+    "opencode/minimax-m2.5-free"
   ],
   "tools": [
     "bash",
@@ -31,8 +34,7 @@
   "packages": [
     "git:github.com/aliou/pi-guardrails",
     "git:github.com/lajarre/pi-vim",
-    "git:github.com/Whamp/pi-token-burden",
-    "git:git@github.com:smithbm2316/pi-sandbox"
+    "git:github.com/smithbm2316/pi-sandbox",
+    "git:github.com/Whamp/pi-token-burden"
   ]
 }
-

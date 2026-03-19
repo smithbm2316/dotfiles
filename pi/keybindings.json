@@ -1,30 +1,30 @@
 {
-  "cursorDown": [
-    "down",
-    "ctrl+n"
-  ],
-  "cursorUp": [
+  "tui.editor.cursorUp": [
     "up",
     "ctrl+p"
   ],
-  "cycleModelBackward": "ctrl+shift+o",
-  "cycleModelForward": "ctrl+o",
-  "cycleThinkingLevel": "ctrl+r",
-  "deleteWordBackward": [
+  "tui.editor.cursorDown": [
+    "down",
+    "ctrl+n"
+  ],
+  "tui.editor.deleteWordBackward": [
     "ctrl+w",
     "alt+backspace"
   ],
-  "expandTools": "ctrl+t",
-  "selectDown": [
-    "down",
-    "ctrl+n"
-  ],
-  "selectModel": "ctrl+q",
-  "selectUp": [
+  "tui.select.up": [
     "up",
     "ctrl+p"
   ],
-  "toggleSessionNamedFilter": "ctrl+shift+n",
-  "toggleSessionPath": "ctrl+shift+p",
-  "toggleThinking": "ctrl+shift+t"
+  "tui.select.down": [
+    "down",
+    "ctrl+n"
+  ],
+  "app.thinking.cycle": "ctrl+r",
+  "app.model.cycleForward": "ctrl+o",
+  "app.model.cycleBackward": "ctrl+shift+o",
+  "app.model.select": "ctrl+q",
+  "app.tools.expand": "ctrl+t",
+  "app.thinking.toggle": "ctrl+shift+t",
+  "app.session.toggleNamedFilter": "ctrl+shift+n",
+  "app.session.togglePath": "ctrl+shift+p"
 }

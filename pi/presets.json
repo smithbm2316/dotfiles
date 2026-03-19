@@ -1,9 +1,9 @@
 {
   "implement": {
     "default": true,
-    "provider": "openai-codex",
-    "model": "gpt-5.3-codex",
-    "defaultThinkingLevel": "xhigh",
+    "provider": "opencode-go",
+    "model": "kimi-k2.5",
+    "defaultThinkingLevel": "high",
     "tools": [
       "bash",
       "edit",
@@ -16,8 +16,8 @@
   },
   "read": {
     "provider": "openai-codex",
-    "model": "gpt-5.3-codex",
-    "defaultThinkingLevel": "medium",
+    "model": "gpt-5.4",
+    "defaultThinkingLevel": "xhigh",
     "tools": [
       "read",
       "grep",
@@ -27,7 +27,7 @@
   },
   "plan": {
     "provider": "openai-codex",
-    "model": "gpt-5.3-codex",
+    "model": "gpt-5.4",
     "defaultThinkingLevel": "xhigh",
     "tools": [
       "read",
@@ -38,7 +38,7 @@
   },
   "chat": {
     "provider": "openai-codex",
-    "model": "gpt-5.3-codex",
+    "model": "gpt-5.4",
     "defaultThinkingLevel": "off",
     "tools": []
   }
