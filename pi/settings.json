@@ -1,17 +1,17 @@
 {
   "lastChangelogVersion": "0.60.0",
   "branchSummary.skipPrompt": true,
-  "defaultModel": "gpt-5.3-codex",
+  "defaultModel": "gpt-5.4",
   "defaultProvider": "openai-codex",
   "defaultThinkingLevel": "xhigh",
   "hideThinkingBlock": false,
   "quietStartup": true,
   "treeFilterMode": "user-only",
   "enabledModels": [
+    "openai-codex/gpt-5.4",
     "openai-codex/gpt-5.3-codex",
     "opencode-go/kimi-k2.5",
     "opencode-go/minimax-m2.5",
-    "openai-codex/gpt-5.4",
     "openai-codex/gpt-5.3-codex-spark",
     "anthropic/claude-opus-4-6",
     "opencode-go/glm-5"
@@ -35,3 +35,4 @@
     "git:git@github.com:smithbm2316/pi-sandbox"
   ]
 }
+

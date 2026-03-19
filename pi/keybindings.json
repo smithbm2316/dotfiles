@@ -7,13 +7,14 @@
     "up",
     "ctrl+p"
   ],
-  "cycleModelBackward": "ctrl+shift+x",
-  "cycleModelForward": "ctrl+x",
+  "cycleModelBackward": "ctrl+shift+o",
+  "cycleModelForward": "ctrl+o",
   "cycleThinkingLevel": "ctrl+r",
   "deleteWordBackward": [
     "ctrl+w",
     "alt+backspace"
   ],
+  "expandTools": "ctrl+t",
   "selectDown": [
     "down",
     "ctrl+n"
@@ -23,6 +24,7 @@
     "up",
     "ctrl+p"
   ],
-  "toggleSessionNamedFilter": "ctrl+o",
-  "toggleSessionPath": "ctrl+x"
+  "toggleSessionNamedFilter": "ctrl+shift+n",
+  "toggleSessionPath": "ctrl+shift+p",
+  "toggleThinking": "ctrl+shift+t"
 }
