@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.56.3",
+  "lastChangelogVersion": "0.60.0",
   "branchSummary.skipPrompt": true,
   "defaultModel": "gpt-5.3-codex",
   "defaultProvider": "openai-codex",
@@ -29,7 +29,9 @@
     "+extensions/preset.ts"
   ],
   "packages": [
+    "git:github.com/aliou/pi-guardrails",
+    "git:github.com/lajarre/pi-vim",
     "git:github.com/Whamp/pi-token-burden",
-    "git:git@github.com:lajarre/pi-vim.git"
+    "git:git@github.com:smithbm2316/pi-sandbox"
   ]
 }
