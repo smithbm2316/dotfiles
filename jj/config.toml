@@ -4,8 +4,10 @@ email = 'ben@bensmith.sh'
 
 [ui]
 default-command = 'ls'
-pager = 'delta -s'
-diff-formatter = ':git'
+diff-formatter = 'delta'
+
+[merge-tools.delta]
+diff-args=['-s', '$left', '$right', '--width=$width']
 
 [colors]
 change_id = 'bright red'
@@ -20,6 +22,9 @@ remote_bookmarks = 'bright red'
 'working_copy remote_bookmarks' = 'bright red'
 
 [aliases]
+d = ['diff']
+ds = ['diff', '--config', 'merge-tools.delta.diff-args=["-s", "$left", "$right", "--width=$width"]']
+du = ['diff', '--config', 'merge-tools.delta.diff-args=["$left", "$right", "--width=$width"]']
 ls = ['log', '-r', '(trunk()..@):: | (trunk()..@)-']
 ll = ['log', '-r', 'present(@) | ancestors(immutable_heads().., 2) | trunk()']
 l = ['ll']
