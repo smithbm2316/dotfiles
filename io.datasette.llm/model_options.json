@@ -1,0 +1,19 @@
+{
+  "openai-codex/gpt-5.2": {
+    "verbosity": "low"
+  },
+  "openai-codex/gpt-5.3-codex": {
+    "verbosity": "low"
+  },
+  "openai-codex/gpt-5.4": {
+    "verbosity": "low"
+  },
+  "openai-codex/gpt-5.4-mini": {
+    "reasoning_effort": "low",
+    "verbosity": "low"
+  },
+  "openai-codex/gpt-5.5": {
+    "reasoning_effort": "low",
+    "verbosity": "low"
+  }
+}

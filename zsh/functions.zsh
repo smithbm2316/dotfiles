@@ -479,3 +479,22 @@ gcp() {
 
   "$paste_cmd" | xargs git cherry-pick
 }
+
+# ollama helpers
+#
+# * stop all active models
+# * show the info for a model filtered through gum
+ollama-stop() {
+  check_installed ollama || return $?
+
+  for model in $(ollama ls | tail -n +2 | cut -d ' ' -f 1); do
+    ollama stop "$model"
+  done
+}
+ollama-show() {
+  check_installed ollama || return $?
+  check_installed gum || return $?
+
+  model=$(ollama ls | tail -n +2 | cut -d ' ' -f 1 | gum filter --no-sort --limit=1)
+  ollama show "$model"
+}

@@ -131,6 +131,10 @@ pi/sessions/
 jj/repos/
 jj/conf.d/*
 
+# llm cli
+io.datasette.llm/*.db
+io.datasette.llm/llm-ollama/**
+
 # cliamp
 cliamp/*
 !cliamp/config.toml
