@@ -25,12 +25,19 @@ remote_bookmarks = 'bright red'
 d = ['diff']
 ds = ['diff', '--config', 'merge-tools.delta.diff-args=["-s", "$left", "$right", "--width=$width"]']
 du = ['diff', '--config', 'merge-tools.delta.diff-args=["$left", "$right", "--width=$width"]']
+f = ['git', 'fetch']
 ls = ['log', '-r', '(trunk()..@):: | (trunk()..@)-']
 ll = ['log', '-r', 'present(@) | ancestors(immutable_heads().., 2) | trunk()']
 l = ['ll']
+p = ['git', 'push']
 s = ['status']
+# trunk() commands
+# new
+tn = ['new', 'trunk()']
+# rebase
+tr = ['rebase', '-o', 'trunk()', '-b', '@']
 # adapted from: https://danverbraganza.com/writings/most-frequent-jj-commands#jj-tug
-tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
+tug = ['bookmark', 'move', '--from', 'heads(::@- & bookmarks())', '--to', '@-']
 
 [[--scope]]
 --when.repositories = ['~/work']
