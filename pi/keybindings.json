@@ -23,6 +23,7 @@
   "app.model.cycleForward": "ctrl+shift+o",
   "app.model.cycleBackward": "ctrl+shift+i",
   "app.thinking.toggle": "ctrl+t",
+  "app.session.rename": "ctrl+shift+r",
   "app.session.toggleNamedFilter": "ctrl+shift+n",
   "app.session.togglePath": "ctrl+shift+p"
 }

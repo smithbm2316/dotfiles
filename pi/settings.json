@@ -1,21 +1,19 @@
 {
-  "lastChangelogVersion": "0.67.68",
-  "enabledModels": [
-    "openai-codex/gpt-5.4",
-    "openai-codex/gpt-5.4-mini",
-    "opencode-go/kimi-k2.5",
-    "opencode-go/qwen3.6-plus",
-    "opencode-go/minimax-m2.7",
-    "opencode-go/glm-5.1",
-    "opencode-go/mimo-v2-omni",
-    "opencode-go/mimo-v2-pro",
-    "opencode/nemotron-3-super-free",
-    "opencode/minimax-m2.5-free"
-  ],
+  "lastChangelogVersion": "0.80.6",
   "branchSummary.skipPrompt": true,
+  "collapseChangelog": true,
+  "enableInstallTelemetry": false,
   "hideThinkingBlock": false,
   "quietStartup": true,
+  "terminal": {
+    "showTerminalProgress": true
+  },
   "treeFilterMode": "user-only",
+  "enabledModels": [
+    "openai-codex/gpt-5.6-terra",
+    "openai-codex/gpt-5.6-sol",
+    "openai-codex/gpt-5.6-luna"
+  ],
   "tools": [
     "bash",
     "edit",
@@ -28,9 +26,10 @@
   "packages": [
     "git:github.com/aliou/pi-guardrails",
     "git:github.com/lajarre/pi-vim",
-    "git:github.com/smithbm2316/pi-sandbox"
+    "npm:@sysid/pi-sandbox"
   ],
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.4",
-  "defaultThinkingLevel": "xhigh"
+  "defaultModel": "gpt-5.6-terra",
+  "defaultThinkingLevel": "xhigh",
+  "theme": "catppuccin-macchiato"
 }

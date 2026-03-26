@@ -1,12 +1,12 @@
 {
   "name": "pi-extensions",
   "type": "module",
-  "devDependencies": {
-    "@mariozechner/pi-agent-core": "^0.66.1",
-    "@mariozechner/pi-ai": "^0.66.1",
-    "@mariozechner/pi-coding-agent": "^0.66.1",
-    "@mariozechner/pi-tui": "^0.66.1",
-    "typescript": "^6.0.2"
+  "dependencies": {
+    "@earendil-works/pi-agent-core": "^0.80.6",
+    "@earendil-works/pi-ai": "^0.80.6",
+    "@earendil-works/pi-coding-agent": "^0.80.6",
+    "@earendil-works/pi-tui": "^0.80.6",
+    "typescript": "^7.0.2"
   },
   "engines": {
     "node": "24.15.0"

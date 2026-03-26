@@ -8,12 +8,16 @@
     "denyRead": [
       "/Users",
       "/home",
+      "/opt",
       "~"
     ],
     "allowRead": [
       ".",
       "~/.local/share/mise/installs",
-      "~/.local/bin"
+      "~/.local/bin",
+      "/opt/homebrew/bin/rg",
+      "~/.config/ripgrep",
+      "~/.config/git"
     ],
     "allowWrite": [
       ".",
