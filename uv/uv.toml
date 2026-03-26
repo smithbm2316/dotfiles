@@ -1,2 +1,3 @@
 # 7 days 
 exclude-newer = "P7D"
+# exclude-newer-package = { llm = false }
