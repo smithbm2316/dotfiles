@@ -1,5 +1,7 @@
 # Reference: https://github.com/i3/i3/blob/next/etc/config
 # hyper key alias gh issue: https://github.com/nikitabobko/AeroSpace/issues/224
+config-version = 2
+
 # Start AeroSpace at login
 start-at-login = true
 
@@ -16,12 +18,11 @@ enable-normalization-opposite-orientation-for-nested-containers = false
 accordion-padding = 0
 
 # Possible values: tiles|accordion
-default-root-container-layout = 'tiles'
-
+default-root-container-layout = 'accordion'
 # Possible values: horizontal|vertical|auto
 # 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
 #               tall monitor (anything higher than wide) gets vertical orientation
-default-root-container-orientation = 'auto'
+default-root-container-orientation = 'vertical'
 
 # Mouse follows focus when focused monitor changes
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
@@ -45,12 +46,18 @@ outer.right =      0
 [mode.main.binding]
 # launch new terminal window
 alt-shift-ctrl-t = 'exec-and-forget open -n /Applications/Ghostty.app'
+# launch new terminal window that forgets window state
+cmd-alt-shift-ctrl-t = 'exec-and-forget open -n /Applications/Ghostty.app --args --window-save-state=never --title=scratchpad'
 # launch primary browser
-alt-shift-ctrl-b = 'exec-and-forget sleep 1 && /Applications/Zen.app/Contents/MacOS/zen'
+alt-shift-ctrl-b = 'exec-and-forget sleep 1 && /Applications/Brave Browser Nightly.app/Contents/MacOS/Brave Browser Nightly'
 # launch dev browser
 cmd-alt-shift-ctrl-b = 'exec-and-forget sleep 1 && /Applications/Firefox Developer Edition.app/Contents/MacOS/firefox'
 # launch Apps command palette app launcher
 alt-shift-ctrl-o = 'exec-and-forget open -a Apps'
+# launch music player
+alt-shift-ctrl-m = 'exec-and-forget open -n /Applications/Ghostty.app --args --window-save-state=never --title=cliamp -e cliamp'
+# toggle scroll direction
+cmd-alt-shift-ctrl-m = 'exec-and-forget ~/dotfiles/scripts/toggle-scroll-direction.sh'
 
 # i3 wraps focus by default
 alt-shift-ctrl-h = 'focus --boundaries-action wrap-around-the-workspace left'
@@ -69,7 +76,7 @@ cmd-alt-shift-ctrl-a = 'move-node-to-workspace dev'
 cmd-alt-shift-ctrl-s = 'move-node-to-workspace www'
 cmd-alt-shift-ctrl-d = 'move-node-to-workspace msg'
 cmd-alt-shift-ctrl-f = 'move-node-to-workspace media'
-cmd-alt-shift-ctrl-g = 'move-node-to-workspace note'
+cmd-alt-shift-ctrl-g = 'move-node-to-workspace misc'
 
 # window splits and stacks
 alt-shift-ctrl-v = 'split horizontal'
@@ -94,7 +101,15 @@ alt-shift-ctrl-a = 'workspace dev'
 alt-shift-ctrl-s = 'workspace www'
 alt-shift-ctrl-d = 'workspace msg'
 alt-shift-ctrl-f = 'workspace media'
-alt-shift-ctrl-g = 'workspace note'
+alt-shift-ctrl-g = 'workspace misc'
+
+# after-startup-command = [
+#   'layout --workspace dev --root v_accordion',
+#   'layout --workspace www --root v_accordion',
+#   'layout --workspace msg --root v_accordion',
+#   'layout --workspace media --root v_accordion',
+#   'layout --workspace misc --root v_accordion'
+# ]
 
 alt-shift-ctrl-c = 'close --quit-if-last-window'
 
