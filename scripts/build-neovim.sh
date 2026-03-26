@@ -3,6 +3,8 @@ if [ "$(command -v apt)" ]; then
   sudo apt install -y build-essential cmake curl gettext ninja-build unzip 
 elif [ "$(command -v dnf)" ]; then
   sudo dnf -y install ninja-build cmake gcc make unzip gettext curl glibc-gconv-extra
+elif [ "$(uname -s)" = "Darwin" ] && [ "$(command -v brew)" ]; then
+  brew install ninja cmake gettext curl git
 else
   echo 'Neither `apt` or `dnf` is installed, exiting...'
   exit 1
@@ -19,5 +21,5 @@ git pull
 
 # CMAKE_BUILD_TYPE=RelWithDebInfo if you want extra debug info for the build
 make distclean
-make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local/nvim CMAKE_BUILD_TYPE=Release"
+CMAKE_BUILD_TYPE=Release make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local/nvim"
 make install
