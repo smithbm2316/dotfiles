@@ -11,14 +11,6 @@ export HISTFILE="$ZDOTDIR/.histfile"
 export HISTSIZE=10000
 export SAVEHIST=10000
 
-# Programming languages and their dependencies
-export DENOBIN="$HOME/.deno/bin"
-export GOPROXY=direct
-export GOTELEMETRY=off
-export GOBIN="$HOME/go/bin"
-export GOPATH="$HOME/go"
-export LOCALBIN="$HOME/.local/bin"
-
 # Default env variables that are useful
 export EDITOR="nvim"
 export VISUAL="nvim"
@@ -33,6 +25,8 @@ export CALIBRE_USE_DARK_PALETTE=1
 export FZF_DEFAULT_COMMAND="fd --type f --color=never"
 export FZF_DEFAULT_OPTS="--multi --layout=reverse-list --border=rounded --tabstop=2 --bind='ctrl-d:page-down,ctrl-u:page-up'"
 export GLOW_STYLE="$XDG_CONFIG_HOME/glow/catppuccin-macchiato.json"
+export GOPROXY=direct
+export GOTELEMETRY=off
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 export KIT_DISABLE_TELEMETRY=true
@@ -52,11 +46,9 @@ elif [ "$(uname -s)" = "Darwin" ]; then
   export HOMEBREW_REPOSITORY="/opt/homebrew/Homebrew"
 fi
 
-path+=("$LOCALBIN")
-path+=("$HOME/.local/nvim/bin")
-path+=("$GOBIN")
-path+=("$DENOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
+path+=("$HOME/.local/nvim/bin")
+path+=("$HOME/.local/bin")
 path+=("$CWD_BIN")
 
 # https://github.com/sharkdp/vivid/blob/master/themes/catppuccin-macchiato.yml

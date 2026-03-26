@@ -12,6 +12,8 @@ pnpm = "latest"
 "npm:typescript" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
+deno = "latest"
+go = "latest"
 
 [settings]
 
