@@ -203,12 +203,12 @@ vim.keymap.set(
   MiniExtra.pickers.commands,
   { desc = '[g]rep [e]x-commands' }
 )
--- vim.keymap.set(
---   'n',
---   '<leader>gc',
---   MiniExtra.pickers.colorschemes,
---   { desc = '[g]rep [c]olorschemes' }
--- )
+vim.keymap.set(
+  'n',
+  '<leader>gc',
+  MiniExtra.pickers.colorschemes,
+  { desc = '[g]rep [c]olorschemes' }
+)
 vim.keymap.set(
   'n',
   '<leader>gd',

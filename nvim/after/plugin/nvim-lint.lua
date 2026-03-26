@@ -16,7 +16,7 @@ lint.linters_by_ft = {
   tmpl = { 'htmlhint' },
 }
 
-vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufRead', 'BufWritePost' }, {
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost' }, {
   callback = function()
     if not vim.diagnostic.is_enabled { bufnr = 0 } then
       return
@@ -30,7 +30,7 @@ vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufRead', 'BufWritePost' }, {
     then
       -- You can call `try_lint` with a linter name or a list of names to always
       -- run specific linters, independent of the `linters_by_ft` configuration
-      require('lint').try_lint 'eslint_d'
+      require('lint').try_lint 'eslint' -- eslint_d
     else
       -- try_lint without arguments runs the linters defined in `linters_by_ft`
       -- for the current filetype

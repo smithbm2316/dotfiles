@@ -34,6 +34,7 @@ local ensure_installed = {
   'luap',
   'markdown',
   'markdown_inline',
+  'mermaid',
   'query',
   'regex',
   'scss',

@@ -21,37 +21,37 @@ local default_format_opts = {
   -- undojoin = true,
 }
 
-vim.api.nvim_create_autocmd('BufWritePre', {
-  desc = 'Format before save',
-  pattern = '*',
-  group = vim.api.nvim_create_augroup('FormatConfig', { clear = true }),
-  callback = function(ev)
-    if vim.g.disable_autoformat or vim.b[ev.buf].disable_autoformat then
-      return
-    end
-
-    local conform_opts =
-      vim.tbl_extend('force', default_format_opts, { bufnr = ev.buf })
-    local client = vim.lsp.get_clients({ name = 'ts_ls', bufnr = ev.buf })[1]
-
-    if not client then
-      require('conform').format(conform_opts)
-      return
-    end
-
-    -- local request_result = client:request_sync('workspace/executeCommand', {
-    --   command = '_typescript.organizeImports',
-    --   arguments = { vim.api.nvim_buf_get_name(ev.buf) },
-    -- })
-    --
-    -- if request_result and request_result.err then
-    --   vim.notify(request_result.err.message, vim.log.levels.ERROR)
-    --   return
-    -- end
-
-    require('conform').format(conform_opts)
-  end,
-})
+-- vim.api.nvim_create_autocmd('BufWritePre', {
+--   desc = 'Format before save',
+--   pattern = '*',
+--   group = vim.api.nvim_create_augroup('FormatConfig', { clear = true }),
+--   callback = function(ev)
+--     if vim.g.disable_autoformat or vim.b[ev.buf].disable_autoformat then
+--       return
+--     end
+--
+--     local conform_opts = vim.tbl_extend('force', default_format_opts, { bufnr = ev.buf })
+--
+--     -- local client = vim.lsp.get_clients({ name = 'ts_ls', bufnr = ev.buf })[1]
+--
+--     -- if not client then
+--     --   require('conform').format(conform_opts)
+--     --   return
+--     -- end
+--
+--     -- local request_result = client:request_sync('workspace/executeCommand', {
+--     --   command = '_typescript.organizeImports',
+--     --   arguments = { vim.api.nvim_buf_get_name(ev.buf) },
+--     -- })
+--     --
+--     -- if request_result and request_result.err then
+--     --   vim.notify(request_result.err.message, vim.log.levels.ERROR)
+--     --   return
+--     -- end
+--
+--     require('conform').format(conform_opts)
+--   end,
+-- })
 
 require('conform').setup {
   -- Set default options
@@ -60,11 +60,17 @@ require('conform').setup {
   -- It will pass the table to conform.format().
   -- This can also be a function that returns the table.
   format_on_save = function(bufnr)
-    -- Disable with a global or buffer-local variable
-    if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-      return
+    -- Disable with a global or buffer-local variable or when a filetype is disabled
+    local disable_fts = { toml = true }
+    if
+      vim.g.disable_autoformat
+      or vim.b[bufnr].disable_autoformat
+      or disable_fts[vim.bo[bufnr].filetype]
+    then
+      return nil
+    else
+      return default_format_opts
     end
-    return default_format_opts
   end,
   formatters_by_ft = {
     go = { 'gofmt' },
@@ -72,9 +78,9 @@ require('conform').setup {
     javascript = jsfmt,
     javascriptreact = jsfmt,
     json = { 'fixjson' },
-    -- jsonc = { 'fixjson' },
     lua = { 'stylua' },
     python = { 'ruff_fmt' },
+    toml = { 'true' },
     typescript = jsfmt,
     typescriptreact = jsfmt,
   },

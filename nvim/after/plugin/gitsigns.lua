@@ -9,61 +9,70 @@ gitsigns.setup {
 
 vim.keymap.set('n', '<leader>gn', function()
   gitsigns.nav_hunk 'next'
-end, { desc = 'Next hunk' })
+end, { desc = '[g]it [n]ext hunk' })
 
 vim.keymap.set('n', '<leader>gp', function()
   gitsigns.nav_hunk 'prev'
-end, { desc = 'Previous hunk' })
+end, { desc = '[g]it [p]revious hunk' })
+
+vim.keymap.set('n', '<leader>gb', function()
+  gitsigns.blame_line { full = true }
+end, { desc = '[g]it [b]lame line' })
+
+vim.keymap.set('n', '<leader>gB', gitsigns.blame, { desc = '[g]it [B]lame' })
+
+vim.keymap.set(
+  'n',
+  '<leader>gR',
+  gitsigns.reset_buffer,
+  { desc = '[g]it [R]eset buffer' }
+)
+
+vim.keymap.set(
+  'n',
+  '<leader>gq',
+  '<cmd>Gitsigns setqflist<cr>',
+  { desc = '[g]it hunks to [q]uickfix list' }
+)
 
 vim.keymap.set(
   { 'n', 'v' },
   '<leader>hs',
   gitsigns.stage_hunk,
-  { desc = 'Stage hunk' }
+  { desc = 'git [h]unk [s]tage' }
 )
 
 vim.keymap.set(
   'n',
   '<leader>hu',
   gitsigns.undo_stage_hunk,
-  { desc = 'Unstage hunk' }
+  { desc = 'git [h]unk [u]nstage' }
 )
 
 vim.keymap.set(
   { 'n', 'v' },
   '<leader>hr',
   gitsigns.reset_hunk,
-  { desc = 'Reset hunk' }
+  { desc = 'git [h]unk [r]eset' }
 )
 
 vim.keymap.set(
   'n',
   '<leader>hR',
   gitsigns.reset_buffer,
-  { desc = 'Reset buffer' }
+  { desc = 'git [h]unk [R]eset buffer' }
+)
+
+vim.keymap.set(
+  'n',
+  '<leader>hp',
+  gitsigns.preview_hunk_inline,
+  { desc = 'git [h]unk [p]review inline' }
 )
 
 vim.keymap.set(
   'n',
   '<leader>hh',
   gitsigns.preview_hunk,
-  { desc = 'Preview hunk' }
-)
-
-vim.keymap.set('n', '<leader>hb', function()
-  gitsigns.blame_line(true)
-end, { desc = 'Blame line' })
-
-vim.keymap.set(
-  'n',
-  '<leader>hS',
-  gitsigns.stage_buffer,
-  { desc = 'Stage buffer' }
-)
-
-vim.keymap.set(
-  'n',
-  '<leader>hU',
-  gitsigns.reset_buffer_index,
-  { desc = 'Reset buffer index' }
+  { desc = 'git [h]unk preview [h]over' }
 )

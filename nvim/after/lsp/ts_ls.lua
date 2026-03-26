@@ -44,7 +44,15 @@
 ---@type vim.lsp.Config
 return {
   init_options = { hostInfo = 'neovim' },
-  cmd = { 'typescript-language-server', '--stdio' },
+  cmd = function(dispatchers, config)
+    local cmd
+    if vim.fn.getcwd() == vim.env.HOME .. '/work/astra' then
+      cmd = { 'typescript-language-server', '--stdio' }
+    else
+      cmd = { 'tsc', '--lsp', '--stdio' }
+    end
+    return vim.lsp.rpc.start(cmd, dispatchers)
+  end,
   filetypes = {
     'javascript',
     'javascriptreact',

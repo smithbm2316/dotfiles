@@ -29,7 +29,6 @@ local plugins = {
   'tpope/vim-repeat',
   'tpope/vim-surround',
   'vim-scripts/ReplaceWithRegister',
-  'zenbones-theme/zenbones.nvim',
   'zhisme/copy_with_context.nvim',
 
   -- to vendor:
