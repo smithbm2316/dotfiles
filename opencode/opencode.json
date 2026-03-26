@@ -2,20 +2,10 @@
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": false,
   "share": "disabled",
-  "theme": "catppuccin",
-  "keybinds": {
-    "leader": "ctrl+x",
-    "messages_page_up": "ctrl+b",
-    "messages_page_down": "ctrl+f",
-    "messages_half_page_up": "ctrl+u",
-    "messages_half_page_down": "ctrl+d",
-    "messages_first": "ctrl+g",
-    "messages_last": "ctrl+shift+g"
-  },
   "permission": {
     "bash": {
       "*": "ask",
-      "git *": "allow",
+      "git *": "ask",
       "npm test *": "allow",
       "rm *": "deny"
     },
@@ -24,56 +14,43 @@
     "list": "allow",
     "lsp": "allow",
     "read": {
-      "*": "allow",
+      "*": "ask",
+      ".": "allow",
+      "/tmp": "allow",
+      "*.env.example": "allow",
       "*.env": "deny",
       "*.env.*": "deny",
-      "*.env.example": "allow"
+      "*.key": "deny",
+      "*.pem": "deny"
+    },
+    "edit": {
+      "*": "ask",
+      ".": "allow",
+      "/tmp": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.key": "deny",
+      "*.pem": "deny"
+    },
+    "external_directory": {
+      "~/.local/share/pnpm/**": "allow",
+      "~/.local/bin/**": "allow"
     },
     "todoread": "allow",
     "todowrite": "allow",
+    "codesearch": "ask",
     "skill": "ask",
-    "codesearch": "deny",
-    "doom_loop": "deny",
-    "edit": "deny",
-    "external_directory": "deny",
-    "webfetch": "deny",
-    "websearch": "deny"
+    "webfetch": "ask",
+    "websearch": "ask",
+    "task": "deny",
+    "doom_loop": "deny"
   },
-  "default_agent": "plan",
-  "model": "openai/gpt-5.2-codex",
+  "plugin": [
+    "opencode-cursor-oauth"
+  ],
   "provider": {
-    "ollama": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama (local)",
-      "models": {
-        "deepseek-r1:32b": {
-          "name": "deepseek-r1:32b"
-        },
-        "deepseek-r1:14b": {
-          "name": "deepseek-r1:14b"
-        },
-        "deepseek-r1:8b": {
-          "name": "deepseek-r1:8b"
-        },
-        "functiongemma:270m": {
-          "name": "functiongemma:270m"
-        },
-        "gemma:270m": {
-          "name": "gemma:270m"
-        },
-        "gemma:27b": {
-          "name": "gemma:27b"
-        },
-        "gpt-oss:20b": {
-          "name": "gpt-oss:20b"
-        },
-        "mistral-small3.2:24b": {
-          "name": "mistral-small3.2:24b"
-        },
-        "qwen3-coder:30b": {
-          "name": "qwen3-coder:30b"
-        }
-      }
+    "cursor": {
+      "name": "Cursor"
     }
   }
 }
