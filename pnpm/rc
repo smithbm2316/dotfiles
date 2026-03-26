@@ -1,0 +1,5 @@
+minimum-release-age=10080
+minimum-release-age-exclude='@mariozechner/*'
+block-exotic-subdeps=true
+strict-dep-builds=true
+trust-policy=no-downgrade

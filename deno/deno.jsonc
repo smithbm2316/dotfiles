@@ -1,0 +1,27 @@
+// boilerplate for a sensible default deno config, since deno doesn't have a
+// global config that it reads from
+{
+  "test": {
+    "include": ["./src/"]
+  },
+  "imports": {
+    "@/": "./src/",
+  },
+  "lint": {
+    "include": ["./src"],
+    "report": "pretty"
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "proseWrap": "preserve",
+    "singleQuote": true,
+  },
+  "compilerOptions": {
+    "checkJs": true,
+    "jsx": "precompile",
+    "jsxImportSource": "hono/jsx"
+  },
+  "allowScripts": false,
+  // period: 1 week/7 days
+  "minimumDependencyAge": "P7D",
+}
