@@ -82,8 +82,6 @@ fi
 # os-specific adjustments
 case "$OSTYPE" in
   linux*)
-    # check if linux is debian (useful if i end up using multiple linux distros)
-    # if [ -f /etc/debian_version ]; then fi
     ;;
   darwin*)
     # make sure that gnu coreutils are at the end of $PATH so that they are

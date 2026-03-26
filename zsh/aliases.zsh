@@ -1,7 +1,7 @@
 # turn on automatic colors for ls
 alias ls="ls --color=auto --group-directories-first"
 alias l="ls --color=auto --group-directories-first -lhA"
-alias tree="tree -a -I 'node_modules|.git|.venv|venv'"
+alias tree="tree -a -I 'node_modules|.git|.jj|.venv|venv|.shopify'"
 
 # alias for "make" that suppresses all output (useful when using as a task runner)
 alias mk="make -s"
@@ -18,3 +18,8 @@ alias grep="grep --color=always"
 
 # update dotfiles symlinks if necessary
 alias dotsup="cd $HOME && stow -vt ~/.config dotfiles && cd -"
+
+# fix cursor cli because they don't fix their own shit. have to manually tell
+# macos quarantine to permit the cursor cli to run
+# https://forum.cursor.com/t/cursor-agent-merkle-tree-napi-darwin-arm64-node-not-opened/155056/3
+alias fixcursor="xattr -rd com.apple.quarantine /opt/homebrew/Caskroom/cursor-cli/"
