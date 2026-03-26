@@ -1,13 +1,28 @@
-[user]
-name = 'Ben Smith'
-email = 'ben@bensmith.sh'
+'$schema' = 'https://jj-vcs.github.io/jj/latest/config-schema.json'
+
+[aliases]
+c = ['commit']
+d = ['diff']
+ds = ['diff', '--config', 'merge-tools.delta.diff-args=["-s", "$left", "$right", "--width=$width"]']
+du = ['diff', '--config', 'merge-tools.delta.diff-args=["$left", "$right", "--width=$width"]']
+f = ['git', 'fetch']
+ls = ['log', '-r', '(trunk()..@):: | (trunk()..@)-']
+l = ['log', '-r', 'present(@) | ancestors(immutable_heads().., 2) | trunk()']
+nt = ['new', 'trunk()'] # new commit based off of `trunk()`
+p = ['git', 'push']
+s = ['status']
+rt = ['rebase', '-o', 'trunk()'] # rebase current commit or specified revset onto `trunk()`
+rta = ['rebase', '-o', 'trunk()', '-s', 'fork_point(bookmarks())+ & ::bookmarks()'] # rebase ALL local bookmarks onto `trunk()`
+# tug = ['bookmark', 'move', '--from', 'heads(::@- & bookmarks())', '--to', '@-'] # adapted from: https://danverbraganza.com/writings/most-frequent-jj-commands#jj-tug
+tug = ['bookmark', 'advance', '-t', '@-']
 
 [ui]
 default-command = 'ls'
-diff-formatter = 'delta'
+diff-formatter = "delta"
 
 [merge-tools.delta]
-diff-args=['-s', '$left', '$right', '--width=$width']
+diff-expected-exit-codes = [0, 1]
+diff-args = ["--side-by-side", "$left", "$right", "--width=$width"]
 
 [colors]
 change_id = 'bright red'
@@ -21,25 +36,15 @@ remote_bookmarks = 'bright red'
 'working_copy local_bookmarks' = 'bright red'
 'working_copy remote_bookmarks' = 'bright red'
 
-[aliases]
-d = ['diff']
-ds = ['diff', '--config', 'merge-tools.delta.diff-args=["-s", "$left", "$right", "--width=$width"]']
-du = ['diff', '--config', 'merge-tools.delta.diff-args=["$left", "$right", "--width=$width"]']
-f = ['git', 'fetch']
-ls = ['log', '-r', '(trunk()..@):: | (trunk()..@)-']
-ll = ['log', '-r', 'present(@) | ancestors(immutable_heads().., 2) | trunk()']
-l = ['ll']
-p = ['git', 'push']
-s = ['status']
-# trunk() commands
-# new
-tn = ['new', 'trunk()']
-# rebase
-tr = ['rebase', '-o', 'trunk()', '-b', '@']
-# adapted from: https://danverbraganza.com/writings/most-frequent-jj-commands#jj-tug
-tug = ['bookmark', 'move', '--from', 'heads(::@- & bookmarks())', '--to', '@-']
+[templates]
+draft_commit_description = '''
+concat(
+  builtin_draft_commit_description,
+  "\nJJ: ignore-rest\n",
+  diff.git(),
+)
+'''
 
-[[--scope]]
---when.repositories = ['~/work']
-[--scope.user]
-email = 'bensmith@thuma.co'
+[user]
+name = 'Ben Smith'
+email = 'ben@bensmith.sh'

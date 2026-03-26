@@ -129,6 +129,7 @@ pi/sessions/
 
 # jujutsu
 jj/repos/
+jj/conf.d/*
 
 # cliamp
 cliamp/*
