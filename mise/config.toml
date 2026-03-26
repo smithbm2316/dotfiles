@@ -1,0 +1,19 @@
+[tools]
+node = "lts"
+"npm:@dotenvx/dotenvx" = "latest"
+pnpm = "latest"
+"npm:@mariozechner/pi-coding-agent" = "latest"
+"npm:@tailwindcss/language-server" = "latest"
+"npm:bash-language-server" = "latest"
+"npm:contentful" = "latest"
+"npm:eslint_d" = "latest"
+"npm:fixjson" = "latest"
+"npm:prettier" = "latest"
+"npm:typescript" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+
+[settings]
+
+[settings.npm]
+package_manager = "pnpm"

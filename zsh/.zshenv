@@ -18,10 +18,6 @@ export GOTELEMETRY=off
 export GOBIN="$HOME/go/bin"
 export GOPATH="$HOME/go"
 export LOCALBIN="$HOME/.local/bin"
-export PHP_INI_SCAN_DIR="$XDG_CONFIG_HOME/herd-lite/bin"
-export PNPM_HOME="$HOME/.local/share/pnpm"
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
-export PI_CODING_AGENT_DIR="$HOME/dotfiles/pi"
 
 # Default env variables that are useful
 export EDITOR="nvim"
@@ -32,16 +28,18 @@ export MANWIDTH=80
 
 # Application env variables
 export ABBR_USER_ABBREVIATIONS_FILE="$XDG_CONFIG_HOME/zsh/abbreviations.zsh"
+export ASTRO_TELEMETRY_DISABLED=1
 export CALIBRE_USE_DARK_PALETTE=1
 export FZF_DEFAULT_COMMAND="fd --type f --color=never"
 export FZF_DEFAULT_OPTS="--multi --layout=reverse-list --border=rounded --tabstop=2 --bind='ctrl-d:page-down,ctrl-u:page-up'"
 export GLOW_STYLE="$XDG_CONFIG_HOME/glow/catppuccin-macchiato.json"
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
-export ASTRO_TELEMETRY_DISABLED=1
 export KIT_DISABLE_TELEMETRY=true
 export NEXT_TELEMETRY_DISABLED=1
 export OLLAMA_NO_CLOUD=1
+export PI_CODING_AGENT_DIR="$HOME/dotfiles/pi"
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 export STORYBOOK_DISABLE_TELEMETRY=1
 
 if [ "$(uname -s)" = "Linux" ]; then
@@ -56,11 +54,9 @@ fi
 
 path+=("$LOCALBIN")
 path+=("$HOME/.local/nvim/bin")
-path+=("$PNPM_HOME")
 path+=("$GOBIN")
 path+=("$DENOBIN")
 path+=("$HOMEBREW_PREFIX/bin")
-path+=("$PHP_INI_SCAN_DIR")
 path+=("$CWD_BIN")
 
 # https://github.com/sharkdp/vivid/blob/master/themes/catppuccin-macchiato.yml

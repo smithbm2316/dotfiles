@@ -14,9 +14,6 @@ setopt MENU_COMPLETE
 
 zstyle :compinstall filename "$XDG_CONFIG_HOME/zsh/.zshrc"
 
-# load zsh completions
-autoload -Uz compinit; compinit
-
 # add completions for hidden/dot files
 # and load my custom prompt
 _comp_options+=(globdots)
@@ -27,6 +24,22 @@ autoload -Uz vim-bindings.zsh; vim-bindings.zsh
 
 # add support for zsh completions via 
 fpath=("$ZDOTDIR/plugins/zsh-completions/src" $fpath)
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+if [ -d "$HOME/.docker/completions" ]; then
+  fpath=("$HOME/.docker/completions" $fpath)
+fi
+
+# load fzf completions
+if command -v fzf &>/dev/null; then
+  source <(fzf --zsh)
+fi
+
+# mise
+eval "$($HOME/.local/bin/mise activate zsh)"
+
+# load zsh completions
+autoload -Uz compinit; compinit
 
 # add support for fish-style abbreviations in zsh
 # typeset -A ZSH_HIGHLIGHT_REGEXP
