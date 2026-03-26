@@ -35,7 +35,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         ev.buf
       )
     then
-      vim.lsp.document_color.enable(true, ev.buf, {
+      vim.lsp.document_color.enable(true, { bufnr = ev.buf }, {
         style = 'virtual',
       })
     end

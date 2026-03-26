@@ -39,15 +39,15 @@ vim.api.nvim_create_autocmd('BufWritePre', {
       return
     end
 
-    local request_result = client:request_sync('workspace/executeCommand', {
-      command = '_typescript.organizeImports',
-      arguments = { vim.api.nvim_buf_get_name(ev.buf) },
-    })
-
-    if request_result and request_result.err then
-      vim.notify(request_result.err.message, vim.log.levels.ERROR)
-      return
-    end
+    -- local request_result = client:request_sync('workspace/executeCommand', {
+    --   command = '_typescript.organizeImports',
+    --   arguments = { vim.api.nvim_buf_get_name(ev.buf) },
+    -- })
+    --
+    -- if request_result and request_result.err then
+    --   vim.notify(request_result.err.message, vim.log.levels.ERROR)
+    --   return
+    -- end
 
     require('conform').format(conform_opts)
   end,
