@@ -6,8 +6,8 @@ font-style = Medium SemiCondensed
 font-style-italic = Medium SemiCondensed Oblique
 font-style-bold = ExtraBold SemiCondensed
 font-style-bold-italic = ExtraBold SemiCondensed Oblique
-# font-size = 12.5
-font-size = 13
+# font-size = 13
+font-size = 15
 
 keybind = ctrl+shift+c=copy_to_clipboard
 keybind = ctrl+shift+v=paste_from_clipboard
@@ -27,3 +27,44 @@ auto-update = off
 notify-on-command-finish = unfocused
 notify-on-command-finish-action = no-bell,notify
 # notify-on-command-finish-after = 5s
+
+mouse-hide-while-typing = true
+# scrollback-limit = 100000
+
+keybind = ctrl+space>s=new_split:down
+keybind = ctrl+space>v=new_split:right
+
+keybind = ctrl+space>h=goto_split:left
+keybind = ctrl+space>j=goto_split:bottom
+keybind = ctrl+space>k=goto_split:top
+keybind = ctrl+space>l=goto_split:right
+
+keybind = ctrl+space>z=toggle_split_zoom
+
+keybind = ctrl+space>c=new_tab
+keybind = ctrl+space>n=next_tab
+keybind = ctrl+space>p=previous_tab
+
+keybind = ctrl+space>f=start_search
+keybind = ctrl+space>o=toggle_command_palette
+keybind = ctrl+space>t=toggle_quick_terminal
+keybind = ctrl+space>u=copy_title_to_clipboard
+keybind = ctrl+space>x=close_surface
+
+keybind = ctrl+space>r>r=reload_config
+keybind = ctrl+space>r>h=resize_split:left,50
+keybind = ctrl+space>r>j=resize_split:down,50
+keybind = ctrl+space>r>k=resize_split:up,50
+keybind = ctrl+space>r>l=resize_split:right,50
+
+keybind = ctrl+space>1=goto_tab:1
+keybind = ctrl+space>2=goto_tab:2
+keybind = ctrl+space>3=goto_tab:3
+keybind = ctrl+space>4=goto_tab:4
+keybind = ctrl+space>5=goto_tab:5
+keybind = ctrl+space>6=goto_tab:6
+keybind = ctrl+space>7=goto_tab:7
+keybind = ctrl+space>8=goto_tab:8
+keybind = ctrl+space>9=goto_tab:9
+
+window-save-state = always
