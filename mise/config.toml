@@ -1,8 +1,13 @@
 [tools]
+deno = "latest"
+go = "latest"
 node = "lts"
-"npm:@dotenvx/dotenvx" = "latest"
 pnpm = "latest"
-"npm:@mariozechner/pi-coding-agent" = "latest"
+python = "latest"
+uv = "latest"
+
+# npm packages (using pnpm)
+"npm:@dotenvx/dotenvx" = "latest"
 "npm:@tailwindcss/language-server" = "latest"
 "npm:bash-language-server" = "latest"
 "npm:contentful" = "latest"
@@ -12,10 +17,24 @@ pnpm = "latest"
 "npm:typescript" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
-deno = "latest"
-go = "latest"
+
+# python packages
+"pipx:llm" = { version = "latest", postinstall = "llm install llm-openai-via-codex" }
+"pipx:ruff" = "latest"
+"pipx:ty" = "latest"
+
+# go packages
+"go:golang.org/x/tools/gopls" = "latest"
+
+[env]
+UV_PYTHON = { value = "{{ tools.python.path }}", tools = true }
 
 [settings]
+python.uv_venv_auto = "source"
+idiomatic_version_file_enable_tools = ["node"]
 
 [settings.npm]
 package_manager = "pnpm"
+
+[settings.pipx]
+uvx = true

@@ -1,27 +1,30 @@
 # vim: ft=gitignore
-Session.vim
-.DS_Store
-npm-debug.log
-yarn-error.log
 node_modules/
+.DS_Store
 .dprint.json
-tsconfig.tsbuildinfo
 .node-version
+npm-debug.log
+tsconfig.tsbuildinfo
+yarn-error.log
+
 # neovim project-specific configuration
-.nvimrc
 .exrc
-.lazy.lua
 .nvim.lua
-# personal scratchpad
-.scratchpad.md
-.env.act
+.nvimrc
+
+# nvim config file shim to tell tailwind lsp server this project uses tailwind
+# when there is no matching tailwind config file in the repo root to activate
+# the tailwind lsp server otherwise
 .tailwind-lsp
-
-# cursor rules
-.cursorrules
-
-# hide AGENTS.md files for now
-AGENTS.md
 
 # hide local neovim session files
 Session.vim
+
+# personal scratchpad
+.scratchpad.md
+
+# project-local mise file that doesn't get git-tracked
+mise.local.toml
+
+# ignore project-level pi config
+.pi/
