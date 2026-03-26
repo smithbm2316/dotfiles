@@ -19,12 +19,10 @@
     "down",
     "ctrl+n"
   ],
-  "app.thinking.cycle": "ctrl+r",
-  "app.model.cycleForward": "ctrl+o",
-  "app.model.cycleBackward": "ctrl+shift+o",
-  "app.model.select": "ctrl+q",
-  "app.tools.expand": "ctrl+t",
-  "app.thinking.toggle": "ctrl+shift+t",
+  "app.thinking.cycle": "ctrl+shift+r",
+  "app.model.cycleForward": "ctrl+shift+o",
+  "app.model.cycleBackward": "ctrl+shift+i",
+  "app.thinking.toggle": "ctrl+t",
   "app.session.toggleNamedFilter": "ctrl+shift+n",
   "app.session.togglePath": "ctrl+shift+p"
 }

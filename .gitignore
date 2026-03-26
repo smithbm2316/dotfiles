@@ -118,12 +118,14 @@ msmtp/*
 !msmtp/pwds/.gitkeep
 
 # pi coding agent: https://pi.dev
-pi/*
-.pi/*
-!pi/keybindings.json
-!pi/models.json
-!pi/presets.json
-!pi/sandbox.json
-!pi/settings.json
-!pi/extensions/*
-pi/extensions/node_modules/**
+pi/auth.json
+pi/cache/
+pi/git/
+pi/sessions/
+.pi/auth.json
+.pi/cache/
+.pi/git/
+.pi/sessions/
+
+# jujutsu
+jj/repos/

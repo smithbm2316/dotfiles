@@ -12,7 +12,7 @@
     ],
     "allowRead": [
       ".",
-      "~/.local/share/pnpm",
+      "~/.local/share/mise/installs",
       "~/.local/bin"
     ],
     "allowWrite": [

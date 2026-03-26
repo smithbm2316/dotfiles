@@ -1,0 +1,14 @@
+{
+  "name": "pi-extensions",
+  "type": "module",
+  "devDependencies": {
+    "@mariozechner/pi-agent-core": "^0.66.1",
+    "@mariozechner/pi-ai": "^0.66.1",
+    "@mariozechner/pi-coding-agent": "^0.66.1",
+    "@mariozechner/pi-tui": "^0.66.1",
+    "typescript": "^6.0.2"
+  },
+  "engines": {
+    "node": "24.15.0"
+  }
+}

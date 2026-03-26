@@ -1,0 +1,37 @@
+{
+  "applyBuiltinDefaults": true,
+  "permissionGate": {
+    "patterns": [
+      { "pattern": "python" },
+      { "pattern": "git" },
+      { "pattern": "jj" },
+      { "pattern": "npm add" },
+      { "pattern": "npm ci" },
+      { "pattern": "npm clean-install" },
+      { "pattern": "npm i" },
+      { "pattern": "npm ic" },
+      { "pattern": "npm in" },
+      { "pattern": "npm ins" },
+      { "pattern": "npm inst" },
+      { "pattern": "npm insta" },
+      { "pattern": "npm instal" },
+      { "pattern": "npm install" },
+      { "pattern": "npm install-clean" },
+      { "pattern": "npm isnt" },
+      { "pattern": "npm isnta" },
+      { "pattern": "npm isntal" },
+      { "pattern": "npm isntall" },
+      { "pattern": "npm isntall-clean" }
+    ],
+    "customPatterns": [],
+    "requireConfirmation": true,
+    "allowedPatterns": [],
+    "autoDenyPatterns": []
+  },
+  "version": "0.9.0-20260327",
+  "onboarding": {
+    "completed": true,
+    "completedAt": "2026-04-08T20:32:28.783Z",
+    "version": "0.9.0-20260327"
+  }
+}
