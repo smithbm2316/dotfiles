@@ -129,3 +129,7 @@ pi/sessions/
 
 # jujutsu
 jj/repos/
+
+# cliamp
+cliamp/*
+!cliamp/config.toml

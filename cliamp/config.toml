@@ -1,0 +1,15 @@
+# compact = true
+eq_preset = "Flat"
+initial_directory = "~/Music"
+# low_power = true
+# repeat = "all"
+# shuffle = false
+theme = ""
+visualizer = "Wave"
+
+provider = "local"
+
+[navidrome]
+url = "$NAVIDROME_URL"
+user = "$NAVIDROME_USER"
+pass = "$NAVIDROME_PASS"
