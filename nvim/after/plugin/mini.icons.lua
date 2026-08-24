@@ -1,14 +1,5 @@
 require('mini.icons').setup {
-  file = {
-    ['deno.json'] = {
-      hl = 'MiniIconsGrey',
-      glyph = '',
-    },
-    ['deno.jsonc'] = {
-      hl = 'MiniIconsGrey',
-      glyph = '',
-    },
-  },
+  -- file = {},
   extension = {
     dbml = {
       hl = 'MiniIconsPurple',

@@ -1,13 +1,3 @@
-function jsfmt()
-  if root_pattern(config_files.deno) then
-    return { 'deno_fmt' }
-  -- elseif root_pattern(config_files.prettier) then
-  --   return { 'prettier' }
-  else
-    return { 'oxfmt' }
-  end
-end
-
 local default_format_opts = {
   lsp_format = 'fallback',
   timeout_ms = 500,
@@ -67,15 +57,15 @@ require('conform').setup {
   end,
   formatters_by_ft = {
     go = { 'gofmt' },
-    graphql = jsfmt,
-    javascript = jsfmt,
-    javascriptreact = jsfmt,
-    json = jsfmt, -- { 'fixjson' },
+    graphql = { 'oxfmt' },
+    javascript = { 'oxfmt' },
+    javascriptreact = { 'oxfmt' },
+    json = { 'oxfmt' }, -- { 'fixjson' },
     lua = { 'stylua' },
     python = { 'ruff_fmt' },
     toml = { 'true' },
-    typescript = jsfmt,
-    typescriptreact = jsfmt,
+    typescript = { 'oxfmt' },
+    typescriptreact = { 'oxfmt' },
   },
   -- Set the log level. Use `:ConformInfo` to see the location of the log file.
   log_level = vim.log.levels.ERROR,

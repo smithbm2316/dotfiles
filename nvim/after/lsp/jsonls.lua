@@ -35,10 +35,6 @@ return {
           url = 'https://www.schemastore.org/sqlc-2.0.json',
         },
         {
-          fileMatch = { 'deno.json', 'deno.jsonc' },
-          url = 'https://raw.githubusercontent.com/denoland/deno/refs/heads/main/cli/schemas/config-file.v1.json',
-        },
-        {
           fileMatch = { '.htmlhintrc' },
           url = 'https://www.schemastore.org/htmlhint.json',
         },

@@ -61,7 +61,6 @@ sudo systemctl enable bluetooth
 # set a variable to where this script is found
 pwd="$HOME/dotfiles/bootstrap"
 . "$pwd/abcde.sh"
-. "$pwd/deno.sh"
 . "$pwd/firefox-dev.sh"
 . "$pwd/firefox.sh"
 . "$pwd/flatpak.sh"

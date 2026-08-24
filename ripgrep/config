@@ -40,5 +40,3 @@ test:*.test.{ts,tsx,js,jsx}
 
 # Don't go into the .git/ directory
 --glob=!.git/*
-
---glob=!deno.lock

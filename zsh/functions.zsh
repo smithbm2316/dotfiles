@@ -232,12 +232,6 @@ ppgrep() {
 js() {
   if [ -f "package-lock.json" ]; then
     npm $@
-  elif [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then
-    if [ "$#" -eq 0 ]; then
-      deno --help
-    else
-      deno $@
-    fi
   elif [ -f "pnpm-lock.yaml" ]; then
     pnpm $@
   elif [ -f "yarn.lock" ]; then
@@ -260,8 +254,6 @@ jsr() {
     jsr "$(jq '.scripts | keys | .[]' -r package.json | gum filter)"
   elif [ -f "package-lock.json" ]; then
     npm run $@
-  elif [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then
-    deno task $@
   elif [ -f "pnpm-lock.yaml" ]; then
     pnpm run $@
   elif [ -f "yarn.lock" ]; then
@@ -275,8 +267,6 @@ jsr() {
 jse() {
   if [ -f "package-lock.json" ]; then
     npx $@
-  elif [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then
-    deno run $@
   elif [ -f "pnpm-lock.yaml" ]; then
     pnpm exec $@
   elif [ -f "yarn.lock" ]; then
@@ -290,8 +280,6 @@ jse() {
 jsx() {
   if [ -f "package-lock.json" ]; then
     npx $@
-  elif [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then
-    deno run $@
   elif [ -f "pnpm-lock.yaml" ]; then
     pnpm exec $@
   elif [ -f "yarn.lock" ]; then

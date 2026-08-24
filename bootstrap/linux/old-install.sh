@@ -76,9 +76,6 @@ programming_languages() {
 
   # rust/rustup/cargo
 
-  # deno
-  curl -fsSL https://deno.land/install.sh | sh
-
   # call lua function
   lua
 

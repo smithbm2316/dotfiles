@@ -89,7 +89,6 @@ vim.opt.wildignore = {
   '.DS_Store',
   '.obsidian.vimrc',
   'DS_Store',
-  'deno.lock',
   'go.sum',
   'graphql.schema.json',
   'package-lock.json',
