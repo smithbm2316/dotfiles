@@ -119,7 +119,8 @@ case "$OSTYPE" in
     export PATH="$HOMEBREW_PREFIX/opt/netcat/bin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/rsync/bin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/util-linux/bin:$PATH"
-    # and do so for latest git too
+    # and do so for latest curl and git too
+    export PATH="$HOMEBREW_PREFIX/opt/curl/bin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/git/bin:$PATH"
 
     # and prioritize their respective man paths
@@ -139,7 +140,8 @@ case "$OSTYPE" in
     export MANPATH="$HOMEBREW_PREFIX/opt/netcat/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/rsync/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/util-linux/share/man:$MANPATH"
-    # and do so for latest git too
+    # and do so for latest curl and git too
+    export MANPATH="$HOMEBREW_PREFIX/opt/curl/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/git/share/man:$MANPATH"
     ;;
   linux*)
