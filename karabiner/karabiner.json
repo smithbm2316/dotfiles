@@ -67,7 +67,8 @@
                                             "^com\\.mitchellh\\.ghostty$",
                                             "^com\\.vscodium",
                                             "^md\\.obsidian$",
-                                            "^dev\\.zed\\.Zed$"
+                                            "^dev\\.zed\\.Zed$",
+                                            "^com\\.superlogical\\.rex$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -91,7 +92,8 @@
                                             "^com\\.mitchellh\\.ghostty$",
                                             "^com\\.vscodium",
                                             "^md\\.obsidian$",
-                                            "^dev\\.zed\\.Zed$"
+                                            "^dev\\.zed\\.Zed$",
+                                            "^com\\.superlogical\\.rex$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
