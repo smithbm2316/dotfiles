@@ -116,6 +116,7 @@ case "$OSTYPE" in
     export PATH="$HOMEBREW_PREFIX/opt/gnutls/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/man-db/libexec/bin:$PATH"
+    export PATH="$HOMEBREW_PREFIX/opt/netcat/bin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/rsync/bin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/util-linux/bin:$PATH"
     # and do so for latest git too
@@ -135,6 +136,7 @@ case "$OSTYPE" in
     export MANPATH="$HOMEBREW_PREFIX/opt/gnutls/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/grep/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/man-db/share/man:$MANPATH"
+    export MANPATH="$HOMEBREW_PREFIX/opt/netcat/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/rsync/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/util-linux/share/man:$MANPATH"
     # and do so for latest git too

@@ -28,6 +28,7 @@ brew "httpie"
 # brew "jordanbaird-ice" # manage menu bar icons
 brew "jq"
 brew "litecli"
+brew "netcat"
 brew "neovim"
 brew "odin"
 brew "parallel"
