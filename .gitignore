@@ -118,14 +118,11 @@ msmtp/*
 !msmtp/pwds/.gitkeep
 
 # pi coding agent: https://pi.dev
-pi/auth.json
-pi/cache/
-pi/git/
-pi/sessions/
-.pi/auth.json
-.pi/cache/
-.pi/git/
-.pi/sessions/
+pi/*
+!pi/extensions/
+!pi/themes/
+!pi/keybindings.json
+!pi/settings.json
 
 # jujutsu
 jj/repos/
@@ -138,3 +135,4 @@ io.datasette.llm/llm-ollama/**
 # cliamp
 cliamp/*
 !cliamp/config.toml
+!cliamp/launch-with-subsonic-auth.sh

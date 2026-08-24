@@ -1,35 +1,20 @@
 {
-  "lastChangelogVersion": "0.80.6",
-  "branchSummary.skipPrompt": true,
+  "autocompleteMaxVisible": 10,
+  "branchSummary": { "skipPrompt": true },
   "collapseChangelog": true,
-  "enableInstallTelemetry": false,
-  "hideThinkingBlock": false,
-  "quietStartup": true,
-  "terminal": {
-    "showTerminalProgress": true
-  },
-  "treeFilterMode": "user-only",
-  "enabledModels": [
-    "openai-codex/gpt-5.6-terra",
-    "openai-codex/gpt-5.6-sol",
-    "openai-codex/gpt-5.6-luna"
-  ],
-  "tools": [
-    "bash",
-    "edit",
-    "find",
-    "grep",
-    "ls",
-    "read",
-    "write"
-  ],
-  "packages": [
-    "git:github.com/aliou/pi-guardrails",
-    "git:github.com/lajarre/pi-vim",
-    "npm:@sysid/pi-sandbox"
-  ],
+  "defaultModel": "gpt-6-luna",
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.6-terra",
-  "defaultThinkingLevel": "xhigh",
-  "theme": "catppuccin-macchiato"
+  "defaultThinkingLevel": "medium",
+  "defaultTools": ["bash", "codemode", "edit", "find", "grep", "ls", "read", "write"],
+  "enableAnalytics": false,
+  "enableInstallTelemetry": false,
+  "enableSkillCommands": false,
+  "enabledModels": ["openai-codex/gpt-6*"],
+  "lastChangelogVersion": "1.1.0",
+  "packages": ["npm:pi-vim"],
+  "showCacheMissNotices": true,
+  "terminal": { "showTerminalProgress": true },
+  "theme": "flexoki-light/catppuccin-macchiato",
+  "treeFilterMode": "user-only",
+  "warnings": { "anthropicExtraUsage": true }
 }

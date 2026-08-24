@@ -28,3 +28,4 @@ mise.local.toml
 
 # ignore project-level pi config
 .pi/
+AGENTS.override.md
