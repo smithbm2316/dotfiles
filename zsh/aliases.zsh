@@ -1,6 +1,6 @@
 # turn on automatic colors for ls
 alias ls="ls --color=auto --group-directories-first"
-alias l="ls --color=auto --group-directories-first -lhA"
+alias ll="ls --color=auto --group-directories-first -lhA"
 alias tree="tree -a -I 'node_modules|.git|.jj|.venv|venv|.shopify'"
 
 # alias for "make" that suppresses all output (useful when using as a task runner)

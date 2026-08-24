@@ -14,13 +14,28 @@ setopt MENU_COMPLETE
 
 zstyle :compinstall filename "$XDG_CONFIG_HOME/zsh/.zshrc"
 
+# my custom prompt
+function get_prompt() {
+  local user='%B%F{blue}%n%f%b'
+  local host_name='%F{magenta}%m%f'
+  local cwd='%F{red}%~%f'
+  local user_or_superuser='%#'
+  local newline=$'\n'
+  echo "$user@$host_name:$cwd${newline}$user_or_superuser "
+}
+PROMPT="$(get_prompt)"
+
 # add completions for hidden/dot files
-# and load my custom prompt
 _comp_options+=(globdots)
 fpath=("$ZDOTDIR" $fpath)
-autoload -Uz prompt.zsh; prompt.zsh
-# load vim bindings
-autoload -Uz vim-bindings.zsh; vim-bindings.zsh
+
+# load zsh completions
+autoload -Uz compinit; compinit
+
+# load vim bindings if not in a Neovim terminal session
+if [ -z "$NVIM" ]; then
+  autoload -Uz vim-bindings.zsh; vim-bindings.zsh
+fi
 
 # add support for zsh completions via 
 fpath=("$ZDOTDIR/plugins/zsh-completions/src" $fpath)
@@ -38,8 +53,10 @@ fi
 # mise
 eval "$($HOME/.local/bin/mise activate zsh)"
 
-# load zsh completions
-autoload -Uz compinit; compinit
+# opencode
+if command -v opencode &>/dev/null; then
+  source <(opencode --completions zsh)
+fi
 
 # add support for fish-style abbreviations in zsh
 # typeset -A ZSH_HIGHLIGHT_REGEXP
@@ -55,13 +72,14 @@ bindkey -v '^e' autosuggest-accept
 
 # set up directory shortcuts
 # https://www.arp242.net/zshrc.html#directory-shortcuts
-hash -d astra=$HOME/work/astra
-hash -d code=$HOME/code
-hash -d dots=$HOME/dotfiles
-hash -d nvim=$HOME/dotfiles/nvim
-hash -d pack=$HOME/.local/share/nvim/site/pack/core/opt
+# hash -d astra=$HOME/work/astra
+# hash -d code=$HOME/code
+# hash -d dots=$HOME/dotfiles
+# hash -d nvim=$HOME/dotfiles/nvim
+# hash -d pack=$HOME/.local/share/nvim/site/pack/core/opt
+# hash -d notebook=$HOME/notebook
 # set up a temporary bookmarked directory aliased to $1
-hashcwd() { hash -d "$1"="$PWD" }
+# hashcwd() { hash -d "$1"="$PWD" }
 
 # load aliases
 autoload -Uz aliases.zsh; aliases.zsh
@@ -81,8 +99,6 @@ fi
 
 # os-specific adjustments
 case "$OSTYPE" in
-  linux*)
-    ;;
   darwin*)
     # make sure that gnu coreutils are at the end of $PATH so that they are
     # prioritized over the BSD versions of these utilities on OSX
@@ -100,6 +116,8 @@ case "$OSTYPE" in
     export PATH="$HOMEBREW_PREFIX/opt/gnutls/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/man-db/libexec/bin:$PATH"
+    export PATH="$HOMEBREW_PREFIX/opt/rsync/bin:$PATH"
+    export PATH="$HOMEBREW_PREFIX/opt/util-linux/bin:$PATH"
     # and do so for latest git too
     export PATH="$HOMEBREW_PREFIX/opt/git/bin:$PATH"
 
@@ -116,9 +134,13 @@ case "$OSTYPE" in
     export MANPATH="$HOMEBREW_PREFIX/opt/gnu-which/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/gnutls/share/man:$MANPATH"
     export MANPATH="$HOMEBREW_PREFIX/opt/grep/share/man:$MANPATH"
-    export MANPATH="$HOMEBREW_PREFIX/opt/man-db/share/man/:$MANPATH"
+    export MANPATH="$HOMEBREW_PREFIX/opt/man-db/share/man:$MANPATH"
+    export MANPATH="$HOMEBREW_PREFIX/opt/rsync/share/man:$MANPATH"
+    export MANPATH="$HOMEBREW_PREFIX/opt/util-linux/share/man:$MANPATH"
     # and do so for latest git too
     export MANPATH="$HOMEBREW_PREFIX/opt/git/share/man:$MANPATH"
+    ;;
+  linux*)
     ;;
   *)
     ;;

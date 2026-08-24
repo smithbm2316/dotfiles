@@ -32,60 +32,60 @@ dots() {
 # - if a valid session is passed to the function, connect to it
 # - connect to the last running session if there is one
 # - otherwise start a new tmux server
-tm() {
-  local session="$1"
-  if [ -z "$session" ]; then
-    tmux attach 2>/dev/null
-  else
-    tmux attach -t "$session" 2>/dev/null
-  fi
-
-  if [ "$?" -ne 0 ]; then
-    tmux
-  fi
-}
+# tm() {
+#   local session="$1"
+#   if [ -z "$session" ]; then
+#     tmux attach 2>/dev/null
+#   else
+#     tmux attach -t "$session" 2>/dev/null
+#   fi
+#
+#   if [ "$?" -ne 0 ]; then
+#     tmux
+#   fi
+# }
 
 # kill the tmux server or session if a session is specified as the first arg
-tmks() {
-  local session="$1"
-  if [ -z "$session" ]; then
-    tmux kill-server
-  else
-    tmux kill-session -t "$session"
-  fi
-}
+# tmks() {
+#   local session="$1"
+#   if [ -z "$session" ]; then
+#     tmux kill-server
+#   else
+#     tmux kill-session -t "$session"
+#   fi
+# }
 
 # create a new tmux session with the setup that i like
-tmn() {
-  local session="$1"
-  if [ -z "$session" ]; then
-    tmux \
-      new -n editor -s "$(basename $PWD)" \; \
-      splitw -h -t editor -l 60% \; \
-      neww -n agent \; \
-      splitw -h -t agent -l 60% \; \
-      selectw -t editor \; \
-      selectp -t 2
-  else
-    tmux new -s "$session"
-  fi
-}
+# tmn() {
+#   local session="$1"
+#   if [ -z "$session" ]; then
+#     tmux \
+#       new -n editor -s "$(basename $PWD)" \; \
+#       splitw -h -t editor -l 60% \; \
+#       neww -n agent \; \
+#       splitw -h -t agent -l 60% \; \
+#       selectw -t editor \; \
+#       selectp -t 2
+#   else
+#     tmux new -s "$session"
+#   fi
+# }
 
 # create a new tmux session with a specified command to execute in the 'serve' window
-tmnp() {
-  # local session="$1"
-  local serve_cmd="$2"
-    tmux \
-      new -n code -s "$(basename $PWD)" \; \
-      neww -n serve \; \
-      splitw -h -c -t serve \; \
-      send -c "$serve_cmd" C-m
-}
+# tmnp() {
+#   # local session="$1"
+#   local serve_cmd="$2"
+#     tmux \
+#       new -n code -s "$(basename $PWD)" \; \
+#       neww -n serve \; \
+#       splitw -h -c -t serve \; \
+#       send -c "$serve_cmd" C-m
+# }
 
 # handle fzf inside of a tmux session to create a new tmux session
-tmns-fzf() {
-  tmux display-popup -E "new-session -c \"$(fd -E 'Library' --base-directory $HOME | fzf)\""
-}
+# tmns-fzf() {
+#   tmux display-popup -E "new-session -c \"$(fd -E 'Library' --base-directory $HOME | fzf)\""
+# }
 
 # docker utilities
 dock() {
@@ -480,21 +480,9 @@ gcp() {
   "$paste_cmd" | xargs git cherry-pick
 }
 
-# ollama helpers
-#
-# * stop all active models
-# * show the info for a model filtered through gum
-ollama-stop() {
-  check_installed ollama || return $?
-
-  for model in $(ollama ls | tail -n +2 | cut -d ' ' -f 1); do
-    ollama stop "$model"
-  done
-}
-ollama-show() {
-  check_installed ollama || return $?
-  check_installed gum || return $?
-
-  model=$(ollama ls | tail -n +2 | cut -d ' ' -f 1 | gum filter --no-sort --limit=1)
-  ollama show "$model"
+# jq with jsonc - strip comments out of jsonc file before processing with jq
+# $1 - the jq query you want to run
+# $2 - the path to the file you want to read in
+jqc() {
+  sed -r 's#//.+##' $2 | jq $1
 }
