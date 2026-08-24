@@ -1,15 +1,22 @@
-local background_to_colorscheme = {
-  light = 'seoulbones',
-  dark = 'catppuccin-macchiato',
-}
+local function set_theme()
+  if vim.o.background == 'dark' then
+    vim.cmd.colorscheme 'habamax'
+    -- make markdown headers stand out
+    vim.cmd [[hi @markup.heading guifg=#819b69 guibg=#212220]]
+  else
+    vim.cmd.colorscheme 'seoulbones'
+    -- make markdown headers stand out
+    vim.cmd [[hi @markup.heading guifg=#0084a3 guibg=#c2dbe8]]
+  end
+end
 
-vim.cmd(
-  'colorscheme '
-    .. background_to_colorscheme[vim.opt.background:get() or 'dark']
-)
+set_theme()
 
 vim.keymap.set('n', '<leader>tt', function()
-  local new_bg = vim.opt.background:get() == 'dark' and 'light' or 'dark'
-  vim.opt.background = new_bg
-  vim.cmd('colorscheme ' .. background_to_colorscheme[new_bg])
+  vim.opt.background = vim.opt.background:get() == 'dark' and 'light' or 'dark'
 end, { desc = 'Toggle color mode' })
+
+vim.api.nvim_create_autocmd('OptionSet', {
+  pattern = { 'background' },
+  callback = set_theme,
+})

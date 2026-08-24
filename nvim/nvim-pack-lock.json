@@ -5,7 +5,7 @@
       "src": "https://github.com/vim-scripts/ReplaceWithRegister"
     },
     "base46": {
-      "rev": "267954c8663607823f03a3259bb8deb15688212f",
+      "rev": "d870ec89a7b2f28c4accce515f97b7bcc5b9d200",
       "src": "https://github.com/NvChad/base46"
     },
     "blink.cmp": {
@@ -22,20 +22,20 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "copy_with_context.nvim": {
-      "rev": "bafd4c966a8534cdab38c918094dd6c12a5d4694",
+      "rev": "6651504ff2f901645fafe2b5a613f52a211c829c",
       "src": "https://github.com/zhisme/copy_with_context.nvim"
     },
     "gitsigns.nvim": {
-      "rev": "8d79f2410c76e62b92e51c28c82e28c1c5a3daeb",
+      "rev": "4bcd99167c265f135886b282baad77afe06206b2",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "indent-blankline.nvim": {
       "rev": "f1e186e44d3b7f9ae918008e2c28ce37c6023d2d",
       "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
     },
-    "jinja.vim": {
-      "rev": "05373374a288b20845937cbc3a7abda23a2e65d2",
-      "src": "https://github.com/HiPhish/jinja.vim"
+    "lush.nvim": {
+      "rev": "9c60ec2279d62487d942ce095e49006af28eed6e",
+      "src": "https://github.com/rktjmp/lush.nvim"
     },
     "mini.bufremove": {
       "rev": "4cfbb201b2760da79ca6e1a00e9f67cbc99cbb8f",
@@ -87,30 +87,22 @@
       "src": "https://github.com/nvim-mini/mini.statusline",
       "version": "'stable'"
     },
-    "nvim": {
-      "rev": "edefef779ab08ce1a4a404713e3012b0d202bd35",
-      "src": "https://github.com/catppuccin/nvim"
-    },
     "nvim-dap": {
       "rev": "cfa2d58f4537aca6ca83e2de1a0d9f1491121264",
       "src": "https://github.com/mfussenegger/nvim-dap"
     },
     "nvim-lint": {
-      "rev": "3d55c8f67c6ae5c15e1042571e107c7a3d5c5f4e",
+      "rev": "52107ce2076a27a285af781248e2c59bad817cd0",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-treesitter": {
-      "rev": "9a168f6357ed21c3a636e1727bc7d382abc451b8",
+      "rev": "610734c5d3e59761d5f79318d120633374537fa5",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
     "oil.nvim": {
-      "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
+      "rev": "d3733d933833a0e59b813ecec99341527adf0c28",
       "src": "https://github.com/stevearc/oil.nvim"
-    },
-    "vim-dbml": {
-      "rev": "c684576d80542c52f888309b715c49bc69a02ed3",
-      "src": "https://github.com/jidn/vim-dbml"
     },
     "vim-repeat": {
       "rev": "65846025c15494983dafe5e3b46c8f88ab2e9635",
@@ -131,6 +123,10 @@
     "vim-tmux-navigator": {
       "rev": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432",
       "src": "https://github.com/christoomey/vim-tmux-navigator"
+    },
+    "zenbones.nvim": {
+      "rev": "8304d8df9b823ff11e103afa62f38c39f534abe6",
+      "src": "https://github.com/zenbones-theme/zenbones.nvim"
     }
   }
 }

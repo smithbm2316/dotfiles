@@ -2,115 +2,136 @@ require('nvim-treesitter').setup {
   highlight = true,
 }
 
-local ensure_installed = {
-  'bash',
+---@class (exact) Language
+---@field parser string
+---@field ft? string|string[]
+
+---@type (string|Language)[]
+local languages = {
+  'awk',
+  { parser = 'bash', ft = { 'bash', 'sh' } },
+  { parser = 'comment' },
   'css',
   'csv',
+  'desktop',
   'diff',
-  -- 'eex',
-  -- 'elixir',
-  'embedded_template',
-  'git_config',
-  'git_rebase',
-  'gitcommit',
-  'gitignore',
+  'dockerfile',
+  { parser = 'ecma' },
   'go',
   'gomod',
   'gosum',
   'gotmpl',
   'graphql',
-  -- 'heex',
   'html',
-  'htmldjango',
+  { parser = 'html_tags' },
   'http',
+  'hurl',
   'ini',
   'javascript',
+  'jjdescription',
   'jq',
   'jsdoc',
   'json',
-  -- 'jsonc',
+  { parser = 'json5', ft = 'jsonc' },
+  { parser = 'jsx' },
+  'just',
   'lua',
-  'luadoc',
-  'luap',
+  { parser = 'luadoc' },
+  { parser = 'luap' },
+  'make',
   'markdown',
-  'markdown_inline',
+  { parser = 'markdown_inline' },
   'mermaid',
   'query',
-  'regex',
-  'scss',
+  { parser = 'regex' },
+  { parser = 'robots_txt', ft = 'robots' },
+  { parser = 'printf' },
   'sql',
-  'ssh_config',
-  'surface',
+  { parser = 'ssh_config', ft = 'sshconfig' },
+  'sway',
+  'templ',
   'toml',
-  'tsx',
-  'twig',
+  { parser = 'tsx' },
   'typescript',
-  'vim',
-  'vimdoc',
+  { parser = 'vimdoc', ft = 'help' },
   'xml',
   'yaml',
-  -- 'awk',
-  -- 'blade',
-  -- 'dockerfile',
-  -- 'php',
-  -- 'php_only',
-  -- 'phpdoc',
-  -- 'python',
-  -- 'rasi',
-  -- 'styled',
-  -- 'tsv',
+  'zsh',
+
+  -- 'embedded_template'
+  -- 'git_config'
+  -- 'git_rebase'
+  -- 'gitattributes'
+  -- 'gitcommit'
+  -- 'gitignore'
+  -- 'gpg'
+  -- 'jinja'
+  -- 'jinja_inline'
+  -- 'latex'
+  -- 'nginx'
+  -- 'odin'
+  -- 'passwd'
+  -- 'pem'
+  -- 'python'
+  -- 'readline'
+  -- 'scss'
+  -- 'styled'
+  -- 'sxhkdrc'
+  -- 'todotxt'
+  -- 'tsv'
+  -- 'udev'
+  -- 'vim'
+  -- 'xresources'
+  -- 'zig'
 }
 
-local filetypes = {
-  'bash',
-  'css',
-  'csv',
-  'diff',
-  'git_config',
-  'git_rebase',
-  'gitcommit',
-  'gitignore',
-  'go',
-  'gomod',
-  'gosum',
-  'gotmpl',
-  'graphql',
-  'html',
-  'htmldjango',
-  'http',
-  'ini',
-  'javascript',
-  'javascriptreact',
-  'jq',
-  'jsdoc',
-  'json',
-  -- 'jsonc',
-  'lua',
-  'luadoc',
-  'luap',
-  'markdown',
-  'query',
-  'regex',
-  'scss',
-  'sql',
-  'ssh_config',
-  'surface',
-  'toml',
-  'twig',
-  'typescript',
-  'typescriptreact',
-  'vim',
-  'vimdoc',
-  'xml',
-  'yaml',
-}
+---@type string[]
+local treesitter_enabled_fts = {}
+---@type string[]
+local ensure_parsers_installed = {}
 
-require('nvim-treesitter').install(ensure_installed)
+for _, lang in ipairs(languages) do
+  ---@type string|string[]|nil
+  local ft
+  ---@type string
+  local parser
 
-vim.treesitter.language.register('bash', { 'sh', 'bash', 'zsh' })
+  if type(lang) == 'string' then
+    ft = lang
+    parser = lang
+  elseif type(lang) == 'table' and type(lang.ft) == 'table' then
+    ft = lang.ft[1]
+    parser = lang.parser
+  elseif type(lang) == 'table' and type(lang.ft) == 'string' then
+    ft = lang.ft
+    parser = lang.parser
+  end
+
+  if ft ~= nil then
+    table.insert(treesitter_enabled_fts, ft)
+    table.insert(ensure_parsers_installed, parser)
+    vim.treesitter.language.register(parser, ft)
+  end
+end
+
+-- add luax parser
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'TSUpdate',
+  callback = function()
+    require('nvim-treesitter.parsers').luax = {
+      install_info = {
+        url = 'https://github.com/bvisness/bvisness.me',
+        location = 'ext/tree-sitter-luax',
+      },
+    }
+  end,
+})
+table.insert(treesitter_enabled_fts, 'luax')
+
+require('nvim-treesitter').install(ensure_parsers_installed)
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = filetypes,
+  pattern = treesitter_enabled_fts,
   callback = function()
     -- syntax highlighting, provided by Neovim
     vim.treesitter.start()

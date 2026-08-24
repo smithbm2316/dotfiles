@@ -1,5 +1,6 @@
 vim.filetype.add {
   extension = {
+    luax = 'luax',
     tmpl = 'html',
     -- tmpl = 'gohtml',
   },

@@ -16,6 +16,8 @@ return {
       diagnostics = {
         enable = true,
         globals = {
+          -- rex
+          'rex',
           -- neovim
           'vim',
           -- mini.<...> plugins

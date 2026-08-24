@@ -2,12 +2,9 @@
 
 ---@type PluginConfig[]
 local plugins = {
-  'catppuccin/nvim',
   'christoomey/vim-sort-motion',
   'christoomey/vim-system-copy',
   'christoomey/vim-tmux-navigator',
-  'HiPhish/jinja.vim',
-  'jidn/vim-dbml',
   { 'nvim-mini/mini.bufremove', 'stable' },
   { 'nvim-mini/mini.extra', 'stable' },
   { 'nvim-mini/mini.icons', 'stable' },
@@ -25,12 +22,14 @@ local plugins = {
   'mfussenegger/nvim-lint',
   'NvChad/base46',
   { 'nvim-treesitter/nvim-treesitter', 'main' },
+  'rktjmp/lush.nvim', -- dependency for zenbones.nvim
   { 'saghen/blink.cmp', vim.version.range '1.*' },
   'stevearc/conform.nvim',
   'stevearc/oil.nvim',
   'tpope/vim-repeat',
   'tpope/vim-surround',
   'vim-scripts/ReplaceWithRegister',
+  'zenbones-theme/zenbones.nvim', -- depends on lush.nvim
   'zhisme/copy_with_context.nvim',
 
   -- to vendor:

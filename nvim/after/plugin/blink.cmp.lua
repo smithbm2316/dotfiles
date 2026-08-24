@@ -64,9 +64,9 @@ require('blink.cmp').setup {
       'snippets',
       'buffer',
     },
-    per_filetype = {
-      markdown = { 'path' },
-    },
+    -- per_filetype = {
+    --   markdown = { 'path' },
+    -- },
     -- providers = {
     --   snippets = { score_offset = 100 },
     --   lsp = { score_offset = 90 },

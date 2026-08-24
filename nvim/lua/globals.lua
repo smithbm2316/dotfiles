@@ -1,15 +1,8 @@
 ---@type string[] list of filetypes where html features should be enabled
 _G.html_like_fts_no_jsx = {
-  'astro',
-  'blade',
   'gohtml',
   'html',
-  'htmldjango',
-  'htmldjango.jinja',
-  'jinja',
-  'liquid',
-  'nunjucks',
-  'php',
+  'templ',
   'tmpl',
 }
 
