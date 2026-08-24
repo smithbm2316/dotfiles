@@ -136,3 +136,8 @@ io.datasette.llm/llm-ollama/**
 cliamp/*
 !cliamp/config.toml
 !cliamp/launch-with-subsonic-auth.sh
+
+# opencode
+opencode/*
+!opencode/cli.json
+!opencode/opencode.jsonc

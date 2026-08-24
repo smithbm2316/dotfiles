@@ -1,0 +1,48 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "animations": true,
+  "attention": {
+    "notifications": true,
+    "sound": true,
+    "volume": 0.5
+  },
+  "diffs": {
+    "single": true,
+    "source": "branch",
+    "tree": true,
+    "view": "auto",
+    "wrap": "word"
+  },
+  "session": {
+    "grouping": "auto",
+    "image_preview": true,
+    "markdown": "rendered",
+    "new_location": "launch",
+    "permissions": "prompt",
+    "scrollbar": true,
+    "sidebar": "auto",
+    "thinking": "hide",
+    "tps": true,
+    "verbosity": "low"
+  },
+  "tabs": {
+    "indicators": "status",
+    "layout": "horizontal",
+    "mode": "auto",
+    "scope": "cwd"
+  },
+  "terminal": {
+    "copy": "select",
+    "title": true
+  },
+  "theme": {
+    "name": "system",
+    "mode": "system"
+  },
+  "keybinds": {
+    "command.palette.show": "ctrl+o"
+  },
+  "plugins": [
+    "opencode-vim@latest"
+  ]
+}
