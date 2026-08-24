@@ -44,8 +44,8 @@ outer.top =        0
 outer.right =      0
 
 [mode.main.binding]
-# launch new terminal window
-alt-shift-ctrl-t = 'exec-and-forget open -n /Applications/Ghostty.app'
+# launch new terminal window that saves state
+alt-shift-ctrl-t = 'exec-and-forget open -n /Applications/Ghostty.app --args --window-save-state=always'
 # launch new terminal window that forgets window state
 cmd-alt-shift-ctrl-t = 'exec-and-forget open -n /Applications/Ghostty.app --args --window-save-state=never --title=scratchpad'
 # launch primary browser
@@ -55,7 +55,7 @@ cmd-alt-shift-ctrl-b = 'exec-and-forget sleep 1 && /Applications/Firefox Develop
 # launch Apps command palette app launcher
 alt-shift-ctrl-o = 'exec-and-forget open -a Apps'
 # launch music player
-alt-shift-ctrl-m = 'exec-and-forget open -n /Applications/Ghostty.app --args --window-save-state=never --title=cliamp -e cliamp'
+alt-shift-ctrl-m = 'exec-and-forget open -n /Applications/Ghostty.app --args --window-save-state=never --title=cliamp -e ~/dotfiles/cliamp/launch-with-subsonic-auth.sh'
 # toggle scroll direction
 cmd-alt-shift-ctrl-m = 'exec-and-forget ~/dotfiles/scripts/toggle-scroll-direction.sh'
 

@@ -40,6 +40,7 @@ brew "tlrc"
 brew "tree-sitter-cli"
 brew "tmux"
 # brew "watchman" # osx doesn't have a native filewatcher iirc like inotify-tools?
+brew "util-linux"
 brew "wget"
 
 # casks

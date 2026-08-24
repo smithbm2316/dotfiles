@@ -1,12 +1,15 @@
 # vim:ft=config
 theme = dark:Catppuccin Macchiato,light:Seoulbones Light
+# theme = dark:Catppuccin Macchiato,light:Flexoki Light
+# workaround below for now: https://github.com/ghostty-org/ghostty/discussions/12708
+cursor-color = cell-foreground
 
 font-family = Berkeley Mono
 font-style = Medium SemiCondensed
 font-style-italic = Medium SemiCondensed Oblique
 font-style-bold = ExtraBold SemiCondensed
 font-style-bold-italic = ExtraBold SemiCondensed Oblique
-font-size = 13
+font-size = 14
 
 link-url = true
 title = " "
@@ -57,6 +60,7 @@ keybind = ctrl+space>z=toggle_split_zoom
 
 # resize/reload/rename mode binds
 keybind = ctrl+space>r>r=reload_config
+keybind = ctrl+space>r>equal=equalize_splits
 keybind = ctrl+space>r>h=resize_split:left,100
 keybind = ctrl+space>r>j=resize_split:down,100
 keybind = ctrl+space>r>k=resize_split:up,100
