@@ -1,8 +1,10 @@
 blockExoticSubdeps: true
-minimumReleaseAge: 10080
+minimumReleaseAge: 4320 # 3 days
 minimumReleaseAgeExclude:
   - "@earendil-works/chord"
   - "@earendil-works/pi-*"
+  - "@isaacs/nonrecursive-glob-match"
+  - "minimatch"
 strictDepBuilds: true
 # frequently blocks package installs outright
 # trustPolicy: no-downgrade
