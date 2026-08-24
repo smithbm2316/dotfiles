@@ -1,18 +1,11 @@
-local deno_configs = {
-  ['deno.json'] = true,
-  ['deno.jsonc'] = true,
-}
-
 function jsfmt()
-  -- if we are in a deno project, use the Deno fmt command
-  for name, type in vim.fs.dir(vim.fn.getcwd()) do
-    if type == 'file' and deno_configs[name] then
-      return { 'deno_fmt' }
-    end
+  if root_pattern(config_files.deno) then
+    return { 'deno_fmt' }
+  -- elseif root_pattern(config_files.prettier) then
+  --   return { 'prettier' }
+  else
+    return { 'oxfmt' }
   end
-
-  -- otherwise just run prettier
-  return { 'prettier' }
 end
 
 local default_format_opts = {
@@ -74,10 +67,10 @@ require('conform').setup {
   end,
   formatters_by_ft = {
     go = { 'gofmt' },
-    graphql = { 'prettier' },
+    graphql = jsfmt,
     javascript = jsfmt,
     javascriptreact = jsfmt,
-    json = { 'fixjson' },
+    json = jsfmt, -- { 'fixjson' },
     lua = { 'stylua' },
     python = { 'ruff_fmt' },
     toml = { 'true' },

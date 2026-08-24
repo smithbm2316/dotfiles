@@ -80,9 +80,17 @@ require('mini.pick').setup {
     toggle_info = '<s-tab>',
     toggle_preview = '<tab>',
 
-    -- TODO: implement a mapping that sends all items to quickfix/location list
     -- TODO: fix mapping to delete selected buffer in "Pick buffers" picker so
     -- that it redraws the screen
+
+    -- TODO: implement a mapping that sends all items to quickfix/location list
+    send_all_to_qflist = {
+      char = '<C-q>',
+      func = function()
+        local mappings = MiniPick.get_picker_opts().mappings
+        vim.api.nvim_input(mappings.mark_all .. mappings.choose_marked)
+      end,
+    },
   },
   window = {
     config = get_win_config(),
@@ -111,11 +119,20 @@ end, { desc = '[f]ind [d]otfiles (mini.pick)' })
 vim.keymap.set('n', '<leader>fn', function()
   MiniPick.builtin.files(nil, {
     source = {
+      cwd = vim.env.HOME .. '/notebook',
+      name = 'Files (~/notebook)',
+    },
+  })
+end, { desc = '[f]ind [n]otebook (mini.pick)' })
+
+vim.keymap.set('n', '<leader>fv', function()
+  MiniPick.builtin.files(nil, {
+    source = {
       cwd = vim.env.HOME .. '/dotfiles/nvim',
       name = 'Files (~/dotfiles/nvim)',
     },
   })
-end, { desc = '[f]ind [n]vim files (mini.pick)' })
+end, { desc = '[f]ind n[v]im files (mini.pick)' })
 
 -- Grep Live pickers
 vim.keymap.set('n', '<leader>gw', function()

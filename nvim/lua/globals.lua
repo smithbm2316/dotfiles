@@ -38,6 +38,10 @@ _G.js_ts_fts = {
 --- record of config files like eslint and prettier that i might want to match
 --- against on the local filesystem
 _G.config_files = {
+  deno = {
+    'deno.json',
+    'deno.jsonc',
+  },
   eslint = {
     'eslint.config.js',
     'eslint.config.cjs',
@@ -48,6 +52,18 @@ _G.config_files = {
     '.eslintrc.json',
     '.eslintrc.yaml',
     '.eslintrc.yml',
+  },
+  oxfmt = {
+    '.oxfmtrc.json',
+    '.oxfmtrc.jsonc',
+    'oxfmt.config.ts',
+    'oxfmt.config.mts',
+  },
+  oxlint = {
+    '.oxlintrc.json',
+    '.oxlintrc.jsonc',
+    'oxlint.config.ts',
+    'oxlint.config.mts',
   },
   prettier = {
     '.prettierrc',

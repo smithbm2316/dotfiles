@@ -22,6 +22,7 @@ local plugins = {
   'lewis6991/gitsigns.nvim', -- mini.diff, mini.git
   'lukas-reineke/indent-blankline.nvim',
   'mfussenegger/nvim-lint',
+  'NvChad/base46',
   { 'nvim-treesitter/nvim-treesitter', 'main' },
   { 'saghen/blink.cmp', vim.version.range '1.*' },
   'stevearc/conform.nvim',

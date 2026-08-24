@@ -24,13 +24,19 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost' }, {
 
     local ft = vim.api.nvim_get_option_value('filetype', { buf = 0 })
 
-    if
-      vim.tbl_contains(js_ts_fts, ft)
-      and root_pattern(config_files.eslint)
-    then
+    if vim.tbl_contains(js_ts_fts, ft) then
       -- You can call `try_lint` with a linter name or a list of names to always
       -- run specific linters, independent of the `linters_by_ft` configuration
-      require('lint').try_lint 'eslint' -- eslint_d
+      -- if root_pattern(config_files.eslint) then
+      --   require('lint').try_lint 'eslint_d'
+      -- elseif root_pattern(config_files.oxfmt) then
+      --   require('lint').try_lint 'oxlint'
+      -- end
+      if
+        root_pattern(config_files.eslint) or root_pattern(config_files.oxfmt)
+      then
+        require('lint').try_lint 'oxlint'
+      end
     else
       -- try_lint without arguments runs the linters defined in `linters_by_ft`
       -- for the current filetype

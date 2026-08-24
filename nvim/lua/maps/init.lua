@@ -215,3 +215,14 @@ vim.keymap.set(
   [[<cmd>normal ggVGgq<cr>]],
   { desc = '[f]ormat current file to [h]ard wrapping' }
 )
+
+-- copy current filename to clipboard
+vim.keymap.set('n', '<leader>fy', function()
+  local relative_filename = vim.fn.expand '%:.'
+  vim.fn.setreg('+', relative_filename)
+  if relative_filename == vim.fn.getreg '+' then
+    vim.notify 'Current filename copied to clipboard!'
+  else
+    vim.notify 'Could not copy current filename to clipboard'
+  end
+end, { desc = 'current [f]ilename [y]ank relative to cwd' })

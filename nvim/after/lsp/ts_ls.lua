@@ -45,8 +45,8 @@
 return {
   init_options = { hostInfo = 'neovim' },
   cmd = function(dispatchers, config)
-    local cmd
-    if vim.fn.getcwd() == vim.env.HOME .. '/work/astra' then
+    -- local cmd = { 'tsc', '--lsp', '--stdio' }
+    if vim.fs.basename(vim.fn.getcwd()) == 'astra' then
       cmd = { 'typescript-language-server', '--stdio' }
     else
       cmd = { 'tsc', '--lsp', '--stdio' }
@@ -67,6 +67,7 @@ return {
     'pnpm-lock.yaml',
     'bun.lockb',
     'bun.lock',
+    'go.mod',
   },
   workspace_required = true,
   handlers = {
