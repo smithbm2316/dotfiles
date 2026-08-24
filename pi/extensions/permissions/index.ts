@@ -6,6 +6,7 @@ import { notify } from "../notify.ts"
 export default function (pi: ExtensionAPI) {
   pi.on("tool_call", async (event, ctx) => {
     let input = ""
+    // TODO: implement a in-memory cache for tool calls that have been allowed in this session.
 
     switch (event.toolName) {
       case "bash": {

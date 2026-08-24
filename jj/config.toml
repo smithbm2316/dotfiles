@@ -21,7 +21,7 @@ tug = { doc = 'pull closest bookmark up to latest commit',      definition = ['b
 
 [ui]
 default-command = ['log', '-r', '(trunk()..@):: | (trunk()..@)-']
-diff-formatter = ["difft", "--color=always", "$left", "$right"]
+diff-formatter = ["delta", "$left", "$right"]
 
 [merge-tools.delta]
 diff-expected-exit-codes = [0, 1]

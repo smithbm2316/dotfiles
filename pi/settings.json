@@ -1,20 +1,39 @@
 {
   "autocompleteMaxVisible": 10,
-  "branchSummary": { "skipPrompt": true },
+  "branchSummary": {
+    "skipPrompt": true
+  },
   "collapseChangelog": true,
   "defaultModel": "gpt-6-luna",
   "defaultProvider": "openai-codex",
   "defaultThinkingLevel": "medium",
-  "defaultTools": ["bash", "codemode", "edit", "find", "grep", "ls", "read", "write"],
+  "defaultTools": [
+    "bash",
+    "codemode",
+    "edit",
+    "find",
+    "grep",
+    "ls",
+    "read",
+    "write"
+  ],
   "enableAnalytics": false,
   "enableInstallTelemetry": false,
   "enableSkillCommands": false,
-  "enabledModels": ["openai-codex/gpt-6*"],
-  "lastChangelogVersion": "1.1.0",
-  "packages": ["npm:pi-vim"],
+  "enabledModels": [
+    "openai-codex/gpt-6*"
+  ],
+  "lastChangelogVersion": "1.2.0",
+  "packages": [
+    "npm:pi-vim"
+  ],
   "showCacheMissNotices": true,
-  "terminal": { "showTerminalProgress": true },
+  "terminal": {
+    "showTerminalProgress": true
+  },
   "theme": "flexoki-light/catppuccin-macchiato",
   "treeFilterMode": "user-only",
-  "warnings": { "anthropicExtraUsage": true }
+  "warnings": {
+    "anthropicExtraUsage": true
+  }
 }

@@ -4,4 +4,5 @@ minimumReleaseAgeExclude:
   - "@earendil-works/chord"
   - "@earendil-works/pi-*"
 strictDepBuilds: true
-trustPolicy: no-downgrade
+# frequently blocks package installs outright
+# trustPolicy: no-downgrade
