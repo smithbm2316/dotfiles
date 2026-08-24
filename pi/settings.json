@@ -23,15 +23,16 @@
   "enabledModels": [
     "openai-codex/gpt-6*"
   ],
-  "lastChangelogVersion": "1.2.0",
+  "lastChangelogVersion": "1.5.0",
   "packages": [
-    "npm:pi-vim"
+    "npm:pi-vim",
+    "git:git@github.com:earendil-works/pi-claude-code"
   ],
   "showCacheMissNotices": true,
   "terminal": {
     "showTerminalProgress": true
   },
-  "theme": "flexoki-light/catppuccin-macchiato",
+  "theme": "system",
   "treeFilterMode": "user-only",
   "warnings": {
     "anthropicExtraUsage": true

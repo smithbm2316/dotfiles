@@ -4,7 +4,7 @@
   "model": "openai/gpt-6-luna",
   "share": "disabled",
   "permissions": [
-    { "action": "read", "resource": "*", "effect": "deny" },
+    { "action": "read", "resource": "*", "effect": "ask" },
     { "action": "read", "resource": "~/.gpnupg/*", "effect": "deny" },
     { "action": "read", "resource": "~/.password-store/*", "effect": "deny" },
     { "action": "read", "resource": "~/.ssh/*", "effect": "deny" },

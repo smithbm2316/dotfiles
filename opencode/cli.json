@@ -44,5 +44,12 @@
   },
   "plugins": [
     "opencode-vim@latest"
-  ]
+  ],
+  "mini": {
+    "thinking": "hide",
+    "tools": "show",
+    "shell_output": "show",
+    "turn_summary": "show",
+    "footer": "show"
+  }
 }
