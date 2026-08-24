@@ -8,11 +8,11 @@ const SESSION_ENTRY_CUSTOM_ID = "permissions.allowed-tool-call" as const;
 interface CustomSessionEntry {
   toolName: string;
   input:
-    | string
-    | {
-        path?: string;
-        pattern?: string;
-      };
+  | string
+  | {
+    path?: string;
+    pattern?: string;
+  };
 }
 
 export default function (pi: ExtensionAPI) {
@@ -27,6 +27,7 @@ export default function (pi: ExtensionAPI) {
     // default permissions:
     // - require confirmation all `bash` tool calls
     // - allow all `codemode` tool calls
+    // - allow all Constructor MCP calls
     // - allow all other tool calls that are for files in the current directory,
     // require confirmation for these tool calls outside of the current
     // directory
@@ -61,6 +62,13 @@ export default function (pi: ExtensionAPI) {
         }
         break;
       }
+      default: {
+        if (event.toolName.startsWith("mcp__constructor__")) {
+          return;
+        } else {
+          break;
+        }
+      }
     }
 
     const alreadyAllowed =
@@ -74,12 +82,13 @@ export default function (pi: ExtensionAPI) {
           return false;
         }
 
-        const sessionData = (JSON.parse(sessionEntry.data) ?? {}) as {
-          toolName?: string;
-          input?: string | { path?: string; pattern?: string };
-        };
+        let sessionData: CustomSessionEntry | undefined;
+        try {
+          sessionData = JSON.parse(sessionEntry.data) ?? {};
+        } catch { }
+
         if (
-          !sessionData.toolName ||
+          !sessionData?.toolName ||
           !sessionData.input ||
           sessionData.toolName !== event.toolName
         ) {
@@ -115,10 +124,7 @@ export default function (pi: ExtensionAPI) {
         reason: "Tool call disallowed by user.",
       };
     } else {
-      pi.appendEntry(
-        SESSION_ENTRY_CUSTOM_ID,
-        typeof input === "string" ? input : JSON.stringify(input),
-      );
+      pi.appendEntry(SESSION_ENTRY_CUSTOM_ID, JSON.stringify({ toolName: event.toolName, input }));
       return;
     }
   });

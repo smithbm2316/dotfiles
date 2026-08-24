@@ -6,7 +6,7 @@
   "collapseChangelog": true,
   "defaultModel": "gpt-6-luna",
   "defaultProvider": "openai-codex",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "minimal",
   "defaultTools": [
     "bash",
     "codemode",
@@ -23,10 +23,10 @@
   "enabledModels": [
     "openai-codex/gpt-6*"
   ],
-  "lastChangelogVersion": "1.5.0",
+  "hideThinkingBlock": true,
+  "lastChangelogVersion": "1.5.2",
   "packages": [
-    "npm:pi-vim",
-    "git:git@github.com:earendil-works/pi-claude-code"
+    "npm:pi-vim"
   ],
   "showCacheMissNotices": true,
   "terminal": {
