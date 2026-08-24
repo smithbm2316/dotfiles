@@ -198,7 +198,7 @@ vim.keymap.set(
   'n',
   '<leader>tp',
   MiniPick.builtin.resume,
-  { desc = '[t]elescope [p]revious Pick picker (mini.pick)' }
+  { desc = '[t]oggle [p]revious picker (mini.pick)' }
 )
 vim.keymap.set(
   'n',

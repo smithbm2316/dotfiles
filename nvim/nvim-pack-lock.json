@@ -29,10 +29,6 @@
       "rev": "4bcd99167c265f135886b282baad77afe06206b2",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
-    "indent-blankline.nvim": {
-      "rev": "f1e186e44d3b7f9ae918008e2c28ce37c6023d2d",
-      "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
-    },
     "lush.nvim": {
       "rev": "9c60ec2279d62487d942ce095e49006af28eed6e",
       "src": "https://github.com/rktjmp/lush.nvim"
@@ -86,6 +82,11 @@
       "rev": "b5547f44560dae3ccd81f914256fa6f705837022",
       "src": "https://github.com/nvim-mini/mini.statusline",
       "version": "'stable'"
+    },
+    "no-neck-pain.nvim": {
+      "rev": "83ed5249cfdfc5790ab2c05f96038eeca7dd9451",
+      "src": "https://github.com/shortcuts/no-neck-pain.nvim",
+      "version": "3.0.0 - 4.0.0"
     },
     "nvim-dap": {
       "rev": "cfa2d58f4537aca6ca83e2de1a0d9f1491121264",

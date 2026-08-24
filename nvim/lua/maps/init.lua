@@ -89,7 +89,7 @@ vim.keymap.set('n', '<leader>tc', function()
   else
     vim.opt_local.conceallevel = 2
   end
-end, { desc = 'Toggle conceallevel' })
+end, { desc = '[t]oggle [c]onceallevel' })
 
 vim.keymap.set('n', '<leader>tn', function()
   if vim.api.nvim_get_option_value('relativenumber', { win = 0 }) then
@@ -97,7 +97,7 @@ vim.keymap.set('n', '<leader>tn', function()
   else
     vim.api.nvim_set_option_value('relativenumber', true, { win = 0 })
   end
-end, { desc = 'Toggle relative line numbers' })
+end, { desc = '[t]oggle relative [l]ine numbers' })
 
 -- quickfix maps
 vim.keymap.set('n', '<c-n>', '<cmd>cnext<cr>zz', {
@@ -226,3 +226,11 @@ vim.keymap.set('n', '<leader>fy', function()
     vim.notify 'Could not copy current filename to clipboard'
   end
 end, { desc = 'current [f]ilename [y]ank relative to cwd' })
+
+vim.keymap.set('n', '<leader>ts', function()
+  local new_spacing = vim.opt_local.ts:get() == 2 and 4 or 2
+  vim.opt_local.sw = new_spacing
+  vim.opt_local.sts = new_spacing
+  vim.opt_local.ts = new_spacing
+  vim.notify('Set buffer tab size to ' .. tostring(new_spacing))
+end, { desc = '[t]oggle [s]pacing b/w 2 & 4 spaces' })

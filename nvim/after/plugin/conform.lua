@@ -56,16 +56,8 @@ require('conform').setup {
     end
   end,
   formatters_by_ft = {
-    go = { 'gofmt' },
-    graphql = { 'oxfmt' },
-    javascript = { 'oxfmt' },
-    javascriptreact = { 'oxfmt' },
-    json = { 'oxfmt' }, -- { 'fixjson' },
     lua = { 'stylua' },
-    python = { 'ruff_fmt' },
     toml = { 'true' },
-    typescript = { 'oxfmt' },
-    typescriptreact = { 'oxfmt' },
   },
   -- Set the log level. Use `:ConformInfo` to see the location of the log file.
   log_level = vim.log.levels.ERROR,
@@ -83,7 +75,7 @@ vim.keymap.set('n', '<leader>tf', function()
     vim.cmd 'FormatDisable'
     vim.notify('Autoformatting disabled!', vim.log.levels.INFO)
   end
-end, { desc = 'Toggle auto-formatting' })
+end, { desc = '[t]oggle auto-[f]ormatting' })
 
 vim.api.nvim_create_user_command('FormatDisable', function(args)
   -- FormatDisable! will disable formatting just for this buffer

@@ -18,6 +18,10 @@ vim.o.keywordprg = ':help'
 vim.o.laststatus = 2
 vim.o.lazyredraw = true
 vim.o.linebreak = true
+vim.o.list = true
+-- https://www.reddit.com/r/neovim/s/QeJnn3C2Ei
+-- https://www.reddit.com/r/neovim/s/xmSyQkWXyG
+vim.o.listchars = 'tab:▏ ,leadmultispace:▏ '
 vim.o.mouse = 'n'
 vim.o.nrformats = ''
 vim.o.number = true

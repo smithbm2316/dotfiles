@@ -1,6 +1,6 @@
 local function set_theme()
   if vim.o.background == 'dark' then
-    vim.cmd.colorscheme 'habamax'
+    vim.cmd.colorscheme 'neobones'
     -- make markdown headers stand out
     vim.cmd [[hi @markup.heading guifg=#819b69 guibg=#212220]]
   else
@@ -14,7 +14,7 @@ set_theme()
 
 vim.keymap.set('n', '<leader>tt', function()
   vim.opt.background = vim.opt.background:get() == 'dark' and 'light' or 'dark'
-end, { desc = 'Toggle color mode' })
+end, { desc = '[t]oggle [t]heme' })
 
 vim.api.nvim_create_autocmd('OptionSet', {
   pattern = { 'background' },
