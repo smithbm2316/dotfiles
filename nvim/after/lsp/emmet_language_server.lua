@@ -19,7 +19,7 @@ return {
     --- @type "always" | "never" Defaults to `"always"`
     showExpandedAbbreviation = 'always',
     --- @type boolean Defaults to `false`
-    showSuggestionsAsSnippets = false,
+    showSuggestionsAsSnippets = true,
     --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
     syntaxProfiles = {},
     --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)

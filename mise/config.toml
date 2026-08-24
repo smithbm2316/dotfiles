@@ -5,6 +5,7 @@ pnpm = "latest"
 python = "3.11"
 uv = "latest"
 
+"github:microsoft/vscode-js-debug" = { version = "latest", asset_pattern = "js-debug-dap-v*.tar.gz" }
 "go:github.com/sqls-server/sqls" = "latest"
 "go:golang.org/x/tools/gopls" = "latest"
 "npm:@dotenvx/dotenvx" = "latest"
@@ -24,6 +25,8 @@ uv = "latest"
 "pipx:ruff" = "latest"
 "pipx:ty" = "latest"
 "go:github.com/traefik/yaegi/cmd/yaegi" = "latest"
+"npm:@olrtg/emmet-language-server" = "latest"
+"npm:@vtsls/language-server" = "latest"
 
 [env]
 UV_PYTHON = { value = "{{ tools.python.path }}", tools = true }
