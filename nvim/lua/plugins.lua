@@ -21,6 +21,7 @@ local plugins = {
   'laytan/cloak.nvim',
   'lewis6991/gitsigns.nvim', -- mini.diff, mini.git
   'lukas-reineke/indent-blankline.nvim',
+  'mfussenegger/nvim-dap',
   'mfussenegger/nvim-lint',
   'NvChad/base46',
   { 'nvim-treesitter/nvim-treesitter', 'main' },

@@ -82,23 +82,29 @@ vim.api.nvim_create_autocmd('LspAttach', {
       mini_extra_or_builtin_action 'document_symbol'
     end, { desc = '[l]sp document [s]ymbols', buffer = ev.buf })
 
-    vim.keymap.set(
-      'n',
-      'gd',
-      vim.lsp.buf.definition,
-      { desc = '[g]oto lsp [d]efinition', buffer = ev.buf }
-    )
+    vim.keymap.set('n', 'gd', function()
+      vim.lsp.buf.definition {
+        on_list = function(options)
+          if #options.items > 1 then
+            mini_extra_or_builtin_action 'definition'
+          else
+            vim.fn.setqflist({}, ' ', options)
+            vim.cmd.cfirst()
+          end
+        end,
+      }
+    end, { desc = '[g]oto lsp [d]efinition', buffer = ev.buf })
 
     vim.keymap.set('n', '<leader>lt', function()
       mini_extra_or_builtin_action 'type_definition'
     end, { desc = '[g]oto lsp [t]ype definition', buffer = ev.buf })
 
     vim.keymap.set('n', '<leader>lR', function()
-      for _, client in ipairs(vim.lsp.get_clients()) do
-        vim.notify('Restarting ' .. client.name .. ' server...')
-        vim.lsp.enable(client.name, false)
-        vim.lsp.enable(client.name, true)
-        vim.notify('Restarted ' .. client.name .. ' server successfully!')
+      for _, lsp_client in ipairs(vim.lsp.get_clients()) do
+        vim.notify('Restarting ' .. lsp_client.name .. ' server...')
+        vim.lsp.enable(lsp_client.name, false)
+        vim.lsp.enable(lsp_client.name, true)
+        vim.notify('Restarted ' .. lsp_client.name .. ' server successfully!')
       end
     end, { desc = '[l]sp [R]estart servers', buffer = ev.buf })
   end,
