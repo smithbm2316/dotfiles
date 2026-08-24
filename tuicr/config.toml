@@ -1,0 +1,23 @@
+appearance = "system"
+theme_dark = "catppuccin-macchiato"
+theme_light = "gruvbox-light"
+
+comment_vim = true
+comment_tab_width = 2
+leader = " "
+mouse = true
+no_update_check = true
+review_watch_interval_ms = 0
+
+cursor_line = true
+diff_view = "side-by-side"
+ignore_whitespace = true
+initial_commit_selection = "all"
+relative_line_numbers = true
+single_file_view = true
+show_commits = false
+show_file_list = true
+show_pr_checks = false
+show_pr_comments = false
+show_reviewed = true
+wrap = false
