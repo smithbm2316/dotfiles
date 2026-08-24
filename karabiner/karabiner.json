@@ -4,30 +4,6 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Ctrl-P -> Up in non-terminal apps",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.apple\\.Terminal$",
-                                            "^net\\.kovidgoyal\\.kitty$",
-                                            "^com\\.github\\.wez\\.wezterm$",
-                                            "^com\\.mitchellh\\.ghostty$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "p",
-                                    "modifiers": { "mandatory": ["left_command"] }
-                                },
-                                "to": [{ "key_code": "up_arrow" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Make shift keys double as curly braces on tap",
                         "manipulators": [
                             {
@@ -55,20 +31,67 @@
                         ]
                     },
                     {
-                        "description": "Ctrl -> Cmd in specific apps",
+                        "description": "Ctrl-N -> Down (in all but terminals and editors)",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
+                                            "^app\\.liten\\.Gram$",
                                             "^com\\.apple\\.Terminal$",
-                                            "^net\\.kovidgoyal\\.kitty$",
-                                            "^com\\.github\\.wez\\.wezterm$",
                                             "^com\\.mitchellh\\.ghostty$",
-                                            "^com\\.vscodium",
-                                            "^md\\.obsidian$",
-                                            "^dev\\.zed\\.Zed$",
-                                            "^com\\.superlogical\\.rex$"
+                                            "^com\\.superlogical\\.rex$",
+                                            "^md\\.obsidian$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "n",
+                                    "modifiers": { "mandatory": ["left_command"] }
+                                },
+                                "to": [{ "key_code": "down_arrow" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Ctrl-P -> Up (in all but terminals and editors)",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^app\\.liten\\.Gram$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.superlogical\\.rex$",
+                                            "^md\\.obsidian$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "p",
+                                    "modifiers": { "mandatory": ["left_command"] }
+                                },
+                                "to": [{ "key_code": "up_arrow" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Ctrl -> Cmd (in terminals and editors)",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^app\\.liten\\.Gram$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.superlogical\\.rex$",
+                                            "^md\\.obsidian$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -80,20 +103,17 @@
                         ]
                     },
                     {
-                        "description": "Cmd -> Ctrl in specific apps",
+                        "description": "Cmd -> Ctrl (in terminals and editors)",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
+                                            "^app\\.liten\\.Gram$",
                                             "^com\\.apple\\.Terminal$",
-                                            "^net\\.kovidgoyal\\.kitty$",
-                                            "^com\\.github\\.wez\\.wezterm$",
                                             "^com\\.mitchellh\\.ghostty$",
-                                            "^com\\.vscodium",
-                                            "^md\\.obsidian$",
-                                            "^dev\\.zed\\.Zed$",
-                                            "^com\\.superlogical\\.rex$"
+                                            "^com\\.superlogical\\.rex$",
+                                            "^md\\.obsidian$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -105,25 +125,31 @@
                         ]
                     },
                     {
-                        "description": "Ctrl-N -> Down in non-terminal apps",
+                        "description": "Ctrl-Backspace deletes a word (in all but terminals and editors)",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
+                                            "^app\\.liten\\.Gram$",
                                             "^com\\.apple\\.Terminal$",
-                                            "^net\\.kovidgoyal\\.kitty$",
-                                            "^com\\.github\\.wez\\.wezterm$",
-                                            "^com\\.mitchellh\\.ghostty$"
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.superlogical\\.rex$",
+                                            "^md\\.obsidian$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "n",
+                                    "key_code": "delete_or_backspace",
                                     "modifiers": { "mandatory": ["left_command"] }
                                 },
-                                "to": [{ "key_code": "down_arrow" }],
+                                "to": [
+                                    {
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": ["left_option"]
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
@@ -153,78 +179,6 @@
                                     {
                                         "key_code": "tab",
                                         "modifiers": ["left_control"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Ctrl-Backspace deletes a word",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "org\\.gnu\\.Emacs",
-                                            "^com\\.apple\\.Terminal$",
-                                            "^com\\.googlecode\\.iterm2$",
-                                            "^net\\.kovidgoyal\\.kitty$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "delete_or_backspace",
-                                    "modifiers": { "mandatory": ["left_command"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "delete_or_backspace",
-                                        "modifiers": ["left_option"]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "org\\.gnu\\.Emacs",
-                                            "^com\\.apple\\.Terminal$",
-                                            "^com\\.googlecode\\.iterm2$",
-                                            "^net\\.kovidgoyal\\.kitty$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "delete_or_backspace",
-                                    "modifiers": { "mandatory": ["right_control"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "delete_or_backspace",
-                                        "modifiers": ["left_option"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "hyper+c quits app (fires cmd+q)",
-                        "enabled": false,
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "c",
-                                    "modifiers": { "mandatory": ["left_command", "left_option", "left_shift"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "q",
-                                        "modifiers": ["left_command"]
                                     }
                                 ],
                                 "type": "basic"
@@ -316,19 +270,6 @@
             "devices": [
                 {
                     "identifiers": {
-                        "is_keyboard": true,
-                        "product_id": 630,
-                        "vendor_id": 1452
-                    },
-                    "simple_modifications": [
-                        {
-                            "from": { "key_code": "caps_lock" },
-                            "to": [{ "key_code": "escape" }]
-                        }
-                    ]
-                },
-                {
-                    "identifiers": {
                         "is_pointing_device": true,
                         "product_id": 16642,
                         "vendor_id": 1578
@@ -341,35 +282,7 @@
                         "is_keyboard": true,
                         "product_id": 597,
                         "vendor_id": 1452
-                    },
-                    "simple_modifications": [
-                        {
-                            "from": { "key_code": "caps_lock" },
-                            "to": [{ "key_code": "escape" }]
-                        }
-                    ]
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "product_id": 825,
-                        "vendor_id": 1241
-                    },
-                    "simple_modifications": [
-                        {
-                            "from": { "key_code": "caps_lock" },
-                            "to": [{ "key_code": "escape" }]
-                        }
-                    ]
-                },
-                {
-                    "identifiers": { "is_keyboard": true },
-                    "simple_modifications": [
-                        {
-                            "from": { "key_code": "caps_lock" },
-                            "to": [{ "key_code": "escape" }]
-                        }
-                    ]
+                    }
                 }
             ],
             "fn_function_keys": [
@@ -393,6 +306,10 @@
             "name": "Default profile",
             "selected": true,
             "simple_modifications": [
+                {
+                    "from": { "key_code": "caps_lock" },
+                    "to": [{ "key_code": "escape" }]
+                },
                 {
                     "from": { "key_code": "f5" },
                     "to": [{ "key_code": "caps_lock" }]
