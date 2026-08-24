@@ -1,4 +1,0 @@
-minimum-release-age=10080
-block-exotic-subdeps=true
-strict-dep-builds=true
-trust-policy=no-downgrade
