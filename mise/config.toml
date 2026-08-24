@@ -3,34 +3,35 @@ deno = "latest"
 go = "latest"
 node = "lts"
 pnpm = "latest"
-python = "latest"
+python = "3.11"
 uv = "latest"
 
-# npm packages (using pnpm)
+"go:github.com/sqls-server/sqls" = "latest"
+"go:golang.org/x/tools/gopls" = "latest"
 "npm:@dotenvx/dotenvx" = "latest"
+"npm:@earendil-works/pi-coding-agent" = "latest"
 "npm:@tailwindcss/language-server" = "latest"
 "npm:bash-language-server" = "latest"
 "npm:contentful" = "latest"
 "npm:eslint_d" = "latest"
 "npm:fixjson" = "latest"
+"npm:oxfmt" = "latest"
+"npm:oxlint" = "latest"
 "npm:prettier" = "latest"
 "npm:typescript" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
-
-# python packages
 "pipx:llm" = { version = "latest", postinstall = "llm install llm-openai-via-codex" }
 "pipx:ruff" = "latest"
 "pipx:ty" = "latest"
-
-# go packages
-"go:golang.org/x/tools/gopls" = "latest"
+"go:github.com/traefik/yaegi/cmd/yaegi" = "latest"
 
 [env]
 UV_PYTHON = { value = "{{ tools.python.path }}", tools = true }
 
 [settings]
-python.uv_venv_auto = "source"
+minimum_release_age = "7d"
+minimum_release_age_excludes = ["npm:@earendil-works/pi-coding-agent"]
 idiomatic_version_file_enable_tools = ["node"]
 
 [settings.npm]
@@ -38,3 +39,6 @@ package_manager = "pnpm"
 
 [settings.pipx]
 uvx = true
+
+[settings.python]
+uv_venv_auto = "source"
