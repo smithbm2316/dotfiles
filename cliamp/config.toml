@@ -1,15 +1,12 @@
-# compact = true
-eq_preset = "Flat"
-initial_directory = "~/Music"
-# low_power = true
-# repeat = "all"
-# shuffle = false
+eq_preset = "Pop"
+# initial_directory = "~/music"
+provider = "navidrome"
+repeat = "all"
+shuffle = false
 theme = ""
-visualizer = "Wave"
+# visualizer = "BarsDot"
+visualizer = "None"
 
-provider = "local"
-
+eq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 [navidrome]
-url = "$NAVIDROME_URL"
-user = "$NAVIDROME_USER"
-pass = "$NAVIDROME_PASS"
+browse_sort = "alphabeticalByArtist"
