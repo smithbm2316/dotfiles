@@ -1,24 +1,27 @@
 '$schema' = 'https://jj-vcs.github.io/jj/latest/config-schema.json'
 
 [aliases]
-c = ['commit']
-d = ['diff']
-ds = ['diff', '--config', 'merge-tools.delta.diff-args=["-s", "$left", "$right", "--width=$width"]']
-du = ['diff', '--config', 'merge-tools.delta.diff-args=["$left", "$right", "--width=$width"]']
-f = ['git', 'fetch']
-ls = ['log', '-r', '(trunk()..@):: | (trunk()..@)-']
-l = ['log', '-r', 'present(@) | ancestors(immutable_heads().., 2) | trunk()']
-nt = ['new', 'trunk()'] # new commit based off of `trunk()`
-p = ['git', 'push']
-s = ['status']
-rt = ['rebase', '-o', 'trunk()'] # rebase current commit or specified revset onto `trunk()`
-rta = ['rebase', '-o', 'trunk()', '-s', 'fork_point(bookmarks())+ & ::bookmarks()'] # rebase ALL local bookmarks onto `trunk()`
-# tug = ['bookmark', 'move', '--from', 'heads(::@- & bookmarks())', '--to', '@-'] # adapted from: https://danverbraganza.com/writings/most-frequent-jj-commands#jj-tug
-tug = ['bookmark', 'advance', '-t', '@-']
+bc  = { doc = 'create bookmark set to last commit',             definition = ['bookmark', 'create', '-r', '@-'] }
+c   = { doc = 'commit',                                         definition = ['commit'] }
+d   = { doc = 'diff',                                           definition = ['diff'] }
+ds  = { doc = 'diff split',                                     definition = ['diff', '--config', 'merge-tools.delta.diff-args=["-s", "$left", "$right", "--width=$width"]'] }
+du  = { doc = 'diff unified',                                   definition = ['diff', '--config', 'merge-tools.delta.diff-args=["$left", "$right", "--width=$width"]'] }
+f   = { doc = 'fetch from git repo',                            definition = ['git', 'fetch'] }
+l   = { doc = 'list all tracked commits',                       definition = ['log', '-r', 'present(@) | ancestors(immutable_heads().., 2) | trunk()'] }
+la  = { doc = 'list ALL commits',                               definition = ['log', '-r', 'all()']}
+nt  = { doc = 'new commit based off of `trunk()`',              definition = ['new', 'trunk()'] }
+p   = { doc = 'push to git repo',                               definition = ['git', 'push'] }
+s   = { doc = 'status',                                         definition = ['status'] }
+sr  = { doc = 'squash @- into @--',                             definition = ['squash', '-f', '@-', '-t', '@--'] }
+sp  = { doc = 'split',                                          definition = ['split'] }
+st =  { doc = 'status for revision',                            definition = ['diff', '-s', '-r'] }
+rt  = { doc = 'rebase current branch or revset onto `trunk()`', definition = ['rebase', '-o', 'trunk()'] }
+rta = { doc = 'rebase ALL bookmarks onto `trunk()`',            definition = ['rebase', '-o', 'trunk()', '-s', 'fork_point(bookmarks())+ & ::bookmarks()'] }
+tug = { doc = 'pull closest bookmark up to latest commit',      definition = ['bookmark', 'advance', '-t', '@-'] }
 
 [ui]
-default-command = 'ls'
-diff-formatter = "delta"
+default-command = ['log', '-r', '(trunk()..@):: | (trunk()..@)-']
+diff-formatter = ["difft", "--color=always", "$left", "$right"]
 
 [merge-tools.delta]
 diff-expected-exit-codes = [0, 1]
