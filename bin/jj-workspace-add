@@ -1,0 +1,130 @@
+#!/usr/bin/env node
+// https://web.archive.org/web/20260311063459/https://loke.dev/blog/nodejs-native-cli-util-parseargs/
+// @ts-check
+import childProcess from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
+import util from "node:util";
+
+/** @import {ParseArgsOptionsConfig} from 'node:util' */
+/** @typedef {ParseArgsOptionsConfig[string] & { helpText: string, helpArg?: string }} Flag */
+/** @typedef {Record<string, Flag>} FlagsConfig */
+
+/** @param {FlagsConfig} flags */
+function showHelp(flags) {
+  // change these 3 variables for your given program
+  const name = `jj-workspace-add`;
+  const description = `wrapper for creating and switching to a new jj workspace.`;
+  const args = `<workspace name>`;
+
+  const tabPadding = "  ";
+  let firstColMaxLength = 0;
+  /** @type {[string, string][]} */
+  const options = [];
+  for (const [long, flag] of Object.entries(flags)) {
+    let option = `  --${long}`;
+    if (flag.short) {
+      option += `, -${flag.short}`;
+    }
+    if (flag.type === "string" && flag.helpArg) {
+      option += ` <${flag.helpArg}>`;
+    }
+    firstColMaxLength = Math.max(firstColMaxLength, option.length);
+    options.push([option, flag.helpText]);
+  }
+  firstColMaxLength += tabPadding.length;
+  const opts = options.map(([left, helpText]) => `${left.padEnd(firstColMaxLength)} ${helpText}`);
+
+  console.log(
+    util.format(
+      `%s - %s\n\n%s\n%s [OPTIONS] %s\n\n%s\n%s`,
+      name,
+      description,
+      util.styleText("bold", "Usage:"),
+      tabPadding + name,
+      args,
+      util.styleText("bold", "Options:"),
+      opts.join("\n"),
+    ),
+  );
+}
+
+/** @satisfies {FlagsConfig} */
+const flags = {
+  revision: {
+    type: "string",
+    short: "r",
+    helpText:
+      "Revision to checkout in new workspace. Defaults to bookmark w/same name as workspace or current commit.",
+    helpArg: "revset",
+  },
+  help: {
+    type: "boolean",
+    short: "h",
+    helpText: "Show this help menu.",
+  },
+};
+
+const args = util.parseArgs({
+  allowPositionals: true,
+  strict: true,
+  args: process.argv,
+  options: flags,
+});
+
+if (args.values.help) {
+  showHelp(flags);
+  process.exit(0);
+}
+
+// first argument is the path to the `node` binary on your $PATH. ignore this
+const workspaceName = args.positionals
+  .filter((p) => !p.includes("node") && !p.includes("jj-workspace-add"))
+  .at(0);
+if (!workspaceName) {
+  console.error("A `name` is required for creating a new workspace.");
+  process.exit(1);
+}
+
+const cwd = process.cwd();
+const workspaceDir = path.resolve(cwd, "..", `${path.basename(cwd)}.${workspaceName}`);
+
+const currentWorkspaces = childProcess
+  .execSync(`jj workspace list -T 'self.name() ++ "\n"'`)
+  .toString()
+  .trimEnd()
+  .split("\n");
+const currentBookmarks = childProcess
+  .execSync(`jj bookmark list -T 'self.name() ++ "\n"'`)
+  .toString()
+  .trimEnd()
+  .split("\n");
+
+if (fs.existsSync(workspaceDir) || currentWorkspaces.includes(workspaceName)) {
+  console.error("This workspace already exists.");
+  process.exit(1);
+}
+
+let createNewWorkspaceCmd = `jj workspace add ${workspaceDir} --name ${workspaceName}`;
+if (args.values.revision) {
+  createNewWorkspaceCmd += ` -r ${args.values.revision}`;
+} else if (currentBookmarks.includes(workspaceName)) {
+  createNewWorkspaceCmd += ` -r ${workspaceName}`;
+}
+childProcess.execSync(createNewWorkspaceCmd);
+
+const ignoredOrUntrackedFilesConfigFile = path.resolve(cwd, ".jwlinks");
+if (fs.existsSync(ignoredOrUntrackedFilesConfigFile)) {
+  const ignoredOrUntrackedFiles = fs
+    .readFileSync(ignoredOrUntrackedFilesConfigFile, "utf-8")
+    .trimEnd()
+    .split("\n");
+  for (const filename of ignoredOrUntrackedFiles) {
+    childProcess.execSync(`cp --reflink=always -r ${filename} ${workspaceDir}`);
+  }
+  console.log("Copied ignored and untracked files from .jwlinks to new workspace.");
+}
+
+console.log(
+  `Finished creating new workspace ${workspaceName}. Change into the new workspace with "cd ../${path.basename(workspaceDir)}".`,
+);

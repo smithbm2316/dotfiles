@@ -1,3 +1,4 @@
+#:tombi schema.strict = false
 '$schema' = 'https://jj-vcs.github.io/jj/latest/config-schema.json'
 
 [aliases]
@@ -18,6 +19,10 @@ st =  { doc = 'status for revision',                            definition = ['d
 rt  = { doc = 'rebase current branch or revset onto `trunk()`', definition = ['rebase', '-o', 'trunk()'] }
 rta = { doc = 'rebase ALL bookmarks onto `trunk()`',            definition = ['rebase', '-o', 'trunk()', '-s', 'fork_point(bookmarks())+ & ::bookmarks()'] }
 tug = { doc = 'pull closest bookmark up to latest commit',      definition = ['bookmark', 'advance', '-t', '@-'] }
+w   = { docs = 'workspace',                                     definition = ['workspace'] }
+wa  = { docs = 'workspace add',                                 definition = ['util', 'exec', '--', 'jj-workspace-add'] }
+wl  = { docs = 'workspace list',                                definition = ['workspace', 'list'] }
+wr  = { docs = 'workspace remove',                              definition = ['workspace', 'remove'] }
 
 [ui]
 default-command = ['log', '-r', '(trunk()..@):: | (trunk()..@)-']

@@ -51,4 +51,5 @@ fi
 path+=("$HOMEBREW_PREFIX/bin")
 path+=("$HOME/.local/nvim/bin")
 path+=("$HOME/.local/bin")
+path+=("$XDG_CONFIG_HOME/bin")
 path+=("$CWD_BIN")
